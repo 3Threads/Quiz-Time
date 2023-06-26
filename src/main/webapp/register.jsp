@@ -23,6 +23,12 @@
                     <form>
                         <div class="row mb-3">
                             <div class="col-sm">
+                                <input type="text" class="form-control bg-dark text-light whitePlaceholder"
+                                       id="username" placeholder="Username">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm">
                                 <input type="email" class="form-control bg-dark text-light whitePlaceholder"
                                        id="inputEmail3" placeholder="Email">
                             </div>
@@ -35,11 +41,11 @@
                         </div>
                         <div class="row">
                             <div class="col text-start">
-                                <a href="register.jsp">Create new account</a>
+                                <a href="index.jsp">Login</a>
                             </div>
                             <div class="col-auto">
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-success ">Login</button>
+                                    <button type="submit" class="btn btn-success ">Register</button>
                                 </div>
                             </div>
                         </div>
