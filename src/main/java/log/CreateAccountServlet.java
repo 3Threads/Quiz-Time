@@ -17,7 +17,7 @@ public class CreateAccountServlet extends HttpServlet {
         String username = httpServletRequest.getParameter("user");
         String email = httpServletRequest.getParameter("email");
         String password = httpServletRequest.getParameter("password");
-        SQLconnect sql = (SQLconnect) httpServletRequest.getServletContext().getAttribute("sql");
+        SQLconnect sql = (SQLconnect) httpServletRequest.getServletContext().getAttribute("db");
         try {
             if(!sql.checkEmail(email)) {
                 sql.addUser(username, email, password);
@@ -25,11 +25,7 @@ public class CreateAccountServlet extends HttpServlet {
                         ("index.jsp").forward(httpServletRequest , httpServletResponse );
             } else httpServletRequest.getRequestDispatcher
                     ("register.jsp").forward(httpServletRequest, httpServletResponse);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (SQLException | ServletException | IOException e) {
             throw new RuntimeException(e);
         }
     }
