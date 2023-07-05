@@ -4,4 +4,23 @@
 
 <web-app>
   <display-name>Quiz Website</display-name>
+  <listener>
+    <listener-class>log.ContextListener</listener-class>
+  </listener>
+  <servlet>
+    <servlet-name>logServlet</servlet-name>
+    <servlet-class>log.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>createAccServlet</servlet-name>
+    <servlet-class>log.CreateAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>createAccServlet</servlet-name>
+    <url-pattern>/createAccount</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>logServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
 </web-app>
