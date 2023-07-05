@@ -7,7 +7,6 @@ public class SQLconnect {
     private String database = "users";
     private String username = "root";
     private String password = "1234";
-    private HashPassword hash;
     private Connection connect;
     public SQLconnect() {
         try {
@@ -24,7 +23,7 @@ public class SQLconnect {
         Statement stmt = connect.createStatement();
         stmt.execute("USE users");
         String insertUser = "INSERT INTO usernamesAndPasswords (username," +
-                "email, password) VALUES('" + username + "','" + email + "','" + hash.stringToHash(password) + "');";
+                "email, password) VALUES('" + username + "','" + email + "','" + HashPassword.stringToHash(password) + "');";
         stmt.execute(insertUser);
     }
     public boolean checkEmail(String email) throws SQLException {
@@ -42,7 +41,7 @@ public class SQLconnect {
                 "where email = '" + email + "';";
         ResultSet result = stmt.executeQuery(found);
         if(!result.next()) return false;
-        String hs = hash.stringToHash(password);
+        String hs = HashPassword.stringToHash(password);
         String pass = result.getString("password");
         return pass.equals(hs);
     }

@@ -14,17 +14,22 @@ public class CreateAccountServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        String username = httpServletRequest.getParameter("username");
-        String email = httpServletRequest.getParameter("inputEmail3");
-        String password = httpServletRequest.getParameter("inputPassword3");
+        String username = httpServletRequest.getParameter("user");
+        String email = httpServletRequest.getParameter("email");
+        String password = httpServletRequest.getParameter("password");
         SQLconnect sql = (SQLconnect) httpServletRequest.getServletContext().getAttribute("sql");
         try {
             if(!sql.checkEmail(email)) {
                 sql.addUser(username, email, password);
                 httpServletRequest.getRequestDispatcher
-                        ("index.jsp");
-            }
+                        ("index.jsp").forward(httpServletRequest , httpServletResponse );
+            } else httpServletRequest.getRequestDispatcher
+                    ("register.jsp").forward(httpServletRequest, httpServletResponse);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

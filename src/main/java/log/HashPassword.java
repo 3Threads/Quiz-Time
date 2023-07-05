@@ -1,4 +1,7 @@
-import java.security.*;
+package log;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class HashPassword {
     public String getHash(String password){
@@ -15,7 +18,7 @@ public class HashPassword {
         return buff.toString();
     }
 
-    private static String stringToHash(String password) {
+    public static String stringToHash(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA");
             return hexToString(md.digest(password.getBytes()));

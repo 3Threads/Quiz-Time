@@ -20,17 +20,17 @@
             <div class="row mt-2">
                 <div class="col"></div>
                 <div class="col-4">
-                    <form>
+                    <form method="post" action="/login">
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="email" class="form-control bg-dark text-light whitePlaceholder"
-                                       id="inputEmail3" placeholder="Email">
+                                       id="inputEmail3" name="email" placeholder="Email">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="password" class="form-control bg-dark text-light whitePlaceholder"
-                                       id="inputPassword3" placeholder="Password">
+                                       id="inputPassword3" name="password" placeholder="Password">
                             </div>
                         </div>
                         <div class="row">
