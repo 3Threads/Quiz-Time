@@ -1,15 +1,18 @@
 package log;
 
 import java.sql.*;
+import java.util.Locale;
 
 public class SQLconnect {
     private final String server = "jdbc:mysql:// localhost:3306";
-    private final String database = "QuizWebsite";
+    private final String database = "QUIZWEBSITE";
     private final String username = "root";
     private final String password = "password";
     private Connection connect;
+    private String tableName;
 
-    public SQLconnect() {
+    public SQLconnect(String tableName) {
+        this.tableName = tableName.toUpperCase();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connect = DriverManager.getConnection
@@ -22,7 +25,7 @@ public class SQLconnect {
     public void addUser(String username, String email, String password) throws SQLException {
         Statement stmt = connect.createStatement();
         stmt.execute("USE " + database);
-        String query = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES( ?, ?, ?)";
+        String query = "INSERT INTO "+tableName+" (USERNAME, EMAIL, PASSWORD) VALUES( ?, ?, ?)";
         PreparedStatement preparedStatement = connect.prepareStatement(query);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, email);
@@ -33,7 +36,7 @@ public class SQLconnect {
     public boolean checkEmail(String email) throws SQLException {
         Statement stmt = connect.createStatement();
         stmt.execute("USE " + database);
-        String found = "SELECT * FROM USERS WHERE EMAIL = '" + email + "';";
+        String found = "SELECT * FROM "+tableName+" WHERE EMAIL = '" + email + "';";
         ResultSet result = stmt.executeQuery(found);
         return result.next();
     }
@@ -41,7 +44,7 @@ public class SQLconnect {
     public boolean checkUser(String email, String password) throws SQLException {
         Statement stmt = connect.createStatement();
         stmt.execute("USE " + database);
-        String found = "SELECT * FROM USERS WHERE EMAIL = '" + email + "';";
+        String found = "SELECT * FROM "+tableName+" WHERE EMAIL = '" + email + "';";
         ResultSet result = stmt.executeQuery(found);
         if (!result.next()) return false;
         String hs = HashPassword.stringToHash(password);
