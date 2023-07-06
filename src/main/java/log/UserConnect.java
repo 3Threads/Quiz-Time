@@ -21,15 +21,14 @@ public class UserConnect {
         }
     }
 
-    public Boolean addUser(String username, String email, String password) {
+    public Boolean addUser(String username,  String password) {
         try {
             Statement stmt = connect.createStatement();
             stmt.execute("USE " + database);
-            String query = "INSERT INTO "+tableName+" (USERNAME, EMAIL, PASSWORD) VALUES( ?, ?, ?)";
+            String query = "INSERT INTO "+tableName+" (USERNAME,  PASSWORD) VALUES( ?,  ?)";
             PreparedStatement preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, email);
-            preparedStatement.setString(3, HashPassword.stringToHash(password));
+            preparedStatement.setString(2, HashPassword.stringToHash(password));
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             return false;
@@ -37,18 +36,12 @@ public class UserConnect {
         return true;
     }
 
-    public boolean checkEmail(String email) throws SQLException {
-        Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
-        String found = "SELECT * FROM "+tableName+" WHERE EMAIL = '" + email + "';";
-        ResultSet result = stmt.executeQuery(found);
-        return result.next();
-    }
 
-    public boolean checkUser(String email, String password) throws SQLException {
+
+    public boolean checkUser(String username, String password) throws SQLException {
         Statement stmt = connect.createStatement();
         stmt.execute("USE " + database);
-        String found = "SELECT * FROM "+tableName+" WHERE EMAIL = '" + email + "';";
+        String found = "SELECT * FROM "+tableName+" WHERE USERNAME = '" + username + "';";
         ResultSet result = stmt.executeQuery(found);
         if (!result.next()) return false;
         String hs = HashPassword.stringToHash(password);

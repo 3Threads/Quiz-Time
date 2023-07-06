@@ -16,12 +16,11 @@ public class CreateAccountServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String username = httpServletRequest.getParameter("user");
-        String email = httpServletRequest.getParameter("email");
+        String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
         UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
-            if (sql.addUser(username, email, password)) {
+            if (sql.addUser(username,  password)) {
                 httpServletResponse.sendRedirect("/login");
             } else {
                 httpServletResponse.sendRedirect("/createAccount");
