@@ -35,7 +35,7 @@
                         </div>
                         <div class="row">
                             <div class="col text-start">
-                                <a href="register.jsp">Create new account</a>
+                                <a href="/createAccount">Create new account</a>
                             </div>
                             <div class="col-auto">
                                 <div class="text-end">
