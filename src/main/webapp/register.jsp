@@ -24,19 +24,13 @@
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="text" class="form-control bg-dark text-light whitePlaceholder"
-                                       id="username" name="user" placeholder="Username">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm">
-                                <input type="email" class="form-control bg-dark text-light whitePlaceholder"
-                                       id="inputEmail3" name = "email" placeholder="Email">
+                                       name="username" placeholder="Username">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="password" class="form-control bg-dark text-light whitePlaceholder"
-                                       id="inputPassword3" name="password" placeholder="Password">
+                                       name="password" placeholder="Password">
                             </div>
                         </div>
                         <div class="row">
