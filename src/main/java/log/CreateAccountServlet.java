@@ -17,7 +17,7 @@ public class CreateAccountServlet extends HttpServlet {
         String username = httpServletRequest.getParameter("user");
         String email = httpServletRequest.getParameter("email");
         String password = httpServletRequest.getParameter("password");
-        SQLconnect sql = (SQLconnect) httpServletRequest.getServletContext().getAttribute("db");
+        UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
             if(!sql.checkEmail(email)) {
                 sql.addUser(username, email, password);

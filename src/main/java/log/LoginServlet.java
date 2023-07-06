@@ -15,7 +15,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         String email = httpServletRequest.getParameter("email");
         String password = httpServletRequest.getParameter("password");
-        SQLconnect sql = (SQLconnect) httpServletRequest.getServletContext().getAttribute("db");
+        UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
                 if(sql.checkUser(email, password)) {
                     httpServletRequest.getRequestDispatcher

@@ -1,17 +1,16 @@
 package log;
 
 import java.sql.*;
-import java.util.Locale;
 
-public class SQLconnect {
+public class UserConnect {
     private final String server = "jdbc:mysql:// localhost:3306";
     private final String database = "QUIZWEBSITE";
     private final String username = "root";
     private final String password = "password";
     private Connection connect;
-    private String tableName;
+    private final String tableName;
 
-    public SQLconnect(String tableName) {
+    public UserConnect(String tableName) {
         this.tableName = tableName.toUpperCase();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
