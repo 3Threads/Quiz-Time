@@ -15,18 +15,14 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         String email = httpServletRequest.getParameter("email");
         String password = httpServletRequest.getParameter("password");
-        SQLconnect sql = (SQLconnect) httpServletRequest.getServletContext().getAttribute("sql");
+        UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
                 if(sql.checkUser(email, password)) {
                     httpServletRequest.getRequestDispatcher
                                 ("homePage.jsp").forward(httpServletRequest, httpServletResponse);
                 } else httpServletRequest.getRequestDispatcher
                         ("index.jsp").forward(httpServletRequest, httpServletResponse);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (SQLException | ServletException | IOException e) {
             throw new RuntimeException(e);
         }
     }

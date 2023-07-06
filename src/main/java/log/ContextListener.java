@@ -6,8 +6,8 @@ import javax.servlet.ServletContextListener;
 public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        SQLconnect connect = new SQLconnect();
-        servletContextEvent.getServletContext().setAttribute("sql", connect);
+        UserConnect userConnect = new UserConnect("USERS");
+        servletContextEvent.getServletContext().setAttribute("usersDB", userConnect);
     }
 
     @Override
