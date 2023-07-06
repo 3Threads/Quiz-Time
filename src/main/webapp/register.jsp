@@ -41,7 +41,7 @@
                         </div>
                         <div class="row">
                             <div class="col text-start">
-                                <a href="index.jsp">Login</a>
+                                <a href="/login">Login</a>
                             </div>
                             <div class="col-auto">
                                 <div class="text-end">
