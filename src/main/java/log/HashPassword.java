@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashPassword {
+    private static String salt = "MACS";
     public static String hexToString(byte[] bytes) {
         StringBuffer buff = new StringBuffer();
         for (int aByte : bytes) {
@@ -15,7 +16,8 @@ public class HashPassword {
         return buff.toString();
     }
 
-    public static String stringToHash(String password) {
+    public static String stringToHash(String s) {
+        String password = s + salt;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA");
             return hexToString(md.digest(password.getBytes()));
