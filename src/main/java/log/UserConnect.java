@@ -21,15 +21,20 @@ public class UserConnect {
         }
     }
 
-    public void addUser(String username, String email, String password) throws SQLException {
-        Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
-        String query = "INSERT INTO "+tableName+" (USERNAME, EMAIL, PASSWORD) VALUES( ?, ?, ?)";
-        PreparedStatement preparedStatement = connect.prepareStatement(query);
-        preparedStatement.setString(1, username);
-        preparedStatement.setString(2, email);
-        preparedStatement.setString(3, HashPassword.stringToHash(password));
-        preparedStatement.executeUpdate();
+    public Boolean addUser(String username, String email, String password) {
+        try {
+            Statement stmt = connect.createStatement();
+            stmt.execute("USE " + database);
+            String query = "INSERT INTO "+tableName+" (USERNAME, EMAIL, PASSWORD) VALUES( ?, ?, ?)";
+            PreparedStatement preparedStatement = connect.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, HashPassword.stringToHash(password));
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            return false;
+        }
+        return true;
     }
 
     public boolean checkEmail(String email) throws SQLException {
