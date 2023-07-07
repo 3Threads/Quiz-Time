@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="log.User" %>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -35,7 +36,7 @@
                             </button>
                         </a>
                     </div>
-                    <div class="ml-1 mr-1"><a href="#"><%= session.getAttribute("username") %>
+                    <div class="ml-1 mr-1"><a href="#"><%= ((User)session.getAttribute("userInfo")).getUsername() %>
                     </a></div>
                 </div>
             </div>

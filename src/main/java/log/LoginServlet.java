@@ -26,7 +26,9 @@ public class LoginServlet extends HttpServlet {
         try {
             if (sql.checkUser(username, password)) {
                 httpServletRequest.getSession().setAttribute("isLoggedIn", true);
-                httpServletRequest.getSession().setAttribute("username", username);
+                int userId = sql.getUserId(username);
+                User user = new User(username, userId);
+                httpServletRequest.getSession().setAttribute("userInfo", user);
                 httpServletResponse.sendRedirect("/homePage");
             } else {
                 httpServletResponse.sendRedirect("/login?loginFailed=true");
