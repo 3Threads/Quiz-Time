@@ -12,7 +12,11 @@ import java.io.IOException;
 public class HomePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        httpServletRequest.getRequestDispatcher("homePage.jsp").forward(httpServletRequest, httpServletResponse);
+        if (!(boolean) httpServletRequest.getSession().getAttribute("isLoggedIn")) {
+            httpServletResponse.sendRedirect("/login");
+        } else {
+            httpServletRequest.getRequestDispatcher("homePage.jsp").forward(httpServletRequest, httpServletResponse);
+        }
     }
 
     @Override
