@@ -10,6 +10,11 @@
 
     <title>Quiz Time</title>
 </head>
+<%
+    if (session.getAttribute("isLoggedIn") != null && (Boolean) session.getAttribute("isLoggedIn")) {
+        response.sendRedirect("/homePage");
+    }
+%>
 <body class="bg-dark text-light">
 <div class="container text-center" style="height: 100%">
     <div class="row align-items-center" style="height: 100%">

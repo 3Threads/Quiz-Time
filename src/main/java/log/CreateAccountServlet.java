@@ -11,7 +11,11 @@ import java.io.IOException;
 public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        httpServletRequest.getRequestDispatcher("register.jsp").forward(httpServletRequest, httpServletResponse);
+        if ((boolean) httpServletRequest.getSession().getAttribute("isLoggedIn")) {
+            httpServletResponse.sendRedirect("/homePage");
+        } else {
+            httpServletRequest.getRequestDispatcher("register.jsp").forward(httpServletRequest, httpServletResponse);
+        }
     }
 
     @Override
@@ -20,7 +24,7 @@ public class CreateAccountServlet extends HttpServlet {
         String password = httpServletRequest.getParameter("password");
         UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
-            if (sql.addUser(username,  password)) {
+            if (sql.addUser(username, password)) {
                 httpServletResponse.sendRedirect("/login");
             } else {
                 httpServletResponse.sendRedirect("/createAccount");
