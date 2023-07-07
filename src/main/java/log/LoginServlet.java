@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
                 httpServletRequest.getSession().setAttribute("isLoggedIn", true);
                 httpServletResponse.sendRedirect("/homePage");
             } else {
-                httpServletResponse.sendRedirect("/login");
+                httpServletResponse.sendRedirect("/login?loginFailed=true");
             }
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
