@@ -27,7 +27,7 @@ public class CreateAccountServlet extends HttpServlet {
             if (sql.addUser(username, password)) {
                 httpServletResponse.sendRedirect("/login");
             } else {
-                httpServletResponse.sendRedirect("/createAccount");
+                httpServletResponse.sendRedirect("/createAccount?userAlreadyExists=true");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

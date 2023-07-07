@@ -44,6 +44,11 @@
                             </div>
                         </div>
                     </form>
+                    <%
+                        if(request.getParameter("userAlreadyExists") != null && request.getParameter("userAlreadyExists").equals("true")){
+                            out.print("<div class='text-danger'> Account with this username already exists</div>");
+                        }
+                    %>
                 </div>
                 <div class="col"></div>
             </div>
