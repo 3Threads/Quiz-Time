@@ -49,6 +49,12 @@
                             </div>
                         </div>
                     </form>
+                    <%
+                        if(request.getParameter("loginFailed") != null  && request.getParameter("loginFailed").equals("true")){
+                            out.print("<div class='text-danger'>Invalid username or password</div>");
+                        }
+
+                    %>
                 </div>
                 <div class="col"></div>
             </div>
