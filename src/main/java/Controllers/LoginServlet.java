@@ -1,20 +1,23 @@
-package log;
+package Controllers;
+
+import FunctionalClasses.User;
+import FunctionalClasses.UserConnect;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
-@WebServlet(name = "createAccount", value = "/createAccount")
-public class CreateAccountServlet extends HttpServlet {
+
+@WebServlet(name = "login", value = "/login")
+public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         if ((boolean) httpServletRequest.getSession().getAttribute("isLoggedIn")) {
             httpServletResponse.sendRedirect("/homePage");
         } else {
-            httpServletRequest.getRequestDispatcher("register.jsp").forward(httpServletRequest, httpServletResponse);
+            httpServletRequest.getRequestDispatcher("index.jsp").forward(httpServletRequest, httpServletResponse);
         }
     }
 
@@ -24,12 +27,16 @@ public class CreateAccountServlet extends HttpServlet {
         String password = httpServletRequest.getParameter("password");
         UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
-            if (sql.addUser(username, password)) {
-                httpServletResponse.sendRedirect("/login");
+            if (sql.checkUser(username, password)) {
+                httpServletRequest.getSession().setAttribute("isLoggedIn", true);
+                int userId = sql.getUserId(username);
+                User user = new User(username, userId);
+                httpServletRequest.getSession().setAttribute("userInfo", user);
+                httpServletResponse.sendRedirect("/homePage");
             } else {
-                httpServletResponse.sendRedirect("/createAccount?userAlreadyExists=true");
+                httpServletResponse.sendRedirect("/login?loginFailed=true");
             }
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }

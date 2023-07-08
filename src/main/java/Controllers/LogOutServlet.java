@@ -1,10 +1,9 @@
-package log;
+package Controllers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.SQLException;
 
 
 @WebServlet(name = "logout", value = "/logout")

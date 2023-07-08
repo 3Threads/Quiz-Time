@@ -1,10 +1,11 @@
-package log;
+package FunctionalClasses;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashPassword {
-    private static String salt = "MACS";
+    private static final String salt = "MACS";
+
     public static String hexToString(byte[] bytes) {
         StringBuffer buff = new StringBuffer();
         for (int aByte : bytes) {

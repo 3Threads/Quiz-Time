@@ -1,4 +1,6 @@
-package log;
+package Listeners;
+
+import FunctionalClasses.UserConnect;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
