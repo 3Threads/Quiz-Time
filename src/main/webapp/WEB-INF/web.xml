@@ -5,6 +5,6 @@
 <web-app>
   <display-name>Quiz Website</display-name>
   <listener>
-    <listener-class>log.ContextListener</listener-class>
+    <listener-class>Listeners.ContextListener</listener-class>
   </listener>
 </web-app>

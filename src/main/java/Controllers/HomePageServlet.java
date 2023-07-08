@@ -1,4 +1,4 @@
-package log;
+package Controllers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
