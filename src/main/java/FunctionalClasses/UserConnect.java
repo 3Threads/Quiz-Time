@@ -2,29 +2,16 @@ package FunctionalClasses;
 
 import java.sql.*;
 
-public class UserConnect {
-    private final String server = "jdbc:mysql:// localhost:3306";
-    private final String database = "QUIZWEBSITE";
-    private final String username = "root";
-    private final String password = "password";
-    private Connection connect;
+public class UserConnect extends SQLConnect {
     private final String tableName;
 
     public UserConnect(String tableName) {
-        this.tableName = tableName.toUpperCase();
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connect = DriverManager.getConnection
-                    (server, username, password);
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
-        }
+        super();
+        this.tableName = tableName;
     }
 
     public Boolean addUser(String username, String password) {
         try {
-            Statement stmt = connect.createStatement();
-            stmt.execute("USE " + database);
             String query = "INSERT INTO " + tableName + " (USERNAME,  PASSWORD) VALUES( ?,  ?)";
             PreparedStatement preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, username);
@@ -39,7 +26,6 @@ public class UserConnect {
 
     public boolean checkUser(String username, String password) throws SQLException {
         Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
         String found = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
         ResultSet result = stmt.executeQuery(found);
         if (!result.next()) return false;
@@ -50,7 +36,6 @@ public class UserConnect {
 
     public int getUserId(String username) throws SQLException {
         Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
         String getUserRow = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
         ResultSet resultSet = stmt.executeQuery(getUserRow);
         if (resultSet.next()) {
