@@ -1,22 +1,23 @@
 package Tests;
 
-import org.junit.jupiter.api.BeforeAll;
+import FunctionalClasses.UserConnect;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import FunctionalClasses.UserConnect;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserConnectTest {
 
     private static UserConnect connect;
 
-    @BeforeAll
-    public static void setUp() {
-        connect = new UserConnect("USERSTEST");
-        connect.addUser("0", "0");
+    @BeforeEach
+    public void setUp() throws SQLException {
+        String tableName = "USERSTEST";
+        connect = new UserConnect(tableName);
+        connect.clear(tableName);
     }
 
     @Test
@@ -38,6 +39,7 @@ public class UserConnectTest {
     //    adding already existed user
     @Test
     public void testAlreadyExisted() {
+        assertTrue(connect.addUser("0", "0"));
         assertFalse(connect.addUser("0", "0"));
     }
 
@@ -52,8 +54,5 @@ public class UserConnectTest {
         assertTrue(connect.checkUser("3", "3"));
         assertTrue(connect.checkUser("31", "31"));
         assertTrue(connect.checkUser("32", "32"));
-
     }
-
-
 }
