@@ -5,14 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SQLconnect {
-    private final String server = "jdbc:mysql:// localhost:3306";
+public class SQLConnect {
     protected final String database = "QUIZWEBSITE";
+    private final String server = "jdbc:mysql:// localhost:3306/" + database;
     private final String username = "root";
     private final String password = "password";
     protected Connection connect;
 
-    public SQLconnect() {
+    public SQLConnect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connect = DriverManager.getConnection
@@ -21,8 +21,9 @@ public class SQLconnect {
             ex.printStackTrace();
         }
     }
+
     public void clear(String tableName) throws SQLException {
-        String query = "DELETE FROM "+ tableName;
+        String query = "DELETE FROM " + tableName;
         Statement stmt = connect.createStatement();
         stmt.execute(query);
     }

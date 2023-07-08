@@ -2,8 +2,10 @@ package FunctionalClasses;
 
 import java.sql.*;
 import java.util.ArrayList;
+
 import Types.Quiz;
-public class QuizesConnect extends SQLconnect{
+
+public class QuizesConnect extends SQLConnect {
     private final String tableName;
 
     public QuizesConnect(String tableName) {
@@ -14,38 +16,30 @@ public class QuizesConnect extends SQLconnect{
     public ArrayList<Quiz> getPopularQuizzes(int limit) throws SQLException {
         ArrayList<Quiz> quizzes = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
-        String getQuizzes = "SELECT * FROM "+tableName+" ORDER BY COMPLETED DESC LIMIT " + limit + ";";
+        String getQuizzes = "SELECT * FROM " + tableName + " ORDER BY COMPLETED DESC LIMIT " + limit + ";";
+        return getQuizzes(quizzes, stmt, getQuizzes);
+    }
+
+    private ArrayList<Quiz> getQuizzes(ArrayList<Quiz> quizzes, Statement stmt, String getQuizzes) throws SQLException {
         ResultSet result = stmt.executeQuery(getQuizzes);
-        while(result.next()) {
-            String quizname = result.getString("QUIZNAME");
+        while (result.next()) {
+            String quizName = result.getString("QUIZNAME");
             String description = result.getString("DESCRIPT");
             int creatorID = result.getInt("CREATORID");
             Date creatingDate = result.getDate("CREATINGTIME");
             int completed = result.getInt("COMPLETED");
             String questions = result.getString("QUESTIONS");
-            Quiz quiz = new Quiz(quizname, description, creatingDate, creatorID, questions, completed);
+            Quiz quiz = new Quiz(quizName, description, creatingDate, creatorID, questions, completed);
             quizzes.add(quiz);
         }
         return quizzes;
     }
+
     public ArrayList<Quiz> getLastDayQuizzes() throws SQLException {
         ArrayList<Quiz> quizzes = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
-        String getQuizes = "SELECT * FROM "+tableName+" WHERE CREATIONTIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY);";
-        ResultSet result = stmt.executeQuery(getQuizes);
-        while(result.next()) {
-            String quizname = result.getString("QUIZNAME");
-            String description = result.getString("DESCRIPT");
-            int creatorID = result.getInt("CREATORID");
-            Date creatingDate = result.getDate("CREATINGTIME");
-            int completed = result.getInt("COMPLETED");
-            String questions = result.getString("QUESTIONS");
-            Quiz quiz = new Quiz(quizname, description, creatingDate, creatorID, questions, completed);
-            quizzes.add(quiz);
-        }
-        return quizzes;
+        String getQuizzes = "SELECT * FROM " + tableName + " WHERE CREATIONTIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY);";
+        return getQuizzes(quizzes, stmt, getQuizzes);
     }
 
 }

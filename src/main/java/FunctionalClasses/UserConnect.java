@@ -2,7 +2,7 @@ package FunctionalClasses;
 
 import java.sql.*;
 
-public class UserConnect extends  SQLconnect{
+public class UserConnect extends SQLConnect {
     private final String tableName;
 
     public UserConnect(String tableName) {
@@ -12,8 +12,6 @@ public class UserConnect extends  SQLconnect{
 
     public Boolean addUser(String username, String password) {
         try {
-            Statement stmt = connect.createStatement();
-            stmt.execute("USE " + database);
             String query = "INSERT INTO " + tableName + " (USERNAME,  PASSWORD) VALUES( ?,  ?)";
             PreparedStatement preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, username);
@@ -28,7 +26,6 @@ public class UserConnect extends  SQLconnect{
 
     public boolean checkUser(String username, String password) throws SQLException {
         Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
         String found = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
         ResultSet result = stmt.executeQuery(found);
         if (!result.next()) return false;
@@ -39,7 +36,6 @@ public class UserConnect extends  SQLconnect{
 
     public int getUserId(String username) throws SQLException {
         Statement stmt = connect.createStatement();
-        stmt.execute("USE " + database);
         String getUserRow = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
         ResultSet resultSet = stmt.executeQuery(getUserRow);
         if (resultSet.next()) {
