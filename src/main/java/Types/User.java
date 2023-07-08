@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package Types;
 
 public class User {
     private final int id;

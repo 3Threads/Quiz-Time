@@ -1,6 +1,6 @@
 package Controllers;
 
-import FunctionalClasses.User;
+import Types.User;
 import FunctionalClasses.UserConnect;
 
 import javax.servlet.ServletException;

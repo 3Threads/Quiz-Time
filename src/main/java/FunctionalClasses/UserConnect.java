@@ -2,23 +2,12 @@ package FunctionalClasses;
 
 import java.sql.*;
 
-public class UserConnect {
-    private final String server = "jdbc:mysql:// localhost:3306";
-    private final String database = "QUIZWEBSITE";
-    private final String username = "root";
-    private final String password = "password";
-    private Connection connect;
+public class UserConnect extends  SQLconnect{
     private final String tableName;
 
     public UserConnect(String tableName) {
-        this.tableName = tableName.toUpperCase();
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connect = DriverManager.getConnection
-                    (server, username, password);
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
-        }
+        super();
+        this.tableName = tableName;
     }
 
     public Boolean addUser(String username, String password) {
