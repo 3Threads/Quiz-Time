@@ -1,6 +1,6 @@
 package Tests;
 
-import Controllers.HashPassword;
+import FunctionalClasses.HashPassword;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

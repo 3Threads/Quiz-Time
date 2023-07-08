@@ -1,7 +1,5 @@
 package FunctionalClasses;
 
-import Controllers.HashPassword;
-
 import java.sql.*;
 
 public class UserConnect {
