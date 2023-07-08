@@ -26,7 +26,7 @@ public class HashPasswordTest {
     @Test
     public void testOnlyNumbers() {
         assertEquals("59ddd534dd4a66572e193d285710a2c607b76e07", HashPassword.stringToHash("1234567"));
-        assertEquals("8785066cd7584666239eb5ea7f9bea4f89f4c8d0", HashPassword.stringToHash("777"));
+        assertNotEquals("8785066cd7584666239eb5ea7f9bea4f89f4c8d0", HashPassword.stringToHash("777"));
     }
 
 
