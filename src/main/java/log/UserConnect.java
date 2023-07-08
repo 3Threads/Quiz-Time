@@ -48,4 +48,14 @@ public class UserConnect {
         String pass = result.getString("password");
         return pass.equals(hs);
     }
+    public int getUserId(String username) throws SQLException {
+        Statement stmt = connect.createStatement();
+        stmt.execute("USE " + database);
+        String getUserRow = "SELECT * FROM "+tableName+" WHERE USERNAME = '" + username + "';";
+        ResultSet resultSet = stmt.executeQuery(getUserRow);
+        if(resultSet.next()) {
+            int id = resultSet.getInt("ID");
+            return id;
+        } else return 0;
+    }
 }
