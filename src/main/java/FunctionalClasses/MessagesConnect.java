@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import Types.Message;
 
 public class MessagesConnect extends SQLConnect {
-    private final String tableName;
+    private final String tableName="MESSAGES";
 
-    public MessagesConnect(String tableName) {
-        super();
-        this.tableName = tableName;
+    public MessagesConnect(boolean isTesting) {
+        super(isTesting);
     }
 
     public ArrayList<Message> getMessagesWith(int curUserId, int friendId) throws SQLException {

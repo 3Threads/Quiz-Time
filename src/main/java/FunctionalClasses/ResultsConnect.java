@@ -8,11 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ResultsConnect extends SQLConnect {
-    private final String tableName;
+    private final String tableName = "COMPLETED_QUIZZES";
 
-    public ResultsConnect(String tableName) {
-        super();
-        this.tableName = tableName;
+    public ResultsConnect(boolean isTesting) {
+        super(isTesting);
     }
 
     public ArrayList<Result> getUserResults(int userId) throws SQLException {

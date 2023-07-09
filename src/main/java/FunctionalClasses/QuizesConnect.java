@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import Types.Quiz;
 
 public class QuizesConnect extends SQLConnect {
-    private final String tableName;
+    private final String tableName = "QUIZZES";
 
-    public QuizesConnect(String tableName) {
-        super();
-        this.tableName = tableName;
+    public QuizesConnect(boolean isTesting) {
+        super(isTesting);
     }
 
     public ArrayList<Quiz> getPopularQuizzes(int limit) throws SQLException {

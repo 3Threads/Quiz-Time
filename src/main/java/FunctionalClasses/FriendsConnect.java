@@ -4,11 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class FriendsConnect extends SQLConnect {
-    private final String tableName;
+    private final String tableName = "FRIENDS";
 
-    public FriendsConnect(String tableName) {
-        super();
-        this.tableName = tableName;
+    public FriendsConnect(boolean isTesting) {
+        super(isTesting);
     }
 
     public ArrayList<Integer> getFriendsRequests(int userID) throws SQLException {

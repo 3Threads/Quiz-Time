@@ -3,6 +3,7 @@ package Tests;
 import FunctionalClasses.UserConnect;
 import org.junit.jupiter.api.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,14 +16,12 @@ public class UserConnectTest {
     private static String tableName = "USERSTEST";
 
     @BeforeAll
-    public static void init() throws SQLException {
-        connect = new UserConnect(tableName);
+    public static void init() throws SQLException, IOException {
+        connect = new UserConnect(true);
+        connect.createAgain();
+        System.out.println("aqaa");
     }
 
-    @BeforeEach
-    public void setUp() throws SQLException {
-        connect.clear(tableName);
-    }
 
     // check before and after adding
     @Test
