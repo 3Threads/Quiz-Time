@@ -1,30 +1,27 @@
 package Tests;
 
 import FunctionalClasses.UserConnect;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.ClassOrderer.*;
 
 public class UserConnectTest {
 
     private static UserConnect connect;
+    private static String tableName = "USERSTEST";
+
+    @BeforeAll
+    public static void init() throws SQLException {
+        connect = new UserConnect(tableName);
+    }
 
     @BeforeEach
     public void setUp() throws SQLException {
-        String tableName = "USERSTEST";
-        connect = new UserConnect(tableName);
         connect.clear(tableName);
-    }
-
-    @Test
-    public void testAddUser() throws SQLException {
-        connect.addUser("1", "1");
-        assertTrue(connect.checkUser("1", "1"));
-
     }
 
     // check before and after adding
@@ -35,6 +32,11 @@ public class UserConnectTest {
         assertTrue(connect.checkUser("2", "2"));
     }
 
+    @Test
+    public void testAddUser() throws SQLException, InterruptedException {
+        assertTrue(connect.addUser("1", "1"));
+        assertTrue(connect.checkUser("1", "1"));
+    }
 
     //    adding already existed user
     @Test
