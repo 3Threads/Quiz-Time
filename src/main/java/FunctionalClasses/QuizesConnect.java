@@ -12,6 +12,18 @@ public class QuizesConnect extends SQLConnect {
         super(isTesting);
     }
 
+    public void addQuiz(String quizName, String description, int creatorID, Date creatingDate, String questions) throws SQLException {
+        Statement stmt = connect.createStatement();
+        String str = "INSERT INTO " + tableName + "VALUES(?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = connect.prepareStatement(str);
+        preparedStatement.setString(1, quizName);
+        preparedStatement.setString(2, description);
+        preparedStatement.setString(3, "0");
+        preparedStatement.setString(4, String.valueOf(creatingDate));
+        preparedStatement.setString(5, String.valueOf(creatorID));
+        preparedStatement.setString(6, questions);
+        preparedStatement.executeUpdate();
+    }
     public ArrayList<Quiz> getPopularQuizzes(int limit) throws SQLException {
         ArrayList<Quiz> quizzes = new ArrayList<>();
         Statement stmt = connect.createStatement();
