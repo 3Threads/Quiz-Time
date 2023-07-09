@@ -1,24 +1,21 @@
 package Tests;
 
 import FunctionalClasses.UserConnect;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.ClassOrderer.*;
 
 public class UserConnectTest {
 
     private static UserConnect connect;
-    private static String tableName = "USERSTEST";
 
     @BeforeAll
-    public static void init() throws SQLException, IOException {
+    public static void init() {
         connect = new UserConnect(true);
-        connect.createAgain();
     }
 
 
@@ -31,7 +28,7 @@ public class UserConnectTest {
     }
 
     @Test
-    public void testAddUser() throws SQLException, InterruptedException {
+    public void testAddUser() throws SQLException {
         assertTrue(connect.addUser("1", "1"));
         assertTrue(connect.checkUser("1", "1"));
     }
