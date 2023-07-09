@@ -23,6 +23,7 @@ public class QuizesConnect extends SQLConnect {
         preparedStatement.setString(5, String.valueOf(creatorID));
         preparedStatement.setString(6, questions);
         preparedStatement.executeUpdate();
+
     }
     public ArrayList<Quiz> getPopularQuizzes(int limit) throws SQLException {
         ArrayList<Quiz> quizzes = new ArrayList<>();

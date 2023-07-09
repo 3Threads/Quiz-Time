@@ -38,6 +38,7 @@ public class FriendsConnect extends SQLConnect {
         Statement stmt = connect.createStatement();
         String sendRequest = "INSERT INTO " + tableName + " VALUES(" + fromUserId + "," + toUserId + ", 0);";
         stmt.execute(sendRequest);
+
     }
     public void acceptRequest(int curUserId, int newFriendId) throws SQLException {
         Statement stmt = connect.createStatement();
