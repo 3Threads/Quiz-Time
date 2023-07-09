@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import Types.Message;
 
 public class MessagesConnect extends SQLConnect {
-    private final String tableName="MESSAGES";
+    private final String tableName = "MESSAGES";
 
     public MessagesConnect(boolean isTesting) {
         super(isTesting);
@@ -15,9 +15,9 @@ public class MessagesConnect extends SQLConnect {
     public ArrayList<Message> getMessagesWith(int curUserId, int friendId) throws SQLException {
         ArrayList<Message> messages = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        String getMessages = "SELECT USER1ID, USER2ID, MESSAGE FROM " + tableName + " where (USER1ID = '" + curUserId + "' AND (USER2ID = '" +
-                friendId + "') OR (USER1ID = '" + friendId + "' AND (USER2ID = '" +
-                curUserId + "') ORDER BY SENDTIME;";
+        String getMessages = "SELECT USER1ID, USER2ID, MESSAGE FROM " + tableName + " where (USER1ID = '" + curUserId + "' AND USER2ID = '" +
+                friendId + "') OR (USER1ID = '" + friendId + "' AND USER2ID = '" +
+                curUserId + "') ORDER BY SENDDATE;";
         ResultSet result = stmt.executeQuery(getMessages);
         while (result.next()) {
             int from = result.getInt("USER1ID");
@@ -31,7 +31,7 @@ public class MessagesConnect extends SQLConnect {
 
     public void sendMessage(int fromUserId, int toUserId, String message) throws SQLException {
         Statement stmt = connect.createStatement();
-        String str = "INSERT INTO (USER1ID, USER2ID, MESSAGE)" + tableName + "VALUES(?,?,?)";
+        String str = "INSERT INTO " + tableName + "(USER1ID, USER2ID, MESSAGE) VALUES(?,?,?)";
         PreparedStatement preparedStatement = connect.prepareStatement(str);
         preparedStatement.setString(1, String.valueOf(fromUserId));
         preparedStatement.setString(2, String.valueOf(toUserId));
