@@ -19,7 +19,6 @@ public class UserConnectTest {
     public static void init() throws SQLException, IOException {
         connect = new UserConnect(true);
         connect.createAgain();
-        System.out.println("aqaa");
     }
 
 

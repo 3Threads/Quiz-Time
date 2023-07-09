@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="FunctionalClasses.User" %>
+<%@ page import="Types.User" %>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,7 +15,7 @@
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous"></script>
 
-    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Quiz Time</title>
 </head>
