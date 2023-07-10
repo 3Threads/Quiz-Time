@@ -2,9 +2,7 @@ package FunctionalClasses;
 
 import Types.Result;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ResultsConnect extends SQLConnect {
@@ -14,10 +12,19 @@ public class ResultsConnect extends SQLConnect {
         super(isTesting);
     }
 
+    public void addResult(int userId, int quizId, int score, Time spentTime) throws SQLException {
+        String addResult = "INSERT INTO "+tableName+ " VALUES(default,?,?,?,?,default)";
+        PreparedStatement preparedStatement = connect.prepareStatement(addResult);
+        preparedStatement.setString(1, String.valueOf(userId));
+        preparedStatement.setString(2, String.valueOf(quizId));
+        preparedStatement.setString(3, String.valueOf(score));
+        preparedStatement.setString(4, String.valueOf(spentTime));
+        preparedStatement.executeUpdate();
+    }
     public ArrayList<Result> getUserResults(int userId) throws SQLException {
         ArrayList<Result> results = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        String getResults = "SELECT * FROM " + tableName + " WHERE USERID = " + userId + ";";
+        String getResults = "SELECT * FROM " + tableName + " WHERE USERID = " + userId + " ORDER BY SCORE DESC;";
         return getResults(results, stmt, getResults);
     }
 
