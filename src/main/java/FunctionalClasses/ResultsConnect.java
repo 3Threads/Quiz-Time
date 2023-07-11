@@ -24,15 +24,15 @@ public class ResultsConnect extends SQLConnect {
     public ArrayList<Result> getUserResults(int userId) throws SQLException {
         ArrayList<Result> results = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        String getResults = "SELECT * FROM " + tableName + " WHERE USERID = " + userId + " ORDER BY SCORE DESC;";
+        String getResults = "SELECT * FROM " + tableName + " WHERE USER_ID = " + userId + " ORDER BY SCORE DESC;";
         return getResults(results, stmt, getResults);
     }
 
     private ArrayList<Result> getResults(ArrayList<Result> results, Statement stmt, String getResults) throws SQLException {
         ResultSet result = stmt.executeQuery(getResults);
         while (result.next()) {
-            Result rs = new Result(result.getInt("USERID"), result.getInt("QUIZID"), result.getInt("SCORE"),
-                    result.getTime("SPENTTIME"), result.getDate("WRITETIME"));
+            Result rs = new Result(result.getInt("USER_ID"), result.getInt("QUIZ_ID"), result.getInt("SCORE"),
+                    result.getTime("SPENT_TIME"), result.getDate("WRITE_TIME"));
             results.add(rs);
         }
         return results;
@@ -41,14 +41,14 @@ public class ResultsConnect extends SQLConnect {
     public ArrayList<Result> getQuizResults(int quizId) throws SQLException {
         ArrayList<Result> results = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        String getResults = "SELECT * FROM " + tableName + " WHERE QUIZID = " + quizId + " ORDER BY SCORE DESC;";
+        String getResults = "SELECT * FROM " + tableName + " WHERE QUIZ_ID = " + quizId + " ORDER BY SCORE DESC;";
         return getResults(results, stmt, getResults);
     }
 
     public ArrayList<Result> getUserResultsOnQuiz(int userId, int quizId) throws SQLException {
         ArrayList<Result> results = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        String getResults = "SELECT * FROM " + tableName + " WHERE USERID = " + userId + " AND QUIZID = " +
+        String getResults = "SELECT * FROM " + tableName + " WHERE USER_ID = " + userId + " AND QUIZ_ID = " +
                 quizId + " ORDER BY SCORE DESC;";
         return getResults(results, stmt, getResults);
     }
