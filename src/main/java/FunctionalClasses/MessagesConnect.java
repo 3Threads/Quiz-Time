@@ -30,7 +30,6 @@ public class MessagesConnect extends SQLConnect {
     }
 
     public void sendMessage(int fromUserId, int toUserId, String message) throws SQLException {
-        Statement stmt = connect.createStatement();
         String str = "INSERT INTO " + tableName + "(USER1ID, USER2ID, MESSAGE) VALUES(?,?,?)";
         PreparedStatement preparedStatement = connect.prepareStatement(str);
         preparedStatement.setString(1, String.valueOf(fromUserId));
