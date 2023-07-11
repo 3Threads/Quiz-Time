@@ -2,6 +2,7 @@ package FunctionalClasses;
 
 import java.sql.*;
 import java.util.ArrayList;
+import Types.FriendInfo;
 
 public class FriendsConnect extends SQLConnect {
     private final String tableName = "FRIENDS";
@@ -21,7 +22,16 @@ public class FriendsConnect extends SQLConnect {
         }
         return requests;
     }
-
+    public FriendInfo getBetweenUsersInfo(int user1, int user2) throws SQLException {
+        Statement stmt = connect.createStatement();
+        String getInfo = "SELECT * FROM " + tableName + " WHERE (USER1_ID = " + user1 +
+                " AND USER2_ID = " + user2 + ") OR (USER1_ID = " + user2 +
+                " AND USER2_ID = " + user1 + ");";
+        ResultSet result = stmt.executeQuery(getInfo);
+        if(!result.next()) return new FriendInfo(user1, user2, -1);
+        return new FriendInfo(result.getInt("USER1_ID"), result.getInt("USER2_ID"),
+                            result.getInt("ACCEPTED"));
+    }
     public ArrayList<Integer> getFriendsList(int userID) throws SQLException {
         ArrayList<Integer> friends = new ArrayList<>();
         Statement stmt = connect.createStatement();

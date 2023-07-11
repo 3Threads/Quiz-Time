@@ -8,6 +8,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Types.User" %>
+<%@ page import="Types.FriendInfo" %>
+<%@ page import="FunctionalClasses.FriendsConnect" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -27,37 +30,66 @@
 
     <title>Quiz Time</title>
 </head>
+<%@include file="header.jsp" %>
 <%
-    int id = Integer.parseInt(request.getParameter("user"));
-    UserConnect usersDB = (UserConnect) application.getAttribute("usersDB");
+    int profileId = Integer.parseInt(request.getParameter("user"));
+    User pageUser = usersConnect.getUserById(profileId);
 %>
 <body class="bg-dark text-light">
-<%@include file="header.jsp" %>
 <br><br>
 <div class="container">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <h3>Username: <%= usersDB.getUserById(id).getUsername()%></h3>
-
+            <h3>Username: <%=pageUser.getUsername() %>
+            </h3>
             <br>
-            <button class="btn btn-success">Add Friend</button>
-
+            <% if (profileId != myUser.getId()) {
+                FriendInfo info = friendsConnect.getBetweenUsersInfo(profileId, myUser.getId());
+                if (info.getAccepted() == -1) {
+            %>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=sendRequest"%>>
+                <button class="btn btn-success">Add Friend</button>
+            </a>
+            <%
+                }
+                if (info.getAccepted() == 0) {
+                    if (info.getUser1Id() == profileId) {
+            %>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=acceptRequest"%>>
+                <button class="btn btn-success">Accept Request</button>
+            </a><br><br>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=rejectRequest&from=profile"%>>
+                <button class="btn btn-danger">Reject Request</button>
+            </a>
+            <% } else { %>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=cancelRequest"%>>
+                <button class="btn btn-danger">Delete Request</button>
+            </a>
+            <% }
+            }
+                if (info.getAccepted() == 1) {%>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=unfriend"%>>
+                <button class="btn btn-danger">unfriend</button>
+            </a>
+            <% }
+            }%>
             <br><br><br>
-            <div class="uk-padding-small "  uk-scrollspy="cls: uk-animation-slide-left; repeat: true" style="border: solid 1px gray; border-radius: 10px;">
+            <div class="uk-padding-small " uk-scrollspy="cls: uk-animation-slide-left; repeat: true"
+                 style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>
                 <ul class="uk-list uk-list-divider" style="max-height: 200px; overflow: auto">
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
+                    <% ArrayList<Integer> friends = friendsConnect.getFriendsList(profileId);
+                        for (Integer friend : friends) {
+                            User myFriend = usersConnect.getUserById(friend); %>
+                    <li><a href=<%="/profile?user=" + myFriend.getId()%>><%=myFriend.getUsername()%>
+                    </a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>
         <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">
             <br>
-<%--            <h4 class="text-center">Quizzes</h4>--%>
+            <%--            <h4 class="text-center">Quizzes</h4>--%>
             <div>
                 <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
                     <li><a style="color: white" href="">Created quizzes</a></li>
@@ -123,7 +155,7 @@
     </div>
 </div>
 
-    </div>
+</div>
 </div>
 </div>
 </body>
