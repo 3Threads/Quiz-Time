@@ -14,6 +14,10 @@ import java.util.ArrayList;
 
 public class ResultsConnectTest {
     private static ResultsConnect results;
+
+    /*
+        Creating users, quizzes and results of users on quizzes
+     */
     @BeforeAll
     public static void setup() throws SQLException {
         UserConnect uConnect;
@@ -45,6 +49,9 @@ public class ResultsConnectTest {
         results.addResult(4, 6, 30, new Time(3000));
     }
 
+    /*
+        Testing that addResult method works correctly by using getUserResultsOnQuiz method
+     */
     @Test
     public void testAddResult() throws SQLException {
         ArrayList<Result> res = results.getUserResultsOnQuiz(3, 4);
@@ -68,6 +75,9 @@ public class ResultsConnectTest {
         assertEquals(res.get(0).getScore(), 15);
         assertEquals(res.get(1).getScore(), 10);
     }
+    /*
+        Testing getQuizResults and check if every return result is about one quiz
+     */
     @Test
     public void testGetQuizResults() throws SQLException {
         ArrayList<Result> res = results.getQuizResults(2);
@@ -90,6 +100,9 @@ public class ResultsConnectTest {
         assertEquals(res.get(2).getScore(), 14);
         assertEquals(res.get(3).getScore(), 10);
     }
+    /*
+        Testing getUserResults and check if every return result is about one user
+     */
     @Test
     public void testUserResults() throws SQLException {
         ArrayList<Result> res = results.getUserResults(4);
