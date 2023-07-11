@@ -55,9 +55,74 @@
                 </ul>
             </div>
         </div>
-        <div class="col">
-
+        <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">
+            <br>
+<%--            <h4 class="text-center">Quizzes</h4>--%>
+            <div>
+                <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
+                    <li><a style="color: white" href="">Created quizzes</a></li>
+                    <li><a style="color: white" href="">Result quizzes</a></li>
+                </ul>
+                <ul id="tables" class="uk-switcher uk-margin uk-box-shadow-large"
+                    style="max-height: 485px; overflow: auto;">
+                    <li>
+                        <table class="uk-table uk-table-divider">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Completed</th>
+                                <th>Creation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="#">Programming</a></td>
+                                <td>80</td>
+                                <td>23/10/2002</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="#">Programming</a></td>
+                                <td>80</td>
+                                <td>23/10/2002</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                    <li>
+                        <table class="uk-table uk-table-divider">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Completed</th>
+                                <th>Creation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="#">Programming</a></td>
+                                <td>80</td>
+                                <td>23/10/2002</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="#">Programming</a></td>
+                                <td>80</td>
+                                <td>23/10/2002</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </div>
+</div>
+
     </div>
 </div>
 </div>
