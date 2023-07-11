@@ -33,7 +33,7 @@
 </head>
 <%
     User myUser = (User) session.getAttribute("userInfo");
-    UserConnect userConnect = (UserConnect) application.getAttribute("usersDB");
+    UserConnect usersConnect = (UserConnect) application.getAttribute("usersDB");
     FriendsConnect friendsConnect = (FriendsConnect) application.getAttribute("friendsDB");
 %>
 <body class="bg-dark text-light">
@@ -74,7 +74,7 @@
                                                 <%
                                                     ArrayList<Integer> requests = friendsConnect.getFriendsRequests(myUser.getId());
                                                     for (Integer reqId : requests) {
-                                                        User reqUserInfo = userConnect.getUserById(reqId);
+                                                        User reqUserInfo = usersConnect.getUserById(reqId);
                                                 %>
                                                 <li>
                                                     <div class="row">

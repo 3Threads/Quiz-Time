@@ -32,9 +32,7 @@
 </head>
 <%
     int id = Integer.parseInt(request.getParameter("user"));
-    UserConnect usersDB = (UserConnect) application.getAttribute("usersDB");
-    User curUser = (User)session.getAttribute("userInfo");
-    FriendsConnect conn = new FriendsConnect(false);
+    User pageUser = usersConnect.getUserById(id);
 %>
 <body class="bg-dark text-light">
 <%@include file="header.jsp" %>
@@ -42,49 +40,39 @@
 <div class="container">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <h3>Username: <%=usersDB.getUserById(id).getUsername() %></h3>
-
-
-            <% if(!usersDB.getUserById(id).getUsername().equals(curUser.getUsername())){
-                FriendInfo info = conn.getBetweenUsersInfo(id, curUser.getId());
-                if(info.getAccepted() == -1) {
+            <h3>Username: <%=pageUser.getUsername() %></h3>
+            <br>
+            <% if(id != myUser.getId()){
+                FriendInfo info = friendsConnect.getBetweenUsersInfo(id, myUser.getId());
+               if(info.getAccepted() == -1) {
                 %>
-                 <br>
-                 <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=sendRequest"%> >
+                 <a href=<%="/friends?user1="+myUser.getId()+"&user2="+id+"&action=sendRequest"%> >
                         <button class="btn btn-success">Add Friend</button> </a>
-                 <br><br><br>
                 <%}
                 if(info.getAccepted() == 0) {
                     if(info.getUser1Id() == id) {
                     %>
-                        <br>
-                        <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=acceptRequest"%>>
+                        <a href=<%="/friends?user1="+myUser.getId()+"&user2="+id+"&action=acceptRequest"%>>
                                 <button class="btn btn-success">Accept Request</button></a><br><br>
-                        <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=rejectRequest"%>>
+                        <a href=<%="/friends?user1="+myUser.getId()+"&user2="+id+"&action=rejectRequest"%>>
                                 <button class="btn btn-danger">Reject Request</button></a>
-                        <br><br><br>
                     <% } else { %>
-                        <br>
-                        <button class="btn btn-secondary">Requested</button><br><br>
-                        <a href=<%="/friends?user1="+id+"&user2="+curUser.getId()+"&action=rejectRequest"%>>
+                        <a href=<%="/friends?user1="+myUser.getId()+"&user2="+id+"&action=rejectRequest"%>>
                                                         <button class="btn btn-danger">Delete Request</button></a>
-                        <br><br><br>
                     <% }
                 }
                 if(info.getAccepted() == 1){%>
-                        <br>
-                        <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=unFriend"%>>
+                        <a href=<%="/friends?user1="+myUser.getId()+"&user2="+id+"&action=unFriend"%>>
                                  <button class="btn btn-danger">unFriend</button> </a>
-                        <br><br><br>
                 <% }
             }%>
-
+            <br><br><br>
             <div class="uk-padding-small "  uk-scrollspy="cls: uk-animation-slide-left; repeat: true" style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>
                 <ul class="uk-list uk-list-divider" style="max-height: 200px; overflow: auto">
-                    <% ArrayList<Integer> friends = fr.getFriendsList(id);
+                    <% ArrayList<Integer> friends = friendsConnect.getFriendsList(id);
                        for(Integer friend : friends) {
-                          User myFriend = usersDB.getUserById(friend); %>
+                          User myFriend = usersConnect.getUserById(friend); %>
                           <li><a href=<%="/profile?user="+myFriend.getId()%>><%=myFriend.getUsername()%></a></li>
                        <% } %>
                 </ul>
