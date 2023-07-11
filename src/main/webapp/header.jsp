@@ -46,7 +46,131 @@
                         Log Out
                     </a>
                     <a>|</a>
-                    <i class="bi bi-bell-fill mt-1" style="margin-right: 5px"></i>
+                    <a href="#modal-notifications" class="mt-1" uk-toggle><i class="bi bi-bell-fill mt-1"
+                                                                             style="margin-right: 5px"></i>
+                    </a>
+                    <div id="modal-notifications" uk-modal>
+                        <div class="uk-modal-dialog bg-dark">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <div class="uk-modal-header bg-dark">
+                                <h2 class="uk-modal-title">Modal Title</h2>
+                            </div>
+                            <div class="uk-modal-body">
+                                <ul class="uk-flex-left" data-uk-tab="{connect:'#notification tab'}">
+                                    <li><a style="color: white" href="">Friend Requests</a></li>
+                                    <li><a style="color: white" href="">Challenges</a></li>
+                                    <li><a style="color: white" href="">Messages</a></li>
+                                </ul>
+                                <ul id="notification tab" class="uk-switcher uk-margin">
+                                    <li>
+                                        <div class="uk-padding-small">
+                                            <ul class="uk-list container-fluid"
+                                                style="max-height: 200px; overflow: auto">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col d-flex align-items-center">
+                                                            <a href="/profile?user=<%= 2%>">akaki</a>
+
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-success">accept</button>
+                                                            <button class="btn btn-danger">Reject</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col d-flex align-items-center">
+                                                            <a href="/profile?user=<%= 2%>">akaki</a>
+
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-success">accept</button>
+                                                            <button class="btn btn-danger">Reject</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="uk-padding-small">
+                                            <ul class="uk-list container-fluid "
+                                                style="max-height: 200px; overflow: auto">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col d-flex align-items-center">
+                                                            <a href="/profile?user=<%= 2%>">akaki </a>
+                                                            <div style="margin-left: 3px"> challenged you:</div>
+                                                            <a style="margin-left: 3px"
+                                                               href="/profile?user=<%= 2%>">Quizz's
+                                                                name</a>
+
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-success">accept</button>
+                                                            <button class="btn btn-danger">Reject</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col d-flex align-items-center">
+                                                            <a href="/profile?user=<%= 2%>">akaki </a>
+                                                            <div style="margin-left: 3px"> challenged you:</div>
+                                                            <a style="margin-left: 3px"
+                                                               href="/profile?user=<%= 2%>">Quizz's
+                                                                name</a>
+
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-success">accept</button>
+                                                            <button class="btn btn-danger">Reject</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="uk-padding-small">
+                                            <ul class="uk-list container-fluid"
+                                                style="max-height: 200px; overflow: auto">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col d-flex align-items-center">
+                                                            <div>New message from</div>
+                                                            <a style="margin-left: 3px" href="/profile?user=<%= 2%>">akaki </a>
+
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-primary">Open chat</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col d-flex align-items-center">
+                                                            <div>New message from</div>
+                                                            <a style="margin-left: 3px" href="/profile?user=<%= 2%>">akaki </a>
+
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-primary">Open chat</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                     <a style="margin-right: 3px" href="/profile?user=<%= user.getId()%>"><%=  user.getUsername()%>
                     </a>
                 </div>
