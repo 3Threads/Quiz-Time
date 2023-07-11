@@ -1,18 +1,18 @@
 package Tests;
 import static org.junit.jupiter.api.Assertions.*;
-import FunctionalClasses.QuizesConnect;
+import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.UserConnect;
 import Types.Quiz;
 import org.junit.jupiter.api.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class QuizesConnectTest {
-    private static QuizesConnect quizzes;
+public class QuizzesConnectTest {
+    private static QuizzesConnect quizzes;
     @BeforeAll
     public static void setup() throws SQLException {
         UserConnect uConnect;
-        quizzes = new QuizesConnect(true);
+        quizzes = new QuizzesConnect(true);
         uConnect = new UserConnect(true);
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");

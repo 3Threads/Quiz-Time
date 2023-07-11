@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import Types.Quiz;
 
-public class QuizesConnect extends SQLConnect {
+public class QuizzesConnect extends SQLConnect {
     private final String tableName = "QUIZZES";
 
-    public QuizesConnect(boolean isTesting) {
+    public QuizzesConnect(boolean isTesting) {
         super(isTesting);
     }
 

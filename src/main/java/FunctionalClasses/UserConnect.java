@@ -1,5 +1,6 @@
 package FunctionalClasses;
 
+
 import java.sql.*;
 
 public class UserConnect extends SQLConnect {
