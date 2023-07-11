@@ -35,30 +35,33 @@ public class FriendsConnect extends SQLConnect {
         return friends;
     }
     public void sendFriendRequest(int fromUserId, int toUserId) throws SQLException {
+        if(getFriendsRequests(fromUserId).contains(toUserId)){
+            acceptRequest(fromUserId, toUserId);
+            return;
+        }
         Statement stmt = connect.createStatement();
-        String sendRequest = "INSERT INTO " + tableName + " VALUES(" + fromUserId + "," + toUserId + ", 0);";
+        String sendRequest = "INSERT INTO " + tableName + "(USER1ID, USER2ID) VALUES(" + fromUserId + "," + toUserId + ");";
         stmt.execute(sendRequest);
-
     }
     public void acceptRequest(int curUserId, int newFriendId) throws SQLException {
         Statement stmt = connect.createStatement();
-        String acceptFriend = "UPDATE " + tableName + " SET ACCEPTED = 1 WHERE  USER1ID = " + newFriendId +
-                "AND USER2ID = " + curUserId + ";";
+        String acceptFriend = "UPDATE " + tableName + " SET ACCEPTED = 1 WHERE USER1ID = " + newFriendId +
+                " AND USER2ID = " + curUserId + ";";
         stmt.execute(acceptFriend);
     }
 
     public void rejectRequest(int curUserId, int notNewFriendId) throws SQLException {
         Statement stmt = connect.createStatement();
         String acceptFriend = "DELETE FROM " + tableName + " WHERE  USER1ID = " + notNewFriendId +
-                "AND USER2ID = " + curUserId + ";";
+                " AND USER2ID = " + curUserId + ";";
         stmt.execute(acceptFriend);
     }
 
     public void deleteFriend(int curUserId, int notFriend) throws SQLException {
         Statement stmt = connect.createStatement();
-        String acceptFriend = "DELETE FROM " + tableName + " WHERE  (USER1ID = " + notFriend +
-                "AND USER2ID = " + curUserId + ") or (USER1ID = " + curUserId +
-                " + AND USER2ID = " + notFriend + ");";
+        String acceptFriend = "DELETE FROM " + tableName + " WHERE (USER1ID = " + notFriend +
+                " AND USER2ID = " + curUserId + ") OR (USER1ID = " + curUserId +
+                " AND USER2ID = " + notFriend + ");";
         stmt.execute(acceptFriend);
     }
 }
