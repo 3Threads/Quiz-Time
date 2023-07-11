@@ -2,6 +2,8 @@ package FunctionalClasses;
 
 import java.sql.*;
 
+import Types.User;
+
 public class UserConnect extends SQLConnect {
     private final String tableName = "USERS";
 
@@ -40,5 +42,15 @@ public class UserConnect extends SQLConnect {
         if (resultSet.next()) {
             return resultSet.getInt("ID");
         } else return 0;
+    }
+
+    public User getUserById(int id) throws SQLException {
+        Statement stmt = connect.createStatement();
+        String getUserRow = "SELECT * FROM " + tableName + " WHERE ID = '" + id + "';";
+        ResultSet resultSet = stmt.executeQuery(getUserRow);
+        if (resultSet.next()) {
+            return new User(resultSet.getString("USERNAME"), resultSet.getInt("ID"));
+        }
+        return null;
     }
 }

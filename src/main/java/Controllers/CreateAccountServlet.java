@@ -13,7 +13,7 @@ import java.io.IOException;
 public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if ((boolean) httpServletRequest.getSession().getAttribute("isLoggedIn")) {
+        if (httpServletRequest.getSession().getAttribute("userInfo") != null) {
             httpServletResponse.sendRedirect("/homePage");
         } else {
             httpServletRequest.getRequestDispatcher("register.jsp").forward(httpServletRequest, httpServletResponse);

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if ((boolean) httpServletRequest.getSession().getAttribute("isLoggedIn")) {
+        if (httpServletRequest.getSession().getAttribute("userInfo") != null) {
             httpServletResponse.sendRedirect("/homePage");
         } else {
             httpServletRequest.getRequestDispatcher("index.jsp").forward(httpServletRequest, httpServletResponse);
@@ -28,7 +28,6 @@ public class LoginServlet extends HttpServlet {
         UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
             if (sql.checkUser(username, password)) {
-                httpServletRequest.getSession().setAttribute("isLoggedIn", true);
                 int userId = sql.getUserId(username);
                 User user = new User(username, userId);
                 httpServletRequest.getSession().setAttribute("userInfo", user);

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSessionListener;
 public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
-        httpSessionEvent.getSession().setAttribute("isLoggedIn", false);
+        httpSessionEvent.getSession().removeAttribute("userInfo");
     }
 
     @Override
