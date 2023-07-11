@@ -39,6 +39,7 @@ public class FriendsConnect extends SQLConnect {
             acceptRequest(fromUserId, toUserId);
             return;
         }
+        if(getFriendsList(fromUserId).contains(toUserId)) return;
         Statement stmt = connect.createStatement();
         String sendRequest = "INSERT INTO " + tableName + "(USER1ID, USER2ID) VALUES(" + fromUserId + "," + toUserId + ");";
         stmt.execute(sendRequest);
