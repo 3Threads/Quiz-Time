@@ -32,8 +32,8 @@
 </head>
 <%@include file="header.jsp" %>
 <%
-    int id = Integer.parseInt(request.getParameter("user"));
-    User pageUser = usersConnect.getUserById(id);
+    int profileId = Integer.parseInt(request.getParameter("user"));
+    User pageUser = usersConnect.getUserById(profileId);
 %>
 <body class="bg-dark text-light">
 <br><br>
@@ -43,33 +43,33 @@
             <h3>Username: <%=pageUser.getUsername() %>
             </h3>
             <br>
-            <% if (id != myUser.getId()) {
-                FriendInfo info = friendsConnect.getBetweenUsersInfo(id, myUser.getId());
+            <% if (profileId != myUser.getId()) {
+                FriendInfo info = friendsConnect.getBetweenUsersInfo(profileId, myUser.getId());
                 if (info.getAccepted() == -1) {
             %>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + id + "&action=sendRequest"%>>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=sendRequest"%>>
                 <button class="btn btn-success">Add Friend</button>
             </a>
             <%
                 }
                 if (info.getAccepted() == 0) {
-                    if (info.getUser1Id() == id) {
+                    if (info.getUser1Id() == profileId) {
             %>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + id + "&action=acceptRequest"%>>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=acceptRequest"%>>
                 <button class="btn btn-success">Accept Request</button>
             </a><br><br>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + id + "&action=rejectRequest"%>>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=rejectRequest"%>>
                 <button class="btn btn-danger">Reject Request</button>
             </a>
             <% } else { %>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + id + "&action=rejectRequest"%>>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=cancelRequest"%>>
                 <button class="btn btn-danger">Delete Request</button>
             </a>
             <% }
             }
                 if (info.getAccepted() == 1) {%>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + id + "&action=unFriend"%>>
-                <button class="btn btn-danger">unFriend</button>
+            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=unfriend"%>>
+                <button class="btn btn-danger">unfriend</button>
             </a>
             <% }
             }%>
@@ -78,7 +78,7 @@
                  style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>
                 <ul class="uk-list uk-list-divider" style="max-height: 200px; overflow: auto">
-                    <% ArrayList<Integer> friends = friendsConnect.getFriendsList(id);
+                    <% ArrayList<Integer> friends = friendsConnect.getFriendsList(profileId);
                         for (Integer friend : friends) {
                             User myFriend = usersConnect.getUserById(friend); %>
                     <li><a href=<%="/profile?user=" + myFriend.getId()%>><%=myFriend.getUsername()%>

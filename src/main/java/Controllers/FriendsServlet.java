@@ -31,7 +31,7 @@ public class FriendsServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-        if (action.equals("unRequest")) {
+        if (action.equals("cancelRequest")) {
             try {
                 fr.rejectRequest(user2, user1);
             } catch (SQLException e) {
@@ -45,7 +45,7 @@ public class FriendsServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-        if (action.equals("unFriend")) {
+        if (action.equals("unfriend")) {
             try {
                 fr.deleteFriend(user1, user2);
             } catch (SQLException e) {
