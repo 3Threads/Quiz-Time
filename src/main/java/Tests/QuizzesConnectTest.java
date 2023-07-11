@@ -1,18 +1,19 @@
 package Tests;
 import static org.junit.jupiter.api.Assertions.*;
-import FunctionalClasses.QuizesConnect;
+import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.UserConnect;
 import Types.Quiz;
 import org.junit.jupiter.api.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class QuizesConnectTest {
-    private static QuizesConnect quizzes;
+public class QuizzesConnectTest {
+    private static QuizzesConnect quizzes;
+    // Creating users and quizzes
     @BeforeAll
     public static void setup() throws SQLException {
         UserConnect uConnect;
-        quizzes = new QuizesConnect(true);
+        quizzes = new QuizzesConnect(true);
         uConnect = new UserConnect(true);
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");
@@ -26,7 +27,7 @@ public class QuizesConnectTest {
         quizzes.addQuiz("quiz5", "new quiz", 2,  "1, 2, 3" );
         quizzes.addQuiz("quiz6", "my quiz", 1,  "1, 2, 3, 5, 7, 8" );
     }
-
+    // Testing AddQuizzes method works correctly by using getQuizInfo method
     @Test
     public void testAddQuizzes1() throws SQLException {
         Quiz quiz1 = quizzes.getQuizInfo(1);
@@ -36,6 +37,7 @@ public class QuizesConnectTest {
         assertEquals(1, quiz1.getCreatorID());
         assertEquals("[1,  2,  3,  4]", quiz1.getQuestionsID().toString());
     }
+    // Testing AddQuizzes method works correctly by using getQuizInfo method
     @Test
     public void testAddQuizzes2() throws SQLException {
         Quiz quiz2 = quizzes.getQuizInfo(2);
@@ -57,6 +59,8 @@ public class QuizesConnectTest {
         assertEquals(1, quiz4.getCreatorID());
         assertEquals("[1,  2,  3,  5,  7,  8]", quiz4.getQuestionsID().toString());
     }
+
+    // Testing DeleteQuiz method works correctly, when quiz not found, method getQuizInfo returns Null
     @Test
     public void testDeleteQuiz() throws SQLException {
         quizzes.deleteQuiz(5);
@@ -64,6 +68,12 @@ public class QuizesConnectTest {
         quizzes.deleteQuiz(6);
         assertNull(quizzes.getQuizInfo(6));
     }
+
+    /*
+        Testing CompletedQuiz and getPopularQuizzes method
+        Make column completed to 5 10 and 15 and with getQuizInfo checking that everything is added
+        Testing getPopularQuizzes by reference to method the limit num
+     */
     @Test
     public void testCompletedQuizAndPopularQuizzes() throws SQLException {
         for(int i = 0; i < 5; i++) {
@@ -107,6 +117,7 @@ public class QuizesConnectTest {
         assertEquals(quiz.getQuizId(), 2);
     }
 
+    // Testing getLastDayQuizzes method
     @Test
     public void testLastDayQuizzes() throws SQLException {
         ArrayList<Quiz> quizzes1 = quizzes.getLastDayQuizzes();

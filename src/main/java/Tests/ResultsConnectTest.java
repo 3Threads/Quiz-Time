@@ -1,7 +1,7 @@
 package Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import FunctionalClasses.QuizesConnect;
+import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.ResultsConnect;
 import FunctionalClasses.UserConnect;
 import Types.Result;
@@ -14,13 +14,14 @@ import java.util.ArrayList;
 
 public class ResultsConnectTest {
     private static ResultsConnect results;
+    //Creating users, quizzes and adding new results
     @BeforeAll
     public static void setup() throws SQLException {
         UserConnect uConnect;
-        QuizesConnect quizzes;
+        QuizzesConnect quizzes;
 
         uConnect = new UserConnect(true);
-        quizzes = new QuizesConnect(true);
+        quizzes = new QuizzesConnect(true);
         results = new ResultsConnect(true);
 
         uConnect.addUser("1", "1");
@@ -45,6 +46,7 @@ public class ResultsConnectTest {
         results.addResult(4, 6, 30, new Time(3000));
     }
 
+    //Testing AddResult quiz method by using getUserResultsOnQuiz method
     @Test
     public void testAddResult() throws SQLException {
         ArrayList<Result> res = results.getUserResultsOnQuiz(3, 4);
@@ -68,6 +70,8 @@ public class ResultsConnectTest {
         assertEquals(res.get(0).getScore(), 15);
         assertEquals(res.get(1).getScore(), 10);
     }
+
+    //Testing that method GetQuizResults correctly returns list of all result on one quiz
     @Test
     public void testGetQuizResults() throws SQLException {
         ArrayList<Result> res = results.getQuizResults(2);
@@ -90,6 +94,7 @@ public class ResultsConnectTest {
         assertEquals(res.get(2).getScore(), 14);
         assertEquals(res.get(3).getScore(), 10);
     }
+    //Testing that method GetUserResults correctly returns list of all result on one user
     @Test
     public void testUserResults() throws SQLException {
         ArrayList<Result> res = results.getUserResults(4);

@@ -1,7 +1,6 @@
 package FunctionalClasses;
 
-import Types.Challange;
-
+import Types.Challenge;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,15 +14,15 @@ public class ChallengesConnect extends SQLConnect {
         super(isTesting);
     }
 
-    public ArrayList<Challange> getChallenges(int userId) throws SQLException {
-        ArrayList<Challange> challenges = new ArrayList<>();
+    public ArrayList<Challenge> getChallenges(int userId) throws SQLException {
+        ArrayList<Challenge> challenges = new ArrayList<>();
         Statement stmt = connect.createStatement();
         String foundChallenges = "SELECT USER1ID, QUIZID FROM " + tableName + " WHERE USER2ID = " + userId + ";";
         ResultSet result = stmt.executeQuery(foundChallenges);
         while (result.next()) {
             int id = result.getInt("USER1ID");
             int quizId = result.getInt("QUIZID");
-            Challange ch = new Challange(id, quizId);
+            Challenge ch = new Challenge(id, quizId);
             challenges.add(ch);
         }
         return challenges;
