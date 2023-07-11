@@ -1,18 +1,20 @@
 package Tests;
 import static org.junit.jupiter.api.Assertions.*;
-import FunctionalClasses.QuizesConnect;
+import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.UserConnect;
 import Types.Quiz;
 import org.junit.jupiter.api.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class QuizesConnectTest {
-    private static QuizesConnect quizzes;
+public class QuizzesConnectTest {
+    private static QuizzesConnect quizzes;
+
+    //Creating users and quizzes
     @BeforeAll
     public static void setup() throws SQLException {
         UserConnect uConnect;
-        quizzes = new QuizesConnect(true);
+        quizzes = new QuizzesConnect(true);
         uConnect = new UserConnect(true);
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");
@@ -27,6 +29,10 @@ public class QuizesConnectTest {
         quizzes.addQuiz("quiz6", "my quiz", 1,  "1, 2, 3, 5, 7, 8" );
     }
 
+    /*
+        Testing with 2 tests that addQuiz method works correctly
+        by using getQuizInfo method and checking returned info.
+     */
     @Test
     public void testAddQuizzes1() throws SQLException {
         Quiz quiz1 = quizzes.getQuizInfo(1);
@@ -57,6 +63,9 @@ public class QuizesConnectTest {
         assertEquals(1, quiz4.getCreatorID());
         assertEquals("[1,  2,  3,  5,  7,  8]", quiz4.getQuestionsID().toString());
     }
+    /*
+        Testing quiz delete method and with getQuizInfo checking that this quiz does not exist in data base
+     */
     @Test
     public void testDeleteQuiz() throws SQLException {
         quizzes.deleteQuiz(5);
@@ -64,6 +73,13 @@ public class QuizesConnectTest {
         quizzes.deleteQuiz(6);
         assertNull(quizzes.getQuizInfo(6));
     }
+
+    /*
+        Testing completedQuiz method, increase completed num to 5, 10 and 15 from 2, 1 and 3 ID quizzes
+        and checking that everything correctly added
+        than testing getPopularQuizzes method, which returns list of popular quizzes by completed num desc
+        reference to the method the limit of list size and checking that returns correctly list
+     */
     @Test
     public void testCompletedQuizAndPopularQuizzes() throws SQLException {
         for(int i = 0; i < 5; i++) {

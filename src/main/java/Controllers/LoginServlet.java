@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
         try {
             if (sql.checkUser(username, password)) {
                 int userId = sql.getUserId(username);
-                User user = new User(username, userId);
+                User user = new User(userId, username);
                 httpServletRequest.getSession().setAttribute("userInfo", user);
                 httpServletResponse.sendRedirect("/homePage");
             } else {

@@ -18,11 +18,11 @@ public class ChallengesConnect extends SQLConnect {
     public ArrayList<Challange> getChallenges(int userId) throws SQLException {
         ArrayList<Challange> challenges = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        String foundChallenges = "SELECT USER1ID, QUIZID FROM " + tableName + " WHERE USER2ID = " + userId + ";";
+        String foundChallenges = "SELECT USER1_ID, QUIZ_ID FROM " + tableName + " WHERE USER2_ID = " + userId + ";";
         ResultSet result = stmt.executeQuery(foundChallenges);
         while (result.next()) {
-            int id = result.getInt("USER1ID");
-            int quizId = result.getInt("QUIZID");
+            int id = result.getInt("USER1_ID");
+            int quizId = result.getInt("QUIZ_ID");
             Challange ch = new Challange(id, quizId);
             challenges.add(ch);
         }
@@ -30,7 +30,7 @@ public class ChallengesConnect extends SQLConnect {
     }
 
     public void sendChallenge(int fromUserId, int toUserId, int quizId) throws SQLException {
-        String sendChallenge = "INSERT INTO " + tableName + "(USER1ID, USER2ID, QUIZID) VALUES(?, ?, ?);";
+        String sendChallenge = "INSERT INTO " + tableName + "(USER1_ID, USER2_ID, QUIZ_ID) VALUES(?, ?, ?);";
         PreparedStatement preparedStatement = connect.prepareStatement(sendChallenge);
         preparedStatement.setString(1, String.valueOf(fromUserId));
         preparedStatement.setString(2, String.valueOf(toUserId));

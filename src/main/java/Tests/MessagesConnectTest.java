@@ -33,8 +33,7 @@ public class MessagesConnectTest {
 
     //simple 1 message test
     @Test
-    public void test1() throws SQLException {
-
+    public void testSimpleSendMessage() throws SQLException {
         mConnect.sendMessage(1, 2, "ggg");
         assertEquals("ggg", mConnect.getMessagesWith(1, 2).get(0).getMessage());
     }
@@ -42,8 +41,7 @@ public class MessagesConnectTest {
 
     //incorrect message sent
     @Test
-    public void test2() throws SQLException {
-
+    public void testIncorrectMessageSent() throws SQLException {
         mConnect.sendMessage(3, 4, "g");
         assertNotEquals("ggg", mConnect.getMessagesWith(3, 4).get(0).getMessage());
     }
@@ -51,17 +49,16 @@ public class MessagesConnectTest {
 
     //2 messages sent from 1-->2 and from 2-->1
     @Test
-    public void test3() throws SQLException {
-
+    public void testSendMessageToEachOther1() throws SQLException {
         mConnect.sendMessage(5, 6, "1");
         mConnect.sendMessage(6, 5, "2");
         assertEquals("1", mConnect.getMessagesWith(5, 6).get(0).getMessage());
         assertEquals("2", mConnect.getMessagesWith(5, 6).get(1).getMessage());
     }
 
-    //same test as "test4" but sent 2--->1 and then 1-->2 (beforeEach) ******************
+    //same test as "testSendMessageToEachOther1" but sent 2--->1 and then 1-->2
     @Test
-    public void test4() throws SQLException {
+    public void testSendMessageToEachOther2() throws SQLException {
         mConnect.sendMessage(6, 5, "1");
         mConnect.sendMessage(5, 6, "2");
         assertEquals("1", mConnect.getMessagesWith(5, 6).get(0).getMessage());
@@ -71,7 +68,7 @@ public class MessagesConnectTest {
 
     //Mixed messages
     @Test
-    public void test6() throws SQLException {
+    public void testComplexMessages() throws SQLException {
         mConnect.sendMessage(7, 9, "79");
         mConnect.sendMessage(7, 10, "710");
         mConnect.sendMessage(10, 7, "107");
