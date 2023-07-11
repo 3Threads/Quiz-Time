@@ -73,11 +73,11 @@ CREATE TABLE MESSAGES
 );
 
 INSERT INTO USERS (USERNAME, PASSWORD)
-VALUES ('USER1', 'USER1'),
-       ('USER2', 'USER2'),
-       ('USER3', 'USER3'),
-       ('USER4', 'USER4'),
-       ('USER5', 'USER5');
+VALUES ('USER1', '2def06fb91eb2d1bcd9e22dd131c6999113b552b'),
+       ('USER2', '2def06fb91eb2d1bcd9e22dd131c6999113b552b'),
+       ('USER3', '2def06fb91eb2d1bcd9e22dd131c6999113b552b'),
+       ('USER4', '2def06fb91eb2d1bcd9e22dd131c6999113b552b'),
+       ('USER5', '2def06fb91eb2d1bcd9e22dd131c6999113b552b');
 
 INSERT INTO MESSAGES (USER1_ID, USER2_ID, MESSAGE)
 VALUES (1, 2, 'hey'),
