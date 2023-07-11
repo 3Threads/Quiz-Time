@@ -40,13 +40,13 @@ CREATE TABLE QUIZZES
 CREATE TABLE COMPLETED_QUIZZES
 (
     ID        int primary key NOT NULL AUTO_INCREMENT,
-    USERID    INT             not null,
-    QUIZID    INT             not null,
+    USER_ID    INT             not null,
+    QUIZ_ID    INT             not null,
     SCORE     INT      default 0,
-    SPENTTIME TIME            not null,
-    WRITETIME DATETIME default current_timestamp,
-    FOREIGN KEY (USERID) references USERS (ID),
-    FOREIGN KEY (QUIZID) references QUIZZES (ID)
+    SPENT_TIME TIME            not null,
+    WRITE_TIME DATETIME default current_timestamp,
+    FOREIGN KEY (USER_ID) references USERS (ID),
+    FOREIGN KEY (QUIZ_ID) references QUIZZES (ID)
 );
 
 CREATE TABLE CHALLENGES
