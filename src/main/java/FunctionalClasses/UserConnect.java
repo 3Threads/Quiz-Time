@@ -50,7 +50,7 @@ public class UserConnect extends SQLConnect {
         String getUserRow = "SELECT * FROM " + tableName + " WHERE ID = '" + id + "';";
         ResultSet resultSet = stmt.executeQuery(getUserRow);
         if (resultSet.next()) {
-            return new User(resultSet.getString("USERNAME"), resultSet.getInt("ID"));
+            return new User(resultSet.getInt("ID"), resultSet.getString("USERNAME"));
         }
         return null;
     }

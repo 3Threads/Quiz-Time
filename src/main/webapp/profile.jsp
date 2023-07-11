@@ -8,6 +8,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Types.User" %>
+<%@ page import="Types.FriendInfo" %>
+<%@ page import="FunctionalClasses.FriendsConnect" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -30,6 +33,8 @@
 <%
     int id = Integer.parseInt(request.getParameter("user"));
     UserConnect usersDB = (UserConnect) application.getAttribute("usersDB");
+    User curUser = (User)session.getAttribute("userInfo");
+    FriendsConnect conn = new FriendsConnect(false);
 %>
 <body class="bg-dark text-light">
 <%@include file="header.jsp" %>
@@ -37,21 +42,51 @@
 <div class="container">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <h3>Username: <%= usersDB.getUserById(id).getUsername()%></h3>
+            <h3>Username: <%=usersDB.getUserById(id).getUsername() %></h3>
 
-            <br>
-            <button class="btn btn-success">Add Friend</button>
 
-            <br><br><br>
+            <% if(!usersDB.getUserById(id).getUsername().equals(curUser.getUsername())){
+                FriendInfo info = conn.getBetweenUsersInfo(id, curUser.getId());
+                if(info.getAccepted() == -1) {
+                %>
+                 <br>
+                 <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=sendRequest"%> >
+                        <button class="btn btn-success">Add Friend</button> </a>
+                 <br><br><br>
+                <%}
+                if(info.getAccepted() == 0) {
+                    if(info.getUser1Id() == id) {
+                    %>
+                        <br>
+                        <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=acceptRequest"%>>
+                                <button class="btn btn-success">Accept Request</button></a><br><br>
+                        <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=rejectRequest"%>>
+                                <button class="btn btn-danger">Reject Request</button></a>
+                        <br><br><br>
+                    <% } else { %>
+                        <br>
+                        <button class="btn btn-secondary">Requested</button><br><br>
+                        <a href=<%="/friends?user1="+id+"&user2="+curUser.getId()+"&action=rejectRequest"%>>
+                                                        <button class="btn btn-danger">Delete Request</button></a>
+                        <br><br><br>
+                    <% }
+                }
+                if(info.getAccepted() == 1){%>
+                        <br>
+                        <a href=<%="/friends?user1="+curUser.getId()+"&user2="+id+"&action=unFriend"%>>
+                                 <button class="btn btn-danger">unFriend</button> </a>
+                        <br><br><br>
+                <% }
+            }%>
+
             <div class="uk-padding-small "  uk-scrollspy="cls: uk-animation-slide-left; repeat: true" style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>
                 <ul class="uk-list uk-list-divider" style="max-height: 200px; overflow: auto">
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
-                    <li><a href="/profile?user=<%= 2%>">akaki</a></li>
+                    <% ArrayList<Integer> friends = fr.getFriendsList(id);
+                       for(Integer friend : friends) {
+                          User myFriend = usersDB.getUserById(friend); %>
+                          <li><a href=<%="/profile?user="+myFriend.getId()%>><%=myFriend.getUsername()%></a></li>
+                       <% } %>
                 </ul>
             </div>
         </div>

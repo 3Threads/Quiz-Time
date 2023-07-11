@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="Types.User" %>
+<%@ page import="FunctionalClasses.FriendsConnect" %>
+<%@ page import="FunctionalClasses.UserConnect" %>
+<%@ page import="java.util.ArrayList" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -66,30 +69,28 @@
                                         <div class="uk-padding-small">
                                             <ul class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
+                                                <%
+                                                    FriendsConnect fr = new FriendsConnect(false);
+                                                    ArrayList<Integer> requests = fr.getFriendsRequests(user.getId());
+                                                    UserConnect us = new UserConnect(false);
+                                                    for(Integer reqId : requests) {
+                                                       User reqUserInfo = us.getUserById(reqId);
+                                                %>
                                                 <li>
                                                     <div class="row">
                                                         <div class="col d-flex align-items-center">
-                                                            <a href="/profile?user=<%= 2%>">akaki</a>
+                                                            <a href=<%="/profile?user="+reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%></a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <button class="btn btn-success">accept</button>
-                                                            <button class="btn btn-danger">Reject</button>
+                                                            <a href=<%="/friends?user1="+user.getId()+"&user2="+reqUserInfo.getId()+"&action=acceptRequest"%>>
+                                                                <button class="btn btn-success">accept</button></a>
+                                                            <a href=<%="/friends?user1="+user.getId()+"&user2="+reqUserInfo.getId()+"&action=rejectRequest"%>>
+                                                            <button class="btn btn-danger">Reject</button></a>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li>
-                                                    <div class="row">
-                                                        <div class="col d-flex align-items-center">
-                                                            <a href="/profile?user=<%= 2%>">akaki</a>
-
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button class="btn btn-success">accept</button>
-                                                            <button class="btn btn-danger">Reject</button>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                                <% } %>
                                             </ul>
 
                                         </div>
