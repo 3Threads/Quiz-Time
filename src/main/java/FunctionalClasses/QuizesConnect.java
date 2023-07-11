@@ -32,10 +32,10 @@ public class QuizesConnect extends SQLConnect {
         ResultSet result = stmt.executeQuery(getQuizzes);
         while (result.next()) {
             int quizId = result.getInt("ID");
-            String quizName = result.getString("QUIZNAME");
-            String description = result.getString("DESCRIPT");
-            int creatorID = result.getInt("CREATORID");
-            Date creatingDate = result.getDate("CREATIONTIME");
+            String quizName = result.getString("QUIZ_NAME");
+            String description = result.getString("DESCRIPTION");
+            int creatorID = result.getInt("CREATOR_ID");
+            Date creatingDate = result.getDate("CREATION_TIME");
             int completed = result.getInt("COMPLETED");
             String questions = result.getString("QUESTIONS");
             Quiz quiz = new Quiz(quizId,quizName, description, creatingDate, creatorID, questions, completed);
@@ -47,8 +47,8 @@ public class QuizesConnect extends SQLConnect {
     public ArrayList<Quiz> getLastDayQuizzes() throws SQLException {
         ArrayList<Quiz> quizzes = new ArrayList<>();
         Statement stmt = connect.createStatement();
-        String getQuizzes = "SELECT * FROM " + tableName + " WHERE CREATIONTIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY)" +
-                                                                                                "ORDER BY CREATIONTIME;";
+        String getQuizzes = "SELECT * FROM " + tableName + " WHERE CREATION_TIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY)" +
+                                                                                                "ORDER BY CREATION_TIME;";
         return getQuizzes(quizzes, stmt, getQuizzes);
     }
     public Quiz getQuizInfo(int quizID) throws SQLException {
