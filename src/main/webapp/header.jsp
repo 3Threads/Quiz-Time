@@ -32,7 +32,7 @@
     <title>Quiz Time</title>
 </head>
 <%
-    User user = (User) session.getAttribute("userInfo");
+    User myUser = (User) session.getAttribute("userInfo");
     UserConnect userConnect = (UserConnect) application.getAttribute("usersDB");
     FriendsConnect friendsConnect = (FriendsConnect) application.getAttribute("friendsDB");
 %>
@@ -72,22 +72,22 @@
                                             <ul class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
-                                                    ArrayList<Integer> requests = friendsConnect.getFriendsRequests(user.getId());
+                                                    ArrayList<Integer> requests = friendsConnect.getFriendsRequests(myUser.getId());
                                                     for (Integer reqId : requests) {
                                                         User reqUserInfo = userConnect.getUserById(reqId);
                                                 %>
                                                 <li>
                                                     <div class="row">
                                                         <div class="col d-flex align-items-center">
-                                                            <a href=<%="/profile?user=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
+                                                            <a href=<%="/profile?myUser=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
                                                             </a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <a href=<%="/friends?user1=" + user.getId() + "&user2=" + reqUserInfo.getId() + "&action=acceptRequest"%>>
+                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=acceptRequest"%>>
                                                                 <button class="btn btn-success">accept</button>
                                                             </a>
-                                                            <a href=<%="/friends?user1=" + user.getId() + "&user2=" + reqUserInfo.getId() + "&action=rejectRequest"%>>
+                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=rejectRequest"%>>
                                                                 <button class="btn btn-danger">Reject</button>
                                                             </a>
                                                         </div>
@@ -175,7 +175,7 @@
                         </div>
                     </div>
 
-                    <a style="margin-right: 3px" href="/profile?user=<%= user.getId()%>"><%=  user.getUsername()%>
+                    <a style="margin-right: 3px" href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
                     </a>
                 </div>
             </div>
