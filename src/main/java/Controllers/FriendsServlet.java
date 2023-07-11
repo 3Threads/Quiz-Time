@@ -17,42 +17,42 @@ public class FriendsServlet extends HttpServlet {
         int user2 = Integer.parseInt(httpServletRequest.getParameter("user2"));
         String action = httpServletRequest.getParameter("action");
         FriendsConnect fr = new FriendsConnect(false);
-        if(action.equals("sendRequest")) {
+        if (action.equals("sendRequest")) {
             try {
                 fr.sendFriendRequest(user1, user2);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        if(action.equals("acceptRequest")) {
+        if (action.equals("acceptRequest")) {
             try {
                 fr.acceptRequest(user1, user2);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        if(action.equals("unRequest")) {
+        if (action.equals("unRequest")) {
             try {
                 fr.rejectRequest(user2, user1);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        if(action.equals("rejectRequest")) {
+        if (action.equals("rejectRequest")) {
             try {
                 fr.rejectRequest(user1, user2);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        if(action.equals("unFriend")) {
+        if (action.equals("unFriend")) {
             try {
                 fr.deleteFriend(user1, user2);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        httpServletResponse.sendRedirect("/profile?user="+user2);
+        httpServletResponse.sendRedirect("/profile?user=" + user2);
     }
 
     @Override
