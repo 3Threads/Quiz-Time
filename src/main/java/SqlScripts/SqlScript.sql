@@ -14,12 +14,6 @@ CREATE TABLE USERS
     PASSWORD CHAR(64)        not null
 );
 
-INSERT INTO USERS (USERNAME, PASSWORD)
-VALUES ('USER1', 'USER1'),
-       ('USER2', 'USER2'),
-       ('USER3', 'USER3'),
-       ('USER4', 'USER4'),
-       ('USER5', 'USER5');
 CREATE TABLE FRIENDS
 (
     ID       int primary key NOT NULL AUTO_INCREMENT,
@@ -31,11 +25,6 @@ CREATE TABLE FRIENDS
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
 
-INSERT INTO FRIENDS (USER1_ID, USER2_ID, ACCEPTED)
-VALUES (1, 2, 1),
-       (2, 3, 0),
-       (4, 5, 1),
-       (5, 3, 0);
 
 CREATE TABLE QUIZZES
 (
@@ -48,13 +37,6 @@ CREATE TABLE QUIZZES
     QUESTIONS     CHAR(64),
     FOREIGN KEY (CREATOR_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
-# INSERT INTO QUIZZES (QUIZ_NAME, DESCRIPTION, COMPLETED, CREATION_TIME, CREATOR_ID, QUESTIONS)
-# VALUES ('quiz1', 'QUIZ', 0, default, 1, '1, 2, 3'),
-#        ('quiz2', 'QUIZ', 2, default, 1, '1'),
-#        ('quiz3', 'QUIZ', 2, default, 2, '2'),
-#        ('quiz4', 'QUIZ', 0, default, 3, '3'),
-#        ('quiz5', 'QUIZ', 1, default, 4, '4'),
-#        ('quiz6', 'QUIZ', 1, default, 5, '5');
 
 CREATE TABLE COMPLETED_QUIZZES
 (
@@ -67,15 +49,6 @@ CREATE TABLE COMPLETED_QUIZZES
     FOREIGN KEY (USER_ID) references USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) references QUIZZES (ID) ON DELETE CASCADE
 );
-INSERT INTO COMPLETED_QUIZZES (USER_ID, QUIZ_ID, SCORE, SPENT_TIME, WRITE_TIME)
-VALUES (1, 3, 10, 17, default),
-       (2, 3, 10, 21, default),
-       (2, 5, 1, 100, default),
-       (2, 6, 0, 0, default),
-       (4, 2, 20, 10, default),
-       (4, 2, 22, 8, default);
-
-
 
 CREATE TABLE CHALLENGES
 (
@@ -87,13 +60,6 @@ CREATE TABLE CHALLENGES
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) references QUIZZES (ID) ON DELETE CASCADE
 );
-INSERT INTO CHALLENGES (USER1_ID, USER2_ID, QUIZ_ID)
-VALUES (1, 2, 1),
-       (1, 3, 1),
-       (1, 4, 1),
-       (1, 5, 2),
-       (2, 1, 3),
-       (3, 5, 5);
 
 CREATE TABLE MESSAGES
 (
@@ -105,9 +71,47 @@ CREATE TABLE MESSAGES
     FOREIGN KEY (USER1_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
+
+INSERT INTO USERS (USERNAME, PASSWORD)
+VALUES ('USER1', 'USER1'),
+       ('USER2', 'USER2'),
+       ('USER3', 'USER3'),
+       ('USER4', 'USER4'),
+       ('USER5', 'USER5');
+
 INSERT INTO MESSAGES (USER1_ID, USER2_ID, MESSAGE)
 VALUES (1, 2, 'hey'),
        (2, 1, 'Hello'),
        (5, 3, 'Accept my friend request'),
        (3, 5, 'NO!'),
        (3, 4, 'Done inserting!');
+
+INSERT INTO FRIENDS (USER1_ID, USER2_ID, ACCEPTED)
+VALUES (1, 2, 1),
+       (2, 3, 0),
+       (4, 5, 1),
+       (5, 3, 0);
+
+INSERT INTO QUIZZES (QUIZ_NAME, DESCRIPTION, COMPLETED, CREATION_TIME, CREATOR_ID, QUESTIONS)
+VALUES ('quiz1', 'QUIZ', 0, default, 1, '1, 2, 3'),
+       ('quiz2', 'QUIZ', 2, default, 1, '1'),
+       ('quiz3', 'QUIZ', 2, default, 2, '2'),
+       ('quiz4', 'QUIZ', 0, default, 3, '3'),
+       ('quiz5', 'QUIZ', 1, default, 4, '4'),
+       ('quiz6', 'QUIZ', 1, default, 5, '5');
+
+INSERT INTO COMPLETED_QUIZZES (USER_ID, QUIZ_ID, SCORE, SPENT_TIME, WRITE_TIME)
+VALUES (1, 3, 10, 17, default),
+       (2, 3, 10, 21, default),
+       (2, 5, 1, 100, default),
+       (2, 6, 0, 0, default),
+       (4, 2, 20, 10, default),
+       (4, 2, 22, 8, default);
+
+INSERT INTO CHALLENGES (USER1_ID, USER2_ID, QUIZ_ID)
+VALUES (1, 2, 1),
+       (1, 3, 1),
+       (1, 4, 1),
+       (1, 5, 2),
+       (2, 1, 3),
+       (3, 5, 5);
