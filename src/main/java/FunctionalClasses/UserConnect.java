@@ -3,11 +3,10 @@ package FunctionalClasses;
 import java.sql.*;
 
 public class UserConnect extends SQLConnect {
-    private final String tableName;
+    private final String tableName = "USERS";
 
-    public UserConnect(String tableName) {
-        super();
-        this.tableName = tableName;
+    public UserConnect(boolean isTesting) {
+        super(isTesting);
     }
 
     public Boolean addUser(String username, String password) {

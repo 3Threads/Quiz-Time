@@ -1,29 +1,41 @@
 package FunctionalClasses;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.*;
 
 public class SQLConnect {
-    protected final String database = "QUIZWEBSITE";
-    private final String server = "jdbc:mysql:// localhost:3306/" + database;
+    protected final String database = "QUIZ_WEBSITE";
+    protected final String databaseTest = "QUIZ_WEBSITE_TEST";
+    private String server = "jdbc:mysql:// localhost:3306/";
     private final String username = "root";
-    private final String password = "password";
+    private final String password = "passwordD1!";
     protected Connection connect;
 
-    public SQLConnect() {
+    public SQLConnect(boolean isTesting) {
+        server += "?allowMultiQueries=true";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connect = DriverManager.getConnection
                     (server, username, password);
-        } catch (ClassNotFoundException | SQLException ex) {
+            String query;
+            if (isTesting) {
+                query = "CREATE DATABASE IF NOT EXISTS " + databaseTest + "; USE " + databaseTest + ";";
+            } else {
+                query = "CREATE DATABASE IF NOT EXISTS " + database + "; USE " + database + ";";
+            }
+            Statement stmt = connect.createStatement();
+            stmt.execute(query);
+            if (isTesting) createAgain();
+        } catch (ClassNotFoundException | SQLException | IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void clear(String tableName) throws SQLException {
-        String query = "DELETE FROM " + tableName;
+    private void createAgain() throws IOException, SQLException {
+        String s = System.getProperty("user.dir") + "/src/main/java/SqlScripts/SqlScriptTEST.sql";
+        String query = Files.readString(Path.of(s));
         Statement stmt = connect.createStatement();
         stmt.execute(query);
     }
