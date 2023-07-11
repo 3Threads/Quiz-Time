@@ -11,7 +11,7 @@
     <title>Quiz Time</title>
 </head>
 <%
-    if (session.getAttribute("isLoggedIn") != null && (Boolean) session.getAttribute("isLoggedIn")) {
+    if (session.getAttribute("userInfo") != null) {
         response.sendRedirect("/homePage");
     }
 %>
@@ -50,7 +50,7 @@
                         </div>
                     </form>
                     <%
-                        if(request.getParameter("loginFailed") != null  && request.getParameter("loginFailed").equals("true")){
+                        if (request.getParameter("loginFailed") != null && request.getParameter("loginFailed").equals("true")) {
                             out.print("<div class='text-danger'>Invalid username or password</div>");
                         }
 
