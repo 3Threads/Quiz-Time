@@ -87,7 +87,7 @@
                                                             <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=acceptRequest"%>>
                                                                 <button class="btn btn-success">accept</button>
                                                             </a>
-                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=rejectRequest"%>>
+                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=rejectRequest&from=homepage"%>>
                                                                 <button class="btn btn-danger">Reject</button>
                                                             </a>
                                                         </div>

@@ -41,6 +41,11 @@ public class FriendsServlet extends HttpServlet {
         if (action.equals("rejectRequest")) {
             try {
                 fr.rejectRequest(user1, user2);
+                String from = httpServletRequest.getParameter("from");
+                if (from.equals("homepage")) {
+                    httpServletResponse.sendRedirect("/homePage");
+                    return;
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
