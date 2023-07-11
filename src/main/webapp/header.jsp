@@ -33,6 +33,8 @@
 </head>
 <%
     User user = (User) session.getAttribute("userInfo");
+    UserConnect userConnect = (UserConnect) application.getAttribute("usersDB");
+    FriendsConnect friendsConnect = (FriendsConnect) application.getAttribute("friendsDB");
 %>
 <body class="bg-dark text-light">
 <div class="container">
@@ -70,23 +72,24 @@
                                             <ul class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
-                                                    FriendsConnect fr = new FriendsConnect(false);
-                                                    ArrayList<Integer> requests = fr.getFriendsRequests(user.getId());
-                                                    UserConnect us = new UserConnect(false);
-                                                    for(Integer reqId : requests) {
-                                                       User reqUserInfo = us.getUserById(reqId);
+                                                    ArrayList<Integer> requests = friendsConnect.getFriendsRequests(user.getId());
+                                                    for (Integer reqId : requests) {
+                                                        User reqUserInfo = userConnect.getUserById(reqId);
                                                 %>
                                                 <li>
                                                     <div class="row">
                                                         <div class="col d-flex align-items-center">
-                                                            <a href=<%="/profile?user="+reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%></a>
+                                                            <a href=<%="/profile?user=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
+                                                            </a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <a href=<%="/friends?user1="+user.getId()+"&user2="+reqUserInfo.getId()+"&action=acceptRequest"%>>
-                                                                <button class="btn btn-success">accept</button></a>
-                                                            <a href=<%="/friends?user1="+user.getId()+"&user2="+reqUserInfo.getId()+"&action=rejectRequest"%>>
-                                                            <button class="btn btn-danger">Reject</button></a>
+                                                            <a href=<%="/friends?user1=" + user.getId() + "&user2=" + reqUserInfo.getId() + "&action=acceptRequest"%>>
+                                                                <button class="btn btn-success">accept</button>
+                                                            </a>
+                                                            <a href=<%="/friends?user1=" + user.getId() + "&user2=" + reqUserInfo.getId() + "&action=rejectRequest"%>>
+                                                                <button class="btn btn-danger">Reject</button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </li>
