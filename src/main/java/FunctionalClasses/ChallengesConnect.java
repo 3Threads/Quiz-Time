@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ChallengesConnect extends SQLConnect {
-    private final String tableName = "CHALANGES";
+    private final String tableName = "CHALLENGES";
 
     public ChallengesConnect(boolean isTesting) {
         super(isTesting);
@@ -30,7 +30,7 @@ public class ChallengesConnect extends SQLConnect {
     }
 
     public void sendChallenge(int fromUserId, int toUserId, int quizId) throws SQLException {
-        String sendChallenge = "INSERT INTO " + tableName + " VALUES(?, ?, ?);";
+        String sendChallenge = "INSERT INTO " + tableName + "(USER1ID, USER2ID, QUIZID) VALUES(?, ?, ?);";
         PreparedStatement preparedStatement = connect.prepareStatement(sendChallenge);
         preparedStatement.setString(1, String.valueOf(fromUserId));
         preparedStatement.setString(2, String.valueOf(toUserId));
