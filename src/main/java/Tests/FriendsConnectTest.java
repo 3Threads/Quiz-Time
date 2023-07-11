@@ -10,10 +10,10 @@ import java.sql.SQLException;
 
 public class FriendsConnectTest {
     private static FriendsConnect friendsConnect;
-    private static UserConnect userConnect;
 
     @BeforeAll
     public static void setUp() {
+        UserConnect userConnect;
         friendsConnect = new FriendsConnect(true);
         userConnect = new UserConnect(true);
         userConnect.addUser("1", "1");
@@ -34,7 +34,7 @@ public class FriendsConnectTest {
 
     //simple 1 request test
     @Test
-    public void test1() throws SQLException {
+    public void testSendRequestSimple() throws SQLException {
         friendsConnect.sendFriendRequest(1, 2);
         assertEquals(1, friendsConnect.getFriendsRequests(2).get(0));
     }
@@ -42,7 +42,9 @@ public class FriendsConnectTest {
 
     // continue test1. accept request
     @Test
-    public void test2() throws SQLException {
+    public void testAcceptRequest() throws SQLException {
+        friendsConnect.rejectRequest(2, 1);
+        friendsConnect.sendFriendRequest(1, 2);
         friendsConnect.acceptRequest(2, 1);
         assertEquals(0, friendsConnect.getFriendsRequests(2).size());
         assertEquals(0, friendsConnect.getFriendsRequests(1).size());
@@ -53,7 +55,7 @@ public class FriendsConnectTest {
 
     // test for a pair of people
     @Test
-    public void test3() throws SQLException {
+    public void testSendRequestComplex() throws SQLException {
         assertEquals(0, friendsConnect.getFriendsRequests(3).size());
         friendsConnect.sendFriendRequest(3, 4);
         assertEquals(3, friendsConnect.getFriendsRequests(4).get(0));
@@ -64,7 +66,7 @@ public class FriendsConnectTest {
 
     // If both people sent friend requests to each other, then they are already friends.
     @Test
-    public void test4() throws SQLException {
+    public void testBothSentFriendRequest() throws SQLException {
         assertEquals(0, friendsConnect.getFriendsRequests(5).size());
         assertEquals(0, friendsConnect.getFriendsRequests(6).size());
         friendsConnect.sendFriendRequest(5, 6);
@@ -76,7 +78,7 @@ public class FriendsConnectTest {
 
     // Testing delete func
     @Test
-    public void test5() throws SQLException {
+    public void testDeleteFriend() throws SQLException {
         assertEquals(0, friendsConnect.getFriendsRequests(7).size());
         assertEquals(0, friendsConnect.getFriendsRequests(8).size());
         friendsConnect.sendFriendRequest(8, 7);
@@ -89,7 +91,7 @@ public class FriendsConnectTest {
 
     // testing reject
     @Test
-    public void test6() throws SQLException {
+    public void testRejectFriend() throws SQLException {
         assertEquals(0, friendsConnect.getFriendsRequests(9).size());
         assertEquals(0, friendsConnect.getFriendsRequests(10).size());
         friendsConnect.sendFriendRequest(9, 10);
@@ -103,7 +105,7 @@ public class FriendsConnectTest {
 
     // Complex test for all functions
     @Test
-    public void test7() throws SQLException {
+    public void testComplex() throws SQLException {
         assertEquals(0, friendsConnect.getFriendsRequests(11).size());
         assertEquals(0, friendsConnect.getFriendsRequests(12).size());
         assertEquals(0, friendsConnect.getFriendsRequests(13).size());
