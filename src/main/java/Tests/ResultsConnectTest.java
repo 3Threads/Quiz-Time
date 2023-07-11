@@ -1,7 +1,7 @@
 package Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import FunctionalClasses.QuizesConnect;
+import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.ResultsConnect;
 import FunctionalClasses.UserConnect;
 import Types.Result;
@@ -17,10 +17,10 @@ public class ResultsConnectTest {
     @BeforeAll
     public static void setup() throws SQLException {
         UserConnect uConnect;
-        QuizesConnect quizzes;
+        QuizzesConnect quizzes;
 
         uConnect = new UserConnect(true);
-        quizzes = new QuizesConnect(true);
+        quizzes = new QuizzesConnect(true);
         results = new ResultsConnect(true);
 
         uConnect.addUser("1", "1");
