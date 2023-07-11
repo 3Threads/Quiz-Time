@@ -7,9 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="Types.User" %>
-<%@ page import="FunctionalClasses.FriendsConnect" %>
-<%@ page import="FunctionalClasses.UserConnect" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="FunctionalClasses.*" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -35,6 +34,10 @@
     User myUser = (User) session.getAttribute("userInfo");
     UserConnect usersConnect = (UserConnect) application.getAttribute("usersDB");
     FriendsConnect friendsConnect = (FriendsConnect) application.getAttribute("friendsDB");
+    ChallengesConnect challengesConnect = (ChallengesConnect) application.getAttribute("challengesDB");
+    MessagesConnect messagesConnect = (MessagesConnect) application.getAttribute("messagesDB");
+    QuizzesConnect quizzesConnect = (QuizzesConnect) application.getAttribute("quizzesDB");
+    ResultsConnect resultsConnect = (ResultsConnect) application.getAttribute("resultsDB");
 %>
 <body class="bg-dark text-light">
 <div class="container">
