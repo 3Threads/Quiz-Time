@@ -28,6 +28,9 @@
 
     <title>Quiz Time</title>
 </head>
+<%
+    User user = (User) session.getAttribute("userInfo");
+%>
 <body class="bg-dark text-light">
 <div class="container">
     <div class="row">
@@ -44,7 +47,7 @@
                     </a>
                     <a>|</a>
                     <i class="bi bi-bell-fill mt-1" style="margin-right: 5px"></i>
-                    <a style="margin-right: 3px" href="#"><%= ((User) session.getAttribute("userInfo")).getUsername() %>
+                    <a style="margin-right: 3px" href="/profile?user=<%= user.getId()%>"><%=  user.getUsername()%>
                     </a>
                 </div>
             </div>
