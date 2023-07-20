@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ResultsDAO {
-    private final String tableName = "COMPLETED_QUIZZES";
     private final BasicDataSource dataSource;
 
     public ResultsDAO(BasicDataSource dataSource) {
@@ -18,12 +17,12 @@ public class ResultsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String addResult = "INSERT INTO " + tableName + " VALUES(default,?,?,?,?,default)";
+            String addResult = "INSERT INTO COMPLETED_QUIZZES VALUES(default,?,?,?,?,default)";
             PreparedStatement preparedStatement = connect.prepareStatement(addResult);
-            preparedStatement.setString(1, String.valueOf(userId));
-            preparedStatement.setString(2, String.valueOf(quizId));
-            preparedStatement.setString(3, String.valueOf(score));
-            preparedStatement.setString(4, String.valueOf(spentTime));
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, quizId);
+            preparedStatement.setInt(3, score);
+            preparedStatement.setTime(4, spentTime);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,12 +40,12 @@ public class ResultsDAO {
     public ArrayList<Result> getUserResults(int userId) {
         Connection connect = null;
         try {
-            ArrayList<Result> results = new ArrayList<>();
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String getResults = "SELECT * FROM " + tableName + " WHERE USER_ID = " + userId + " ORDER BY SCORE DESC;";
+            String getResults = "SELECT * FROM COMPLETED_QUIZZES WHERE USER_ID = ? ORDER BY SCORE DESC;";
+            PreparedStatement statement = connect.prepareStatement(getResults);
+            statement.setInt(1, userId);
 
-            return getResults(results, stmt, getResults);
+            return getResults(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -61,9 +60,9 @@ public class ResultsDAO {
         return null;
     }
 
-    private ArrayList<Result> getResults(ArrayList<Result> results, Statement stmt, String getResults) throws SQLException {
-
-        ResultSet result = stmt.executeQuery(getResults);
+    private ArrayList<Result> getResults(PreparedStatement statement) throws SQLException {
+        ArrayList<Result> results = new ArrayList<>();
+        ResultSet result = statement.executeQuery();
         while (result.next()) {
             Result rs = new Result(result.getInt("USER_ID"), result.getInt("QUIZ_ID"), result.getInt("SCORE"),
                     result.getTime("SPENT_TIME"), result.getDate("WRITE_TIME"));
@@ -77,10 +76,10 @@ public class ResultsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            ArrayList<Result> results = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String getResults = "SELECT * FROM " + tableName + " WHERE QUIZ_ID = " + quizId + " ORDER BY SCORE DESC;";
-            return getResults(results, stmt, getResults);
+            String getResults = "SELECT * FROM COMPLETED_QUIZZES WHERE QUIZ_ID = ? ORDER BY SCORE DESC;";
+            PreparedStatement statement = connect.prepareStatement(getResults);
+            statement.setInt(1, quizId);
+            return getResults(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -99,11 +98,11 @@ public class ResultsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            ArrayList<Result> results = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String getResults = "SELECT * FROM " + tableName + " WHERE USER_ID = " + userId + " AND QUIZ_ID = " +
-                    quizId + " ORDER BY SCORE DESC;";
-            return getResults(results, stmt, getResults);
+            String getResults = "SELECT * FROM COMPLETED_QUIZZES WHERE USER_ID = ? AND QUIZ_ID = ? ORDER BY SCORE DESC;";
+            PreparedStatement statement = connect.prepareStatement(getResults);
+            statement.setInt(1, userId);
+            statement.setInt(2, quizId);
+            return getResults(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

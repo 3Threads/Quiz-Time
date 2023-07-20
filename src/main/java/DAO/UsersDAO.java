@@ -8,7 +8,6 @@ import Types.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class UsersDAO {
-    private final String tableName = "USERS";
     private final BasicDataSource dataSource;
 
     public UsersDAO(BasicDataSource dataSource) {
@@ -19,11 +18,11 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String query = "INSERT INTO " + tableName + " (USERNAME,  PASSWORD) VALUES( ?,  ?)";
-            PreparedStatement preparedStatement = connect.prepareStatement(query);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, HashPassword.stringToHash(password));
-            preparedStatement.executeUpdate();
+            String query = "INSERT INTO USERS (USERNAME,  PASSWORD) VALUES( ?,  ?)";
+            PreparedStatement statement = connect.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, HashPassword.stringToHash(password));
+            statement.executeUpdate();
         } catch (SQLException e) {
             return false;
         } finally {
@@ -43,9 +42,10 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String found = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
-            ResultSet result = stmt.executeQuery(found);
+            String found = "SELECT * FROM USERS WHERE USERNAME = ?;";
+            PreparedStatement statement = connect.prepareStatement(found);
+            statement.setString(1, username);
+            ResultSet result = statement.executeQuery();
             if (!result.next()) return false;
             String hs = HashPassword.stringToHash(password);
             String pass = result.getString("password");
@@ -68,9 +68,10 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String getUserRow = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
-            ResultSet resultSet = stmt.executeQuery(getUserRow);
+            String getUserRow = "SELECT * FROM USERS WHERE USERNAME = ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("ID");
             } else return -1;
@@ -92,9 +93,10 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String getUserRow = "SELECT * FROM " + tableName + " WHERE ID = '" + id + "';";
-            ResultSet resultSet = stmt.executeQuery(getUserRow);
+            String getUserRow = "SELECT * FROM USERS WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return new User(resultSet.getInt("ID"), resultSet.getString("USERNAME"));
             }

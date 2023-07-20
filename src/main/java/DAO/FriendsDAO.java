@@ -7,7 +7,6 @@ import Types.FriendInfo;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class FriendsDAO {
-    private final String tableName = "FRIENDS";
     private final BasicDataSource dataSource;
 
     public FriendsDAO(BasicDataSource dataSource) {
@@ -19,9 +18,10 @@ public class FriendsDAO {
         try {
             connect = dataSource.getConnection();
             ArrayList<Integer> requests = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String foundRequests = "SELECT USER1_ID FROM " + tableName + " WHERE USER2_ID = '" + userID + "' AND ACCEPTED = 0;";
-            ResultSet result = stmt.executeQuery(foundRequests);
+            String foundRequests = "SELECT USER1_ID FROM FRIENDS WHERE USER2_ID = ? AND ACCEPTED = 0;";
+            PreparedStatement statement = connect.prepareStatement(foundRequests);
+            statement.setInt(1, userID);
+            ResultSet result = statement.executeQuery();
             while (result.next()) {
                 int usID = result.getInt("USER1_ID");
                 requests.add(usID);
@@ -45,11 +45,13 @@ public class FriendsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String getInfo = "SELECT * FROM " + tableName + " WHERE (USER1_ID = " + user1 +
-                    " AND USER2_ID = " + user2 + ") OR (USER1_ID = " + user2 +
-                    " AND USER2_ID = " + user1 + ");";
-            ResultSet result = stmt.executeQuery(getInfo);
+            String getInfo = "SELECT * FROM FRIENDS WHERE (USER1_ID = ? AND USER2_ID = ?) OR (USER1_ID = ? AND USER2_ID = ?);";
+            PreparedStatement statement = connect.prepareStatement(getInfo);
+            statement.setInt(1, user1);
+            statement.setInt(2, user2);
+            statement.setInt(3, user2);
+            statement.setInt(4, user1);
+            ResultSet result = statement.executeQuery();
             if (!result.next()) return new FriendInfo(user1, user2, -1);
             return new FriendInfo(result.getInt("USER1_ID"), result.getInt("USER2_ID"),
                     result.getInt("ACCEPTED"));
@@ -72,10 +74,12 @@ public class FriendsDAO {
         try {
             connect = dataSource.getConnection();
             ArrayList<Integer> friends = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String foundFriends = "SELECT USER1_ID FROM " + tableName + " WHERE USER2_ID = '" + userID + "' AND ACCEPTED = 1 union " +
-                    " SELECT USER2_ID FROM FRIENDS WHERE USER1_ID = '" + userID + "' AND ACCEPTED = 1";
-            ResultSet result = stmt.executeQuery(foundFriends);
+            String foundFriends = "SELECT USER1_ID FROM FRIENDS WHERE USER2_ID = ? AND ACCEPTED = 1 union " +
+                    " SELECT USER2_ID FROM FRIENDS WHERE USER1_ID = ? AND ACCEPTED = 1";
+            PreparedStatement statement = connect.prepareStatement(foundFriends);
+            statement.setInt(1, userID);
+            statement.setInt(2, userID);
+            ResultSet result = statement.executeQuery();
             while (result.next()) {
                 int usID = result.getInt("USER1_ID");
                 friends.add(usID);
@@ -104,9 +108,11 @@ public class FriendsDAO {
                 return;
             }
             if (getFriendsList(fromUserId).contains(toUserId)) return;
-            Statement stmt = connect.createStatement();
-            String sendRequest = "INSERT INTO " + tableName + "(USER1_ID, USER2_ID) VALUES(" + fromUserId + "," + toUserId + ");";
-            stmt.execute(sendRequest);
+            String sendRequest = "INSERT INTO FRIENDS (USER1_ID, USER2_ID) VALUES(?,?);";
+            PreparedStatement statement = connect.prepareStatement(sendRequest);
+            statement.setInt(1, fromUserId);
+            statement.setInt(2, toUserId);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -124,10 +130,11 @@ public class FriendsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String acceptFriend = "UPDATE " + tableName + " SET ACCEPTED = 1 WHERE USER1_ID = " + newFriendId +
-                    " AND USER2_ID = " + curUserId + ";";
-            stmt.execute(acceptFriend);
+            String acceptFriend = "UPDATE FRIENDS SET ACCEPTED = 1 WHERE USER1_ID = ? AND USER2_ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(acceptFriend);
+            statement.setInt(1, newFriendId);
+            statement.setInt(2, curUserId);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -145,10 +152,11 @@ public class FriendsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String acceptFriend = "DELETE FROM " + tableName + " WHERE  USER1_ID = " + notNewFriendId +
-                    " AND USER2_ID = " + curUserId + ";";
-            stmt.execute(acceptFriend);
+            String acceptFriend = "DELETE FROM FRIENDS WHERE  USER1_ID = ? AND USER2_ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(acceptFriend);
+            statement.setInt(1, notNewFriendId);
+            statement.setInt(2, curUserId);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -166,11 +174,13 @@ public class FriendsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String acceptFriend = "DELETE FROM " + tableName + " WHERE (USER1_ID = " + notFriend +
-                    " AND USER2_ID = " + curUserId + ") OR (USER1_ID = " + curUserId +
-                    " AND USER2_ID = " + notFriend + ");";
-            stmt.execute(acceptFriend);
+            String acceptFriend = "DELETE FROM FRIENDS WHERE (USER1_ID = ? AND USER2_ID = ?) OR (USER1_ID = ? AND USER2_ID = ?);";
+            PreparedStatement statement = connect.prepareStatement(acceptFriend);
+            statement.setInt(1, notFriend);
+            statement.setInt(2,curUserId);
+            statement.setInt(3, curUserId);
+            statement.setInt(4, notFriend);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

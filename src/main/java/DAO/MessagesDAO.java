@@ -7,7 +7,6 @@ import Types.Message;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class MessagesDAO {
-    private final String tableName = "MESSAGES";
     private final BasicDataSource dataSource;
 
     public MessagesDAO(BasicDataSource dataSource) {
@@ -19,11 +18,13 @@ public class MessagesDAO {
         try {
             connect = dataSource.getConnection();
             ArrayList<Message> messages = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String getMessages = "SELECT USER1_ID, USER2_ID, MESSAGE FROM " + tableName + " where (USER1_ID = '" + curUserId + "' AND USER2_ID = '" +
-                    friendId + "') OR (USER1_ID = '" + friendId + "' AND USER2_ID = '" +
-                    curUserId + "') ORDER BY SEND_DATE;";
-            ResultSet result = stmt.executeQuery(getMessages);
+            String getMessages = "SELECT USER1_ID, USER2_ID, MESSAGE FROM MESSAGES where (USER1_ID = ? AND USER2_ID = ?) OR (USER1_ID = ? AND USER2_ID = ?) ORDER BY SEND_DATE;";
+            PreparedStatement statement = connect.prepareStatement(getMessages);
+            statement.setInt(1, curUserId);
+            statement.setInt(2, friendId);
+            statement.setInt(3, friendId);
+            statement.setInt(4, curUserId);
+            ResultSet result = statement.executeQuery();
             while (result.next()) {
                 int from = result.getInt("USER1_ID");
                 int to = result.getInt("USER2_ID");
@@ -50,12 +51,12 @@ public class MessagesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "INSERT INTO " + tableName + "(USER1_ID, USER2_ID, MESSAGE) VALUES(?,?,?)";
-            PreparedStatement preparedStatement = connect.prepareStatement(str);
-            preparedStatement.setString(1, String.valueOf(fromUserId));
-            preparedStatement.setString(2, String.valueOf(toUserId));
-            preparedStatement.setString(3, message);
-            preparedStatement.executeUpdate();
+            String str = "INSERT INTO MESSAGES (USER1_ID, USER2_ID, MESSAGE) VALUES(?,?,?)";
+            PreparedStatement statement = connect.prepareStatement(str);
+            statement.setString(1, String.valueOf(fromUserId));
+            statement.setString(2, String.valueOf(toUserId));
+            statement.setString(3, message);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -7,7 +7,6 @@ import Types.Quiz;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class QuizzesDAO {
-    private final String tableName = "QUIZZES";
     private final BasicDataSource dataSource;
 
     public QuizzesDAO(BasicDataSource dataSource) {
@@ -18,13 +17,13 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "INSERT INTO " + tableName + " VALUES(default,?,?,0,default,?,?)";
-            PreparedStatement preparedStatement = connect.prepareStatement(str);
-            preparedStatement.setString(1, quizName);
-            preparedStatement.setString(2, description);
-            preparedStatement.setString(3, String.valueOf(creatorID));
-            preparedStatement.setString(4, questions);
-            preparedStatement.executeUpdate();
+            String str = "INSERT INTO QUIZZES VALUES(default,?,?,0,default,?,?)";
+            PreparedStatement statement = connect.prepareStatement(str);
+            statement.setString(1, quizName);
+            statement.setString(2, description);
+            statement.setInt(3, creatorID);
+            statement.setString(4, questions);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -42,10 +41,10 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            ArrayList<Quiz> quizzes = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String getQuizzes = "SELECT * FROM " + tableName + " ORDER BY COMPLETED DESC LIMIT " + limit + ";";
-            return getQuizzes(quizzes, stmt, getQuizzes);
+            String getQuizzes = "SELECT * FROM QUIZZES ORDER BY COMPLETED DESC LIMIT ?;";
+            PreparedStatement statement = connect.prepareStatement(getQuizzes);
+            statement.setInt(1, limit);
+            return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -60,8 +59,9 @@ public class QuizzesDAO {
         return null;
     }
 
-    private ArrayList<Quiz> getQuizzes(ArrayList<Quiz> quizzes, Statement stmt, String getQuizzes) throws SQLException {
-        ResultSet result = stmt.executeQuery(getQuizzes);
+    private ArrayList<Quiz> getQuizzes(PreparedStatement statement) throws SQLException {
+        ArrayList<Quiz> quizzes = new ArrayList<>();
+        ResultSet result = statement.executeQuery();
         while (result.next()) {
             int quizId = result.getInt("ID");
             String quizName = result.getString("QUIZ_NAME");
@@ -80,11 +80,10 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            ArrayList<Quiz> quizzes = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String getQuizzes = "SELECT * FROM " + tableName + " WHERE CREATION_TIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY)" +
+            String getQuizzes = "SELECT * FROM QUIZZES WHERE CREATION_TIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY)" +
                     "ORDER BY CREATION_TIME;";
-            return getQuizzes(quizzes, stmt, getQuizzes);
+            PreparedStatement statement = connect.prepareStatement(getQuizzes);
+            return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -103,10 +102,10 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String getQuiz = "SELECT * FROM QUIZZES WHERE ID = " + quizID + ";";
-            ArrayList<Quiz> quizzes = new ArrayList<>();
-            getQuizzes(quizzes, stmt, getQuiz);
+            String getQuiz = "SELECT * FROM QUIZZES WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(getQuiz);
+            statement.setInt(1, quizID);
+            ArrayList<Quiz> quizzes = getQuizzes(statement);
             if (quizzes.isEmpty()) return null;
             else return quizzes.get(0);
         } catch (SQLException e) {
@@ -127,9 +126,10 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String updateCompletedNum = "UPDATE QUIZZES SET COMPLETED = COMPLETED + 1 WHERE ID = " + quizId + ";";
-            stmt.execute(updateCompletedNum);
+            String updateCompletedNum = "UPDATE QUIZZES SET COMPLETED = COMPLETED + 1 WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(updateCompletedNum);
+            statement.setInt(1, quizId);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -147,9 +147,10 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            String deleteQuiz = "DELETE FROM QUIZZES WHERE ID = " + quizId + ";";
-            stmt.execute(deleteQuiz);
+            String deleteQuiz = "DELETE FROM QUIZZES WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(deleteQuiz);
+            statement.setInt(1, quizId);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

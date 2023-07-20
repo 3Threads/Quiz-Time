@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ChallengesDao {
-    private final String tableName = "CHALLENGES";
     private final BasicDataSource dataSource;
 
     public ChallengesDao(BasicDataSource dataSource) {
@@ -19,9 +18,10 @@ public class ChallengesDao {
         try {
             connect = dataSource.getConnection();
             ArrayList<Challange> challenges = new ArrayList<>();
-            Statement stmt = connect.createStatement();
-            String foundChallenges = "SELECT USER1_ID, QUIZ_ID FROM " + tableName + " WHERE USER2_ID = " + userId + ";";
-            ResultSet result = stmt.executeQuery(foundChallenges);
+            String foundChallenges = "SELECT USER1_ID, QUIZ_ID FROM CHALLENGES WHERE USER2_ID = ?";
+            PreparedStatement statement = connect.prepareStatement(foundChallenges);
+            statement.setInt(1, userId);
+            ResultSet result = statement.executeQuery();
             while (result.next()) {
                 int id = result.getInt("USER1_ID");
                 int quizId = result.getInt("QUIZ_ID");
@@ -47,12 +47,12 @@ public class ChallengesDao {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String sendChallenge = "INSERT INTO " + tableName + "(USER1_ID, USER2_ID, QUIZ_ID) VALUES(?, ?, ?);";
-            PreparedStatement preparedStatement = connect.prepareStatement(sendChallenge);
-            preparedStatement.setString(1, String.valueOf(fromUserId));
-            preparedStatement.setString(2, String.valueOf(toUserId));
-            preparedStatement.setString(3, String.valueOf(quizId));
-            preparedStatement.executeUpdate();
+            String sendChallenge = "INSERT INTO CHALLENGES (USER1_ID, USER2_ID, QUIZ_ID) VALUES(?, ?, ?);";
+            PreparedStatement statement = connect.prepareStatement(sendChallenge);
+            statement.setInt(1, fromUserId);
+            statement.setInt(2, toUserId);
+            statement.setInt(3, quizId);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
