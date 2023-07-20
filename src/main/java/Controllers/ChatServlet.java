@@ -1,5 +1,8 @@
 package Controllers;
 
+import DAO.MessagesDAO;
+import Types.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,12 +17,24 @@ public class ChatServlet extends HttpServlet {
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
         } else {
+            if(httpServletRequest.getParameter("chatWith") != null) {
+                MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
+                User curUser = (User)httpServletRequest.getSession().getAttribute("userInfo");
+                msg.setMessagesSeen(curUser.getId(), Integer.parseInt(httpServletRequest.getParameter("chatWith")));
+            }
             httpServletRequest.getRequestDispatcher("chat.jsp").forward(httpServletRequest, httpServletResponse);
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        String message = httpServletRequest.getParameter("message");
+        if(httpServletRequest.getParameter("sendTo") != null ) {
+            System.out.println("aaa");
+            int sendTo = Integer.parseInt(httpServletRequest.getParameter("sendTo"));
+            User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+            MessagesDAO connect = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
+            connect.sendMessage(myUser.getId(), sendTo, message);
+        }
     }
 }
