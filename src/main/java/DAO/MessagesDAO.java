@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import Types.Message;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class MessagesConnect {
+public class MessagesDAO {
     private final String tableName = "MESSAGES";
     private final BasicDataSource dataSource;
 
-    public MessagesConnect(BasicDataSource dataSource) {
+    public MessagesDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

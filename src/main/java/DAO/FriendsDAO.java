@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import Types.FriendInfo;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class FriendsConnect {
+public class FriendsDAO {
     private final String tableName = "FRIENDS";
     private final BasicDataSource dataSource;
 
-    public FriendsConnect(BasicDataSource dataSource) {
+    public FriendsDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

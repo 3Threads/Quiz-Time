@@ -1,7 +1,7 @@
 package Tests;
 
-import FunctionalClasses.DataSource;
-import FunctionalClasses.UserConnect;
+import DAO.DataSource;
+import DAO.UsersDAO;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,15 +9,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserConnectTest {
+public class UsersDAOTest {
 
-    private static UserConnect connect;
+    private static UsersDAO connect;
 
     @BeforeAll
     public static void setup() {
         BasicDataSource dataSource = DataSource.getDataSource(true);
 
-        connect = new UserConnect(dataSource);
+        connect = new UsersDAO(dataSource);
     }
 
 

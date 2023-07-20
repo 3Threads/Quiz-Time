@@ -1,6 +1,6 @@
 package Controllers;
 
-import FunctionalClasses.FriendsConnect;
+import DAO.FriendsDAO;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +15,7 @@ public class FriendsServlet extends HttpServlet {
         int user1 = Integer.parseInt(httpServletRequest.getParameter("user1"));
         int user2 = Integer.parseInt(httpServletRequest.getParameter("user2"));
         String action = httpServletRequest.getParameter("action");
-        FriendsConnect fr = (FriendsConnect) httpServletRequest.getServletContext().getAttribute("friendsDB");
+        FriendsDAO fr = (FriendsDAO) httpServletRequest.getServletContext().getAttribute("friendsDB");
         if (action.equals("sendRequest")) {
             fr.sendFriendRequest(user1, user2);
         }

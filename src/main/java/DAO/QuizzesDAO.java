@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import Types.Quiz;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class QuizzesConnect {
+public class QuizzesDAO {
     private final String tableName = "QUIZZES";
     private final BasicDataSource dataSource;
 
-    public QuizzesConnect(BasicDataSource dataSource) {
+    public QuizzesDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

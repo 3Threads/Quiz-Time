@@ -1,6 +1,6 @@
 package Controllers;
 
-import FunctionalClasses.UserConnect;
+import DAO.UsersDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +24,7 @@ public class CreateAccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
-        UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
+        UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
             if (sql.addUser(username, password)) {
                 httpServletResponse.sendRedirect("/login");

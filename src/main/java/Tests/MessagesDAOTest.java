@@ -1,8 +1,8 @@
 package Tests;
 
-import FunctionalClasses.DataSource;
-import FunctionalClasses.MessagesConnect;
-import FunctionalClasses.UserConnect;
+import DAO.DataSource;
+import DAO.MessagesDAO;
+import DAO.UsersDAO;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,16 +10,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class MessagesConnectTest {
-    private static MessagesConnect mConnect;
+public class MessagesDAOTest {
+    private static MessagesDAO mConnect;
 
     @BeforeAll
     public static void setup() {
         BasicDataSource dataSource = DataSource.getDataSource(true);
 
-        UserConnect uConnect;
-        mConnect = new MessagesConnect(dataSource);
-        uConnect = new UserConnect(dataSource);
+        UsersDAO uConnect;
+        mConnect = new MessagesDAO(dataSource);
+        uConnect = new UsersDAO(dataSource);
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");
         uConnect.addUser("3", "1");

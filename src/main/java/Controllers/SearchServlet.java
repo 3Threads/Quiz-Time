@@ -1,6 +1,6 @@
 package Controllers;
 
-import FunctionalClasses.UserConnect;
+import DAO.UsersDAO;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ public class SearchServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
         } else {
             String searchUserName = httpServletRequest.getParameter("search");
-            UserConnect usConnect = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
+            UsersDAO usConnect = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
             int searchUserId;
             searchUserId = usConnect.getUserId(searchUserName);
             if (searchUserId != 0) {

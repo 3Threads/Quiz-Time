@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package DAO;
 
 import Types.Result;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -6,11 +6,11 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ResultsConnect {
+public class ResultsDAO {
     private final String tableName = "COMPLETED_QUIZZES";
     private final BasicDataSource dataSource;
 
-    public ResultsConnect(BasicDataSource dataSource) {
+    public ResultsDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

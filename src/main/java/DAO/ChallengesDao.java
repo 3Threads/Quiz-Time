@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package DAO;
 
 import Types.Challange;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -6,11 +6,11 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ChallengesConnect {
+public class ChallengesDao {
     private final String tableName = "CHALLENGES";
     private final BasicDataSource dataSource;
 
-    public ChallengesConnect(BasicDataSource dataSource) {
+    public ChallengesDao(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

@@ -1,16 +1,17 @@
-package FunctionalClasses;
+package DAO;
 
 
 import java.sql.*;
 
+import BusinessLogic.HashPassword;
 import Types.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class UserConnect {
+public class UsersDAO {
     private final String tableName = "USERS";
     private final BasicDataSource dataSource;
 
-    public UserConnect(BasicDataSource dataSource) {
+    public UsersDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

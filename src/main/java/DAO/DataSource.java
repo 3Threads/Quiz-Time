@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package DAO;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 

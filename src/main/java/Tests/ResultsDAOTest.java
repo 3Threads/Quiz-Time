@@ -1,9 +1,9 @@
 package Tests;
 
-import FunctionalClasses.DataSource;
-import FunctionalClasses.QuizzesConnect;
-import FunctionalClasses.ResultsConnect;
-import FunctionalClasses.UserConnect;
+import DAO.DataSource;
+import DAO.QuizzesDAO;
+import DAO.ResultsDAO;
+import DAO.UsersDAO;
 import Types.Result;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ResultsConnectTest {
-    private static ResultsConnect results;
+public class ResultsDAOTest {
+    private static ResultsDAO results;
 
     /*
         Creating users, quizzes and results of users on quizzes
@@ -24,12 +24,12 @@ public class ResultsConnectTest {
     public static void setup() {
         BasicDataSource dataSource = DataSource.getDataSource(true);
 
-        UserConnect uConnect;
-        QuizzesConnect quizzes;
+        UsersDAO uConnect;
+        QuizzesDAO quizzes;
 
-        uConnect = new UserConnect(dataSource);
-        quizzes = new QuizzesConnect(dataSource);
-        results = new ResultsConnect(dataSource);
+        uConnect = new UsersDAO(dataSource);
+        quizzes = new QuizzesDAO(dataSource);
+        results = new ResultsDAO(dataSource);
 
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");

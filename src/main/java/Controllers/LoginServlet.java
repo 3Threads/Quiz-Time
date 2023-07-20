@@ -1,6 +1,6 @@
 package Controllers;
 
-import FunctionalClasses.UserConnect;
+import DAO.UsersDAO;
 import Types.User;
 
 import javax.servlet.ServletException;
@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
-        UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
+        UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
             if (sql.checkUser(username, password)) {
                 int userId = sql.getUserId(username);
