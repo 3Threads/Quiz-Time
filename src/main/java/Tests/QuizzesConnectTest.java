@@ -1,32 +1,40 @@
 package Tests;
-import static org.junit.jupiter.api.Assertions.*;
+
+import FunctionalClasses.DataSource;
 import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.UserConnect;
 import Types.Quiz;
-import org.junit.jupiter.api.*;
-import java.sql.SQLException;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class QuizzesConnectTest {
     private static QuizzesConnect quizzes;
 
     //Creating users and quizzes
     @BeforeAll
-    public static void setup() throws SQLException {
+    public static void setup() {
+        BasicDataSource dataSource = DataSource.getDataSource(true);
+
         UserConnect uConnect;
-        quizzes = new QuizzesConnect(true);
-        uConnect = new UserConnect(true);
+        quizzes = new QuizzesConnect(dataSource);
+        uConnect = new UserConnect(dataSource);
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");
         uConnect.addUser("3", "1");
         uConnect.addUser("4", "2");
         uConnect.addUser("5", "1");
-        quizzes.addQuiz("quiz1", "new quiz", 1,  "1, 2, 3, 4" );
-        quizzes.addQuiz("quiz2", "new quiz", 3,  "1, 2, 3, 4, 5" );
-        quizzes.addQuiz("quiz3", "new quiz", 2,  "1, 2, 3" );
-        quizzes.addQuiz("quiz4", "my quiz", 1,  "1, 2, 3, 5, 7, 8" );
-        quizzes.addQuiz("quiz5", "new quiz", 2,  "1, 2, 3" );
-        quizzes.addQuiz("quiz6", "my quiz", 1,  "1, 2, 3, 5, 7, 8" );
+        quizzes.addQuiz("quiz1", "new quiz", 1, "1, 2, 3, 4");
+        quizzes.addQuiz("quiz2", "new quiz", 3, "1, 2, 3, 4, 5");
+        quizzes.addQuiz("quiz3", "new quiz", 2, "1, 2, 3");
+        quizzes.addQuiz("quiz4", "my quiz", 1, "1, 2, 3, 5, 7, 8");
+        quizzes.addQuiz("quiz5", "new quiz", 2, "1, 2, 3");
+        quizzes.addQuiz("quiz6", "my quiz", 1, "1, 2, 3, 5, 7, 8");
     }
 
     /*
@@ -34,7 +42,7 @@ public class QuizzesConnectTest {
         by using getQuizInfo method and checking returned info.
      */
     @Test
-    public void testAddQuizzes1() throws SQLException {
+    public void testAddQuizzes1() {
         Quiz quiz1 = quizzes.getQuizInfo(1);
         assertEquals(1, quiz1.getQuizId());
         assertEquals("quiz1", quiz1.getQuizName());
@@ -42,8 +50,9 @@ public class QuizzesConnectTest {
         assertEquals(1, quiz1.getCreatorID());
         assertEquals("[1,  2,  3,  4]", quiz1.getQuestionsID().toString());
     }
+
     @Test
-    public void testAddQuizzes2() throws SQLException {
+    public void testAddQuizzes2() {
         Quiz quiz2 = quizzes.getQuizInfo(2);
         assertEquals(2, quiz2.getQuizId());
         assertEquals("quiz2", quiz2.getQuizName());
@@ -63,11 +72,12 @@ public class QuizzesConnectTest {
         assertEquals(1, quiz4.getCreatorID());
         assertEquals("[1,  2,  3,  5,  7,  8]", quiz4.getQuestionsID().toString());
     }
+
     /*
-        Testing quiz delete method and with getQuizInfo checking that this quiz does not exist in data base
+        Testing quiz delete method and with getQuizInfo checking that this quiz does not exist in database
      */
     @Test
-    public void testDeleteQuiz() throws SQLException {
+    public void testDeleteQuiz() {
         quizzes.deleteQuiz(5);
         assertNull(quizzes.getQuizInfo(5));
         quizzes.deleteQuiz(6);
@@ -81,18 +91,18 @@ public class QuizzesConnectTest {
         reference to the method the limit of list size and checking that returns correctly list
      */
     @Test
-    public void testCompletedQuizAndPopularQuizzes() throws SQLException {
-        for(int i = 0; i < 5; i++) {
+    public void testCompletedQuizAndPopularQuizzes() {
+        for (int i = 0; i < 5; i++) {
             quizzes.completeQuiz(2);
         }
         Quiz quiz = quizzes.getQuizInfo(2);
         assertEquals(5, quiz.getCompleted());
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             quizzes.completeQuiz(1);
         }
         quiz = quizzes.getQuizInfo(1);
         assertEquals(10, quiz.getCompleted());
-        for(int i = 0; i < 15; i++) {
+        for (int i = 0; i < 15; i++) {
             quizzes.completeQuiz(3);
         }
         quiz = quizzes.getQuizInfo(3);
@@ -124,7 +134,7 @@ public class QuizzesConnectTest {
     }
 
     @Test
-    public void testLastDayQuizzes() throws SQLException {
+    public void testLastDayQuizzes() {
         ArrayList<Quiz> quizzes1 = quizzes.getLastDayQuizzes();
         assertEquals(6, quizzes1.size());
     }

@@ -4,16 +4,20 @@ package FunctionalClasses;
 import java.sql.*;
 
 import Types.User;
+import org.apache.commons.dbcp2.BasicDataSource;
 
-public class UserConnect extends SQLConnect {
+public class UserConnect {
     private final String tableName = "USERS";
+    private final BasicDataSource dataSource;
 
-    public UserConnect(boolean isTesting) {
-        super(isTesting);
+    public UserConnect(BasicDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public Boolean addUser(String username, String password) {
+        Connection connect = null;
         try {
+            connect = dataSource.getConnection();
             String query = "INSERT INTO " + tableName + " (USERNAME,  PASSWORD) VALUES( ?,  ?)";
             PreparedStatement preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, username);
@@ -21,36 +25,89 @@ public class UserConnect extends SQLConnect {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             return false;
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return true;
     }
 
 
-    public boolean checkUser(String username, String password) throws SQLException {
-        Statement stmt = connect.createStatement();
-        String found = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
-        ResultSet result = stmt.executeQuery(found);
-        if (!result.next()) return false;
-        String hs = HashPassword.stringToHash(password);
-        String pass = result.getString("password");
-        return pass.equals(hs);
+    public boolean checkUser(String username, String password) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            Statement stmt = connect.createStatement();
+            String found = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
+            ResultSet result = stmt.executeQuery(found);
+            if (!result.next()) return false;
+            String hs = HashPassword.stringToHash(password);
+            String pass = result.getString("password");
+            return pass.equals(hs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
     }
 
-    public int getUserId(String username) throws SQLException {
-        Statement stmt = connect.createStatement();
-        String getUserRow = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
-        ResultSet resultSet = stmt.executeQuery(getUserRow);
-        if (resultSet.next()) {
-            return resultSet.getInt("ID");
-        } else return 0;
+    public int getUserId(String username) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            Statement stmt = connect.createStatement();
+            String getUserRow = "SELECT * FROM " + tableName + " WHERE USERNAME = '" + username + "';";
+            ResultSet resultSet = stmt.executeQuery(getUserRow);
+            if (resultSet.next()) {
+                return resultSet.getInt("ID");
+            } else return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return -1;
     }
 
-    public User getUserById(int id) throws SQLException {
-        Statement stmt = connect.createStatement();
-        String getUserRow = "SELECT * FROM " + tableName + " WHERE ID = '" + id + "';";
-        ResultSet resultSet = stmt.executeQuery(getUserRow);
-        if (resultSet.next()) {
-            return new User(resultSet.getInt("ID"), resultSet.getString("USERNAME"));
+    public User getUserById(int id) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            Statement stmt = connect.createStatement();
+            String getUserRow = "SELECT * FROM " + tableName + " WHERE ID = '" + id + "';";
+            ResultSet resultSet = stmt.executeQuery(getUserRow);
+            if (resultSet.next()) {
+                return new User(resultSet.getInt("ID"), resultSet.getString("USERNAME"));
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }

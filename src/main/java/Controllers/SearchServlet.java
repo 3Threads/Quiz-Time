@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 
 @WebServlet(name = "search", value = "/search")
@@ -18,16 +17,12 @@ public class SearchServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
         } else {
             String searchUserName = httpServletRequest.getParameter("search");
-            UserConnect usConnect = new UserConnect(false);
+            UserConnect usConnect = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
             int searchUserId;
-            try {
-                searchUserId = usConnect.getUserId(searchUserName);
-                if(searchUserId != 0) {
-                    httpServletResponse.sendRedirect("/profile?user=" + searchUserId);
-                } else  httpServletResponse.sendRedirect("/homePage");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            searchUserId = usConnect.getUserId(searchUserName);
+            if (searchUserId != 0) {
+                httpServletResponse.sendRedirect("/profile?user=" + searchUserId);
+            } else httpServletResponse.sendRedirect("/homePage");
         }
     }
 

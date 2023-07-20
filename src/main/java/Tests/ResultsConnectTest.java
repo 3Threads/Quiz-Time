@@ -1,16 +1,18 @@
 package Tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import FunctionalClasses.DataSource;
 import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.ResultsConnect;
 import FunctionalClasses.UserConnect;
 import Types.Result;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ResultsConnectTest {
     private static ResultsConnect results;
@@ -19,13 +21,15 @@ public class ResultsConnectTest {
         Creating users, quizzes and results of users on quizzes
      */
     @BeforeAll
-    public static void setup() throws SQLException {
+    public static void setup() {
+        BasicDataSource dataSource = DataSource.getDataSource(true);
+
         UserConnect uConnect;
         QuizzesConnect quizzes;
 
-        uConnect = new UserConnect(true);
-        quizzes = new QuizzesConnect(true);
-        results = new ResultsConnect(true);
+        uConnect = new UserConnect(dataSource);
+        quizzes = new QuizzesConnect(dataSource);
+        results = new ResultsConnect(dataSource);
 
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");
@@ -33,12 +37,12 @@ public class ResultsConnectTest {
         uConnect.addUser("4", "2");
         uConnect.addUser("5", "1");
 
-        quizzes.addQuiz("quiz1", "new quiz", 1,  "1, 2, 3, 4" );
-        quizzes.addQuiz("quiz2", "new quiz", 3,  "1, 2, 3, 4, 5" );
-        quizzes.addQuiz("quiz3", "new quiz", 2,  "1, 2, 3" );
-        quizzes.addQuiz("quiz4", "my quiz", 1,  "1, 2, 3, 5, 7, 8" );
-        quizzes.addQuiz("quiz5", "new quiz", 2,  "1, 2, 3" );
-        quizzes.addQuiz("quiz6", "my quiz", 1,  "1, 2, 3, 5, 7, 8" );
+        quizzes.addQuiz("quiz1", "new quiz", 1, "1, 2, 3, 4");
+        quizzes.addQuiz("quiz2", "new quiz", 3, "1, 2, 3, 4, 5");
+        quizzes.addQuiz("quiz3", "new quiz", 2, "1, 2, 3");
+        quizzes.addQuiz("quiz4", "my quiz", 1, "1, 2, 3, 5, 7, 8");
+        quizzes.addQuiz("quiz5", "new quiz", 2, "1, 2, 3");
+        quizzes.addQuiz("quiz6", "my quiz", 1, "1, 2, 3, 5, 7, 8");
 
         results.addResult(1, 1, 10, new Time(1000));
         results.addResult(1, 1, 15, new Time(800));
@@ -53,7 +57,7 @@ public class ResultsConnectTest {
         Testing that addResult method works correctly by using getUserResultsOnQuiz method
      */
     @Test
-    public void testAddResult() throws SQLException {
+    public void testAddResult() {
         ArrayList<Result> res = results.getUserResultsOnQuiz(3, 4);
         assertEquals(res.size(), 1);
         assertEquals(res.get(0).getScore(), 10);
@@ -75,24 +79,25 @@ public class ResultsConnectTest {
         assertEquals(res.get(0).getScore(), 15);
         assertEquals(res.get(1).getScore(), 10);
     }
+
     /*
         Testing getQuizResults and check if every return result is about one quiz
      */
     @Test
-    public void testGetQuizResults() throws SQLException {
+    public void testGetQuizResults() {
         ArrayList<Result> res = results.getQuizResults(2);
         assertEquals(res.size(), 1);
         assertEquals(res.get(0).getQuizId(), 2);
-        assertEquals(res.get(0).getScore(),30);
+        assertEquals(res.get(0).getScore(), 30);
 
         res = results.getQuizResults(6);
         assertEquals(res.size(), 1);
         assertEquals(res.get(0).getQuizId(), 6);
-        assertEquals(res.get(0).getScore(),30);
+        assertEquals(res.get(0).getScore(), 30);
 
         res = results.getQuizResults(1);
         assertEquals(res.size(), 4);
-        for(Result rs : res) {
+        for (Result rs : res) {
             assertEquals(rs.getQuizId(), 1);
         }
         assertEquals(res.get(0).getScore(), 15);
@@ -100,11 +105,12 @@ public class ResultsConnectTest {
         assertEquals(res.get(2).getScore(), 14);
         assertEquals(res.get(3).getScore(), 10);
     }
+
     /*
         Testing getUserResults and check if every return result is about one user
      */
     @Test
-    public void testUserResults() throws SQLException {
+    public void testUserResults() {
         ArrayList<Result> res = results.getUserResults(4);
         assertEquals(res.size(), 1);
         assertEquals(res.get(0).getUserId(), 4);
@@ -125,15 +131,15 @@ public class ResultsConnectTest {
 
         res = results.getUserResults(1);
         assertEquals(res.size(), 3);
-        for(Result rs : res) assertEquals(rs.getUserId(), 1);
+        for (Result rs : res) assertEquals(rs.getUserId(), 1);
         Result res1 = res.get(0);
-        assertEquals(res1.getQuizId(),2);
+        assertEquals(res1.getQuizId(), 2);
         assertEquals(res1.getScore(), 30);
         Result res2 = res.get(1);
-        assertEquals(res2.getQuizId(),1);
+        assertEquals(res2.getQuizId(), 1);
         assertEquals(res2.getScore(), 15);
         Result res3 = res.get(2);
-        assertEquals(res3.getQuizId(),1);
+        assertEquals(res3.getQuizId(), 1);
         assertEquals(res3.getScore(), 10);
     }
 }

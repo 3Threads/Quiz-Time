@@ -1,25 +1,26 @@
 package Tests;
 
 import FunctionalClasses.ChallengesConnect;
+import FunctionalClasses.DataSource;
 import FunctionalClasses.QuizzesConnect;
 import FunctionalClasses.UserConnect;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChallengesConnectTest {
     private static ChallengesConnect challengesConnect;
 
     @BeforeAll
-    public static void init() throws SQLException {
+    public static void init() {
+        BasicDataSource dataSource = DataSource.getDataSource(true);
         UserConnect userConnect;
         QuizzesConnect quizzesConnect;
-        challengesConnect = new ChallengesConnect(true);
-        userConnect = new UserConnect(true);
-        quizzesConnect = new QuizzesConnect(true);
+        challengesConnect = new ChallengesConnect(dataSource);
+        userConnect = new UserConnect(dataSource);
+        quizzesConnect = new QuizzesConnect(dataSource);
         userConnect.addUser("1", "1");
         userConnect.addUser("2", "2");
         userConnect.addUser("3", "3");
@@ -35,7 +36,7 @@ public class ChallengesConnectTest {
 
     // Checks functions and ordering of challenges
     @Test
-    public void testSendChallenges() throws SQLException {
+    public void testSendChallenges() {
         challengesConnect.sendChallenge(4, 1, 4);
         assertEquals(4, challengesConnect.getChallenges(1).get(0).getQuizId());
         challengesConnect.sendChallenge(4, 1, 5);
@@ -52,7 +53,7 @@ public class ChallengesConnectTest {
 
     // Checks functions and ordering of challenges. If 2 people sent same quiz challenge to someone it means he got 2 different challenges.
     @Test
-    public void testSendChallenges2() throws SQLException {
+    public void testSendChallenges2() {
         challengesConnect.sendChallenge(1, 4, 6);
         challengesConnect.sendChallenge(3, 4, 2);
         challengesConnect.sendChallenge(2, 4, 3);

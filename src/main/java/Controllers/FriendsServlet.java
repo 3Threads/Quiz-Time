@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(name = "friends", value = "/friends")
 public class FriendsServlet extends HttpServlet {
@@ -16,46 +15,26 @@ public class FriendsServlet extends HttpServlet {
         int user1 = Integer.parseInt(httpServletRequest.getParameter("user1"));
         int user2 = Integer.parseInt(httpServletRequest.getParameter("user2"));
         String action = httpServletRequest.getParameter("action");
-        FriendsConnect fr = new FriendsConnect(false);
+        FriendsConnect fr = (FriendsConnect) httpServletRequest.getServletContext().getAttribute("friendsDB");
         if (action.equals("sendRequest")) {
-            try {
-                fr.sendFriendRequest(user1, user2);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            fr.sendFriendRequest(user1, user2);
         }
         if (action.equals("acceptRequest")) {
-            try {
-                fr.acceptRequest(user1, user2);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            fr.acceptRequest(user1, user2);
         }
         if (action.equals("cancelRequest")) {
-            try {
-                fr.rejectRequest(user2, user1);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            fr.rejectRequest(user2, user1);
         }
         if (action.equals("rejectRequest")) {
-            try {
-                fr.rejectRequest(user1, user2);
-                String from = httpServletRequest.getParameter("from");
-                if (from.equals("homepage")) {
-                    httpServletResponse.sendRedirect("/homePage");
-                    return;
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            fr.rejectRequest(user1, user2);
+            String from = httpServletRequest.getParameter("from");
+            if (from.equals("homepage")) {
+                httpServletResponse.sendRedirect("/homePage");
+                return;
             }
         }
         if (action.equals("unfriend")) {
-            try {
-                fr.deleteFriend(user1, user2);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            fr.deleteFriend(user1, user2);
         }
         httpServletResponse.sendRedirect("/profile?user=" + user2);
     }
