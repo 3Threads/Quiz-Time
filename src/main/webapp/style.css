@@ -14,6 +14,31 @@ a {
     border-radius: 10px;
 }
 
+.fullWidthList {
+    width: 100%;
+    padding: 5px;
+}
+
+.fullWidthList:hover {
+    text-decoration: none;
+    background-color: #363636;
+    color: white;
+}
+
+.messageParagraph {
+    word-break: break-all;
+    white-space: normal;
+    margin: 5px;
+}
+
+.messageBox {
+    padding: 7px;
+    height: auto;
+    width: 70%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
