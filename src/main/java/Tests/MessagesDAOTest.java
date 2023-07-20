@@ -1,22 +1,25 @@
 package Tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import FunctionalClasses.MessagesConnect;
-import FunctionalClasses.UserConnect;
+import DAO.DataSource;
+import DAO.MessagesDAO;
+import DAO.UsersDAO;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class MessagesConnectTest {
-    private static MessagesConnect mConnect;
+public class MessagesDAOTest {
+    private static MessagesDAO mConnect;
 
     @BeforeAll
     public static void setup() {
-        UserConnect uConnect;
-        mConnect = new MessagesConnect(true);
-        uConnect = new UserConnect(true);
+        BasicDataSource dataSource = DataSource.getDataSource(true);
+
+        UsersDAO uConnect;
+        mConnect = new MessagesDAO(dataSource);
+        uConnect = new UsersDAO(dataSource);
         uConnect.addUser("1", "1");
         uConnect.addUser("2", "2");
         uConnect.addUser("3", "1");
@@ -33,7 +36,7 @@ public class MessagesConnectTest {
 
     //simple 1 message test
     @Test
-    public void testSimpleSendMessage() throws SQLException {
+    public void testSimpleSendMessage() {
         mConnect.sendMessage(1, 2, "ggg");
         assertEquals("ggg", mConnect.getMessagesWith(1, 2).get(0).getMessage());
     }
@@ -41,7 +44,7 @@ public class MessagesConnectTest {
 
     //incorrect message sent
     @Test
-    public void testIncorrectMessageSent() throws SQLException {
+    public void testIncorrectMessageSent() {
         mConnect.sendMessage(3, 4, "g");
         assertNotEquals("ggg", mConnect.getMessagesWith(3, 4).get(0).getMessage());
     }
@@ -49,7 +52,7 @@ public class MessagesConnectTest {
 
     //2 messages sent from 1-->2 and from 2-->1
     @Test
-    public void testSendMessageToEachOther1() throws SQLException {
+    public void testSendMessageToEachOther1() {
         mConnect.sendMessage(5, 6, "1");
         mConnect.sendMessage(6, 5, "2");
         assertEquals("1", mConnect.getMessagesWith(5, 6).get(0).getMessage());
@@ -58,7 +61,7 @@ public class MessagesConnectTest {
 
     //same test as "testSendMessageToEachOther1" but sent 2--->1 and then 1-->2
     @Test
-    public void testSendMessageToEachOther2() throws SQLException {
+    public void testSendMessageToEachOther2() {
         mConnect.sendMessage(6, 5, "1");
         mConnect.sendMessage(5, 6, "2");
         assertEquals("1", mConnect.getMessagesWith(5, 6).get(0).getMessage());
@@ -68,7 +71,7 @@ public class MessagesConnectTest {
 
     //Mixed messages
     @Test
-    public void testComplexMessages() throws SQLException {
+    public void testComplexMessages() {
         mConnect.sendMessage(7, 9, "79");
         mConnect.sendMessage(7, 10, "710");
         mConnect.sendMessage(10, 7, "107");

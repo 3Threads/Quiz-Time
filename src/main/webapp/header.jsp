@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="Types.User" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="FunctionalClasses.*" %>
+<%@ page import="DAO.*" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -32,12 +32,12 @@
 </head>
 <%
     User myUser = (User) session.getAttribute("userInfo");
-    UserConnect usersConnect = (UserConnect) application.getAttribute("usersDB");
-    FriendsConnect friendsConnect = (FriendsConnect) application.getAttribute("friendsDB");
-    ChallengesConnect challengesConnect = (ChallengesConnect) application.getAttribute("challengesDB");
-    MessagesConnect messagesConnect = (MessagesConnect) application.getAttribute("messagesDB");
-    QuizzesConnect quizzesConnect = (QuizzesConnect) application.getAttribute("quizzesDB");
-    ResultsConnect resultsConnect = (ResultsConnect) application.getAttribute("resultsDB");
+    UsersDAO usersDAO = (UsersDAO) application.getAttribute("usersDB");
+    FriendsDAO friendsDAO = (FriendsDAO) application.getAttribute("friendsDB");
+    ChallengesDao challengesDAO = (ChallengesDao) application.getAttribute("challengesDB");
+    MessagesDAO messagesDAO = (MessagesDAO) application.getAttribute("messagesDB");
+    QuizzesDAO quizzesDAO = (QuizzesDAO) application.getAttribute("quizzesDB");
+    ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
 %>
 <body class="bg-dark text-light">
 <div class="container">
@@ -75,9 +75,9 @@
                                             <ul class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
-                                                    ArrayList<Integer> requests = friendsConnect.getFriendsRequests(myUser.getId());
+                                                    ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());
                                                     for (Integer reqId : requests) {
-                                                        User reqUserInfo = usersConnect.getUserById(reqId);
+                                                        User reqUserInfo = usersDAO.getUserById(reqId);
                                                 %>
                                                 <li>
                                                     <div class="row">

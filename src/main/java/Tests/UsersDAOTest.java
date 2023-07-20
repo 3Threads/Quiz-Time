@@ -1,34 +1,36 @@
 package Tests;
 
-import FunctionalClasses.UserConnect;
+import DAO.DataSource;
+import DAO.UsersDAO;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserConnectTest {
+public class UsersDAOTest {
 
-    private static UserConnect connect;
+    private static UsersDAO connect;
 
     @BeforeAll
-    public static void init() {
-        connect = new UserConnect(true);
+    public static void setup() {
+        BasicDataSource dataSource = DataSource.getDataSource(true);
+
+        connect = new UsersDAO(dataSource);
     }
 
 
     // check before and after adding
     @Test
-    public void testFullCheck() throws SQLException {
+    public void testFullCheck() {
         assertFalse(connect.checkUser("2@2.com", "2"));
         connect.addUser("2", "2");
         assertTrue(connect.checkUser("2", "2"));
     }
 
     @Test
-    public void testAddUser() throws SQLException {
+    public void testAddUser() {
         assertTrue(connect.addUser("1", "1"));
         assertTrue(connect.checkUser("1", "1"));
     }
@@ -41,7 +43,7 @@ public class UserConnectTest {
     }
 
     @Test
-    public void testMultipleAdds() throws SQLException {
+    public void testMultipleAdds() {
         assertTrue(connect.addUser("3", "3"));
         assertTrue(connect.addUser("31", "31"));
         assertTrue(connect.addUser("32", "32"));

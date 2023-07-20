@@ -1,6 +1,7 @@
 package Listeners;
 
-import FunctionalClasses.*;
+import DAO.*;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -8,18 +9,20 @@ import javax.servlet.ServletContextListener;
 public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        UserConnect userConnect = new UserConnect(false);
-        servletContextEvent.getServletContext().setAttribute("usersDB", userConnect);
-        FriendsConnect friendsConnect = new FriendsConnect(false);
-        servletContextEvent.getServletContext().setAttribute("friendsDB", friendsConnect);
-        ChallengesConnect challengesConnect = new ChallengesConnect(false);
-        servletContextEvent.getServletContext().setAttribute("challengesDB", challengesConnect);
-        MessagesConnect messagesConnect = new MessagesConnect(false);
-        servletContextEvent.getServletContext().setAttribute("messagesDB", messagesConnect);
-        QuizzesConnect quizzesConnect = new QuizzesConnect(false);
-        servletContextEvent.getServletContext().setAttribute("quizzesDB", quizzesConnect);
-        ResultsConnect resultsConnect = new ResultsConnect(false);
-        servletContextEvent.getServletContext().setAttribute("resultsDB", resultsConnect);
+        BasicDataSource dataSource = DataSource.getDataSource(false);
+
+        UsersDAO usersDAO = new UsersDAO(dataSource);
+        servletContextEvent.getServletContext().setAttribute("usersDB", usersDAO);
+        FriendsDAO friendsDAO = new FriendsDAO(dataSource);
+        servletContextEvent.getServletContext().setAttribute("friendsDB", friendsDAO);
+        ChallengesDao challengesDAO = new ChallengesDao(dataSource);
+        servletContextEvent.getServletContext().setAttribute("challengesDB", challengesDAO);
+        MessagesDAO messagesDAO = new MessagesDAO(dataSource);
+        servletContextEvent.getServletContext().setAttribute("messagesDB", messagesDAO);
+        QuizzesDAO quizzesDAO = new QuizzesDAO(dataSource);
+        servletContextEvent.getServletContext().setAttribute("quizzesDB", quizzesDAO);
+        ResultsDAO resultsDAO = new ResultsDAO(dataSource);
+        servletContextEvent.getServletContext().setAttribute("resultsDB", resultsDAO);
     }
 
     @Override

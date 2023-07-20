@@ -1,13 +1,14 @@
 package Controllers;
 
+import DAO.UsersDAO;
 import Types.User;
-import FunctionalClasses.UserConnect;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 
 @WebServlet(name = "login", value = "/login")
@@ -25,7 +26,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
-        UserConnect sql = (UserConnect) httpServletRequest.getServletContext().getAttribute("usersDB");
+        UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         try {
             if (sql.checkUser(username, password)) {
                 int userId = sql.getUserId(username);
@@ -35,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 httpServletResponse.sendRedirect("/login?loginFailed=true");
             }
-        } catch (SQLException | IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

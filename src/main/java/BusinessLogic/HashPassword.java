@@ -1,4 +1,4 @@
-package FunctionalClasses;
+package BusinessLogic;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -7,7 +7,7 @@ public class HashPassword {
     private static final String salt = "MACS";
 
     public static String hexToString(byte[] bytes) {
-        StringBuffer buff = new StringBuffer();
+        StringBuilder buff = new StringBuilder();
         for (int aByte : bytes) {
             int val = aByte;
             val = val & 0xff;  // remove higher bits, sign

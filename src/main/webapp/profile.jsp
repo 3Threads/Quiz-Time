@@ -1,16 +1,7 @@
 <%@ page import="Types.User" %>
-<%@ page import="FunctionalClasses.UserConnect" %>
-<%@ page import="java.sql.SQLException" %><%--
-  Created by IntelliJ IDEA.
-  User: agurg
-  Date: 7/10/2023
-  Time: 10:08 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="Types.User" %>
 <%@ page import="Types.FriendInfo" %>
-<%@ page import="FunctionalClasses.FriendsConnect" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -33,7 +24,7 @@
 <%@include file="header.jsp" %>
 <%
     int profileId = Integer.parseInt(request.getParameter("user"));
-    User pageUser = usersConnect.getUserById(profileId);
+    User pageUser = usersDAO.getUserById(profileId);
 %>
 <body class="bg-dark text-light">
 <br><br>
@@ -44,7 +35,7 @@
             </h3>
             <br>
             <% if (profileId != myUser.getId()) {
-                FriendInfo info = friendsConnect.getBetweenUsersInfo(profileId, myUser.getId());
+                FriendInfo info = friendsDAO.getBetweenUsersInfo(profileId, myUser.getId());
                 if (info.getAccepted() == -1) {
             %>
             <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=sendRequest"%>>
@@ -78,9 +69,9 @@
                  style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>
                 <ul class="uk-list uk-list-divider" style="max-height: 200px; overflow: auto">
-                    <% ArrayList<Integer> friends = friendsConnect.getFriendsList(profileId);
+                    <% ArrayList<Integer> friends = friendsDAO.getFriendsList(profileId);
                         for (Integer friend : friends) {
-                            User myFriend = usersConnect.getUserById(friend); %>
+                            User myFriend = usersDAO.getUserById(friend); %>
                     <li><a href=<%="/profile?user=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                     </a></li>
                     <% } %>
@@ -155,8 +146,5 @@
     </div>
 </div>
 
-</div>
-</div>
-</div>
 </body>
 </html>

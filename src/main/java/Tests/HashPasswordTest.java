@@ -1,6 +1,6 @@
 package Tests;
 
-import FunctionalClasses.HashPassword;
+import BusinessLogic.HashPassword;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
