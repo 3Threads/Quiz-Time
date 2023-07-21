@@ -132,16 +132,17 @@ public class MessagesDAO {
         try {
             connect = dataSource.getConnection();
             ArrayList<Integer> interactors = new ArrayList<>();
-            String foundInteractors = "SELECT USER1_ID FROM MESSAGES WHERE USER2_ID = ? union " +
-                    " SELECT USER2_ID FROM MESSAGES WHERE USER1_ID = ?";
+            String foundInteractors = "SELECT USER1_ID, SEND_DATE FROM MESSAGES WHERE USER2_ID = ? union " +
+                    " SELECT USER2_ID, SEND_DATE FROM MESSAGES WHERE USER1_ID = ? ORDER BY SEND_DATE DESC";
             PreparedStatement statement = connect.prepareStatement(foundInteractors);
             statement.setInt(1, userID);
             statement.setInt(2, userID);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 int usID = result.getInt("USER1_ID");
-                if(!interactors.contains(userID)) interactors.add(usID);
+                if(!interactors.contains(usID)) interactors.add(usID);
             }
+            System.out.println(interactors);
             return interactors;
         } catch (SQLException e) {
             e.printStackTrace();
