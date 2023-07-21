@@ -126,4 +126,35 @@ public class MessagesDAO {
             }
         }
     }
+
+    public ArrayList<Integer> getInteractorsList(int userID){
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            ArrayList<Integer> interactors = new ArrayList<>();
+            String foundInteractors = "SELECT USER1_ID FROM MESSAGES WHERE USER2_ID = ? union " +
+                    " SELECT USER2_ID FROM MESSAGES WHERE USER1_ID = ?";
+            PreparedStatement statement = connect.prepareStatement(foundInteractors);
+            statement.setInt(1, userID);
+            statement.setInt(2, userID);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                int usID = result.getInt("USER1_ID");
+                if(!interactors.contains(userID)) interactors.add(usID);
+            }
+            return interactors;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
 }

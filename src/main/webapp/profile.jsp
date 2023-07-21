@@ -62,8 +62,13 @@
             <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=unfriend"%>>
                 <button class="btn btn-danger">unfriend</button>
             </a>
-            <% }
-            }%>
+
+            <% } %>
+            <a href=<%="/chat?chatWith=" + pageUser.getId()%>>
+                <button class="btn btn-primary">chat</button>
+            </a>
+            <% } %>
+
             <br><br><br>
             <div class="uk-padding-small " uk-scrollspy="cls: uk-animation-slide-left; repeat: true"
                  style="border: solid 1px gray; border-radius: 10px;">

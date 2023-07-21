@@ -86,9 +86,10 @@
         <div class="col-3" style="height: 100%;">
             <ul class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
-                <% ArrayList<Integer> friends = friendsDAO.getFriendsList(myUser.getId());
-                    for (Integer friend : friends) {
-                        User myFriend = usersDAO.getUserById(friend);%>
+                <% ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
+                    for (Integer person : interactors) {
+                        User myFriend = usersDAO.getUserById(person);
+                %>
                 <li>
                     <div  class="d-flex align-items-center" <%if(request.getParameter("chatWith") != null
                             && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))){%> style="background-color: #3e4042;" <%}%>>
