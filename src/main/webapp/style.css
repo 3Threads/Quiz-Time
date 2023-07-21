@@ -39,6 +39,15 @@ a {
     margin-bottom: 10px;
 }
 
+.fullWidthList {
+    display: inline-block;
+}
+
+.fullWidthList div {
+    display: inline-block;
+    float: right;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
