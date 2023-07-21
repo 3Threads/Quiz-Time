@@ -26,7 +26,7 @@
         const msg = document.getElementById("message").value;
         const url = "chat?sendTo=" + document.getElementById("sendInp").value + "&message=" + msg;
         http.onreadystatechange = function () {
-            if (http.readyState == 4) {
+            if (http.readyState === 4 && msg.trim() !== "") {
                 $('#message').val('')
                 $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
                 $('.chatBox').scrollTop(function () {
@@ -91,14 +91,14 @@
                     if (request.getParameter("chatWith") != null) {
                         chatId = Integer.parseInt(request.getParameter("chatWith"));
                         User myFriend = usersDAO.getUserById(chatId);
-                        if(!interactors.contains(myFriend.getId())) {
-                            %>
-                        <div  class="d-flex align-items-center" style="background-color: #3e4042;">
-                            <a class="fullWidthList" href=<%="/chat?chatWith="+ myFriend.getId()%>><%=myFriend.getUsername()%>
-                            </a>
-                            <div id=<%="friend"+myFriend.getId()%>></div>
-                        </div>
-                    <%
+                        if (!interactors.contains(myFriend.getId())) {
+                %>
+                <div class="d-flex align-items-center" style="background-color: #3e4042;">
+                    <a class="fullWidthList" href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
+                    </a>
+                    <div id=<%="friend" + myFriend.getId()%>></div>
+                </div>
+                <%
 
                         }
                     }

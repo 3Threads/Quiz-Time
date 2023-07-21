@@ -17,14 +17,14 @@ public class ChatServlet extends HttpServlet {
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
         } else {
-            if(httpServletRequest.getParameter("chatWith") != null) {
+            if (httpServletRequest.getParameter("chatWith") != null) {
                 User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-                if(Integer.parseInt(httpServletRequest.getParameter("chatWith")) == myUser.getId()) {
+                if (Integer.parseInt(httpServletRequest.getParameter("chatWith")) == myUser.getId()) {
                     httpServletResponse.sendRedirect("/chat");
                     return;
                 }
                 MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
-                User curUser = (User)httpServletRequest.getSession().getAttribute("userInfo");
+                User curUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
                 msg.setMessagesSeen(curUser.getId(), Integer.parseInt(httpServletRequest.getParameter("chatWith")));
             }
             httpServletRequest.getRequestDispatcher("chat.jsp").forward(httpServletRequest, httpServletResponse);
@@ -32,9 +32,9 @@ public class ChatServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String message = httpServletRequest.getParameter("message");
-        if(httpServletRequest.getParameter("sendTo") != null ) {
+        if (httpServletRequest.getParameter("sendTo") != null && !message.trim().equals("")) {
             int sendTo = Integer.parseInt(httpServletRequest.getParameter("sendTo"));
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
             MessagesDAO connect = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
