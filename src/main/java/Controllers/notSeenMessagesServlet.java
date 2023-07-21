@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 @WebServlet(name = "notSeen", value = "/notSeen")
-public class notSeenMessegesServlet extends HttpServlet {
+public class notSeenMessagesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         PrintWriter out = httpServletResponse.getWriter();
@@ -32,7 +32,7 @@ public class notSeenMessegesServlet extends HttpServlet {
             ArrayList<String> messages = notSeen.get(us);
             for(String msg : messages) {
                 out.println(us+"\n<div class=\"uk-align-left messageBox\" style=\"background-color: #3e4042;\">\n" +
-                       "                        <p class=\"messageParagraph\">" + msg + "</p> </div>");
+                        "                        <p class=\"messageParagraph\">" + msg + "</p> </div>");
             }
         }
     }
