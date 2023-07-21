@@ -7,8 +7,13 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class MessagesDAOTest {
     private static MessagesDAO mConnect;
@@ -20,16 +25,10 @@ public class MessagesDAOTest {
         UsersDAO uConnect;
         mConnect = new MessagesDAO(dataSource);
         uConnect = new UsersDAO(dataSource);
-        uConnect.addUser("1", "1");
-        uConnect.addUser("2", "2");
-        uConnect.addUser("3", "1");
-        uConnect.addUser("4", "2");
-        uConnect.addUser("5", "1");
-        uConnect.addUser("6", "2");
-        uConnect.addUser("7", "2");
-        uConnect.addUser("8", "2");
-        uConnect.addUser("9", "2");
-        uConnect.addUser("10", "2");
+
+        for (int i = 1; i <= 40; i++) {
+            uConnect.addUser(String.valueOf(i), "1" + (i%2));
+        }
 
     }
 
@@ -89,4 +88,104 @@ public class MessagesDAOTest {
 
     }
 
+    @Test
+    public void testGetInteractorsSimple(){
+        mConnect.sendMessage(16, 17, "1");
+        mConnect.sendMessage(18, 16, "1");
+        mConnect.sendMessage(16, 19, "1");
+        ArrayList<Integer> list1 =mConnect.getInteractorsList(16);
+
+        ArrayList<Integer> list2 = new ArrayList<>();
+        list2.add(17);
+        list2.add(18);
+        list2.add(19);
+
+        Collections.sort(list1);
+        Collections.sort(list2);
+        assertTrue(list1.equals(list2));
+    }
+
+    @Test
+    public void testGetInteractorsMedium1(){
+        mConnect.sendMessage(21, 22, "1");
+        mConnect.sendMessage(21, 23, "1");
+
+        mConnect.sendMessage(21, 24, "1");
+        mConnect.sendMessage(24, 21, "1");
+        mConnect.sendMessage(21, 25, "1");
+
+        mConnect.sendMessage(21, 26, "1");
+
+        mConnect.sendMessage(21, 27, "1");
+        mConnect.sendMessage(27, 21, "1");
+        ArrayList<Integer> list1 =mConnect.getInteractorsList(21);
+
+        ArrayList<Integer> list2 = new ArrayList<>();
+        for (int i = 22; i <= 27; i++) {
+            list2.add(i);
+        }
+
+        Collections.sort(list1);
+        Collections.sort(list2);
+        assertEquals(list1, list2);
+    }
+
+    @Test
+    public void testGetInteractorsMedium2(){
+        for (int j = 32; j < 38; j++) {
+            mConnect.sendMessage(j, 31, "1");
+        }
+        ArrayList<Integer> list1 =mConnect.getInteractorsList(31);
+
+        ArrayList<Integer> list2 = new ArrayList<>();
+        for (int i = 32; i <= 37; i++) {
+            list2.add(i);
+        }
+
+        assertEquals(list1, list2);
+    }
+
+    @Test
+    public void testGetInteractorsHard(){
+        mConnect.sendMessage(11, 12, "1");
+        mConnect.sendMessage(11, 12, "1");
+
+        mConnect.sendMessage(12, 13, "2");
+        mConnect.sendMessage(13, 12, "2");
+
+        mConnect.sendMessage(13, 14, "3");
+        mConnect.sendMessage(14, 13, "3");
+
+        mConnect.sendMessage(14, 15, "4");
+        mConnect.sendMessage(15, 14, "4");
+        mConnect.sendMessage(14, 15, "4");
+        mConnect.sendMessage(14, 15, "4");
+        mConnect.sendMessage(15, 14, "4");
+
+        ArrayList<Integer> list1 =mConnect.getInteractorsList(11);
+        ArrayList<Integer> list2 =mConnect.getInteractorsList(12);
+        ArrayList<Integer> list3 =mConnect.getInteractorsList(13);
+        ArrayList<Integer> list4 =mConnect.getInteractorsList(14);
+        ArrayList<Integer> list5 =mConnect.getInteractorsList(15);
+
+        ArrayList<Integer> res1 = new ArrayList<>();
+        res1.add(12);
+        ArrayList<Integer> res2 = new ArrayList<>();
+        res2.add(11);
+        res2.add(13);
+        ArrayList<Integer> res3 = new ArrayList<>();
+        res3.add(12);
+        res3.add(14);
+        ArrayList<Integer> res4 = new ArrayList<>();
+        res4.add(13);
+        res4.add(15);
+        ArrayList<Integer> res5 = new ArrayList<>();
+        res5.add(14);
+
+        assertEquals(list1, res1);
+        assertEquals(list2, res2);
+        assertEquals(list3, res3);
+        assertEquals(list4, res4);
+        assertEquals(list5, res5);
+    }
 }
