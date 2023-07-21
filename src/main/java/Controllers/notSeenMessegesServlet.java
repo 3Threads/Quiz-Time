@@ -3,6 +3,8 @@ package Controllers;
 
 import DAO.MessagesDAO;
 import Types.User;
+import com.mysql.cj.xdevapi.JsonArray;
+import netscape.javascript.JSObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,17 +24,16 @@ public class notSeenMessegesServlet extends HttpServlet {
         PrintWriter out = httpServletResponse.getWriter();
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+        if(myUser == null) return;
         HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
-        int id = Integer.parseInt(httpServletRequest.getParameter("chatWith"));
-        if(notSeen.keySet().contains(id)) {
-            messagesDAO.setMessagesSeen(myUser.getId(), id);
-            ArrayList<String> messages = notSeen.get(id);
-            StringBuilder k = new StringBuilder();
+        if(httpServletRequest.getParameter("chatWith") == null) return;
+        for(int us : notSeen.keySet()) {
+            messagesDAO.setMessagesSeen(myUser.getId(), us);
+            ArrayList<String> messages = notSeen.get(us);
             for(String msg : messages) {
-                k.append("\n<div class=\"uk-align-left messageBox\" style=\"background-color: #3e4042;\">\n" +
-                        "                        <p class=\"messageParagraph\">" + msg + "</p> </div>");
+                out.println(us+"\n<div class=\"uk-align-left messageBox\" style=\"background-color: #3e4042;\">\n" +
+                       "                        <p class=\"messageParagraph\">" + msg + "</p> </div>");
             }
-            out.println(k.toString());
         }
     }
 }

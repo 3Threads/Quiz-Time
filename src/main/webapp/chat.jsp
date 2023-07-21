@@ -42,9 +42,28 @@
     }
     function getMessages() {
         $.get('notSeen', { chatWith: <%=request.getParameter("chatWith")%>}, (responseText)=>{
-            console.log(responseText);
-            $('#chat').html($('#chat').html() + responseText);
-            $('#chat').scrollTop=$('#chat').scrollHeight;
+            if(responseText != '') {
+                let str = "";
+                for (let i = 0; i < responseText.length; i++) {
+                    if (responseText[i] == '<') break;
+                    str += responseText[i];
+                }
+                let id = parseInt(str);
+                if (id == <%=request.getParameter("chatWith")%>) {
+                    console.log(responseText);
+                    $('#chat').html($('#chat').html() + responseText);
+                } else {
+                    let fr = "friend" + id;
+                    var textContent = document.getElementById(fr).textContent;
+                    if (textContent == '') {
+                        let x = 1;
+                        document.getElementById(fr).innerText = x.toString();
+                    } else {
+                        let x = parseInt(textContent) + 1;
+                        document.getElementById(fr).innerText = x.toString();
+                    }
+                }
+            }
         });
     }
 
@@ -66,10 +85,11 @@
                 for (Integer friend : friends) {
                 User myFriend = usersDAO.getUserById(friend);%>
                 <li>
-                    <div class="d-flex align-items-center" <%if(request.getParameter("chatWith") != null
+                    <div  class="d-flex align-items-center" <%if(request.getParameter("chatWith") != null
                         && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))){%> style="background-color: #3e4042;" <%}%>>
                         <a class="fullWidthList" href=<%="/chat?chatWith="+ myFriend.getId()%>><%=myFriend.getUsername()%>
                         </a>
+                        <div id=<%="friend"+myFriend.getId()%>></div>
                     </div>
                 </li>
                 <%

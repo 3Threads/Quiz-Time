@@ -18,6 +18,10 @@ public class ChatServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
         } else {
             if(httpServletRequest.getParameter("chatWith") != null) {
+                User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+                if(Integer.parseInt(httpServletRequest.getParameter("chatWith")) == myUser.getId()) {
+                    httpServletRequest.getRequestDispatcher("chat.jsp");
+                }
                 MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
                 User curUser = (User)httpServletRequest.getSession().getAttribute("userInfo");
                 msg.setMessagesSeen(curUser.getId(), Integer.parseInt(httpServletRequest.getParameter("chatWith")));
@@ -30,7 +34,6 @@ public class ChatServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         String message = httpServletRequest.getParameter("message");
         if(httpServletRequest.getParameter("sendTo") != null ) {
-            System.out.println("aaa");
             int sendTo = Integer.parseInt(httpServletRequest.getParameter("sendTo"));
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
             MessagesDAO connect = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
