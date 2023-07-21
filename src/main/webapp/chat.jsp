@@ -24,55 +24,60 @@
     function fc() {
         const http = new XMLHttpRequest();
         const msg = document.getElementById("message").value;
-        const url = "chat?sendTo=" + document.getElementById("sendInp").value + "&message="+msg;
+        const url = "chat?sendTo=" + document.getElementById("sendInp").value + "&message=" + msg;
         http.onreadystatechange = function () {
-            if(http.readyState == 4) {
-                document.getElementById("message").value = "";
-                let newDiv = document.createElement("div");
-                newDiv.setAttribute("class", "uk-align-right bg-primary messageBox");
-                let newP = document.createElement("p");
-                newP.setAttribute("class", "messageParagraph");
-                newP.innerText = msg;
-                newDiv.append(newP);
-                document.getElementById("chat").append(newDiv);
+            if (http.readyState == 4) {
+                $('#message').val('')
+                $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
+                $('.chatBox').scrollTop(function () {
+                    return this.scrollHeight;
+                });
             }
         }
-        http.open("POST",url);
+        http.open("POST", url);
         http.send(null);
     }
+
     function getMessages() {
-        $.get('notSeen', { chatWith: <%=request.getParameter("chatWith")%>}, (responseText)=>{
-            if(responseText != '') {
+        $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
+            if (responseText !== '') {
                 let str = "";
                 for (let i = 0; i < responseText.length; i++) {
-                    if (responseText[i] == '<') break;
+                    if (responseText[i] === '<') break;
                     str += responseText[i];
                 }
                 let id = parseInt(str);
                 if (id == <%=request.getParameter("chatWith")%>) {
-                    console.log(responseText);
+                    const chatBox = $(".chatBox");
+                    const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
                     $('#chat').html($('#chat').html() + responseText);
+                    if (responseText !== "" && shouldScroll) {
+                        chatBox.scrollTop(function () {
+                            return this.scrollHeight;
+                        });
+                    }
                 } else {
                     let fr = "friend" + id;
-                    var textContent = document.getElementById(fr).textContent;
-                    if (textContent == '') {
-                        let x = 1;
-                        document.getElementById(fr).innerText = x.toString();
-                    } else {
-                        let x = parseInt(textContent) + 1;
-                        document.getElementById(fr).innerText = x.toString();
+
+                    const textContent = $('#' + fr).text();
+                    let x = 1;
+                    if (textContent !== '') {
+                        x = parseInt(textContent) + 1;
                     }
+                    $('#' + fr).text(x.toString());
                 }
             }
         });
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         setInterval(getMessages, 1000);
+        $(".chatBox").scrollTop(function () {
+            return this.scrollHeight;
+        });
     });
 </script>
 <body>
-<div id="akaki"></div>
 <%@include file="header.jsp" %>
 <% Integer chatId = null;%>
 <div class="container">
@@ -82,28 +87,28 @@
             <ul class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
                 <% ArrayList<Integer> friends = friendsDAO.getFriendsList(myUser.getId());
-                for (Integer friend : friends) {
-                User myFriend = usersDAO.getUserById(friend);%>
+                    for (Integer friend : friends) {
+                        User myFriend = usersDAO.getUserById(friend);%>
                 <li>
                     <div  class="d-flex align-items-center" <%if(request.getParameter("chatWith") != null
-                        && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))){%> style="background-color: #3e4042;" <%}%>>
+                            && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))){%> style="background-color: #3e4042;" <%}%>>
                         <a class="fullWidthList" href=<%="/chat?chatWith="+ myFriend.getId()%>><%=myFriend.getUsername()%>
                         </a>
                         <div id=<%="friend"+myFriend.getId()%>></div>
                     </div>
                 </li>
                 <%
-                }
+                    }
                 %>
             </ul>
         </div>
 
         <div class="col"></div>
         <div class="col-8 " style="max-height: 100%;">
-            <div class="overflow-auto " style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
+            <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
                 <div id="chat" class="container-fluid uk-padding-small">
-                <% if (request.getParameter("chatWith") != null) {
-                chatId = Integer.parseInt(request.getParameter("chatWith"));%>
+                    <% if (request.getParameter("chatWith") != null) {
+                        chatId = Integer.parseInt(request.getParameter("chatWith"));%>
                     <%
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
                         for (Message message : messages) {
@@ -114,20 +119,21 @@
                         </p>
                     </div>
                     <% } else { %>
-                        <div class="uk-align-right bg-primary messageBox">
-                            <p class="messageParagraph"><%=message.getMessage()%>
-                            </p>
-                        </div>
-                <%      }
+                    <div class="uk-align-right bg-primary messageBox">
+                        <p class="messageParagraph"><%=message.getMessage()%>
+                        </p>
+                    </div>
+                    <% }
                     }
-                } %>
+                    } %>
                 </div>
             </div>
             <div class="mt-2" style="height: 10%;">
                 <form class="d-flex row" onsubmit="fc(); return false;">
                     <div class="col input-group input-group-md">
                         <input type="hidden" name="sendTo" id="sendInp" value=<%=chatId%>>
-                        <input id="message"class="form-control bg-dark whitePlaceholder text-light input-md" type="text"
+                        <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md"
+                               type="text"
                                placeholder="Input message"
                                name="message"/>
                     </div>

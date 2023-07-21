@@ -20,7 +20,8 @@ public class ChatServlet extends HttpServlet {
             if(httpServletRequest.getParameter("chatWith") != null) {
                 User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
                 if(Integer.parseInt(httpServletRequest.getParameter("chatWith")) == myUser.getId()) {
-                    httpServletRequest.getRequestDispatcher("chat.jsp");
+                    httpServletResponse.sendRedirect("/chat");
+                    return;
                 }
                 MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
                 User curUser = (User)httpServletRequest.getSession().getAttribute("userInfo");
