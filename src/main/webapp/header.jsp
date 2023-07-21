@@ -9,6 +9,7 @@
 <%@ page import="Types.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="DAO.*" %>
+<%@ page import="java.util.HashMap" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -144,31 +145,26 @@
                                         <div class="uk-padding-small">
                                             <ul class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
+                                                <%
+                                                    HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
+                                                    for(int id : notSeen.keySet()) {
+                                                        User chatUser = usersDAO.getUserById(id);
+                                                %>
                                                 <li>
                                                     <div class="row">
                                                         <div class="col d-flex align-items-center">
                                                             <div>New message from</div>
-                                                            <a style="margin-left: 3px" href="/profile?user=<%= 2%>">akaki </a>
+                                                            <a style="margin-left: 3px" href=<%="/profile?myUser=" + chatUser.getId()%>><%=chatUser.getUsername()%></a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <button class="btn btn-primary">Open chat</button>
+                                                            <a href=<%="/chat?chatWith="+chatUser.getId()%>> <button class="btn btn-primary">Open chat</button> </a>
                                                         </div>
                                                     </div>
                                                 </li>
-
-                                                <li>
-                                                    <div class="row">
-                                                        <div class="col d-flex align-items-center">
-                                                            <div>New message from</div>
-                                                            <a style="margin-left: 3px" href="/profile?user=<%= 2%>">akaki </a>
-
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button class="btn btn-primary">Open chat</button>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                                <%
+                                                    }
+                                                %>
 
                                             </ul>
                                         </div>
@@ -194,7 +190,10 @@
                 <a href="/randomQuiz">
                     <button class="btn btn-dark text-light">Random Quiz</button>
                 </a>
-            </div>
+                <a href="/chat">
+                    <button class="btn btn-dark text-light">Chats</button>
+                </a>
+        </div>
             <form class="col d-flex mb-1 mb-lg-0 mt-1" role="search" method="get" action="/search">
                 <div class="input-group input-group-sm mb-1 mt-1">
                     <input class="form-control me-2 bg-dark whitePlaceholder text-light" type="search"
