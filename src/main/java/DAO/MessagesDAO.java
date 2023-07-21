@@ -142,7 +142,6 @@ public class MessagesDAO {
                 int usID = result.getInt("USER1_ID");
                 if(!interactors.contains(usID)) interactors.add(usID);
             }
-            System.out.println(interactors);
             return interactors;
         } catch (SQLException e) {
             e.printStackTrace();
