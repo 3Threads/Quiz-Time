@@ -105,11 +105,14 @@
                         User myFriend = usersDAO.getUserById(person);
                 %>
                 <li>
-                    <div  class="d-flex align-items-center" <%if(request.getParameter("chatWith") != null
-                            && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))){%> style="background-color: #3e4042;" <%}%>>
-                        <a class="fullWidthList" href=<%="/chat?chatWith="+ myFriend.getId()%>><%=myFriend.getUsername()%>
+                    <div class="d-flex align-items-center" <%
+                        if (request.getParameter("chatWith") != null
+                                && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))) {
+                    %> style="background-color: #3e4042;" <%}%>>
+                        <a class="fullWidthList"
+                           href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
+                            <div id=<%="friend" + myFriend.getId()%>></div>
                         </a>
-                        <div id=<%="friend"+myFriend.getId()%>></div>
                     </div>
                 </li>
                 <%
