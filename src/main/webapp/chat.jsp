@@ -98,6 +98,7 @@
                             <div id=<%="friend"+myFriend.getId()%>></div>
                         </div>
                     <%
+
                         }
                     }
                     for (Integer person : interactors) {
