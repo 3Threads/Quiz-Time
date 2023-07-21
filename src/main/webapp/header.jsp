@@ -190,6 +190,9 @@
                 <a href="/randomQuiz">
                     <button class="btn btn-dark text-light">Random Quiz</button>
                 </a>
+                <a href="/chat">
+                    <button class="btn btn-dark text-light">Chats</button>
+                </a>
             </div>
             <form class="col d-flex mb-1 mb-lg-0 mt-1" role="search" method="get" action="/search">
                 <div class="input-group input-group-sm mb-1 mt-1">
