@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Types.Message;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -56,6 +57,62 @@ public class MessagesDAO {
             statement.setString(1, String.valueOf(fromUserId));
             statement.setString(2, String.valueOf(toUserId));
             statement.setString(3, message);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public HashMap<Integer, ArrayList<String>> getNotSeenMessage(int userId){
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            HashMap<Integer, ArrayList<String>> notSeenMessages = new HashMap<>();
+            String getMessages = "SELECT * FROM MESSAGES where USER2_ID = ? and SEEN = 0 ORDER BY SEND_DATE";
+            PreparedStatement preparedStatement = connect.prepareStatement(getMessages);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("USER1_ID");
+                String message = resultSet.getString("MESSAGE");
+                if(notSeenMessages.containsKey(id)) {
+                    notSeenMessages.get(id).add(message);
+                } else {
+                    ArrayList<String> newArr = new ArrayList<>();
+                    newArr.add(message);
+                    notSeenMessages.put(id, newArr);
+                }
+            }
+            return notSeenMessages;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    public void setMessagesSeen(int curUserId, int friendId){
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String setSeenMessage = "UPDATE MESSAGES SET SEEN = 1 WHERE USER1_ID = ? AND USER2_ID = ? AND SEEN = 0";
+            PreparedStatement statement = connect.prepareStatement(setSeenMessage);
+            statement.setInt(1, friendId);
+            statement.setInt(2, curUserId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
