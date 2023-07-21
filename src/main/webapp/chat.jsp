@@ -87,6 +87,19 @@
             <ul class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
                 <% ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
+                    if (request.getParameter("chatWith") != null) {
+                        chatId = Integer.parseInt(request.getParameter("chatWith"));
+                        User myFriend = usersDAO.getUserById(chatId);
+                        if(!interactors.contains(myFriend.getId())) {
+                            %>
+                        <div  class="d-flex align-items-center" style="background-color: #3e4042;">
+                            <a class="fullWidthList" href=<%="/chat?chatWith="+ myFriend.getId()%>><%=myFriend.getUsername()%>
+                            </a>
+                            <div id=<%="friend"+myFriend.getId()%>></div>
+                        </div>
+                    <%
+                        }
+                    }
                     for (Integer person : interactors) {
                         User myFriend = usersDAO.getUserById(person);
                 %>
