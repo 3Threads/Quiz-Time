@@ -40,6 +40,24 @@
     QuizzesDAO quizzesDAO = (QuizzesDAO) application.getAttribute("quizzesDB");
     ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
 %>
+<script>
+    function requestAction(user1, user2, action, requestId) {
+        const http = new XMLHttpRequest();
+        const url = "friends?user1=" + user1 + "&user2=" + user2 + "&action=" + action;
+        http.onreadystatechange = function () {
+            if(http.readyState == 4) {
+                const element = document.getElementById("request"+requestId);
+                element.remove();
+            }
+        }
+        http.open("POST",url);
+        http.send(null);
+    }
+    function getRequests() {
+
+    }
+    setInterval(getRequests(),1000);
+</script>
 <body class="bg-dark text-light">
 <div class="container">
     <div class="row">
@@ -77,27 +95,26 @@
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
                                                     ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());
+                                                    int requestId = 1;
                                                     for (Integer reqId : requests) {
                                                         User reqUserInfo = usersDAO.getUserById(reqId);
                                                 %>
                                                 <li>
-                                                    <div class="row">
+                                                    <div class="row" id=<%="request"+requestId%>>
                                                         <div class="col d-flex align-items-center">
                                                             <a href=<%="/profile?myUser=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
                                                             </a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=acceptRequest"%>>
-                                                                <button class="btn btn-success">accept</button>
-                                                            </a>
-                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=rejectRequest&from=homepage"%>>
-                                                                <button class="btn btn-danger">Reject</button>
-                                                            </a>
+                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)" class="btn btn-success">accept</button>
+                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)" class="btn btn-danger">Reject</button>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <% } %>
+                                                <%
+                                                        requestId++;
+                                                    } %>
                                             </ul>
 
                                         </div>
