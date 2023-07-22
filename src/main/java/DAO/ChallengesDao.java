@@ -1,6 +1,6 @@
 package DAO;
 
-import Types.Challange;
+import Types.Challenge;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
@@ -13,11 +13,11 @@ public class ChallengesDao {
         this.dataSource = dataSource;
     }
 
-    public ArrayList<Challange> getChallenges(int userId) {
+    public ArrayList<Challenge> getChallenges(int userId) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            ArrayList<Challange> challenges = new ArrayList<>();
+            ArrayList<Challenge> challenges = new ArrayList<>();
             String foundChallenges = "SELECT USER1_ID, QUIZ_ID FROM CHALLENGES WHERE USER2_ID = ?";
             PreparedStatement statement = connect.prepareStatement(foundChallenges);
             statement.setInt(1, userId);
@@ -25,7 +25,7 @@ public class ChallengesDao {
             while (result.next()) {
                 int id = result.getInt("USER1_ID");
                 int quizId = result.getInt("QUIZ_ID");
-                Challange ch = new Challange(id, quizId);
+                Challenge ch = new Challenge(id, quizId);
                 challenges.add(ch);
             }
             return challenges;
