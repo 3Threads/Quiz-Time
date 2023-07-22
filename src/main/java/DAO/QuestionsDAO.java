@@ -21,15 +21,16 @@ public class QuestionsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "INSERT INTO QUESTIONS VALUES(default, ?, ?, ?, ?)";
+            String str = "INSERT INTO QUESTIONS VALUES(default, ?, ?, ?, ?);";
             PreparedStatement statement = connect.prepareStatement(str);
-            String categoryName = question.getType();
-            statement.setString(1, categoryName);
+            String categoryName = question.getType();  /// ra sachiroa es tu types gadmoacemineb metodisTvis isedac
+            statement.setString(1, type);
             statement.setInt(2, quizId);
             statement.setString(3, questionText);
             ListToString lts = new ListToString();
             String res = lts.generateString(answers);
             statement.setString(4, res);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -68,7 +69,7 @@ public class QuestionsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "SELECT * FROM QUESTIONS WHERE ID = ?;";
+            String str = "SELECT * FROM QUESTIONS WHERE QUIZ_ID = ?;";
             PreparedStatement statement = connect.prepareStatement(str);
             statement.setInt(1, quizId);
             return getQuestions(statement);
