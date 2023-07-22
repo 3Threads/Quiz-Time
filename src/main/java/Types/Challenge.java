@@ -1,10 +1,10 @@
 package Types;
 
-public class Challange {
+public class Challenge {
     private int userId;
     private int quizId;
 
-    public Challange(int userId, int quizId) {
+    public Challenge(int userId, int quizId) {
         this.userId = userId;
         this.quizId = quizId;
     }
