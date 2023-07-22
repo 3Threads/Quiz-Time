@@ -65,12 +65,7 @@
 
     function addAnswerField() {
         $('#answerFields')
-            .append("<div class='uk-margin'>" +
-                "<div class='row'>" +
-                "<div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required></div>" +
-                "<div class='col-auto'><input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'></div>" +
-                "</div>" +
-                "</div>")
+            .append("<div class='uk-margin'><div class='row'><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required></div><div class='col-auto'><input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'></div></div></div>");
     }
 
     function addAnswerRadio() {
@@ -97,32 +92,51 @@
 <div class="container">
     <div class="row mt-3">
         <div class="col-6">
-            <div class="row">
-                <select aria-label="Custom controls" id="newQuestionType">
-                    <option value="questionResponse">Question Response</option>
-                    <option value="fillInTheBlank">Fill in the blank</option>
-                    <option value="pictureResponse">Picture Response</option>
-                    <option value="multipleChoice">Multiple Choice</option>
-                    <option value="multipleChoiceWithMultipleAnswers">Multiple choice with multiple answers</option>
-                    <option value="multiAnswer">Multi Answers</option>
-                    <option value="matching">Matching</option>
-                </select>
-                <button class="btn btn-success" id="addNewQuestionBtn" onclick="addNewQuestion()">Add new question
-                </button>
-            </div>
-            <ul class="uk-list">
-                <li>
-                    <div class="row">
-                        <div class="col d-flex align-items-center">
-                            1) როგორ ხარ?
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-primary">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
-                        </div>
+            <form action="/createQuiz" method="post">
+                <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
+                       placeholder="Title"
+                       aria-label="Title"
+                       name="title"
+                       style="width: 50%;">
+                <textarea class="uk-margin form-control bg-dark whitePlaceholder text-light"
+                          placeholder="Description"
+                          aria-label="Description"
+                          name="description"
+                          style="height: 150px"></textarea>
+                <div class="row">
+                    <div class="col">
+                        <select aria-label="Custom controls" id="newQuestionType"
+                                class="form-select form-select-md bg-dark text-light">
+                            <option value="questionResponse">Question Response</option>
+                            <option value="fillInTheBlank">Fill in the blank</option>
+                            <option value="pictureResponse">Picture Response</option>
+                            <option value="multipleChoice">Multiple Choice</option>
+                            <option value="multipleChoiceWithMultipleAnswers">Multiple choice with multiple answers
+                            </option>
+                            <option value="multiAnswer">Multi Answers</option>
+                            <option value="matching">Matching</option>
+                        </select>
                     </div>
-                </li>
-            </ul>
+                    <div class="col-auto">
+                        <input class="btn btn-success" id="addNewQuestionBtn" onclick="addNewQuestion()"
+                               value="Add new question">
+                    </div>
+                </div>
+                <ul class="uk-list mt-3">
+                    <li>
+                        <div class="row">
+                            <div class="col d-flex align-items-center">
+                                1) როგორ ხარ?
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary">Edit</button>
+                                <button class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-success">Create Quiz</button>
+            </form>
 
         </div>
         <div class="col-6">
