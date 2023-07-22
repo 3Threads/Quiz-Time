@@ -1,6 +1,6 @@
 package Tests;
 
-import DAO.ChallengesDao;
+import DAO.ChallengesDAO;
 import DAO.DataSource;
 import DAO.QuizzesDAO;
 import DAO.UsersDAO;
@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChallengesDaoTest {
-    private static ChallengesDao challengesDao;
+    private static ChallengesDAO challengesDao;
 
     @BeforeAll
     public static void init() {
         BasicDataSource dataSource = DataSource.getDataSource(true);
         UsersDAO usersDAO;
         QuizzesDAO quizzesDAO;
-        challengesDao = new ChallengesDao(dataSource);
+        challengesDao = new ChallengesDAO(dataSource);
         usersDAO = new UsersDAO(dataSource);
         quizzesDAO = new QuizzesDAO(dataSource);
         usersDAO.addUser("1", "1");

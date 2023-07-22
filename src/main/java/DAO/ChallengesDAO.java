@@ -6,10 +6,10 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ChallengesDao {
+public class ChallengesDAO {
     private final BasicDataSource dataSource;
 
-    public ChallengesDao(BasicDataSource dataSource) {
+    public ChallengesDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

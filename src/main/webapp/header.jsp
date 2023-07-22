@@ -35,7 +35,7 @@
     User myUser = (User) session.getAttribute("userInfo");
     UsersDAO usersDAO = (UsersDAO) application.getAttribute("usersDB");
     FriendsDAO friendsDAO = (FriendsDAO) application.getAttribute("friendsDB");
-    ChallengesDao challengesDAO = (ChallengesDao) application.getAttribute("challengesDB");
+    ChallengesDAO challengesDAO = (ChallengesDAO) application.getAttribute("challengesDB");
     MessagesDAO messagesDAO = (MessagesDAO) application.getAttribute("messagesDB");
     QuizzesDAO quizzesDAO = (QuizzesDAO) application.getAttribute("quizzesDB");
     ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
