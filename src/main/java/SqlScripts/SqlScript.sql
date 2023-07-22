@@ -68,6 +68,7 @@ CREATE TABLE MESSAGES
     USER2_ID  int             not null,
     MESSAGE   TEXT,
     SEND_DATE DATETIME default current_timestamp,
+    SEEN      tinyint  default 0,
     FOREIGN KEY (USER1_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
