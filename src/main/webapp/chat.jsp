@@ -54,14 +54,14 @@
     }
     function getMessagesChat() {
         $.get('notSeenChat', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
-            if (responseText !== '') {
-                let ind = 0;
-                while(ind != responseText.length-2) {
-                    let str = "";
-                    for (; responseText[ind] !== '/'; ind++) {
-                        str += responseText[ind];
-                    }
-                    ind++;
+            let realStr = responseText.trim();
+            let fr = [];
+            fr = realStr.split('/');
+            fr.splice(fr.length - 1, 1);
+            if(realStr !== '') {
+                fr.forEach(myFunction);
+
+                function myFunction(str) {
                     let str1 = "";
                     let newInd = -1;
                     for (let i = 0; i < str.length; i++) {
@@ -72,8 +72,8 @@
                         str1 += str[i];
                     }
                     let id = parseInt(str1);
-                    let numNotSeen="";
-                    for (let i = newInd+1; i < str.length; i++) {
+                    let numNotSeen = "";
+                    for (let i = newInd + 1; i < str.length; i++) {
                         numNotSeen += str[i];
                     }
                     let fr = "friend" + id;
