@@ -3,13 +3,10 @@ package BusinessLogic;
 import java.util.ArrayList;
 
 public class ListToString {
-    ArrayList<String> list;
 
-    public ListToString(ArrayList<String> list) {
-        this.list = list;
-    }
+    public ListToString() {}
 
-    private char findDelim() {
+    private char findDelim(ArrayList<String> list) {
         for (int i = 0; i < 128; i++) {
             boolean found = true;
             char delim = (char) i;
@@ -25,8 +22,8 @@ public class ListToString {
         return ' ';
     }
 
-    public String generateString() {
-        char delim = findDelim();
+    public String generateString(ArrayList<String> list) {
+        char delim = findDelim(list);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < list.size() - 1; i++) {
             sb.append(list.get(i));
