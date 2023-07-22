@@ -41,30 +41,43 @@
     function getMessages() {
         $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
             if (responseText !== '') {
-                let str = "";
-                for (let i = 0; i < responseText.length; i++) {
-                    if (responseText[i] === '<') break;
-                    str += responseText[i];
+                const chatBox = $(".chatBox");
+                const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
+                $('#chat').html($('#chat').html() + responseText);
+                if (responseText !== "" && shouldScroll) {
+                    chatBox.scrollTop(function () {
+                        return this.scrollHeight;
+                    });
                 }
-                let id = parseInt(str);
-                if (id == <%=request.getParameter("chatWith")%>) {
-                    const chatBox = $(".chatBox");
-                    const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
-                    $('#chat').html($('#chat').html() + responseText);
-                    if (responseText !== "" && shouldScroll) {
-                        chatBox.scrollTop(function () {
-                            return this.scrollHeight;
-                        });
+            }
+        });
+    }
+    function getMessagesChat() {
+        $.get('notSeenChat', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
+            if (responseText !== '') {
+                let ind = 0;
+                while(ind != responseText.length-2) {
+                    let str = "";
+                    for (; responseText[ind] !== '/'; ind++) {
+                        str += responseText[ind];
                     }
-                } else {
+                    ind++;
+                    let str1 = "";
+                    let newInd = -1;
+                    for (let i = 0; i < str.length; i++) {
+                        if (str[i] === '$') {
+                            newInd = i;
+                            break;
+                        }
+                        str1 += str[i];
+                    }
+                    let id = parseInt(str1);
+                    let numNotSeen="";
+                    for (let i = newInd+1; i < str.length; i++) {
+                        numNotSeen += str[i];
+                    }
                     let fr = "friend" + id;
-
-                    const textContent = $('#' + fr).text();
-                    let x = 1;
-                    if (textContent !== '') {
-                        x = parseInt(textContent) + 1;
-                    }
-                    $('#' + fr).text(x.toString());
+                    $('#' + fr).text(numNotSeen);
                 }
             }
         });
@@ -72,6 +85,7 @@
 
     $(document).ready(function () {
         setInterval(getMessages, 1000);
+        setInterval(getMessagesChat, 1000);
         $(".chatBox").scrollTop(function () {
             return this.scrollHeight;
         });
@@ -87,6 +101,7 @@
             <ul class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
                 <%
+                    HashMap<Integer,ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
                     if (request.getParameter("chatWith") != null) {
                         chatId = Integer.parseInt(request.getParameter("chatWith"));
@@ -99,7 +114,6 @@
                     <div id=<%="friend" + myFriend.getId()%>></div>
                 </div>
                 <%
-
                         }
                     }
                     for (Integer person : interactors) {
@@ -112,7 +126,12 @@
                     %> style="background-color: #3e4042;" <%}%>>
                         <a class="fullWidthList"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
-                            <div id=<%="friend" + myFriend.getId()%>></div>
+                            <div id=<%="friend" + myFriend.getId()%>>
+                                <%
+                                if(notSeenMessages.keySet().contains(myFriend.getId())){
+                                    out.println(notSeenMessages.get(myFriend.getId()).size());
+                                }%>
+                            </div>
                         </a>
                     </div>
                 </li>
