@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS FRIENDS;
 DROP TABLE IF EXISTS COMPLETED_QUIZZES;
 DROP TABLE IF EXISTS CHALLENGES;
 DROP TABLE IF EXISTS MESSAGES;
+DROP TABLE IF EXISTS QUESTION;
+DROP TABLE IF EXISTS CATEGORIES;
 DROP TABLE IF EXISTS QUIZZES;
 DROP TABLE IF EXISTS USERS;
 
@@ -68,9 +70,24 @@ CREATE TABLE MESSAGES
     USER2_ID  int             not null,
     MESSAGE   TEXT,
     SEND_DATE DATETIME default current_timestamp,
-    SEEN      tinyint  default 0,
+    SEEN tinyint default 0,
     FOREIGN KEY (USER1_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE
+);
+
+CREATE TABLE CATEGORIES(
+                           ID int primary key not null AUTO_INCREMENT,
+                           CATEGORY CHAR(64)
+);
+
+CREATE TABLE QUESTION(
+                         ID int primary key not null AUTO_INCREMENT,
+                         CATEGORY_ID int DEFAULT NULL,
+                         QUIZ_ID int DEFAULT NULL,
+                         QUESTION_TEXT TEXT,
+                         ANSWERS TEXT,
+                         FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORIES(ID) ON DELETE CASCADE,
+                         FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES(ID) ON DELETE CASCADE
 );
 
 INSERT INTO USERS (USERNAME, PASSWORD)
@@ -116,3 +133,10 @@ VALUES (1, 2, 1),
        (1, 5, 2),
        (2, 1, 3),
        (3, 5, 5);
+
+INSERT INTO CATEGORIES(CATEGORY)
+VALUES ('QuestionResponse'),
+       ('PictureResponse'),
+       ('MultipleChoice'),
+       ('MultiAnswer'),
+       ('Matching');
