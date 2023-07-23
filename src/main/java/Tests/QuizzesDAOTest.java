@@ -29,12 +29,12 @@ public class QuizzesDAOTest {
         uConnect.addUser("3", "1");
         uConnect.addUser("4", "2");
         uConnect.addUser("5", "1");
-        quizzes.addQuiz("quiz1", "new quiz", 1, "1, 2, 3, 4");
-        quizzes.addQuiz("quiz2", "new quiz", 3, "1, 2, 3, 4, 5");
-        quizzes.addQuiz("quiz3", "new quiz", 2, "1, 2, 3");
-        quizzes.addQuiz("quiz4", "my quiz", 1, "1, 2, 3, 5, 7, 8");
-        quizzes.addQuiz("quiz5", "new quiz", 2, "1, 2, 3");
-        quizzes.addQuiz("quiz6", "my quiz", 1, "1, 2, 3, 5, 7, 8");
+        quizzes.addQuiz("quiz1", "new quiz", 1);
+        quizzes.addQuiz("quiz2", "new quiz", 3);
+        quizzes.addQuiz("quiz3", "new quiz", 2);
+        quizzes.addQuiz("quiz4", "my quiz", 1);
+        quizzes.addQuiz("quiz5", "new quiz", 2);
+        quizzes.addQuiz("quiz6", "my quiz", 1);
     }
 
     /*
@@ -48,7 +48,6 @@ public class QuizzesDAOTest {
         assertEquals("quiz1", quiz1.getQuizName());
         assertEquals("new quiz", quiz1.getQuizDescription());
         assertEquals(1, quiz1.getCreatorID());
-        assertEquals("[1,  2,  3,  4]", quiz1.getQuestionsID().toString());
     }
 
     @Test
@@ -58,19 +57,16 @@ public class QuizzesDAOTest {
         assertEquals("quiz2", quiz2.getQuizName());
         assertEquals("new quiz", quiz2.getQuizDescription());
         assertEquals(3, quiz2.getCreatorID());
-        assertEquals("[1,  2,  3,  4,  5]", quiz2.getQuestionsID().toString());
         Quiz quiz3 = quizzes.getQuizInfo(3);
         assertEquals(3, quiz3.getQuizId());
         assertEquals("quiz3", quiz3.getQuizName());
         assertEquals("new quiz", quiz3.getQuizDescription());
         assertEquals(2, quiz3.getCreatorID());
-        assertEquals("[1,  2,  3]", quiz3.getQuestionsID().toString());
         Quiz quiz4 = quizzes.getQuizInfo(4);
         assertEquals(4, quiz4.getQuizId());
         assertEquals("quiz4", quiz4.getQuizName());
         assertEquals("my quiz", quiz4.getQuizDescription());
         assertEquals(1, quiz4.getCreatorID());
-        assertEquals("[1,  2,  3,  5,  7,  8]", quiz4.getQuestionsID().toString());
     }
 
     /*

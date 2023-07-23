@@ -42,7 +42,7 @@ public class QuestionsDAOTest {
 
         uConnect.addUser("123456", "1");
 
-        quizzes.addQuiz("quiz1", "new quiz", 1, "1, 2, 3, 4");
+        quizzes.addQuiz("quiz1", "new quiz", 1);
 
         Quiz qz = quizzes.getQuizByName("quiz1");
         id = qz.getQuizId();
