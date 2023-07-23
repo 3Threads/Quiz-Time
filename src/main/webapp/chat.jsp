@@ -82,10 +82,18 @@
             }
         });
     }
-
+    function getChats() {
+        $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
+            if(responseText !== '') {
+                console.log(responseText);
+                $('#chatList').html(responseText);
+                getMessages();
+                getMessagesChat();
+            }
+        });
+    }
     $(document).ready(function () {
-        setInterval(getMessages, 1000);
-        setInterval(getMessagesChat, 1000);
+        setInterval(getChats, 2000);
         $(".chatBox").scrollTop(function () {
             return this.scrollHeight;
         });
@@ -98,7 +106,7 @@
 
     <div class="row mt-3" style="height: 65%">
         <div class="col-3" style="height: 100%;">
-            <ul class="uk-list container-fluid uk-padding-small overflow-auto"
+            <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
                 <%
                     HashMap<Integer,ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
