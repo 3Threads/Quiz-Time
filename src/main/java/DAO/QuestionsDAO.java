@@ -3,7 +3,6 @@ package DAO;
 import BusinessLogic.ListToString;
 import Types.Question;
 import Types.QuestionResponse;
-import Types.Quiz;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
@@ -95,6 +94,31 @@ public class QuestionsDAO {
             questions.add(questionId);
         }
         return questions;
+    }
+
+    // This may return Question type info.
+    public String getQuestion(int id){
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String str = "SELECT * FROM QUESTIONS WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(str);
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            return result.getString("QUESTION_TEXT");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }
 
