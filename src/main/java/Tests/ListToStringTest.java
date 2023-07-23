@@ -49,4 +49,10 @@ public class ListToStringTest {
 
         assertEquals(answ, qList);
     }
+    @Test
+    public void testITh(){
+        String s = "a,b,c,";
+        ListToString lst = new ListToString();
+        assertEquals("c",lst.iThString(s,2));
+    }
 }
