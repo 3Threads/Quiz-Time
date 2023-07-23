@@ -25,13 +25,16 @@ public class ListToString {
     public String generateString(ArrayList<String> list) {
         char delim = findDelim(list);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size() - 1; i++) {
+        for (int i = 0; i < list.size(); i++) {
             sb.append(list.get(i));
             sb.append(delim);
         }
-        sb.append(list.get(list.size() - 1));
         return sb.toString();
     }
 
-
+    public String iThString(String s, int i){
+        char delim = s.charAt(s.length()-1);
+        String[] pieces = s.split(String.valueOf(delim));
+        return pieces[i];
+    }
 }
