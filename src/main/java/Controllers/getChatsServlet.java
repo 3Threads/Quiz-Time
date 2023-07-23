@@ -40,11 +40,7 @@ public class getChatsServlet extends HttpServlet {
                     && myFriend.getId() == Integer.parseInt(httpServletRequest.getParameter("chatWith"))) {
                 out.println("<li><div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n" +
                         "                    <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriend.getId() + "\">" + myFriend.getUsername() + "\n" +
-                        "                   <div id=\"friend" + myFriend.getId() + "\">");
-                if (notSeenMessages.keySet().contains(myFriend.getId())) {
-                    out.println(notSeenMessages.get(myFriend.getId()).size());
-                }
-                out.println("</div>\n" +
+                        "                   <div id=\"friend" + myFriend.getId() + "\"> </div>\n" +
                         "                    </a>\n" +
                         "                </div></li>");
             } else {

@@ -59,6 +59,7 @@
             fr = realStr.split('/');
             fr.splice(fr.length - 1, 1);
             if(realStr !== '') {
+                console.log(realStr);
                 fr.forEach(myFunction);
 
                 function myFunction(str) {

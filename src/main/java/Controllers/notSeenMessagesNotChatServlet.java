@@ -24,7 +24,6 @@ public class notSeenMessagesNotChatServlet extends HttpServlet {
             if(httpServletRequest.getParameter("chatWith") == "" ||
                         us != Integer.parseInt(httpServletRequest.getParameter("chatWith"))) {
                 ArrayList<String> messages = notSeen.get(us);
-                System.out.println(us+"$"+messages.size());
                 out.println(us+"$"+messages.size()+"/");
             }
         }
