@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ListToStringTest {
 
     @Test
-    public void testListToStringSimple(){
+    public void testListToStringSimple() {
         String str1 = "blah";
         String str2 = "hey";
         String str3 = "yo";
@@ -20,7 +20,7 @@ public class ListToStringTest {
     }
 
     @Test
-    public void testAllSymbols(){
+    public void testAllSymbols() {
         StringBuilder str = new StringBuilder();
         StringBuilder str2 = new StringBuilder();
         for (int i = 0; i < 128; i++) {
@@ -49,10 +49,11 @@ public class ListToStringTest {
 
         assertEquals(answ, qList);
     }
+
     @Test
-    public void testITh(){
+    public void testITh() {
         String s = "a,b,c,";
         ListToString lst = new ListToString();
-        assertEquals("c",lst.iThString(s,2));
+        assertEquals("c", lst.iThString(s, 2));
     }
 }
