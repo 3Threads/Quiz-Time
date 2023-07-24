@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "createQuiz", value = "/createQuiz")
 public class CreateQuizServlet extends HttpServlet {
@@ -30,8 +31,9 @@ public class CreateQuizServlet extends HttpServlet {
             }
             if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("edit")) {
                 ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
-                Question q = questions.get(0);
-                StringBuilder url = new StringBuilder("/createQuiz?editMode=true&type=" + q.getType());
+                int index = Integer.parseInt(httpServletRequest.getParameter("index"));
+                Question q = questions.get(index);
+                StringBuilder url = new StringBuilder("/createQuiz?index="+index+"&editMode=true&type=" + q.getType());
                 if (q.getType().equals("fillInTheBlank")) {
                     url.append("&questionText1=").append(((FillInTheBlank) q).getQuestionText()).append("&questionText2=").append(((FillInTheBlank) q).getQuestionText2());
                 } else {
@@ -42,15 +44,32 @@ public class CreateQuizServlet extends HttpServlet {
                 if(q.getType().equals("pictureResponse")){
                     url.append("&imageUrl=").append(((PictureResponse)q).getPictureUrl());
                 }
-
-                if(q.getType().equals("matching")){
-                    //((Matching)q).getMatches()
-                }else {
+                if(q.getType().equals("multipleChoice") || q.getType().equals("multipleChoiceWithMultipleAnswers")) {
                     for (int i = 0; i < q.getAnswers().size(); i++) {
                         String ans = q.getAnswers().get(i);
-                        url.append("&answerText=").append(ans);
+                        url.append("&correctAnswerText=").append(ans);
+                    }
+                    for (int i = 0; i < ((MultipleChoice) q).getIncorrectAnswers().size(); i++) {
+                        String ans = ((MultipleChoice) q).getIncorrectAnswers().get(i);
+                        url.append("&incorrectAnswerText=").append(ans);
+                    }
+                } else {
+                    if (q.getType().equals("matching")) {
+                        Map<String, String> pairs = ((Matching) q).getMatches();
+                        for(String pr : pairs.keySet()) {
+                            String ans = pairs.get(pr);
+                            url.append("&key=").append(pr);
+                            url.append("&value=").append(ans);
+                        }
+
+                    } else {
+                        for (int i = 0; i < q.getAnswers().size(); i++) {
+                            String ans = q.getAnswers().get(i);
+                            url.append("&answerText=").append(ans);
+                        }
                     }
                 }
+                httpServletResponse.sendRedirect(String.valueOf(url));
                 return;
             }
             httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
@@ -60,7 +79,7 @@ public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
-
+        Question question = null;
         if (httpServletRequest.getParameter("title") != null) {
             httpServletRequest.getSession().setAttribute("title", httpServletRequest.getParameter("title"));
         }
@@ -73,8 +92,7 @@ public class CreateQuizServlet extends HttpServlet {
             if (httpServletRequest.getParameter("questionType").equals("questionResponse")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                Question question = new QuestionResponse(questionText, "questionResponse", new ArrayList<>(List.of(answers)));
-                questions.add(question);
+                question = new QuestionResponse(questionText, "questionResponse", new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
@@ -82,8 +100,7 @@ public class CreateQuizServlet extends HttpServlet {
                 String questionText = httpServletRequest.getParameter("questionText1");
                 String questionText2 = httpServletRequest.getParameter("questionText2");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                Question question = new FillInTheBlank(questionText, questionText2, "fillInTheBlank", new ArrayList<>(List.of(answers)));
-                questions.add(question);
+                question = new FillInTheBlank(questionText, questionText2, "fillInTheBlank", new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
@@ -91,16 +108,14 @@ public class CreateQuizServlet extends HttpServlet {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String url = httpServletRequest.getParameter("questionImage");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                Question question = new PictureResponse(questionText, "pictureResponse", url, new ArrayList<>(List.of(answers)));
-                questions.add(question);
+                question = new PictureResponse(questionText, "pictureResponse", url, new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
             if (httpServletRequest.getParameter("questionType").equals("multiAnswer")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                Question question = new MultiAnswer(questionText, "multiAnswer", new ArrayList<>(List.of(answers)));
-                questions.add(question);
+                question = new MultiAnswer(questionText, "multiAnswer", new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
@@ -112,8 +127,7 @@ public class CreateQuizServlet extends HttpServlet {
                 for (int i = 0; i < questionText1.length; i++) {
                     answers.put(questionText1[i], questionText2[i]);
                 }
-                Question question = new Matching(questionText, "matching", answers);
-                questions.add(question);
+                question = new Matching(questionText, "matching", answers);
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
@@ -127,12 +141,14 @@ public class CreateQuizServlet extends HttpServlet {
                 for (String answer : answers) {
                     answersList.add(answerTexts[Integer.parseInt(answer)]);
                 }
-
-                Question question = new MultipleChoice(questionText, httpServletRequest.getParameter("questionType"), answersList, allAnswers);
-                questions.add(question);
+                question = new MultipleChoice(questionText, httpServletRequest.getParameter("questionType"), answersList, allAnswers);
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
-
+            if(httpServletRequest.getParameter("index") != null) {
+                int ind = Integer.parseInt(httpServletRequest.getParameter("index"));
+                questions.add(ind, question);
+                questions.remove(ind+1);
+            } else questions.add(question);
             httpServletResponse.sendRedirect("/createQuiz");
         }
 

@@ -51,7 +51,6 @@
         if (questionType === "fillInTheBlank") {
             childToAppend += "<input type='hidden' name='questionType' value='fillInTheBlank'><div class='uk-margin row' style='margin-top: 0!important;'> <div class='col' style='padding-right: 0'> <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'> </div> <div class='col' style='padding-left: 4px; padding-right: 4px'> <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required> </div> <div class='col' style='padding-left: 0'> <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'> </div> </div> <div id='answerFields'> </div> <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>"
         }
-
         if (questionType === "multipleChoice") {
             childToAppend += "<input type='hidden' name='questionType' value='multipleChoice' id='questionType'><div id='indexes'></div><div class='uk-margin' style='margin-top: 0!important;'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'></div><div id='answerRadios'><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-radio' type='radio' name='answers' checked></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-radio' type='radio' name='answers'></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div></div><input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>";
         }
@@ -184,8 +183,281 @@
             <div id="currQuestionBox">
                 <form action="/createQuiz" method="post" onsubmit="return beforeSubmit()">
                     <div id="formForThisType">
+                        <%
+                            if(request.getParameter("editMode") != null && request.getParameter("editMode").equals("true")) {
+                        %>
+                            <input type='hidden' name='index' value=<%=request.getParameter("index")%>>
+                            <input type='hidden' name='action' value='addQuestion'>
+                            <input type='hidden' name='title' value='' id='titleLabel'>
+                            <input type='hidden' name='description' value='' id='descriptionLabel'>
+                            <% if(request.getParameter("type").equals("questionResponse")) {
+                                %>
+                                <input type='hidden' name='questionType' value='questionResponse'>
+                                <div class='uk-margin' style='margin-top: 0!important;'>
+                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText' value="<%=request.getParameter("questionText")%>">
+                                </div>
+                                <div id='answerFields'>
+                                    <%
+                                        String[] answers = request.getParameterValues("answerText");
+                                        for(int i = 0; i < answers.length; i++) {
+                                            if(i == 0) {
+                                    %>
+                                    <div class='uk-margin'>
+                                        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' value=<%=answers[i]%> required>
+                                    </div>
+                                    <%
+                                            } else { %>
+                                    <div class='uk-margin'>
+                                        <div class='row'>
+                                            <div class='col'>
+                                                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' value=<%=answers[i]%> required>
+                                            </div>
+                                            <div class='col-auto'>
+                                                <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%
+                                        }
+                                }
+                            %>
+                                </div>
+                        <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
+                        <br><button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <%
+                                }
+                            if(request.getParameter("type").equals("fillInTheBlank")) {
+                                String[] answers = request.getParameterValues("answerText");
+                        %>
+                        <input type='hidden' name='questionType' value='fillInTheBlank'><div class='uk-margin row' style='margin-top: 0!important;'> <div class='col' style='padding-right: 0'> <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' value=<%=request.getParameter("questionText1")%>> </div> <div class='col' style='padding-left: 4px; padding-right: 4px'> <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required value=<%=answers[0]%>> </div> <div class='col' style='padding-left: 0'> <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' value=<%=request.getParameter("questionText2")%>> </div> </div>
+                        <div id='answerFields'>
+                            <%
+                                for(int i = 1; i < answers.length; i++) {
+                            %>
+                            <div class='uk-margin'>
+                                <div class='row'>
+                                    <div class='col'>
+                                        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' value=<%=answers[i]%> required>
+                                    </div>
+                                    <div class='col-auto'>
+                                        <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>
+                                    </div>
+                                </div>
+                            </div>
+                            <%
+                                }
+                            %>
+                        </div>
+                        <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
+                        <br><button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <%
+                            }
+                            if(request.getParameter("type").equals("multipleChoice")) {
+                        %>
+                            <input type='hidden' name='questionType' value='multipleChoice' id='questionType'>
+                            <div id='indexes'></div>
+                            <div class='uk-margin' style='margin-top: 0!important;'>
+                                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText' value=<%=request.getParameter("questionText")%>>
+                            </div>
+                                <div id='answerRadios'>
+                                <%
+                                    String[] correctAnswers = request.getParameterValues("correctAnswerText");
+                                    String[] incorrectAnswers = request.getParameterValues("incorrectAnswerText");
+                                    for(int i = 0; i < correctAnswers.length; i++) {
 
-                    </div>
+                                %>
+                                    <div class='row  d-flex align-items-center uk-margin'>
+                                        <div class='col-auto'>
+                                            <input class='uk-radio' type='radio' name='answers' checked>
+                                        </div>
+                                        <div class='col'>
+                                            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' value=<%=correctAnswers[i]%>>
+                                        </div>
+                                    </div>
+                                <%
+                                    }
+                                    for(int i = 0; i < incorrectAnswers.length; i++) {
+
+                                    %>
+                                    <div class='row  d-flex align-items-center uk-margin'>
+                                        <div class='col-auto'>
+                                            <input class='uk-radio' type='radio' name='answers'>
+                                        </div>
+                                        <div class='col'>
+                                            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' value=<%=incorrectAnswers[i]%>>
+                                        </div>
+                                    </div>
+                                    <%
+                                        }
+                                    %>
+                            </div>
+                            <input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>
+                            <br><button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                                <%
+                            } if(request.getParameter("type").equals("multipleChoiceWithMultipleAnswers")) {
+                        %>
+                            <input type='hidden' name='questionType' value='multipleChoiceWithMultipleAnswers' id='questionType'>
+                            <div id='indexes'></div>
+                            <div class='uk-margin' style='margin-top: 0!important;'>
+                                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText' value=<%=request.getParameter("questionText")%>>
+                            </div>
+                            <div id='answerCheckboxes'>
+                                <%
+                                    String[] correctAnswers = request.getParameterValues("correctAnswerText");
+                                    String[] incorrectAnswers = request.getParameterValues("incorrectAnswerText");
+                                    for(int i = 0; i < correctAnswers.length; i++) {
+
+                                %>
+                                <div class='row  d-flex align-items-center uk-margin'>
+                                    <div class='col-auto'>
+                                        <input class='uk-checkbox' type='checkbox' name='answers' checked>
+                                    </div>
+                                    <div class='col'>
+                                        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' value=<%=correctAnswers[i]%>>
+                                    </div>
+                                </div>
+                                <%
+                                    }
+                                    for(int i = 0; i < incorrectAnswers.length; i++) {
+
+                                %>
+                                <div class='row  d-flex align-items-center uk-margin'>
+                                    <div class='col-auto'>
+                                        <input class='uk-checkbox' type='checkbox' name='answers'>
+                                    </div>
+                                    <div class='col'>
+                                        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' value=<%=incorrectAnswers[i]%>>
+                                    </div>
+                                </div>
+                                <%
+                                    }
+                                %>
+                            </div>
+                            <input type='button' class='btn btn-success' onclick='addAnswerCheckbox()' value='Add new answer'>
+                            <br><button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                            <%
+                            }  if(request.getParameter("type").equals("pictureResponse")) {
+                            %>
+                            <input type='hidden' name='questionType' value='pictureResponse'>
+                            <div class='uk-margin' style='margin-top: 0!important;'>
+                                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText' value=<%=request.getParameter("questionText")%>>
+                            </div>
+                            <div class='uk-margin' style='margin-top: 0!important;'>
+                                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Image URL' aria-label='Input' name='questionImage' value=<%=request.getParameter("imageUrl")%>>
+                            </div>
+                            <div id='answerFields'>
+                                <%
+                                    String[] answers = request.getParameterValues("answerText");
+                                    for(int i = 0; i < answers.length; i++) {
+                                        if(i == 0) {
+                                %>
+                                        <div class='uk-margin'>
+                                            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' value=<%=answers[i]%> required>
+                                        </div>
+                                        <%
+                                        } else { %>
+                                        <div class='uk-margin'>
+                                            <div class='row'>
+                                                <div class='col'>
+                                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' value=<%=answers[i]%> required>
+                                                </div>
+                                                <div class='col-auto'>
+                                                    <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </div>
+                            <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
+                            <br><button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <%
+                                }
+                            if(request.getParameter("type").equals("matching")) {
+                                String[] keys = request.getParameterValues("key");
+                                String[] values = request.getParameterValues("value");
+                           %>
+                            <input type='hidden' name='questionType' value='matching'>
+                                <div class='uk-margin' style='margin-top: 0!important;'>
+                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText' value=<%=request.getParameter("questionText")%>>
+                                </div>
+                            <div class='row uk-margin'>
+                                <div class='col' style='padding-right: 0'>
+                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' value=<%=keys[0]%>>
+                                </div><div class='col-2'></div>
+                                <div class='col' style='padding-left: 0'>
+                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' value=<%=values[0]%>>
+                                </div>
+                            </div>
+                            <div class='uk-margin row' style='margin-top: 0!important;'>
+                                <div class='col' style='padding-right: 0'>
+                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' value=<%=keys[1]%>>
+                                </div>
+                                <div class='col-2'>
+                                    </div>
+                                <div class='col' style='padding-left: 0'>
+                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' value=<%=values[1]%>>
+                                </div>
+                            </div>
+                            <div id='answerFields'>
+                                <%
+                                    for(int i = 2; i < keys.length; i++) {
+                                %>
+                                <div class='uk-margin row' style='margin-top: 0!important;'>
+                                    <div class='col' style='padding-right: 0'>
+                                        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' value=<%=keys[i]%>>
+                                    </div>
+                                    <div class='col-2'>
+                                    </div>
+                                    <div class='col' style='padding-left: 0'>
+                                        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' value=<%=values[i]%>>
+                                    </div>
+                                    <div class='col-auto'>
+                                        <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>
+                                    </div>
+                                </div>
+                                <%
+                                    }
+                                %>
+                            </div>
+                            <input type='button' class='btn btn-success' onclick='addAnswerMatching()' value='Add new answer'>
+                            <br><button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <%
+                                } if(request.getParameter("type").equals("multiAnswer")) {
+                                %>
+                            <input type='hidden' name='questionType' value='multiAnswer'>
+                            <div class='uk-margin' style='margin-top: 0!important;'>
+                                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText' value="<%=request.getParameter("questionText")%>">
+                            </div>
+                            <div id='answerFields'>
+                                    <%
+                                        String[] answers = request.getParameterValues("answerText");
+                                        for(int i = 0; i < answers.length; i++) {
+                                            if(i == 0) {
+                                    %>
+                                <div class='uk-margin'>
+                                    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' value=<%=answers[i]%> required>
+                                </div>
+                                    <%
+                                            } else { %>
+                                <div class='uk-margin'>
+                                    <div class='row'>
+                                        <div class='col'>
+                                            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' value=<%=answers[i]%> required>
+                                        </div>
+                                        <div class='col-auto'>
+                                            <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <%
+                                    }
+                                }
+                            }
+                        }
+                    %>
                 </form>
             </div>
         </div>

@@ -5,7 +5,7 @@ import BusinessLogic.ListToString;
 import java.util.ArrayList;
 
 public class MultipleChoice extends QuestionAbstract {
-    ArrayList<String> incorrectAnswers;
+    private ArrayList<String> incorrectAnswers;
 
     public MultipleChoice(String questionText, String type, ArrayList<String> answers, ArrayList<String> allAnswers) {
         super(type, questionText, answers);
@@ -17,6 +17,10 @@ public class MultipleChoice extends QuestionAbstract {
             allAnswers.remove(getAnswers().get(i));
         }
         return allAnswers;
+    }
+
+    public ArrayList<String> getIncorrectAnswers() {
+        return incorrectAnswers;
     }
 
     @Override
