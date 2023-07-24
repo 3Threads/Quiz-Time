@@ -13,4 +13,9 @@ public class FillInTheBlank extends QuestionAbstract {
     public String getQuestionText2() {
         return questionText2;
     }
+
+    @Override
+    public String generateQuestionText() {
+        return getQuestionText() + (char) 0 + getQuestionText2() + (char) 0;
+    }
 }

@@ -3,9 +3,7 @@ package DAO;
 import BusinessLogic.ListToString;
 import Types.Question;
 import Types.QuestionResponse;
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import org.apache.commons.dbcp2.BasicDataSource;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -24,10 +22,8 @@ public class QuestionsDAO {
             PreparedStatement statement = connect.prepareStatement(str);
             statement.setString(1, question.getType());
             statement.setInt(2, quizID);
-            statement.setString(3, question.getQuestionText());
-            ListToString lts = new ListToString();
-            String answers = lts.generateString(question.getAnswers());
-            statement.setString(4, answers);
+            statement.setString(3, question.generateQuestionText());
+            statement.setString(4, question.generateAnswers());
             statement.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();

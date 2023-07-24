@@ -13,4 +13,8 @@ public class PictureResponse extends QuestionAbstract {
     public String getPictureUrl() {
         return url;
     }
+   @Override
+    public String generateQuestionText(){
+        return getQuestionText() + (char)0 + getPictureUrl() + (char)0;
+    }
 }
