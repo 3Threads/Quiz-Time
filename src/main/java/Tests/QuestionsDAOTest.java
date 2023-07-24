@@ -4,6 +4,8 @@ import DAO.DataSource;
 import DAO.QuestionsDAO;
 import DAO.QuizzesDAO;
 import DAO.UsersDAO;
+import Types.Question;
+import Types.QuestionResponse;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,13 +21,8 @@ public class QuestionsDAOTest {
     private static QuizzesDAO quizzes;
     private static UsersDAO uConnect;
 
-    private static final String TYPE1 = "Question Response";
-    private static final String TYPE2 = "Fill in the blank";
-    private static final String TYPE3 = "Picture Response";
-    private static final String TYPE4 = "Multiple Choice";
-    private static final String TYPE5 = "Multiple choice with multiple answers";
-    private static final String TYPE6 = "Multi Answers";
-    private static final String TYPE7 = "Matching";
+    private static final String TYPE1 = "questionResponse";
+
 
     @BeforeAll
     public static void setup() {
@@ -46,19 +43,22 @@ public class QuestionsDAOTest {
 
             // question ID:  1    ,  2    ,  3    ....
             //              "100" , "200" , "300" ....
-            String question = String.valueOf(100*i);
+            String questionText = String.valueOf(100*i);
 
             // {(10)}, {(20)}, {(30)}, .....
             ArrayList<String> answers = new ArrayList<>();
             answers.add(String.valueOf(10*i));
 
-            questions.addQuestion(question, i, TYPE1, answers);
+            Question question = new QuestionResponse(questionText, TYPE1, answers);
+
+            questions.addQuestion(question, i);
         }
 
         quiz11();
         quiz12();
         quiz13();
     }
+
 
     @Test
     public void testAddQuestion() {
@@ -74,25 +74,28 @@ public class QuestionsDAOTest {
         assertEquals("500", questions.getQuestion(5));
     }
 
+
     private static void quiz11() {
         uConnect.addUser("11", "1");
         quizzes.addQuiz("quiz11", "new quiz", 11);
 
         // Question #11
-        String question1 = "are you ok?";
+        String questionText1 = "are you ok??";
         ArrayList<String> answers1 = new ArrayList<>();
         answers1.add("yes");
         answers1.add("no");
         answers1.add("I am trying");
+        Question question1 = new QuestionResponse(questionText1, TYPE1, answers1);
 
         // Question #12
-        String question2 = "r u sure?";
+        String questionText2 = "r u sure?";
         ArrayList<String> answers2 = new ArrayList<>();
         answers2.add("I am not sure");
         answers2.add("yes I am sure");
+        Question question2 = new QuestionResponse(questionText2, TYPE1, answers2);
 
-        questions.addQuestion(question1, 11, TYPE1, answers1);
-        questions.addQuestion(question2, 11, TYPE1, answers2);
+        questions.addQuestion(question1, 11);
+        questions.addQuestion(question2, 11);
     }
 
     @Test
@@ -109,13 +112,15 @@ public class QuestionsDAOTest {
         quizzes.addQuiz("quiz12", "new quiz", 12);
 
         // Question #13
-        String question1 = "are you ok?";
+        String questionText1 = "are you ok?";
         ArrayList<String> answers1 = new ArrayList<>();
         answers1.add("yes");
         answers1.add("no");
         answers1.add("I am trying");
 
-        questions.addQuestion(question1, 12, TYPE1, answers1);
+        Question question1 = new QuestionResponse(questionText1, TYPE1, answers1);
+
+        questions.addQuestion(question1, 12);
     }
 
     @Test
@@ -133,27 +138,30 @@ public class QuestionsDAOTest {
         quizzes.addQuiz("quiz13", "new quiz", 13);
 
         // Question #14
-        String question1 = "are you okk?";
+        String questionText1 = "are you okk?";
         ArrayList<String> answers1 = new ArrayList<>();
         answers1.add("yes");
         answers1.add("no");
         answers1.add("I am trying");
+        Question question1 = new QuestionResponse(questionText1, TYPE1, answers1);
 
         // Question #15
-        String question2 = "for real?";
+        String questionText2 = "for real?";
         ArrayList<String> answers2 = new ArrayList<>();
         answers2.add("I am not sure");
         answers2.add("yes I am sure");
+        Question question2 = new QuestionResponse(questionText2, TYPE1, answers2);
 
         // Question #16
-        String question3 = "how good?";
+        String questionText3 = "how good?";
         ArrayList<String> answers3 = new ArrayList<>();
         answers2.add("very");
         answers2.add("not at all");
+        Question question3 = new QuestionResponse(questionText3, TYPE1, answers3);
 
-        questions.addQuestion(question1, 13, TYPE1, answers1);
-        questions.addQuestion(question2, 13, TYPE1, answers2);
-        questions.addQuestion(question3, 13, TYPE1, answers3);
+        questions.addQuestion(question1, 13);
+        questions.addQuestion(question2, 13);
+        questions.addQuestion(question3, 13);
     }
 
     @Test
@@ -172,6 +180,6 @@ public class QuestionsDAOTest {
         questions.removeQuestion(14);
         questions.removeQuestion(16);
         assertEquals(new ArrayList<>(List.of(new Integer[]{})), questions.getQuestionsIdByQuizId(13));
-
     }
+
 }
