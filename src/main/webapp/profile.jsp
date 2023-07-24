@@ -23,7 +23,7 @@
 </head>
 <%@include file="header.jsp" %>
 <%
-    int profileId = Integer.parseInt(request.getParameter("user"));
+    int profileId = Integer.parseInt(request.getParameter("myUser"));
     User pageUser = usersDAO.getUserById(profileId);
 %>
 <body class="bg-dark text-light">

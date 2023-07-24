@@ -41,37 +41,60 @@
     function getMessages() {
         $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
             if (responseText !== '') {
-                let str = "";
-                for (let i = 0; i < responseText.length; i++) {
-                    if (responseText[i] === '<') break;
-                    str += responseText[i];
-                }
-                let id = parseInt(str);
-                if (id == <%=request.getParameter("chatWith")%>) {
-                    const chatBox = $(".chatBox");
-                    const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
-                    $('#chat').html($('#chat').html() + responseText);
-                    if (responseText !== "" && shouldScroll) {
-                        chatBox.scrollTop(function () {
-                            return this.scrollHeight;
-                        });
-                    }
-                } else {
-                    let fr = "friend" + id;
-
-                    const textContent = $('#' + fr).text();
-                    let x = 1;
-                    if (textContent !== '') {
-                        x = parseInt(textContent) + 1;
-                    }
-                    $('#' + fr).text(x.toString());
+                const chatBox = $(".chatBox");
+                const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
+                $('#chat').html($('#chat').html() + responseText);
+                if (responseText !== "" && shouldScroll) {
+                    chatBox.scrollTop(function () {
+                        return this.scrollHeight;
+                    });
                 }
             }
         });
     }
+    function getMessagesChat() {
+        $.get('notSeenChat', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
+            let realStr = responseText.trim();
+            let fr = [];
+            fr = realStr.split('/');
+            fr.splice(fr.length - 1, 1);
+            if(realStr !== '') {
+                console.log(realStr);
+                fr.forEach(myFunction);
 
+                function myFunction(str) {
+                    let str1 = "";
+                    let newInd = -1;
+                    for (let i = 0; i < str.length; i++) {
+                        if (str[i] === '$') {
+                            newInd = i;
+                            break;
+                        }
+                        str1 += str[i];
+                    }
+                    let id = parseInt(str1);
+                    let numNotSeen = "";
+                    for (let i = newInd + 1; i < str.length; i++) {
+                        numNotSeen += str[i];
+                    }
+                    let fr = "friend" + id;
+                    $('#' + fr).text(numNotSeen);
+                }
+            }
+        });
+    }
+    function getChats() {
+        $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
+            if(responseText !== '') {
+                console.log(responseText);
+                $('#chatList').html(responseText);
+                getMessages();
+                getMessagesChat();
+            }
+        });
+    }
     $(document).ready(function () {
-        setInterval(getMessages, 1000);
+        setInterval(getChats, 2000);
         $(".chatBox").scrollTop(function () {
             return this.scrollHeight;
         });
@@ -84,9 +107,10 @@
 
     <div class="row mt-3" style="height: 65%">
         <div class="col-3" style="height: 100%;">
-            <ul class="uk-list container-fluid uk-padding-small overflow-auto"
+            <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
                 <%
+                    HashMap<Integer,ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
                     if (request.getParameter("chatWith") != null) {
                         chatId = Integer.parseInt(request.getParameter("chatWith"));
@@ -99,7 +123,6 @@
                     <div id=<%="friend" + myFriend.getId()%>></div>
                 </div>
                 <%
-
                         }
                     }
                     for (Integer person : interactors) {
@@ -112,7 +135,12 @@
                     %> style="background-color: #3e4042;" <%}%>>
                         <a class="fullWidthList"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
-                            <div id=<%="friend" + myFriend.getId()%>></div>
+                            <div id=<%="friend" + myFriend.getId()%>>
+                                <%
+                                if(notSeenMessages.keySet().contains(myFriend.getId())){
+                                    out.println(notSeenMessages.get(myFriend.getId()).size());
+                                }%>
+                            </div>
                         </a>
                     </div>
                 </li>

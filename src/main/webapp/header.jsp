@@ -26,7 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Quiz Time</title>
@@ -40,6 +40,35 @@
     QuizzesDAO quizzesDAO = (QuizzesDAO) application.getAttribute("quizzesDB");
     ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
 %>
+<script>
+    function requestAction(user1, user2, action, requestId) {
+        const http = new XMLHttpRequest();
+        const url = "friends?user1=" + user1 + "&user2=" + user2 + "&action=" + action;
+        http.onreadystatechange = function () {
+            if(http.readyState == 4) {
+                const element = document.getElementById("request"+requestId);
+                element.remove();
+            }
+        }
+        http.open("POST",url);
+        http.send(null);
+    }
+    function getRequests() {
+        $.get('getRequests', (responseText) => {
+            $('#requestsList').html(responseText);
+        });
+    }
+    function getChatNotifications() {
+        $.get('chatNotification', (responseText) => {
+            console.log(responseText);
+            $('#chatNotifications').html(responseText);
+        });
+    }
+    $(document).ready(function () {
+        setInterval(getRequests,2000);
+        setInterval(getChatNotifications,2000);
+    });
+</script>
 <body class="bg-dark text-light">
 <div class="container">
     <div class="row">
@@ -73,31 +102,30 @@
                                 <ul id="notification tab" class="uk-switcher uk-margin">
                                     <li>
                                         <div class="uk-padding-small">
-                                            <ul class="uk-list container-fluid"
+                                            <ul id="requestsList" class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
                                                     ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());
+                                                    int requestId = 1;
                                                     for (Integer reqId : requests) {
                                                         User reqUserInfo = usersDAO.getUserById(reqId);
                                                 %>
                                                 <li>
-                                                    <div class="row">
+                                                    <div class="row" id=<%="request"+requestId%>>
                                                         <div class="col d-flex align-items-center">
                                                             <a href=<%="/profile?myUser=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
                                                             </a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=acceptRequest"%>>
-                                                                <button class="btn btn-success">accept</button>
-                                                            </a>
-                                                            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + reqUserInfo.getId() + "&action=rejectRequest&from=homepage"%>>
-                                                                <button class="btn btn-danger">Reject</button>
-                                                            </a>
+                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)" class="btn btn-success">accept</button>
+                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)" class="btn btn-danger">Reject</button>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <% } %>
+                                                <%
+                                                        requestId++;
+                                                    } %>
                                             </ul>
 
                                         </div>
@@ -143,7 +171,7 @@
                                     </li>
                                     <li>
                                         <div class="uk-padding-small">
-                                            <ul class="uk-list container-fluid"
+                                            <ul id="chatNotifications"class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
                                                     HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
