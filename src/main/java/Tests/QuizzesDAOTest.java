@@ -44,29 +44,52 @@ public class QuizzesDAOTest {
     @Test
     public void testAddQuizzes1() {
         Quiz quiz1 = quizzes.getQuizInfo(1);
-        assertEquals(1, quiz1.getQuizId());
+        int quizID = 1;
+        String quizName = "quiz1";
+
+        assertEquals(quizID, quiz1.getQuizId());
         assertEquals("quiz1", quiz1.getQuizName());
         assertEquals("new quiz", quiz1.getQuizDescription());
         assertEquals(1, quiz1.getCreatorID());
+
+        //test for getQuizByName();
+        assertEquals(quizID, quizzes.getQuizByName(quizName).getQuizId());
     }
 
     @Test
     public void testAddQuizzes2() {
         Quiz quiz2 = quizzes.getQuizInfo(2);
-        assertEquals(2, quiz2.getQuizId());
-        assertEquals("quiz2", quiz2.getQuizName());
+        int quiz2ID = 2;
+        String quiz2Name = "quiz2";
+
+        assertEquals(quiz2ID, quiz2.getQuizId());
+        assertEquals(quiz2Name, quiz2.getQuizName());
         assertEquals("new quiz", quiz2.getQuizDescription());
         assertEquals(3, quiz2.getCreatorID());
+        //test for getQuizByName();
+        assertEquals(quiz2ID, quizzes.getQuizByName(quiz2Name).getQuizId());
+
         Quiz quiz3 = quizzes.getQuizInfo(3);
-        assertEquals(3, quiz3.getQuizId());
-        assertEquals("quiz3", quiz3.getQuizName());
+        int quiz3ID = 3;
+        String quiz3Name = "quiz3";
+
+        assertEquals(quiz3ID, quiz3.getQuizId());
+        assertEquals(quiz3Name, quiz3.getQuizName());
         assertEquals("new quiz", quiz3.getQuizDescription());
         assertEquals(2, quiz3.getCreatorID());
+        //test for getQuizByName();
+        assertEquals(quiz3ID, quizzes.getQuizByName(quiz3Name).getQuizId());
+
         Quiz quiz4 = quizzes.getQuizInfo(4);
+        int quiz4ID = 4;
+        String quiz4Name = "quiz4";
+
         assertEquals(4, quiz4.getQuizId());
         assertEquals("quiz4", quiz4.getQuizName());
         assertEquals("my quiz", quiz4.getQuizDescription());
         assertEquals(1, quiz4.getCreatorID());
+        //test for getQuizByName();
+        assertEquals(quiz4ID, quizzes.getQuizByName(quiz4Name).getQuizId());
     }
 
     /*
