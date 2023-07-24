@@ -14,10 +14,12 @@ public abstract class QuestionAbstract implements Question {
         this.answers = answers;
         this.type = type;
     }
+
     @Override
-    public String getType(){
+    public String getType() {
         return type;
     }
+
     @Override
     public ArrayList<String> getAnswers() {
         return answers;
@@ -27,14 +29,15 @@ public abstract class QuestionAbstract implements Question {
     public String getQuestionText() {
         return questionText;
     }
+
     @Override
-    public String generateQuestionText(){
+    public String generateQuestionText() {
         return questionText;
     }
+
     @Override
-    public String generateAnswers(){
+    public String generateAnswers() {
         ListToString lts = new ListToString();
-        String res = lts.generateString(answers);
-        return res;
+        return lts.generateString(answers);
     }
 }
