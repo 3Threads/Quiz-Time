@@ -105,12 +105,12 @@ VALUES (1, 2, 1),
        (5, 3, 0);
 
 INSERT INTO QUIZZES (QUIZ_NAME, DESCRIPTION, COMPLETED, CREATION_TIME, CREATOR_ID, QUESTIONS)
-VALUES ('quiz1', 'QUIZ', 0, default, 1, '1, 2, 3'),
-       ('quiz2', 'QUIZ', 2, default, 1, '1'),
-       ('quiz3', 'QUIZ', 2, default, 2, '2'),
-       ('quiz4', 'QUIZ', 0, default, 3, '3'),
-       ('quiz5', 'QUIZ', 1, default, 4, '4'),
-       ('quiz6', 'QUIZ', 1, default, 5, '5');
+VALUES ('quiz1', 'QUIZ', 0, default, 1),
+       ('quiz2', 'QUIZ', 2, default, 1),
+       ('quiz3', 'QUIZ', 2, default, 2),
+       ('quiz4', 'QUIZ', 0, default, 3),
+       ('quiz5', 'QUIZ', 1, default, 4),
+       ('quiz6', 'QUIZ', 1, default, 5);
 
 INSERT INTO COMPLETED_QUIZZES (USER_ID, QUIZ_ID, SCORE, SPENT_TIME, WRITE_TIME)
 VALUES (1, 3, 10, 17, default),

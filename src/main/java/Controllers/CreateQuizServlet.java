@@ -1,5 +1,7 @@
 package Controllers;
 
+import DAO.QuestionsDAO;
+import DAO.QuizzesDAO;
 import Types.*;
 
 import javax.servlet.ServletException;
@@ -25,8 +27,8 @@ public class CreateQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
-            ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
             if (httpServletRequest.getParameter("questionType").equals("questionResponse")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("answer");
@@ -91,6 +93,21 @@ public class CreateQuizServlet extends HttpServlet {
             }
 
             httpServletResponse.sendRedirect("/createQuiz");
+        }
+
+        if(httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")){
+            String title = httpServletRequest.getParameter("title");
+            String description = httpServletRequest.getParameter("description");
+            User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
+            QuizzesDAO qzDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
+            qzDAO.addQuiz(title, description, user.getId());
+            Quiz quiz = qzDAO.getQuizByName(title);
+            int quizID = quiz.getQuizId();
+
+            QuestionsDAO questionsDAO = (QuestionsDAO) httpServletRequest.getServletContext().getAttribute("questionsDB");
+            for(Question q: questions){
+                questionsDAO.addQuestion(q, quizID);
+            }
         }
     }
 

@@ -108,6 +108,7 @@
     <div class="row mt-3">
         <div class="col-6">
             <form action="/createQuiz" method="post">
+                <input type="hidden" value="createQuiz" name="action">
                 <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
                        placeholder="Title"
                        aria-label="Title"
