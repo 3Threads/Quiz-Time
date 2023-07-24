@@ -1,3 +1,6 @@
+<%@ page import="Types.Question" %>
+<%@ page import="Types.FillInTheBlank" %>
+<%@ page import="Controllers.CreateQuizServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -24,6 +27,16 @@
     <title>Quiz Time</title>
 </head>
 <script type="text/javascript">
+    function beforeSubmit() {
+        if ($('#questionType').val() === "multipleChoice" || $('#questionType').val() === "multipleChoiceWithMultipleAnswers") {
+            $("input[name=answers]").each(function (i, o) {
+                if ($(this).is(":checked")) {
+                    $('#indexes').append("<input type='hidden' name='choosedIndex' value='" + i + "' id='indexOfChecked'>");
+                }
+            });
+        }
+    }
+
     function addNewQuestion() {
         const questionType = $('#newQuestionType').val();
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
@@ -36,11 +49,11 @@
         }
 
         if (questionType === "multipleChoice") {
-            childToAppend += "<input type='hidden' name='questionType' value='multipleChoice'><div class='uk-margin' style='margin-top: 0!important;'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'></div><div id='answerRadios'><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-radio' type='radio' name='answers' checked></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='questionText'></div></div><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-radio' type='radio' name='answers'></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='questionText'></div></div></div><input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>";
+            childToAppend += "<input type='hidden' name='questionType' value='multipleChoice' id='questionType'><div id='indexes'></div><div class='uk-margin' style='margin-top: 0!important;'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'></div><div id='answerRadios'><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-radio' type='radio' name='answers' checked></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-radio' type='radio' name='answers'></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div></div><input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>";
         }
 
         if (questionType === "multipleChoiceWithMultipleAnswers") {
-            childToAppend += "<input type='hidden' name='questionType' value='multipleChoiceWithMultipleAnswers'><div class='uk-margin' style='margin-top: 0!important;'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'></div><div id='answerCheckboxes'><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-checkbox' type='checkbox' name='answers' checked></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-checkbox' type='checkbox' name='answers'></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div></div><input type='button' class='btn btn-success' onclick='addAnswerCheckbox()' value='Add new answer'>";
+            childToAppend += "<input type='hidden' name='questionType' value='multipleChoiceWithMultipleAnswers' id='questionType'><div id='indexes'></div><div class='uk-margin' style='margin-top: 0!important;'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'></div><div id='answerCheckboxes'><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-checkbox' type='checkbox' name='answers' checked></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div><div class='row  d-flex align-items-center uk-margin'><div class='col-auto'><input class='uk-checkbox' type='checkbox' name='answers'></div><div class='col'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'></div></div></div><input type='button' class='btn btn-success' onclick='addAnswerCheckbox()' value='Add new answer'>";
         }
 
         if (questionType === "pictureResponse") {
@@ -52,10 +65,12 @@
         }
 
         if (questionType === "matching") {
-            childToAppend += "<input type='hidden' name='questionType' value='matching'><div class='uk-margin row' style='margin-top: 0!important;'><div class='col' style='padding-right: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'></div><div class='col-2'></div><div class='col' style='padding-left: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'></div></div><div class='uk-margin row' style='margin-top: 0!important;'><div class='col' style='padding-right: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'></div><div class='col-2'></div><div class='col' style='padding-left: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'></div></div><div id='answerFields'></div><input type='button' class='btn btn-success' onclick='addAnswerMatching()' value='Add new answer'>";
+            childToAppend += "<input type='hidden' name='questionType' value='matching'><div class='uk-margin' style='margin-top: 0!important;'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText'></div><div class='row uk-margin'><div class='col' style='padding-right: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'></div><div class='col-2'></div><div class='col' style='padding-left: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'></div></div><div class='uk-margin row' style='margin-top: 0!important;'><div class='col' style='padding-right: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'></div><div class='col-2'></div><div class='col' style='padding-left: 0'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'></div></div><div id='answerFields'></div><input type='button' class='btn btn-success' onclick='addAnswerMatching()' value='Add new answer'>";
         }
 
+
         childToAppend += "<br><button type='submit' class='btn btn-success mt-3'>Create question</button>";
+
         $('#formForThisType').html(childToAppend);
     }
 
@@ -123,10 +138,20 @@
                     </div>
                 </div>
                 <ul class="uk-list mt-3">
+                    <%
+                        ArrayList<Question> questions = CreateQuizServlet.getQuestionsFromSession(request);
+                        for (int i = 0; i < questions.size(); i++) {
+                            Question currQuestion = questions.get(i);
+                    %>
                     <li>
                         <div class="row">
                             <div class="col d-flex align-items-center">
-                                1) როგორ ხარ?
+                                <%=i + 1%>) <%
+                                if (currQuestion.getType().equals("fillInTheBlank"))
+                                    out.print(currQuestion.getQuestionText() + " _____ " + ((FillInTheBlank) currQuestion).getQuestionText2());
+                                else {
+                                    out.print(currQuestion.getQuestionText());
+                                }%>
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-primary">Edit</button>
@@ -134,6 +159,9 @@
                             </div>
                         </div>
                     </li>
+                    <%
+                        }
+                    %>
                 </ul>
                 <button class="btn btn-success">Create Quiz</button>
             </form>
@@ -141,7 +169,7 @@
         </div>
         <div class="col-6">
             <div id="currQuestionBox">
-                <form action="/createQuiz" method="post">
+                <form action="/createQuiz" method="post" onsubmit="return beforeSubmit()">
                     <div id="formForThisType">
 
                     </div>
