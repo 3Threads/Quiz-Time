@@ -1,9 +1,11 @@
 package DAO;
 
-import Types.Question;
+import Types.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class QuestionsDAO {
     private final BasicDataSource dataSource;
@@ -100,6 +102,71 @@ public class QuestionsDAO {
             ResultSet result = statement.executeQuery();
             result.next();
             return result.getString("QUESTION_TEXT");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    public ArrayList<Question> getQuestions(int quizId) {
+        Connection connect = null;
+        try {
+            ArrayList<Question> questions = new ArrayList<>();
+            connect = dataSource.getConnection();
+            String str = "SELECT * FROM QUESTIONS WHERE QUIZ_ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(str);
+            statement.setInt(1, quizId);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                Question question = null;
+                int ind = result.getInt("ID");
+                String type = result.getString("CATEGORY_NAME");
+                String questionText = result.getString("QUESTION_TEXT");
+                String answers = result.getString("ANSWERS");
+                ArrayList<String> allAnswers = (ArrayList<String>) Arrays.asList(answers.split(String.valueOf((char) 0)));
+                if(type.equals("fillInTheBlank")) {
+                    String[] questionTexts = questionText.split(String.valueOf((char) 0));
+                    String text1 = questionTexts[0];
+                    String text2 = questionTexts[1];
+                    question = new FillInTheBlank(text1, text2, "fillInTheBlank", allAnswers);
+                }
+                if(type.equals("questionResponse")) {
+                    question = new QuestionResponse(questionText, "questionResponse", allAnswers);
+                }
+                if(type.equals("pictureResponse")) {
+                    String[] questionTexts = questionText.split(String.valueOf((char) 0));
+                    question = new PictureResponse(questionTexts[0],"pictureResponse", questionTexts[1], allAnswers);
+                }
+                if(type.equals("multipleChoice")) {
+                    String[] allAnsws = answers.split(String.valueOf((char) 0 + (char) 0));
+                    ArrayList<String> correctAnswers = (ArrayList<String>) Arrays.asList(allAnsws[0].split(String.valueOf((char) 0)));
+                    ArrayList<String> allPossibleAnswers = (ArrayList<String>) Arrays.asList(allAnsws[1].split(String.valueOf((char) 0)));
+                    for(String st : correctAnswers) {
+                        allPossibleAnswers.add(st);
+                    }
+                    question = new MultipleChoice(questionText,"multipleChoice", correctAnswers, allPossibleAnswers);
+                }
+                if(type.equals("matching")) {
+                    ArrayList<String> allPairs = (ArrayList<String>) Arrays.asList(answers.split(String.valueOf((char) 0)));
+                    HashMap<String, String> pairs = new HashMap<>();
+                    for(int i = 0; i < allPairs.size(); i += 2) {
+                        pairs.put(allPairs.get(i), allPairs.get(i+1));
+                    }
+                    question = new Matching(questionText,"matching", pairs);
+                }
+                if(type.equals("multiAnswer")) {
+                    question = new MultiAnswer(questionText, "multiAnswer", allAnswers);
+                }
+                questions.add(question);
+            }
+            return questions;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
