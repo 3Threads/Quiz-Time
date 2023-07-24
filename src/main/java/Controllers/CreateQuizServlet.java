@@ -21,6 +21,38 @@ public class CreateQuizServlet extends HttpServlet {
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
         } else {
+            if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
+                ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
+                questions.remove(Integer.parseInt(httpServletRequest.getParameter("index")));
+                httpServletRequest.getSession().setAttribute("questions", questions);
+                httpServletResponse.sendRedirect("/createQuiz");
+                return;
+            }
+            if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("edit")) {
+                ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
+                Question q = questions.get(0);
+                StringBuilder url = new StringBuilder("/createQuiz?editMode=true&type=" + q.getType());
+                if (q.getType().equals("fillInTheBlank")) {
+                    url.append("&questionText1=").append(((FillInTheBlank) q).getQuestionText()).append("&questionText2=").append(((FillInTheBlank) q).getQuestionText2());
+                } else {
+                    url.append("&questionText=").append(q.getQuestionText());
+                }
+
+
+                if(q.getType().equals("pictureResponse")){
+                    url.append("&imageUrl=").append(((PictureResponse)q).getPictureUrl());
+                }
+
+                if(q.getType().equals("matching")){
+                    //((Matching)q).getMatches()
+                }else {
+                    for (int i = 0; i < q.getAnswers().size(); i++) {
+                        String ans = q.getAnswers().get(i);
+                        url.append("&answerText=").append(ans);
+                    }
+                }
+                return;
+            }
             httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
         }
     }

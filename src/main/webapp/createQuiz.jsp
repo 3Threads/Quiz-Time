@@ -163,8 +163,12 @@
                                 }%>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-primary">Edit</button>
-                                <button class="btn btn-danger">Delete</button>
+                                <a href="/createQuiz?action=edit&index=<%=i%>">
+                                    <input type="button" class="btn btn-primary" value="Edit">
+                                </a>
+                                <a href="/createQuiz?action=delete&index=<%=i%>">
+                                    <input type="button" class="btn btn-danger" value="Delete">
+                                </a>
                             </div>
                         </div>
                     </li>
