@@ -35,11 +35,15 @@
                 }
             });
         }
+        $('#titleLabel').val($('#titleField').val());
+        $('#descriptionLabel').val($('#descriptionField').val());
     }
 
     function addNewQuestion() {
         const questionType = $('#newQuestionType').val();
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
+        childToAppend += "<input type='hidden' name='title' value='' id='titleLabel'>";
+        childToAppend += "<input type='hidden' name='description' value='' id='descriptionLabel'>";
         if (questionType === "questionResponse") {
             childToAppend += "<input type='hidden' name='questionType' value='questionResponse'><div class='uk-margin' style='margin-top: 0!important;'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText'></div><div id='answerFields'><div class='uk-margin'><input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required></div></div><input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>";
         }
@@ -113,12 +117,16 @@
                        placeholder="Title"
                        aria-label="Title"
                        name="title"
+                       id="titleField"
+                       value="<% if(session.getAttribute("title")!=null) out.print(session.getAttribute("title"));%>"
                        style="width: 50%;">
                 <textarea class="uk-margin form-control bg-dark whitePlaceholder text-light"
                           placeholder="Description"
                           aria-label="Description"
                           name="description"
-                          style="height: 150px"></textarea>
+                          id="descriptionField"
+                          style="height: 150px"><% if (session.getAttribute("description") != null)
+                    out.print(session.getAttribute("description"));%></textarea>
                 <div class="row">
                     <div class="col">
                         <select aria-label="Custom controls" id="newQuestionType"

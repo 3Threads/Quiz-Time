@@ -28,6 +28,15 @@ public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
+
+        if (httpServletRequest.getParameter("title") != null) {
+            httpServletRequest.getSession().setAttribute("title", httpServletRequest.getParameter("title"));
+        }
+
+        if (httpServletRequest.getParameter("description") != null) {
+            httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
+        }
+
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
             if (httpServletRequest.getParameter("questionType").equals("questionResponse")) {
                 String questionText = httpServletRequest.getParameter("questionText");
@@ -95,7 +104,7 @@ public class CreateQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/createQuiz");
         }
 
-        if(httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")){
+        if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
             String description = httpServletRequest.getParameter("description");
             User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
@@ -105,7 +114,7 @@ public class CreateQuizServlet extends HttpServlet {
             int quizID = quiz.getQuizId();
 
             QuestionsDAO questionsDAO = (QuestionsDAO) httpServletRequest.getServletContext().getAttribute("questionsDB");
-            for(Question q: questions){
+            for (Question q : questions) {
                 questionsDAO.addQuestion(q, quizID);
             }
         }
