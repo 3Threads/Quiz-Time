@@ -3,6 +3,7 @@ package DAO;
 import BusinessLogic.ListToString;
 import Types.Question;
 import Types.QuestionResponse;
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
@@ -15,6 +16,31 @@ public class QuestionsDAO {
         this.dataSource = dataSource;
     }
 
+    public void addQuestion(Question question, int quizID){
+        Connection connect = null;
+        try{
+            connect = dataSource.getConnection();
+            String str = "INSERT INTO QUESTIONS VALUES(default, ?, ?, ?, ?);";
+            PreparedStatement statement = connect.prepareStatement(str);
+            statement.setString(1, question.getType());
+            statement.setInt(2, quizID);
+            statement.setString(3, question.getQuestionText());
+            ListToString lts = new ListToString();
+            String answers = lts.generateString(question.getAnswers());
+            statement.setString(4, answers);
+            statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if(connect != null){
+                try{
+                    connect.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public void addQuestion(String questionText, int quizId, String type, ArrayList<String> answers) {
         Question question = new QuestionResponse(questionText, type, answers);
         Connection connect = null;
