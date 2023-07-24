@@ -12,6 +12,7 @@ public abstract class QuestionAbstract implements Question {
         this.answers = answers;
         this.type = type;
     }
+    @Override
     public String getType(){
         return type;
     }
@@ -23,5 +24,13 @@ public abstract class QuestionAbstract implements Question {
     @Override
     public String getQuestionText() {
         return questionText;
+    }
+    @Override
+    public String generateQuestionText(){
+        return questionText;
+    }
+    @Override
+    public String generateAnswers(){
+        return answers.get(0);
     }
 }
