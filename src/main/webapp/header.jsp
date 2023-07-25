@@ -45,28 +45,31 @@
         const http = new XMLHttpRequest();
         const url = "friends?user1=" + user1 + "&user2=" + user2 + "&action=" + action;
         http.onreadystatechange = function () {
-            if(http.readyState == 4) {
-                const element = document.getElementById("request"+requestId);
+            if (http.readyState === 4) {
+                const element = document.getElementById("request" + requestId);
                 element.remove();
             }
         }
-        http.open("POST",url);
+        http.open("POST", url);
         http.send(null);
     }
+
     function getRequests() {
         $.get('getRequests', (responseText) => {
             $('#requestsList').html(responseText);
         });
     }
+
     function getChatNotifications() {
         $.get('chatNotification', (responseText) => {
             console.log(responseText);
             $('#chatNotifications').html(responseText);
         });
     }
+
     $(document).ready(function () {
-        setInterval(getRequests,2000);
-        setInterval(getChatNotifications,2000);
+        setInterval(getRequests, 2000);
+        setInterval(getChatNotifications, 2000);
     });
 </script>
 <body class="bg-dark text-light">
@@ -91,7 +94,7 @@
                         <div class="uk-modal-dialog bg-dark">
                             <button class="uk-modal-close-default" type="button" uk-close></button>
                             <div class="uk-modal-header bg-dark">
-                                <h2 class="uk-modal-title">Modal Title</h2>
+                                <h2 class="uk-modal-title">Notifications</h2>
                             </div>
                             <div class="uk-modal-body">
                                 <ul class="uk-flex-left" data-uk-tab="{connect:'#notification tab'}">
@@ -111,15 +114,19 @@
                                                         User reqUserInfo = usersDAO.getUserById(reqId);
                                                 %>
                                                 <li>
-                                                    <div class="row" id=<%="request"+requestId%>>
+                                                    <div class="row" id=<%="request" + requestId%>>
                                                         <div class="col d-flex align-items-center">
-                                                            <a href=<%="/profile?myUser=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
+                                                            <a href=<%="/profile?user=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
                                                             </a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)" class="btn btn-success">accept</button>
-                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)" class="btn btn-danger">Reject</button>
+                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"
+                                                                    class="btn btn-success">accept
+                                                            </button>
+                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"
+                                                                    class="btn btn-danger">Reject
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -171,22 +178,26 @@
                                     </li>
                                     <li>
                                         <div class="uk-padding-small">
-                                            <ul id="chatNotifications"class="uk-list container-fluid"
+                                            <ul id="chatNotifications" class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
                                                     HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
-                                                    for(int id : notSeen.keySet()) {
+                                                    for (int id : notSeen.keySet()) {
                                                         User chatUser = usersDAO.getUserById(id);
                                                 %>
                                                 <li>
                                                     <div class="row">
                                                         <div class="col d-flex align-items-center">
                                                             <div>New message from</div>
-                                                            <a style="margin-left: 3px" href=<%="/profile?myUser=" + chatUser.getId()%>><%=chatUser.getUsername()%></a>
+                                                            <a style="margin-left: 3px"
+                                                               href=<%="/profile?user=" + chatUser.getId()%>><%=chatUser.getUsername()%>
+                                                            </a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <a href=<%="/chat?chatWith="+chatUser.getId()%>> <button class="btn btn-primary">Open chat</button> </a>
+                                                            <a href=<%="/chat?chatWith=" + chatUser.getId()%>>
+                                                                <button class="btn btn-primary">Open chat</button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -221,7 +232,7 @@
                 <a href="/chat">
                     <button class="btn btn-dark text-light">Chats</button>
                 </a>
-        </div>
+            </div>
             <form class="col d-flex mb-1 mb-lg-0 mt-1" role="search" method="get" action="/search">
                 <div class="input-group input-group-sm mb-1 mt-1">
                     <input class="form-control me-2 bg-dark whitePlaceholder text-light" type="search"

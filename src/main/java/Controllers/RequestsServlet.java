@@ -1,7 +1,6 @@
 package Controllers;
 
 import DAO.FriendsDAO;
-import DAO.MessagesDAO;
 import DAO.UsersDAO;
 import Types.User;
 
@@ -29,7 +28,7 @@ public class RequestsServlet extends HttpServlet {
             out.println("<li>\n" +
                     "<div class=\"row\" id=\"request\"+ " + requestId +">\n" +
                     "   <div class=\"col d-flex align-items-center\">\n" +
-                    "   <a href=\"/profile?myUser="+reqUserInfo.getId()+ "\">" +reqUserInfo.getUsername() + "\n" +
+                    "   <a href=\"/profile?user="+reqUserInfo.getId()+ "\">" +reqUserInfo.getUsername() + "\n" +
                     "   </a>\n" +
                     "\n" +
                     "   </div>\n" +
