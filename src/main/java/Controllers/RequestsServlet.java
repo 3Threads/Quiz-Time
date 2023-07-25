@@ -19,6 +19,7 @@ public class RequestsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         PrintWriter out = httpServletResponse.getWriter();
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+        if(myUser == null) return;
         FriendsDAO friendsDAO = (FriendsDAO) httpServletRequest.getServletContext().getAttribute("friendsDB");
         UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());

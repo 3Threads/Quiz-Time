@@ -22,6 +22,7 @@ public class chatNotificationServlet extends HttpServlet {
         UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+        if(myUser == null) return;
         HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
         for(int id : notSeen.keySet()) {
             User chatUser = usersDAO.getUserById(id);
