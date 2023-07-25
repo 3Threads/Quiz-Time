@@ -56,19 +56,12 @@
     }
 
     function challengeAction(user, action, challId, quizID) {
-        const http = new XMLHttpRequest();
-        const url = "challenges?userID=" + user + "&action=" + action + "&quizID=" + quizID;
-        http.onreadystatechange = function () {
-            if (http.readyState === 4) {
-                const element = document.getElementById("challenge" + challId);
-                element.remove();
-                if (action === 'acceptChallenge') {
-                    window.location.replace("/quiz?quizId=" + quizID);
-                }
+        $.post('challenges', {userID: user, action: action, quizID: quizID}, () => {
+            $('#challenge'+challId).remove();
+            if (action === 'acceptChallenge') {
+                window.location.replace("/quiz?quizId=" + quizID);
             }
-        }
-        http.open("POST", url);
-        http.send(null);
+        });
     }
 
     function getRequests() {
@@ -78,14 +71,14 @@
     }
 
     function getChallenges() {
-        $.get('getChallenges', (responseText) => {
+        $.get('challenges', (responseText) => {
+            console.log(responseText);
             $('#challengesList').html(responseText);
         });
     }
 
     function getChatNotifications() {
         $.get('chatNotification', (responseText) => {
-            console.log(responseText);
             $('#chatNotifications').html(responseText);
         });
     }
@@ -93,6 +86,7 @@
     $(document).ready(function () {
         setInterval(getRequests, 2000);
         setInterval(getChatNotifications, 2000);
+        setInterval(getChallenges, 2000);
     });
 </script>
 <body class="bg-dark text-light">
