@@ -7,6 +7,7 @@ import Types.Quiz;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class QuizzesDAO {
+
     private final BasicDataSource dataSource;
 
     public QuizzesDAO(BasicDataSource dataSource) {
@@ -81,6 +82,28 @@ public class QuizzesDAO {
             String getQuizzes = "SELECT * FROM QUIZZES WHERE CREATION_TIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY)" +
                     "ORDER BY CREATION_TIME;";
             PreparedStatement statement = connect.prepareStatement(getQuizzes);
+            return getQuizzes(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Quiz> getMyCreatedQuizzes(int id){
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getQuizzes = "SELECT * FROM QUIZZES WHERE CREATOR_ID = ?";
+            PreparedStatement statement = connect.prepareStatement(getQuizzes);
+            statement.setInt(1, id);
             return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -185,4 +208,5 @@ public class QuizzesDAO {
         }
         return null;
     }
+
 }

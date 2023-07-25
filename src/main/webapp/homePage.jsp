@@ -1,3 +1,5 @@
+<%@ page import="Types.Quiz" %>
+<%@ page import="Types.Result" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -12,9 +14,11 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -78,8 +82,10 @@
                 </ul>
                 <ul id="tables" class="uk-switcher uk-margin uk-box-shadow-large"
                     style="max-height: 485px; overflow: auto;">
+
+                    <%--Popular Quizzes Tables--%>
                     <li>
-                        <table class="uk-table uk-table-divider">
+                        <table name="Popular" class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -89,23 +95,33 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <%
+                                ArrayList<Quiz> popularQuizzes = quizzesDAO.getPopularQuizzes(10);
+                                int toFollow = Math.min(popularQuizzes.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Quiz quiz = popularQuizzes.get(i);
+
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
+                                <td><%=i + 1%>
+                                </td>
+                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
+                                </a></td>
+                                <td><%=quiz.getCompleted()%>
+                                </td>
+                                <td><%=quiz.getCreationTime()%>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
-                            </tr>
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                     </li>
+
+                    <%--Recent Quizzes Table--%>
                     <li>
-                        <table class="uk-table uk-table-divider">
+                        <table name="Recent" class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -115,23 +131,33 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <%
+                                ArrayList<Quiz> recentQuizzes = quizzesDAO.getLastDayQuizzes();
+                                toFollow = Math.min(recentQuizzes.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Quiz quiz = recentQuizzes.get(i);
+
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
+                                <td><%=i + 1%>
+                                </td>
+                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
+                                </a></td>
+                                <td><%=quiz.getCompleted()%>
+                                </td>
+                                <td><%=quiz.getCreationTime()%>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
-                            </tr>
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                     </li>
+
+                    <%--My Written Quizzes Table--%>
                     <li>
-                        <table class="uk-table uk-table-divider">
+                        <table name="My Written" class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -141,23 +167,35 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <%
+                                ArrayList<Result> myWritten = resultsDAO.getUserResults(myUser.getId());
+                                toFollow = Math.min(myWritten.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Result result = myWritten.get(i);
+                                    int quizId = result.getQuizId();
+                                    Quiz quiz = quizzesDAO.getQuizInfo(quizId);
+
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
+                                <td><%=i + 1%>
+                                </td>
+                                <td><a href="/quiz?quizId=<%=quizId%>"><%=quiz.getQuizName()%>
+                                </a></td>
+                                <td><%=quiz.getCompleted()%>
+                                </td>
+                                <td><%=quiz.getCreationTime()%>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
-                            </tr>
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                     </li>
+
+                    <%--My Creates Quizzes Table--%>
                     <li>
-                        <table class="uk-table uk-table-divider">
+                        <table name="My Created" class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -167,21 +205,30 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <%
+                                ArrayList<Quiz> myCreated = quizzesDAO.getMyCreatedQuizzes(myUser.getId());
+                                toFollow = Math.min(myCreated.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Quiz quiz = myCreated.get(i);
+
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
+                                <td><%=i + 1%>
+                                </td>
+                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
+                                </a></td>
+                                <td><%=quiz.getCompleted()%>
+                                </td>
+                                <td><%=quiz.getCreationTime()%>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
-                            </tr>
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                     </li>
+
                 </ul>
             </div>
         </div>
