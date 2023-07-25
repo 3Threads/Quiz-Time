@@ -1,7 +1,6 @@
 package Controllers;
 
 import DAO.FriendsDAO;
-import DAO.MessagesDAO;
 import DAO.UsersDAO;
 import Types.User;
 
@@ -20,6 +19,7 @@ public class RequestsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         PrintWriter out = httpServletResponse.getWriter();
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+        if(myUser == null) return;
         FriendsDAO friendsDAO = (FriendsDAO) httpServletRequest.getServletContext().getAttribute("friendsDB");
         UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());
@@ -29,7 +29,7 @@ public class RequestsServlet extends HttpServlet {
             out.println("<li>\n" +
                     "<div class=\"row\" id=\"request\"+ " + requestId +">\n" +
                     "   <div class=\"col d-flex align-items-center\">\n" +
-                    "   <a href=\"/profile?myUser="+reqUserInfo.getId()+ "\">" +reqUserInfo.getUsername() + "\n" +
+                    "   <a href=\"/profile?user="+reqUserInfo.getId()+ "\">" +reqUserInfo.getUsername() + "\n" +
                     "   </a>\n" +
                     "\n" +
                     "   </div>\n" +

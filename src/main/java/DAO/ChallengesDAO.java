@@ -65,4 +65,52 @@ public class ChallengesDAO {
             }
         }
     }
+
+    public void removeChallenge(int fromUserId, int toUserId, int quizId){
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String sendChallenge = "DELETE FROM CHALLENGES WHERE USER1_ID = ? AND USER2_ID = ? AND QUIZ_ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(sendChallenge);
+            statement.setInt(1, fromUserId);
+            statement.setInt(2, toUserId);
+            statement.setInt(3, quizId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public boolean alreadyChallenged(int byUser, int challengedUser, int quizId) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String sendChallenge = "SELECT * FROM CHALLENGES WHERE USER1_ID = ? AND USER2_ID = ? AND QUIZ_ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(sendChallenge);
+            statement.setInt(1, byUser);
+            statement.setInt(2, challengedUser);
+            statement.setInt(3, quizId);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
 }

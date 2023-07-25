@@ -1,6 +1,5 @@
 package Controllers;
 
-import DAO.FriendsDAO;
 import DAO.MessagesDAO;
 import DAO.UsersDAO;
 import Types.User;
@@ -23,6 +22,7 @@ public class chatNotificationServlet extends HttpServlet {
         UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+        if(myUser == null) return;
         HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
         for(int id : notSeen.keySet()) {
             User chatUser = usersDAO.getUserById(id);
@@ -30,7 +30,7 @@ public class chatNotificationServlet extends HttpServlet {
                     "   <div class=\"row\">\n" +
                     "     <div class=\"col d-flex align-items-center\">\n" +
                     "        <div>New message from</div>\n" +
-                    "           <a style=\"margin-left: 3px\" href=\"/profile?myUser=" + chatUser.getId() + "\">" +
+                    "           <a style=\"margin-left: 3px\" href=\"/profile?user=" + chatUser.getId() + "\">" +
                                       chatUser.getUsername() + "</a>\n" +
                     "          </div>\n" +
                     "            <div class=\"col-auto\">\n" +
