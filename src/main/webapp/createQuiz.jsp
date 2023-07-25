@@ -518,7 +518,7 @@
                             <%
                                 String[] correctAnswers = request.getParameterValues("correctAnswerText");
                                 String[] incorrectAnswers = request.getParameterValues("incorrectAnswerText");
-                                for (int i = 0; i < correctAnswers.length; i++) {
+                                for (String correctAnswer : correctAnswers) {
 
                             %>
                             <div class='row  d-flex align-items-center uk-margin'>
@@ -528,12 +528,12 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=correctAnswers[i]%>">
+                                           value="<%=correctAnswer%>">
                                 </div>
                             </div>
                             <%
                                 }
-                                for (int i = 0; i < incorrectAnswers.length; i++) {
+                                for (String incorrectAnswer : incorrectAnswers) {
 
                             %>
                             <div class='row  d-flex align-items-center uk-margin'>
@@ -543,7 +543,7 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=incorrectAnswers[i]%>">
+                                           value="<%=incorrectAnswer%>">
                                 </div>
                             </div>
                             <%
