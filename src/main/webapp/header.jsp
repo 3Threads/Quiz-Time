@@ -10,6 +10,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="DAO.*" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="Types.Challenge" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -54,9 +55,31 @@
         http.send(null);
     }
 
+    function challengeAction(user, action, challId, quizID) {
+        const http = new XMLHttpRequest();
+        const url = "challenges?userID=" + user + "&action=" + action + "&quizID=" + quizID;
+        http.onreadystatechange = function () {
+            if (http.readyState === 4) {
+                const element = document.getElementById("challenge" + challId);
+                element.remove();
+                if (action === 'acceptChallenge') {
+                    window.location.replace("/quiz?quizId=" + quizID);
+                }
+            }
+        }
+        http.open("POST", url);
+        http.send(null);
+    }
+
     function getRequests() {
         $.get('getRequests', (responseText) => {
             $('#requestsList').html(responseText);
+        });
+    }
+
+    function getChallenges() {
+        $.get('getChallenges', (responseText) => {
+            $('#challengesList').html(responseText);
         });
     }
 
@@ -138,41 +161,45 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <div class="uk-padding-small">
+                                        <div id="challengesList" class="uk-padding-small">
                                             <ul class="uk-list container-fluid "
                                                 style="max-height: 200px; overflow: auto">
+
+
+                                                <%
+                                                    ArrayList<Challenge> challenges = challengesDAO.getChallenges(myUser.getId());
+                                                    int challId = 1;
+                                                    for (Challenge challenge : challenges) {
+                                                        User challUserInfo = usersDAO.getUserById(challenge.getUserId());
+
+                                                %>
                                                 <li>
-                                                    <div class="row">
+
+                                                    <div class="row" id="<%="challenge" + challId%>">
                                                         <div class="col d-flex align-items-center">
-                                                            <a href="/profile?user=<%= 2%>">akaki </a>
+                                                            <a href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>    <%--aaqqq--%>
+                                                            </a>
                                                             <div style="margin-left: 3px"> challenged you:</div>
                                                             <a style="margin-left: 3px"
-                                                               href="/profile?user=<%= 2%>">Quizz's
-                                                                name</a>
+                                                               href=<%= "/quiz?quizId=" + challenge.getQuizId()%>><%=quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName()%>
+                                                            </a>
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <button class="btn btn-success">accept</button>
-                                                            <button class="btn btn-danger">Reject</button>
+                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
+                                                                    class="btn btn-success">Accept
+                                                            </button>
+                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
+                                                                    class="btn btn-danger">Reject
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                </li>
-                                                <li>
-                                                    <div class="row">
-                                                        <div class="col d-flex align-items-center">
-                                                            <a href="/profile?user=<%= 2%>">akaki </a>
-                                                            <div style="margin-left: 3px"> challenged you:</div>
-                                                            <a style="margin-left: 3px"
-                                                               href="/profile?user=<%= 2%>">Quizz's
-                                                                name</a>
 
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button class="btn btn-success">accept</button>
-                                                            <button class="btn btn-danger">Reject</button>
-                                                        </div>
-                                                    </div>
                                                 </li>
+                                                <%
+                                                        challId++;
+                                                    } %>
+
                                             </ul>
                                         </div>
                                     </li>
