@@ -19,7 +19,8 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -55,7 +56,7 @@
                                     ArrayList<Integer> friends = friendsDAO.getFriendsList(myUser.getId());
                                     for (Integer reqId : friends) {
                                         User reqUserInfo = usersDAO.getUserById(reqId);
-                                        if(!challengesDAO.alreadyChallenged(myUser.getId(), reqUserInfo.getId(), currQuiz.getQuizId())) {
+                                        if (!challengesDAO.alreadyChallenged(myUser.getId(), reqUserInfo.getId(), currQuiz.getQuizId())) {
                                 %>
                                 <li>
                                     <div class="row">
@@ -71,11 +72,11 @@
                                     </div>
                                 </li>
                                 <%
-                                        requestId++;
+                                            requestId++;
                                         }
-                                    } %>
+                                    }
+                                %>
                             </ul>
-
                         </div>
                     </div>
                 </div>
@@ -126,7 +127,9 @@
                             <td><%=res.getSpentTime()%>
                             </td>
                         </tr>
-                        <%}%>
+                        <%
+                            }
+                        %>
                         </tbody>
                     </table>
                 </li>
@@ -160,7 +163,9 @@
                             <td><%=res.getSpentTime()%>
                             </td>
                         </tr>
-                        <%}%>
+                        <%
+                            }
+                        %>
                         </tbody>
                     </table>
                 </li>
@@ -194,7 +199,9 @@
                             <td><%=res.getSpentTime()%>
                             </td>
                         </tr>
-                        <%}%>
+                        <%
+                            }
+                        %>
                         </tbody>
                     </table>
                 </li>

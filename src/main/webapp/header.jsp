@@ -26,7 +26,8 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -150,7 +151,8 @@
                                                 </li>
                                                 <%
                                                         requestId++;
-                                                    } %>
+                                                    }
+                                                %>
                                             </ul>
 
                                         </div>
@@ -172,7 +174,7 @@
 
                                                     <div class="row" id="<%="challenge" + challId%>">
                                                         <div class="col d-flex align-items-center">
-                                                            <a href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>    <%--aaqqq--%>
+                                                            <a href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
                                                             </a>
                                                             <div style="margin-left: 3px"> challenged you:</div>
                                                             <a style="margin-left: 3px"
@@ -193,7 +195,8 @@
                                                 </li>
                                                 <%
                                                         challId++;
-                                                    } %>
+                                                    }
+                                                %>
 
                                             </ul>
                                         </div>
