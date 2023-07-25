@@ -98,9 +98,9 @@ public class ResultsDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getResults = "SELECT * FROM completed_quizzes WHERE QUIZ_ID=? AND " +
-                    "USER_ID IN ((SELECT USER2_ID FROM friends where (USER1_ID=? AND ACCEPTED=1) ) " +
-                    "union (SELECT USER1_ID FROM friends  where (USER2_ID=? AND ACCEPTED=1) )) " +
+            String getResults = "SELECT * FROM COMPLETED_QUIZZES WHERE QUIZ_ID=? AND " +
+                    "USER_ID IN ((SELECT USER2_ID FROM FRIENDS where (USER1_ID=? AND ACCEPTED=1) ) " +
+                    "union (SELECT USER1_ID FROM FRIENDS  where (USER2_ID=? AND ACCEPTED=1) )) " +
                     "ORDER BY SCORE DESC, SPENT_TIME;";
             PreparedStatement statement = connect.prepareStatement(getResults);
             statement.setInt(1, quizId);
