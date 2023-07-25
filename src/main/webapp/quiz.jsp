@@ -1,4 +1,5 @@
 <%@ page import="Types.Quiz" %>
+<%@ page import="Types.Result" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -44,7 +45,7 @@
                 <div class="uk-modal-dialog bg-dark">
                     <button class="uk-modal-close-default" type="button" uk-close></button>
                     <div class="uk-modal-header bg-dark">
-                        <h2 class="uk-modal-title">Send Challange</h2>
+                        <h2 class="uk-modal-title">Send Challenge</h2>
                     </div>
                     <div class="uk-modal-body">
                         <div class="uk-padding-small">
@@ -80,7 +81,7 @@
         </div>
     </div>
     <div class="row uk-margin-small mt-5">
-        <div class="col-4 uk-box-shadow-large" style="height: 537px; overflow: auto; margin-bottom: 20px">
+        <div class="col-4 uk-box-shadow-large" style="max-height: 537px; overflow: auto; margin-bottom: 20px">
             <h3>Description:</h3>
             <div class="mt-2"><%=currQuiz.getQuizDescription()%>
             </div>
@@ -94,7 +95,7 @@
             <ul id="tables" class="uk-switcher uk-margin uk-box-shadow-large"
                 style="max-height: 485px; overflow: auto;">
                 <li>
-                    <table class="uk-table uk-table-divider" style="height: 600px; overflow: auto;">
+                    <table class="uk-table uk-table-divider" style="max-height: 600px; overflow: auto;">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -104,68 +105,26 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
+                        <%
+                            ArrayList<Result> results = resultsDAO.getQuizResults(currQuiz.getQuizId());
+                            int toFollow = Math.min(results.size(), 10);
+                            for (int i = 0; i < toFollow; i++) {
+                                Result res = results.get(i);
 
-
+                        %>
                         <tr>
-                            <td>2</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
+                            <td><%=i + 1%>
+                            </td>
+                            <td>
+                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO.getUserById(res.getUserId()).getUsername()%>
+                                </a>
+                            </td>
+                            <td><%=res.getScore()%>
+                            </td>
+                            <td><%=res.getSpentTime()%>
+                            </td>
                         </tr>
+                        <%}%>
                         </tbody>
                     </table>
                 </li>
@@ -180,18 +139,26 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <%
+                            ArrayList<Result> friendsResults = resultsDAO.getUserFriendsResultOnQuiz(myUser.getId(), currQuiz.getQuizId());
+                            toFollow = Math.min(friendsResults.size(), 10);
+                            for (int i = 0; i < toFollow; i++) {
+                                Result res = friendsResults.get(i);
+
+                        %>
                         <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
+                            <td><%=i + 1%>
+                            </td>
+                            <td>
+                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO.getUserById(res.getUserId()).getUsername()%>
+                                </a>
+                            </td>
+                            <td><%=res.getScore()%>
+                            </td>
+                            <td><%=res.getSpentTime()%>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
+                        <%}%>
                         </tbody>
                     </table>
                 </li>
@@ -206,18 +173,26 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <%
+                            ArrayList<Result> myResults = resultsDAO.getUserResultsOnQuiz(myUser.getId(), currQuiz.getQuizId());
+                            toFollow = Math.min(myResults.size(), 10);
+                            for (int i = 0; i < toFollow; i++) {
+                                Result res = myResults.get(i);
+
+                        %>
                         <tr>
-                            <td>1</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
+                            <td><%=i + 1%>
+                            </td>
+                            <td>
+                                <a href="/profile?user=<%=res.getUserId()%>"><%= myUser.getUsername()%>
+                                </a>
+                            </td>
+                            <td><%=res.getScore()%>
+                            </td>
+                            <td><%=res.getSpentTime()%>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><a href="#">Programming</a></td>
-                            <td>80</td>
-                            <td>23/10/2002</td>
-                        </tr>
+                        <%}%>
                         </tbody>
                     </table>
                 </li>
