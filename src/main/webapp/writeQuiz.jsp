@@ -1,4 +1,5 @@
 <%@ page import="Types.*" %>
+<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -28,8 +29,9 @@
 <%@include file="header.jsp" %>
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
-    ArrayList<Question> questions = questionsDAO.getQuestions(Integer.parseInt(request.getParameter("quizId")));
-    Question currQuestion = questions.get(Integer.parseInt(request.getParameter("questionInd")));
+    ArrayList<Question> questions = questionsDAO.getQuestions(currQuiz.getQuizId());
+    int questionInd = Integer.parseInt(request.getParameter("questionInd"));
+    Question currQuestion = questions.get(questionInd);
 %>
 <div class="container">
     <div class="row mt-3">
@@ -40,9 +42,123 @@
         </div>
         <div class="col-1"></div>
         <div class="col-7 uk-box-shadow-large uk-padding-small">
-            <h4>#1 Question</h4>
-            <div><%=currQuestion.getQuestionText()%>
-            </div>
+            <h4>#<%=questionInd + 1%> Question</h4>
+            <form action="/writeQuiz" method="post">
+                <input type="hidden" name="quizInd" value="<%=currQuiz.getQuizId()%>">
+                <input type="hidden" name="questionInd" value="<%=questionInd%>">
+
+                <% if (currQuestion.getType().equals("fillInTheBlank")) {
+                %>
+                <div class="uk-form-controls uk-form-controls-text row">
+                    <div class="col-auto d-flex align-Items-center"><%=currQuestion.getQuestionText()%>
+                    </div>
+                    <div class="col-2">
+                        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
+                               aria-label='Input' name='answer' style="width: 100px">
+                    </div>
+                    <div class="col-auto d-flex align-Items-center">
+                        <%=((FillInTheBlank) currQuestion).getQuestionText2()%>
+                    </div>
+                </div>
+
+                <%} else {%>
+                <div class="mb-3"><%=currQuestion.getQuestionText()%>
+                </div>
+
+
+                <% if (currQuestion.getType().equals("questionResponse")) {
+                %>
+                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
+                       aria-label='Input' name='answer'>
+                <%
+                    }
+
+
+                    if (currQuestion.getType().equals("pictureResponse")) {
+                %>
+                <img src="<%=((PictureResponse)currQuestion).getPictureUrl()%>" alt="image" class="mb-3">
+                <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
+                       aria-label='Input' name='answer'>
+                <%
+                    }
+
+                    if (currQuestion.getType().equals("multiAnswer")) {
+                        for (int i = 0; i < currQuestion.getAnswers().size(); i++) {
+                %>
+                <input class='form-control bg-dark whitePlaceholder text-light mb-3' type='text' placeholder='Answer'
+                       aria-label='Input' name='answer'>
+                <%
+                        }
+                    }
+
+
+                    if (currQuestion.getType().equals("multipleChoice")) {
+                        for (int i = 0; i < ((MultipleChoice) currQuestion).getAllAnswers().size(); i++) {
+                %>
+                <div class="uk-form-controls uk-form-controls-text">
+                    <label class="uk-margin-small">
+                        <input class='uk-radio' type='radio' name='answers'
+                               value="<%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>">
+                        <%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>
+                    </label>
+                </div>
+                <%
+                        }
+                    }
+
+
+                    if (currQuestion.getType().equals("multipleChoiceWithMultipleAnswers")) {
+                        for (int i = 0; i < ((MultipleChoice) currQuestion).getAllAnswers().size(); i++) {
+                %>
+                <div class="uk-form-controls uk-form-controls-text">
+                    <label class="uk-margin-small">
+                        <input class='uk-checkbox' type='checkbox' name='answers'
+                               value="<%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>">
+                        <%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>
+                    </label>
+                </div>
+                <%
+                        }
+                    }
+
+
+                    if (currQuestion.getType().equals("matching")) {
+                        Map<String, String> matches = ((Matching) currQuestion).getMatches();
+                %>
+                <div class="row">
+                    <div class="col-6">
+                        <% int i = 0;
+                            for (Map.Entry<String, String> match : matches.entrySet()) {
+                                i++;
+                        %>
+                        <div class="mt-1">
+                            <%=i + "). " + match.getKey()%>
+                        </div>
+                        <%}%>
+                    </div>
+                    <div class="col-6">
+                        <%
+                            for (Map.Entry<String, String> match : matches.entrySet()) {
+                        %>
+                        <div class="row mt-1">
+                            <input class='form-control bg-dark whitePlaceholder text-light mb-1 mt-1 col-2 '
+                                   type='text'
+                                   placeholder='#'
+                                   aria-label='Input' name='answer'
+                                   style="width: 40px; height: 40px">
+                            <div class="col-10 d-flex align-items-center"><%=match.getValue()%>
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
+                <%
+                        }
+
+                    }
+                %>
+                <input type="submit" class="btn btn-success mt-3" value="Approve Answer And Next Question">
+            </form>
         </div>
     </div>
 
