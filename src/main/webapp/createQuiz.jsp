@@ -141,7 +141,7 @@
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input class="btn btn-success" id="addNewQuestionBtn" onclick="addNewQuestion()"
+                        <input type="button" class="btn btn-success" id="addNewQuestionBtn" onclick="addNewQuestion()"
                                value="Add new question">
                     </div>
                 </div>
