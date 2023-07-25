@@ -13,16 +13,15 @@ public class QuizzesDAO {
         this.dataSource = dataSource;
     }
 
-    public void addQuiz(String quizName, String description, int creatorID, String questions) {
+    public void addQuiz(String quizName, String description, int creatorID) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "INSERT INTO QUIZZES VALUES(default,?,?,0,default,?,?)";
+            String str = "INSERT INTO QUIZZES VALUES(default,?,?,0,default,?)";
             PreparedStatement statement = connect.prepareStatement(str);
             statement.setString(1, quizName);
             statement.setString(2, description);
             statement.setInt(3, creatorID);
-            statement.setString(4, questions);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,8 +68,7 @@ public class QuizzesDAO {
             int creatorID = result.getInt("CREATOR_ID");
             Date creatingDate = result.getDate("CREATION_TIME");
             int completed = result.getInt("COMPLETED");
-            String questions = result.getString("QUESTIONS");
-            Quiz quiz = new Quiz(quizId, quizName, description, creatingDate, creatorID, questions, completed);
+            Quiz quiz = new Quiz(quizId, quizName, description, creatingDate, creatorID, completed);
             quizzes.add(quiz);
         }
         return quizzes;
@@ -164,4 +162,27 @@ public class QuizzesDAO {
         }
     }
 
+    public Quiz getQuizByName(String quizName) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getQuiz = "SELECT * FROM QUIZZES WHERE QUIZ_NAME = ?;";
+            PreparedStatement statement = connect.prepareStatement(getQuiz);
+            statement.setString(1, quizName);
+            ArrayList<Quiz> quizzes = getQuizzes(statement);
+            if (quizzes.isEmpty()) return null;
+            else return quizzes.get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }

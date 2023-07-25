@@ -1,5 +1,7 @@
 package Types;
 
+import BusinessLogic.ListToString;
+
 import java.util.ArrayList;
 
 public abstract class QuestionAbstract implements Question {
@@ -12,9 +14,12 @@ public abstract class QuestionAbstract implements Question {
         this.answers = answers;
         this.type = type;
     }
-    public String getType(){
+
+    @Override
+    public String getType() {
         return type;
     }
+
     @Override
     public ArrayList<String> getAnswers() {
         return answers;
@@ -23,5 +28,16 @@ public abstract class QuestionAbstract implements Question {
     @Override
     public String getQuestionText() {
         return questionText;
+    }
+
+    @Override
+    public String generateQuestionText() {
+        return questionText;
+    }
+
+    @Override
+    public String generateAnswers() {
+        ListToString lts = new ListToString();
+        return lts.generateString(answers);
     }
 }

@@ -4,8 +4,7 @@ DROP TABLE IF EXISTS FRIENDS;
 DROP TABLE IF EXISTS COMPLETED_QUIZZES;
 DROP TABLE IF EXISTS CHALLENGES;
 DROP TABLE IF EXISTS MESSAGES;
-DROP TABLE IF EXISTS QUESTION;
-DROP TABLE IF EXISTS CATEGORIES;
+DROP TABLE IF EXISTS QUESTIONS;
 DROP TABLE IF EXISTS QUIZZES;
 DROP TABLE IF EXISTS USERS;
 
@@ -36,7 +35,6 @@ CREATE TABLE QUIZZES
     COMPLETED     INT      default 0,
     CREATION_TIME DATETIME default current_timestamp,
     CREATOR_ID    INT             not null,
-    QUESTIONS     CHAR(64),
     FOREIGN KEY (CREATOR_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
 
@@ -75,20 +73,13 @@ CREATE TABLE MESSAGES
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
 
-CREATE TABLE CATEGORIES
-(
-    ID       int primary key not null AUTO_INCREMENT,
-    CATEGORY CHAR(64)
-);
-
-CREATE TABLE QUESTION
+CREATE TABLE QUESTIONS
 (
     ID            int primary key not null AUTO_INCREMENT,
-    CATEGORY_ID   int DEFAULT NULL,
+    CATEGORY_NAME char(64)        not null,
     QUIZ_ID       int DEFAULT NULL,
     QUESTION_TEXT TEXT,
     ANSWERS       TEXT,
-    FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORIES (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
 );
 
@@ -112,13 +103,13 @@ VALUES (1, 2, 1),
        (4, 5, 1),
        (5, 3, 0);
 
-INSERT INTO QUIZZES (QUIZ_NAME, DESCRIPTION, COMPLETED, CREATION_TIME, CREATOR_ID, QUESTIONS)
-VALUES ('quiz1', 'QUIZ', 0, default, 1, '1, 2, 3'),
-       ('quiz2', 'QUIZ', 2, default, 1, '1'),
-       ('quiz3', 'QUIZ', 2, default, 2, '2'),
-       ('quiz4', 'QUIZ', 0, default, 3, '3'),
-       ('quiz5', 'QUIZ', 1, default, 4, '4'),
-       ('quiz6', 'QUIZ', 1, default, 5, '5');
+INSERT INTO QUIZZES (QUIZ_NAME, DESCRIPTION, COMPLETED, CREATION_TIME, CREATOR_ID)
+VALUES ('quiz1', 'QUIZ', 0, default, 1),
+       ('quiz2', 'QUIZ', 2, default, 1),
+       ('quiz3', 'QUIZ', 2, default, 2),
+       ('quiz4', 'QUIZ', 0, default, 3),
+       ('quiz5', 'QUIZ', 1, default, 4),
+       ('quiz6', 'QUIZ', 1, default, 5);
 
 INSERT INTO COMPLETED_QUIZZES (USER_ID, QUIZ_ID, SCORE, SPENT_TIME, WRITE_TIME)
 VALUES (1, 3, 10, 17, default),
@@ -136,9 +127,3 @@ VALUES (1, 2, 1),
        (2, 1, 3),
        (3, 5, 5);
 
-INSERT INTO CATEGORIES(CATEGORY)
-VALUES ('QuestionResponse'),
-       ('PictureResponse'),
-       ('MultipleChoice'),
-       ('MultiAnswer'),
-       ('Matching');

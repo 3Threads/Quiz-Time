@@ -25,12 +25,12 @@ public class ChallengesDaoTest {
         usersDAO.addUser("2", "2");
         usersDAO.addUser("3", "3");
         usersDAO.addUser("4", "4");
-        quizzesDAO.addQuiz("1", "1", 1, "1");
-        quizzesDAO.addQuiz("11", "11", 1, "1, 2");
-        quizzesDAO.addQuiz("111", "111", 1, "1, 2, 3");
-        quizzesDAO.addQuiz("2", "2", 2, "1, 2, 3");
-        quizzesDAO.addQuiz("3", "3", 3, "1, 2");
-        quizzesDAO.addQuiz("33", "33", 3, "1, 2, 3, 4, 5, 6");
+        quizzesDAO.addQuiz("1", "1", 1);
+        quizzesDAO.addQuiz("11", "11", 1);
+        quizzesDAO.addQuiz("111", "111", 1);
+        quizzesDAO.addQuiz("2", "2", 2);
+        quizzesDAO.addQuiz("3", "3", 3);
+        quizzesDAO.addQuiz("33", "33", 3);
 
     }
 

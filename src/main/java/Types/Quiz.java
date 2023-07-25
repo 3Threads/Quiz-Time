@@ -1,7 +1,5 @@
 package Types;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 public class Quiz {
@@ -13,16 +11,14 @@ public class Quiz {
 
     private final int quizId;
 
-    private final ArrayList<String> questionsID;
-    public Quiz(int quizId,String quizName, String quizDescription, Date creationTime, int creatorID, String questions, int completed) {
+    public Quiz(int quizId,String quizName, String quizDescription, Date creationTime, int creatorID,  int completed) {
         this.quizId = quizId;
         this.quizName = quizName;
         this.quizDescription = quizDescription;
         this.creationTime = creationTime;
         this.creatorID = creatorID;
         this.completed = completed;
-        String[] questionsIDs = questions.split(",");
-        questionsID = new ArrayList<>(Arrays.asList(questionsIDs));
+
     }
 
     public int getCompleted() {
@@ -39,9 +35,6 @@ public class Quiz {
         return quizDescription;
     }
 
-    public ArrayList<String> getQuestionsID() {
-        return questionsID;
-    }
 
     public Date getCreationTime() {
         return creationTime;

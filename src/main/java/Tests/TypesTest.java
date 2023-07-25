@@ -114,18 +114,14 @@ public class TypesTest {
         String qz1Desc = "IT IS HARD ONE";
         Date qz1Date = new Date(2000, 10, 9);
         int qz1CreatorID = 12345;
-        String qz1Questions = "120, 121, 122";
-        String[] questionIDs = qz1Questions.split(",");
-        ArrayList<String> qz1IDs = new ArrayList<>(Arrays.asList(questionIDs));
         int qz1Completed = 21;
 
-        Quiz qz1 = new Quiz(qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Questions, qz1Completed);
+        Quiz qz1 = new Quiz(qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Completed);
 
         assertEquals(qz1ID, qz1.getQuizId());
         assertEquals(qz1Name, qz1.getQuizName());
         assertEquals(qz1Desc, qz1.getQuizDescription());
         assertEquals(qz1Date, qz1.getCreationTime());
         assertEquals(qz1CreatorID, qz1.getCreatorID());
-        assertEquals(qz1IDs, qz1.getQuestionsID());
     }
 }

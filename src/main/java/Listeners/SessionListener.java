@@ -10,6 +10,7 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         httpSessionEvent.getSession().removeAttribute("userInfo");
+        httpSessionEvent.getSession().removeAttribute("questions");
     }
 
     @Override
