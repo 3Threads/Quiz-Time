@@ -145,7 +145,7 @@ public class QuestionsDAO {
                     String[] questionTexts = questionText.split(String.valueOf((char) 0));
                     question = new PictureResponse(questionTexts[0],"pictureResponse", questionTexts[1], allAnswers);
                 }
-                if(type.equals("multipleChoice")) {
+                if(type.equals("multipleChoice") || type.equals("multipleChoiceAndMultipleAnswers")) {
                     String[] allAnsws = answers.split(String.valueOf((char) 0) + String.valueOf((char) 0));
                     ArrayList<String> correctAnswers = new ArrayList<>(List.of((allAnsws[0].split(String.valueOf((char) 0)))));
                     ArrayList<String> allPossibleAnswers = new ArrayList<>(List.of(allAnsws[1].split(String.valueOf((char) 0))));
