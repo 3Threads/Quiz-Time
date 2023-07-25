@@ -15,7 +15,8 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -52,7 +53,9 @@
             <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=rejectRequest&from=profile"%>>
                 <button class="btn btn-danger">Reject Request</button>
             </a>
-            <% } else { %>
+            <%
+            } else {
+            %>
             <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=cancelRequest"%>>
                 <button class="btn btn-danger">Delete Request</button>
             </a>
@@ -63,11 +66,15 @@
                 <button class="btn btn-danger">unfriend</button>
             </a>
 
-            <% } %>
+            <%
+                }
+            %>
             <a href=<%="/chat?chatWith=" + pageUser.getId()%>>
                 <button class="btn btn-primary">chat</button>
             </a>
-            <% } %>
+            <%
+                }
+            %>
 
             <br><br><br>
             <div class="uk-padding-small " uk-scrollspy="cls: uk-animation-slide-left; repeat: true"
@@ -79,7 +86,9 @@
                             User myFriend = usersDAO.getUserById(friend); %>
                     <li><a href=<%="/profile?user=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                     </a></li>
-                    <% } %>
+                    <%
+                        }
+                    %>
                 </ul>
             </div>
         </div>
@@ -150,6 +159,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

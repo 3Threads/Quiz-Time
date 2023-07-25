@@ -15,7 +15,8 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Quiz Time</title>
@@ -52,13 +53,14 @@
             }
         });
     }
+
     function getMessagesChat() {
         $.get('notSeenChat', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
             let realStr = responseText.trim();
             let fr = [];
             fr = realStr.split('/');
             fr.splice(fr.length - 1, 1);
-            if(realStr !== '') {
+            if (realStr !== '') {
                 console.log(realStr);
                 fr.forEach(myFunction);
 
@@ -83,9 +85,10 @@
             }
         });
     }
+
     function getChats() {
         $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
-            if(responseText !== '') {
+            if (responseText !== '') {
                 console.log(responseText);
                 $('#chatList').html(responseText);
                 getMessages();
@@ -93,6 +96,7 @@
             }
         });
     }
+
     $(document).ready(function () {
         setInterval(getChats, 2000);
         $(".chatBox").scrollTop(function () {
@@ -110,7 +114,7 @@
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
                 <%
-                    HashMap<Integer,ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
+                    HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
                     if (request.getParameter("chatWith") != null) {
                         chatId = Integer.parseInt(request.getParameter("chatWith"));
@@ -137,9 +141,10 @@
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                             <div id=<%="friend" + myFriend.getId()%>>
                                 <%
-                                if(notSeenMessages.keySet().contains(myFriend.getId())){
-                                    out.println(notSeenMessages.get(myFriend.getId()).size());
-                                }%>
+                                    if (notSeenMessages.keySet().contains(myFriend.getId())) {
+                                        out.println(notSeenMessages.get(myFriend.getId()).size());
+                                    }
+                                %>
                             </div>
                         </a>
                     </div>
@@ -165,14 +170,18 @@
                         <p class="messageParagraph"><%=message.getMessage()%>
                         </p>
                     </div>
-                    <% } else { %>
+                    <%
+                            } else {
+                    %>
                     <div class="uk-align-right bg-primary messageBox">
                         <p class="messageParagraph"><%=message.getMessage()%>
                         </p>
                     </div>
-                    <% }
-                    }
-                    } %>
+                    <%
+                                }
+                            }
+                        }
+                    %>
                 </div>
             </div>
             <div class="mt-2" style="height: 10%;">
