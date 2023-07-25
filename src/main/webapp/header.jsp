@@ -40,6 +40,7 @@
     MessagesDAO messagesDAO = (MessagesDAO) application.getAttribute("messagesDB");
     QuizzesDAO quizzesDAO = (QuizzesDAO) application.getAttribute("quizzesDB");
     ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
+    QuestionsDAO questionsDAO = (QuestionsDAO) application.getAttribute("questionsDB");
 %>
 <script>
     function requestAction(user1, user2, action, requestId) {

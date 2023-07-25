@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class QuestionsDAO {
     private final BasicDataSource dataSource;
@@ -130,7 +131,7 @@ public class QuestionsDAO {
                 String type = result.getString("CATEGORY_NAME");
                 String questionText = result.getString("QUESTION_TEXT");
                 String answers = result.getString("ANSWERS");
-                ArrayList<String> allAnswers = (ArrayList<String>) Arrays.asList(answers.split(String.valueOf((char) 0)));
+                ArrayList<String> allAnswers = new ArrayList<>(List.of(answers.split(String.valueOf((char) 0))));
                 if(type.equals("fillInTheBlank")) {
                     String[] questionTexts = questionText.split(String.valueOf((char) 0));
                     String text1 = questionTexts[0];
