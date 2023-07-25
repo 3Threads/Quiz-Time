@@ -55,6 +55,7 @@
                                     ArrayList<Integer> friends = friendsDAO.getFriendsList(myUser.getId());
                                     for (Integer reqId : friends) {
                                         User reqUserInfo = usersDAO.getUserById(reqId);
+                                        if(!challengesDAO.alreadyChallenged(myUser.getId(), reqUserInfo.getId(), currQuiz.getQuizId())) {
                                 %>
                                 <li>
                                     <div class="row">
@@ -71,6 +72,7 @@
                                 </li>
                                 <%
                                         requestId++;
+                                        }
                                     } %>
                             </ul>
 

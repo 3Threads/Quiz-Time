@@ -32,6 +32,9 @@ public class LoginServlet extends HttpServlet {
                 int userId = sql.getUserId(username);
                 User user = new User(userId, username);
                 httpServletRequest.getSession().setAttribute("userInfo", user);
+                httpServletRequest.getSession().removeAttribute("questions");
+                httpServletRequest.getSession().removeAttribute("title");
+                httpServletRequest.getSession().removeAttribute("description");
                 httpServletResponse.sendRedirect("/homePage");
             } else {
                 httpServletResponse.sendRedirect("/login?loginFailed=true");
