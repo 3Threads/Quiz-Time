@@ -35,7 +35,7 @@ public class CreateQuizServlet extends HttpServlet {
                 Question q = questions.get(index);
                 StringBuilder url = new StringBuilder("/createQuiz?index=" + index + "&editMode=true&type=" + q.getType());
                 if (q.getType().equals("fillInTheBlank")) {
-                    url.append("&questionText1=").append(((FillInTheBlank) q).getQuestionText()).append("&questionText2=").append(((FillInTheBlank) q).getQuestionText2());
+                    url.append("&questionText1=").append(q.getQuestionText()).append("&questionText2=").append(((FillInTheBlank) q).getQuestionText2());
                 } else {
                     url.append("&questionText=").append(q.getQuestionText());
                 }
@@ -165,6 +165,10 @@ public class CreateQuizServlet extends HttpServlet {
             for (Question q : questions) {
                 questionsDAO.addQuestion(q, quizID);
             }
+            httpServletRequest.getSession().removeAttribute("title");
+            httpServletRequest.getSession().removeAttribute("description");
+            httpServletRequest.getSession().removeAttribute("questions");
+
             httpServletResponse.sendRedirect("/quiz?quizId=" + quizID);
         }
     }
