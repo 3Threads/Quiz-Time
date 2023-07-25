@@ -146,16 +146,16 @@ public class QuestionsDAO {
                     question = new PictureResponse(questionTexts[0],"pictureResponse", questionTexts[1], allAnswers);
                 }
                 if(type.equals("multipleChoice")) {
-                    String[] allAnsws = answers.split(String.valueOf((char) 0 + (char) 0));
-                    ArrayList<String> correctAnswers = (ArrayList<String>) Arrays.asList(allAnsws[0].split(String.valueOf((char) 0)));
-                    ArrayList<String> allPossibleAnswers = (ArrayList<String>) Arrays.asList(allAnsws[1].split(String.valueOf((char) 0)));
+                    String[] allAnsws = answers.split(String.valueOf((char) 0) + String.valueOf((char) 0));
+                    ArrayList<String> correctAnswers = new ArrayList<>(List.of((allAnsws[0].split(String.valueOf((char) 0)))));
+                    ArrayList<String> allPossibleAnswers = new ArrayList<>(List.of(allAnsws[1].split(String.valueOf((char) 0))));
                     for(String st : correctAnswers) {
                         allPossibleAnswers.add(st);
                     }
                     question = new MultipleChoice(questionText,"multipleChoice", correctAnswers, allPossibleAnswers);
                 }
                 if(type.equals("matching")) {
-                    ArrayList<String> allPairs = (ArrayList<String>) Arrays.asList(answers.split(String.valueOf((char) 0)));
+                    ArrayList<String> allPairs = new ArrayList<>(List.of(answers.split(String.valueOf((char) 0))));
                     HashMap<String, String> pairs = new HashMap<>();
                     for(int i = 0; i < allPairs.size(); i += 2) {
                         pairs.put(allPairs.get(i), allPairs.get(i+1));
