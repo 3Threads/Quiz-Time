@@ -102,7 +102,7 @@ public class QuestionsDAOTest {
     // QUIZ #11
     public void testAddQuestionsToQuizz() {
         assertEquals(new ArrayList<>(List.of(new Integer[]{11, 12})), questions.getQuestionsIdByQuizId(11));
-        assertEquals("are you ok?", questions.getQuestion(11));
+        assertEquals("are you ok??", questions.getQuestion(11));
         assertEquals("r u sure?", questions.getQuestion(12));
     }
 

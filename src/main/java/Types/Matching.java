@@ -18,12 +18,18 @@ public class Matching extends QuestionAbstract {
     }
 
     @Override
-    public String generateAnswers() {
+    public ArrayList<String> getAnswers(){
         ArrayList<String> arr = new ArrayList<>();
         for (Map.Entry<String, String> x : answers.entrySet()) {
             arr.add(x.getKey());
             arr.add(x.getValue());
         }
+        return arr;
+    }
+
+    @Override
+    public String generateAnswers() {
+        ArrayList<String> arr = getAnswers();
         ListToString lts = new ListToString();
         return lts.generateString(arr);
     }
