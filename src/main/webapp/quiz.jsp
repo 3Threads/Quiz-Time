@@ -35,7 +35,7 @@
         <div class="col"><h1 style="margin: 0"><%=currQuiz.getQuizName()%>
         </h1></div>
         <div class="col-auto d-flex align-items-center">
-            <a href="/startQuiz?quizId=<%=currQuiz.getQuizId()%>">
+            <a href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>">
                 <input type="button" class="btn btn-success" value="Start Quiz" style="margin-right: 6px">
             </a>
             <a href="#modalSendChallenges" uk-toggle>

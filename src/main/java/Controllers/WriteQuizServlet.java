@@ -1,5 +1,7 @@
 package Controllers;
 
+import DAO.QuestionsDAO;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,12 +22,17 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/homePage");
             return;
         }
-        if (httpServletRequest.getParameter("questionInd") == null) {
-            httpServletResponse.sendRedirect("/homePage");
+        if (httpServletRequest.getParameter("questionInd") == null || questionIndIsOutOfBound(Integer.parseInt(httpServletRequest.getParameter("questionInd")), httpServletRequest)) {
+            httpServletResponse.sendRedirect("/writeQuiz?quizId="+httpServletRequest.getParameter("quizId")+"&questionInd=0");
             return;
         }
 
         httpServletRequest.getRequestDispatcher("writeQuiz.jsp").forward(httpServletRequest, httpServletResponse);
+    }
+
+    private boolean questionIndIsOutOfBound(int questionInd, HttpServletRequest httpServletRequest) {
+        QuestionsDAO questionsDAO = (QuestionsDAO) httpServletRequest.getServletContext().getAttribute("questionsDB");
+        return !(questionsDAO.getQuestionsIdByQuizId(Integer.parseInt(httpServletRequest.getParameter("quizId"))).size() > questionInd && questionInd >= 0);
     }
 
     @Override
