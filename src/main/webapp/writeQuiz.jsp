@@ -70,6 +70,7 @@
             </div>
             <form method="post" action="/writeQuiz">
                 <input type="hidden" name="action" value="finish">
+                <input type="hidden" name="quizId" value="<%=request.getParameter("quizId")%>">
                 <input type="submit" class="btn btn-success mt-3" value="Finish">
             </form>
         </div>

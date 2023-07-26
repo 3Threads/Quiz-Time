@@ -71,7 +71,7 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("writingQuestions");
             httpServletRequest.getSession().removeAttribute("userAnswers");
             httpServletRequest.getSession().removeAttribute("startTime");
-            httpServletResponse.sendRedirect("/finishedQuiz?score=" + score + "&time=" + time);
+            httpServletResponse.sendRedirect("/quiz?quizId=" + httpServletRequest.getParameter("quizId") + "&score=" + score + "&time=" + time);
         }
     }
 }
