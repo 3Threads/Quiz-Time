@@ -33,6 +33,7 @@ public class WriteQuizServlet extends HttpServlet {
             return;
         }
         if (httpServletRequest.getParameter("questionInd") == null || questionIndIsOutOfBound(Integer.parseInt(httpServletRequest.getParameter("questionInd")), httpServletRequest)) {
+            if(httpServletRequest.getParameter("questionInd") == null) httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
             httpServletResponse.sendRedirect("/writeQuiz?quizId=" + httpServletRequest.getParameter("quizId") + "&questionInd=0");
             return;
         }
@@ -61,6 +62,7 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/writeQuiz?quizId=" + httpServletRequest.getParameter("quizId") + "&questionInd=" + (httpServletRequest.getParameter("nextQuestionInd")));
         }
         if (httpServletRequest.getParameter("action").equals("finish")) {
+            long time = System.currentTimeMillis() - (long) httpServletRequest.getSession().getAttribute("startTime");
             int score = 0;
             ArrayList<String>[] userAnswers = (ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers");
             ArrayList<Question> questions = (ArrayList<Question>) httpServletRequest.getSession().getAttribute("writingQuestions");
@@ -74,7 +76,8 @@ public class WriteQuizServlet extends HttpServlet {
             }
             httpServletRequest.getSession().removeAttribute("writingQuestions");
             httpServletRequest.getSession().removeAttribute("userAnswers");
-            httpServletResponse.sendRedirect("/finishedQuiz?score=" + score);
+            httpServletRequest.getSession().removeAttribute("startTime");
+            httpServletResponse.sendRedirect("/finishedQuiz?score=" + score+"&time="+time);
         }
     }
 }

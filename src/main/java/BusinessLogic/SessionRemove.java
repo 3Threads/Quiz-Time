@@ -9,5 +9,6 @@ public class SessionRemove {
         request.getSession().removeAttribute("title");
         request.getSession().removeAttribute("description");
         request.getSession().removeAttribute("questions");
+        request.getSession().removeAttribute("startTime");
     }
 }
