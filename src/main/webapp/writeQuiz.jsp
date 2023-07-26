@@ -53,7 +53,7 @@
             <form action="/writeQuiz" method="post">
                 <input type="hidden" name="quizId" value="<%=currQuiz.getQuizId()%>">
                 <input type="hidden" name="questionInd" value="<%=questionInd%>">
-
+                <input type="hidden" name="action" value="questionAnswer">
                 <% if (currQuestion.getType().equals("fillInTheBlank")) {
                 %>
                 <div class="uk-form-controls uk-form-controls-text row">
