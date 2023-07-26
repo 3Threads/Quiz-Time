@@ -1,7 +1,7 @@
-<%@ page import="Types.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="Types.User" %>
 <%@ page import="Types.FriendInfo" %>
+<%@ page import="Types.*" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -94,16 +94,16 @@
         </div>
         <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">
             <br>
-            <%--            <h4 class="text-center">Quizzes</h4>--%>
             <div>
                 <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
                     <li><a style="color: white" href="">Created quizzes</a></li>
-                    <li><a style="color: white" href="">Result quizzes</a></li>
+                    <li><a style="color: white" href="">Completed quizzes</a></li>
                 </ul>
                 <ul id="tables" class="uk-switcher uk-margin uk-box-shadow-large"
                     style="max-height: 485px; overflow: auto;">
+
                     <li>
-                        <table class="uk-table uk-table-divider">
+                        <table name="My created" class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -113,44 +113,63 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <%
+                                ArrayList<Quiz> myCreated = quizzesDAO.getMyCreatedQuizzes(myUser.getId());
+                                int toFollow = Math.min(myCreated.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Quiz quiz = myCreated.get(i);
+
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
+                                <td><%=i + 1%>
+                                </td>
+                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
+                                </a></td>
+                                <td><%=quiz.getCompleted()%>
+                                </td>
+                                <td><%=quiz.getCreationTime()%>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
-                            </tr>
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                     </li>
+
                     <li>
-                        <table class="uk-table uk-table-divider">
+                        <table name="My Completed" class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Completed</th>
-                                <th>Creation</th>
+                                <th>Score</th>
+                                <th>Time</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <%
+                                ArrayList<Result> myWritten = resultsDAO.getUserResults(myUser.getId());
+                                toFollow = Math.min(myWritten.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Result result = myWritten.get(i);
+                                    int quizId = result.getQuizId();
+                                    Quiz quiz = quizzesDAO.getQuizInfo(quizId);
+
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
+                                <td><%=i + 1%>
+                                </td>
+                                <td><a href="/quiz?quizId=<%=quizId%>"><%=quiz.getQuizName()%>
+                                </a></td>
+                                <td><%=result.getScore()%>
+                                </td>
+                                <td><%=result.getSpentTime()%>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#">Programming</a></td>
-                                <td>80</td>
-                                <td>23/10/2002</td>
-                            </tr>
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                     </li>
