@@ -21,6 +21,9 @@ import java.util.List;
 public class WriteQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        httpServletRequest.getSession().removeAttribute("title");
+        httpServletRequest.getSession().removeAttribute("description");
+        httpServletRequest.getSession().removeAttribute("questions");
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
             return;
