@@ -134,22 +134,23 @@
 
 
                     if (currQuestion.getType().equals("matching")) {
-                        Map<String, String> matches = ((Matching) currQuestion).getMatches();
+                        ArrayList<String> firstPart = ((Matching) currQuestion).getFirstPart();
+                        ArrayList<String> secondPart = ((Matching) currQuestion).getSecondPart();
                 %>
                 <div class="row">
                     <div class="col-6">
                         <% int i = 0;
-                            for (Map.Entry<String, String> match : matches.entrySet()) {
+                            for (String key: firstPart) {
                                 i++;
                         %>
                         <div class="mt-1">
-                            <%=i + "). " + match.getKey()%>
+                            <%=i + "). " + key%>
                         </div>
                         <%}%>
                     </div>
                     <div class="col-6">
                         <%
-                            for (Map.Entry<String, String> match : matches.entrySet()) {
+                            for (String val: secondPart) {
                         %>
                         <div class="row mt-1">
                             <input class='form-control bg-dark whitePlaceholder text-light mb-1 mt-1 col-2 '
@@ -157,7 +158,7 @@
                                    placeholder='#'
                                    aria-label='Input' name='answer'
                                    style="width: 40px; height: 40px">
-                            <div class="col-10 d-flex align-items-center"><%=match.getValue()%>
+                            <div class="col-10 d-flex align-items-center"><%=val%>
                             </div>
                         </div>
                         <%}%>

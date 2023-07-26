@@ -3,6 +3,7 @@ package Types;
 import BusinessLogic.ListToString;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MultipleChoice extends QuestionAbstract {
     private final ArrayList<String> incorrectAnswers;
@@ -10,6 +11,7 @@ public class MultipleChoice extends QuestionAbstract {
 
     public MultipleChoice(String questionText, String type, ArrayList<String> answers, ArrayList<String> allAnswers) {
         super(type, questionText, answers);
+        Collections.shuffle(allAnswers);
         this.allAnswers = allAnswers;
         incorrectAnswers = getIncorrectAnswers(allAnswers);
     }
