@@ -43,6 +43,7 @@ public class MultipleChoice extends QuestionAbstract {
     }
     @Override
     public boolean checkAnswer(ArrayList<String> userAnswer) {
+        if(userAnswer == null || userAnswer.isEmpty()) return false;
         String answer = userAnswer.get(0);
         return answer.equals(getAnswers().get(0));
     }

@@ -55,8 +55,8 @@
                 <a class="col-auto text-center" href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>&questionInd=<%=i%>"
                    style="width: 50px;
                        <%
-                        if(questionInd==i) out.print("background-color: #363636;");
-                        else if(answers[i]!=null && !answers[i].isEmpty()) out.print("background-color: #3e4042;");
+                        if(questionInd==i) out.print("background-color: #3e4042;");
+                        else if(answers[i]!=null && !answers[i].isEmpty() && !answers[i].get(0).trim().equals("")) out.print("background-color: #363636;");
                    %> border: darkgrey 1px solid; margin:2px;">
                     <%=i + 1%>
                 </a>
@@ -83,7 +83,10 @@
                     </div>
                     <div class="col-2">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
-                               aria-label='Input' name='answer' style="width: 100px">
+                               aria-label='Input' name='answer' style="width: 100px"
+                            <%
+                           if(answers[questionInd]!=null && !answers[questionInd].isEmpty()) out.print("value='"+answers[questionInd].get(0)+"'");
+                       %>>
                     </div>
                     <div class="col-auto d-flex align-Items-center">
                         <%=((FillInTheBlank) currQuestion).getQuestionText2()%>
@@ -98,7 +101,10 @@
                 <% if (currQuestion.getType().equals("questionResponse")) {
                 %>
                 <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
-                       aria-label='Input' name='answer'>
+                       aria-label='Input' name='answer'
+                    <%
+                           if(answers[questionInd]!=null && !answers[questionInd].isEmpty()) out.print("value='"+answers[questionInd].get(0)+"'");
+                       %>>
                 <%
                     }
 
@@ -107,7 +113,10 @@
                 %>
                 <img src="<%=((PictureResponse)currQuestion).getPictureUrl()%>" alt="image" class="mb-3">
                 <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
-                       aria-label='Input' name='answer'>
+                       aria-label='Input' name='answer'
+                    <%
+                           if(answers[questionInd]!=null && !answers[questionInd].isEmpty()) out.print("value='"+answers[questionInd].get(0)+"'");
+                       %>>
                 <%
                     }
 
@@ -115,7 +124,10 @@
                         for (int i = 0; i < currQuestion.getAnswers().size(); i++) {
                 %>
                 <input class='form-control bg-dark whitePlaceholder text-light mb-3' type='text' placeholder='Answer'
-                       aria-label='Input' name='answer'>
+                       aria-label='Input' name='answer'
+                    <%
+                           if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && i<answers[questionInd].size()) out.print("value='"+answers[questionInd].get(i)+"'");
+                       %>>
                 <%
                         }
                     }
@@ -128,7 +140,12 @@
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
                         <input class='uk-radio' type='radio' name='answer'
-                               value="<%=allAnswers.get(i)%>">
+                               value="<%=allAnswers.get(i)%>"
+                            <%
+                            if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswers.get(i)))
+                                out.print("checked");
+                            %>
+                        >
                         <%=allAnswers.get(i)%>
                     </label>
                 </div>
@@ -146,7 +163,12 @@
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
                         <input class='uk-checkbox' type='checkbox' name='answer'
-                               value="<%=allAnswers.get(i)%>">
+                               value="<%=allAnswers.get(i)%>"
+                            <%
+                            if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswers.get(i)))
+                                out.print("checked");
+                            %>
+                        >
                         <%=allAnswers.get(i)%>
                     </label>
                 </div>
@@ -172,6 +194,7 @@
                     </div>
                     <div class="col-6">
                         <%
+                            i = 0;
                             for (String val : secondPart) {
                         %>
                         <div class="row mt-1">
@@ -179,11 +202,16 @@
                                    type='text'
                                    placeholder='#'
                                    aria-label='Input' name='answer'
-                                   style="width: 40px; height: 40px">
+                                   style="width: 40px; height: 40px"
+                                <%
+                           if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && i<answers[questionInd].size()) out.print("value='"+answers[questionInd].get(i)+"'");
+                       %>>
                             <div class="col-10 d-flex align-items-center"><%=val%>
                             </div>
                         </div>
-                        <%}%>
+                        <%
+                                i++;
+                            }%>
                     </div>
                 </div>
                 <%
