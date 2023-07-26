@@ -1,5 +1,6 @@
 package Controllers;
 
+import BusinessLogic.SessionRemove;
 import DAO.UsersDAO;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import java.io.IOException;
 public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        SessionRemove.removeQuizAttributes(httpServletRequest);
         if (httpServletRequest.getSession().getAttribute("userInfo") != null) {
             httpServletResponse.sendRedirect("/homePage");
         } else {

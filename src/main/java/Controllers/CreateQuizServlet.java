@@ -1,5 +1,6 @@
 package Controllers;
 
+import BusinessLogic.SessionRemove;
 import DAO.QuestionsDAO;
 import DAO.QuizzesDAO;
 import Types.*;
@@ -19,6 +20,8 @@ import java.util.Map;
 public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        httpServletRequest.getSession().removeAttribute("writingQuestions");
+        httpServletRequest.getSession().removeAttribute("userAnswers");
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
         } else {
