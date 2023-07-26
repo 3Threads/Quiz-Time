@@ -76,9 +76,12 @@ CREATE TABLE MESSAGES
 CREATE TABLE QUESTIONS
 (
     ID            int primary key not null AUTO_INCREMENT,
-    CATEGORY_NAME   char(64) not null,
+    CATEGORY_NAME char(64)        not null,
     QUIZ_ID       int DEFAULT NULL,
     QUESTION_TEXT TEXT,
     ANSWERS       TEXT,
-    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
+    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE,
+    CHECK (CATEGORY_NAME = 'fillInTheBlank' OR CATEGORY_NAME = 'matching' OR CATEGORY_NAME = 'multiAnswers' OR
+           CATEGORY_NAME = 'multipleChoices' OR CATEGORY_NAME = 'multipleChoicesWithMultipleAnswers' OR
+           CATEGORY_NAME = 'pictureResponse' OR CATEGORY_NAME = 'textResponse')
 );

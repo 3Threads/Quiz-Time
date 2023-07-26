@@ -81,7 +81,7 @@
                 <input type="hidden" name="questionInd" value="<%=questionInd%>">
                 <input type="hidden" name="nextQuestionInd" value="<%=questionInd+1%>" id="nextQuestionInd">
                 <input type="hidden" name="action" value="questionAnswer">
-                <% if (currQuestion.getType().equals("fillInTheBlank")) {
+                <% if (currQuestion.getType().equals(QuestionTypes.fillInTheBlank)) {
                 %>
                 <div class="uk-form-controls uk-form-controls-text row">
                     <div class="col-auto d-flex align-Items-center"><%=currQuestion.getQuestionText()%>
@@ -94,7 +94,7 @@
                        %>>
                     </div>
                     <div class="col-auto d-flex align-Items-center">
-                        <%=((FillInTheBlank) currQuestion).getQuestionText2()%>
+                        <%=((QuestionFillInTheBlank) currQuestion).getQuestionText2()%>
                     </div>
                 </div>
 
@@ -103,7 +103,7 @@
                 </div>
 
 
-                <% if (currQuestion.getType().equals("questionResponse")) {
+                <% if (currQuestion.getType().equals(QuestionTypes.textResponse)) {
                 %>
                 <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
                        aria-label='Input' name='answer'
@@ -114,9 +114,9 @@
                     }
 
 
-                    if (currQuestion.getType().equals("pictureResponse")) {
+                    if (currQuestion.getType().equals(QuestionTypes.pictureResponse)) {
                 %>
-                <img src="<%=((PictureResponse)currQuestion).getPictureUrl()%>" alt="image" class="mb-3">
+                <img src="<%=((QuestionPictureResponse)currQuestion).getPictureUrl()%>" alt="image" class="mb-3">
                 <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'
                        aria-label='Input' name='answer'
                     <%
@@ -125,7 +125,7 @@
                 <%
                     }
 
-                    if (currQuestion.getType().equals("multiAnswer")) {
+                    if (currQuestion.getType().equals(QuestionTypes.multiAnswers)) {
                         for (int i = 0; i < currQuestion.getAnswers().size(); i++) {
                 %>
                 <input class='form-control bg-dark whitePlaceholder text-light mb-3' type='text' placeholder='Answer'
@@ -138,20 +138,21 @@
                     }
 
 
-                    if (currQuestion.getType().equals("multipleChoice")) {
-                        ArrayList<String> allAnswers = ((MultipleChoice) currQuestion).getAllAnswers();
-                        for (int i = 0; i < allAnswers.size(); i++) {
+                    if (currQuestion.getType().equals(QuestionTypes.multipleChoices)) {
+                        assert currQuestion instanceof QuestionMultipleChoices;
+                        ArrayList<String> allAnswers = ((QuestionMultipleChoices) currQuestion).getAllAnswers();
+                        for (String allAnswer : allAnswers) {
                 %>
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
                         <input class='uk-radio' type='radio' name='answer'
-                               value="<%=allAnswers.get(i)%>"
+                               value="<%=allAnswer%>"
                             <%
-                            if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswers.get(i)))
+                            if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswer))
                                 out.print("checked");
                             %>
                         >
-                        <%=allAnswers.get(i)%>
+                        <%=allAnswer%>
                     </label>
                 </div>
                 <%
@@ -159,22 +160,23 @@
                     }
 
 
-                    if (currQuestion.getType().equals("multipleChoiceWithMultipleAnswers")) {
-                        ArrayList<String> allAnswers = ((MultipleChoice) currQuestion).getAllAnswers();
-                        for (int i = 0; i < allAnswers.size(); i++) {
+                    if (currQuestion.getType().equals(QuestionTypes.multipleChoicesWithMultipleAnswers)) {
+                        assert currQuestion instanceof QuestionMultipleChoicesWithMultipleAnswers;
+                        ArrayList<String> allAnswers = ((QuestionMultipleChoicesWithMultipleAnswers) currQuestion).getAllAnswers();
+                        for (String allAnswer : allAnswers) {
 
                 %>
 
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
                         <input class='uk-checkbox' type='checkbox' name='answer'
-                               value="<%=allAnswers.get(i)%>"
+                               value="<%=allAnswer%>"
                             <%
-                            if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswers.get(i)))
+                            if(answers[questionInd]!=null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswer))
                                 out.print("checked");
                             %>
                         >
-                        <%=allAnswers.get(i)%>
+                        <%=allAnswer%>
                     </label>
                 </div>
                 <%
@@ -182,9 +184,10 @@
                     }
 
 
-                    if (currQuestion.getType().equals("matching")) {
-                        ArrayList<String> firstPart = ((Matching) currQuestion).getFirstPart();
-                        ArrayList<String> secondPart = ((Matching) currQuestion).getSecondPart();
+                    if (currQuestion.getType().equals(QuestionTypes.matching)) {
+                        assert currQuestion instanceof QuestionMatching;
+                        ArrayList<String> firstPart = ((QuestionMatching) currQuestion).getFirstPart();
+                        ArrayList<String> secondPart = ((QuestionMatching) currQuestion).getSecondPart();
                 %>
                 <div class="row">
                     <div class="col-6">

@@ -2,10 +2,16 @@ package Types;
 
 import java.util.ArrayList;
 
-public class MultiAnswer extends QuestionAbstract {
-    public MultiAnswer(String questionText, String type, ArrayList<String> answers) {
-        super(type, questionText, answers);
+public class QuestionMultiAnswers extends QuestionAbstract {
+    public QuestionMultiAnswers(String questionText, ArrayList<String> answers) {
+        super(questionText, answers);
     }
+
+    @Override
+    public QuestionTypes getType() {
+        return QuestionTypes.multiAnswers;
+    }
+
     @Override
     public boolean checkAnswer(ArrayList<String> userAnswer) {
         if(userAnswer == null || userAnswer.isEmpty()) return false;
