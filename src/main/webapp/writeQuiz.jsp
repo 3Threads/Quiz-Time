@@ -39,16 +39,36 @@
 //    }
     int questionInd = Integer.parseInt(request.getParameter("questionInd"));
     Question currQuestion = questions.get(questionInd);
+    ArrayList<String>[] answers = null;
+
+    answers = new ArrayList[8];
 %>
 <div class="container">
     <div class="row mt-3">
-        <div class="col-4 uk-box-shadow-large uk-padding-small">
+        <div class="col-3 uk-box-shadow-large uk-padding-small">
             <h1 style="margin: 0"><%=currQuiz.getQuizName()%>
             </h1>
 
+            <div class="row justify-content-center">
+                <%
+                    for (int i = 0; i < questions.size(); i++) {
+                %>
+                <a class="col-auto text-center" href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>&questionInd=<%=i%>"
+                   style="width: 50px;
+                       <%
+                        if(questionInd==i) out.print("background-color: #363636;");
+                        else if(answers[i]!=null && !answers[i].isEmpty()) out.print("background-color: #3e4042;");
+                   %> border: darkgrey 1px solid; margin:2px;">
+                    <%=i + 1%>
+                </a>
+                <%
+                    }
+                %>
+            </div>
+            <a href="/writeQuiz?action=finish"><input type="button" class="btn btn-success mt-3" value="Finish"></a>
         </div>
         <div class="col-1"></div>
-        <div class="col-7 uk-box-shadow-large uk-padding-small">
+        <div class="col-8 uk-box-shadow-large uk-padding-small">
             <h4>#<%=questionInd + 1%> Question</h4>
             <form action="/writeQuiz" method="post">
                 <input type="hidden" name="quizId" value="<%=currQuiz.getQuizId()%>">
@@ -140,7 +160,7 @@
                 <div class="row">
                     <div class="col-6">
                         <% int i = 0;
-                            for (String key: firstPart) {
+                            for (String key : firstPart) {
                                 i++;
                         %>
                         <div class="mt-1">
@@ -150,7 +170,7 @@
                     </div>
                     <div class="col-6">
                         <%
-                            for (String val: secondPart) {
+                            for (String val : secondPart) {
                         %>
                         <div class="row mt-1">
                             <input class='form-control bg-dark whitePlaceholder text-light mb-1 mt-1 col-2 '
