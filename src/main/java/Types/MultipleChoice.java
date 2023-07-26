@@ -19,10 +19,11 @@ public class MultipleChoice extends QuestionAbstract {
     }
 
     public ArrayList<String> getIncorrectAnswers(ArrayList<String> allAnswers) {
+        ArrayList<String> incorrectAnswers = new ArrayList<>(allAnswers);
         for (int i = 0; i < getAnswers().size(); i++) {
-            allAnswers.remove(getAnswers().get(i));
+            incorrectAnswers.remove(getAnswers().get(i));
         }
-        return allAnswers;
+        return incorrectAnswers;
     }
 
     public ArrayList<String> getIncorrectAnswers() {
