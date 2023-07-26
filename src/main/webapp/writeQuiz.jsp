@@ -1,5 +1,6 @@
 <%@ page import="Types.*" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.Collections" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -30,6 +31,12 @@
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
     ArrayList<Question> questions = questionsDAO.getQuestions(currQuiz.getQuizId());
+//    if (session.getAttribute("writingQuestions") == null) {
+//        questions = questionsDAO.getQuestions(currQuiz.getQuizId());
+//        session.setAttribute("writingQuestions", questions);
+//    } else {
+//        questions = (ArrayList<Question>) session.getAttribute("writingQuestions");
+//    }
     int questionInd = Integer.parseInt(request.getParameter("questionInd"));
     Question currQuestion = questions.get(questionInd);
 %>
@@ -44,7 +51,7 @@
         <div class="col-7 uk-box-shadow-large uk-padding-small">
             <h4>#<%=questionInd + 1%> Question</h4>
             <form action="/writeQuiz" method="post">
-                <input type="hidden" name="quizInd" value="<%=currQuiz.getQuizId()%>">
+                <input type="hidden" name="quizId" value="<%=currQuiz.getQuizId()%>">
                 <input type="hidden" name="questionInd" value="<%=questionInd%>">
 
                 <% if (currQuestion.getType().equals("fillInTheBlank")) {
@@ -93,13 +100,14 @@
 
 
                     if (currQuestion.getType().equals("multipleChoice")) {
-                        for (int i = 0; i < ((MultipleChoice) currQuestion).getAllAnswers().size(); i++) {
+                        ArrayList<String> allAnswers = ((MultipleChoice) currQuestion).getAllAnswers();
+                        for (int i = 0; i < allAnswers.size(); i++) {
                 %>
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
                         <input class='uk-radio' type='radio' name='answers'
-                               value="<%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>">
-                        <%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>
+                               value="<%=allAnswers.get(i)%>">
+                        <%=allAnswers.get(i)%>
                     </label>
                 </div>
                 <%
@@ -108,13 +116,16 @@
 
 
                     if (currQuestion.getType().equals("multipleChoiceWithMultipleAnswers")) {
-                        for (int i = 0; i < ((MultipleChoice) currQuestion).getAllAnswers().size(); i++) {
+                        ArrayList<String> allAnswers = ((MultipleChoice) currQuestion).getAllAnswers();
+                        for (int i = 0; i < allAnswers.size(); i++) {
+
                 %>
+
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
                         <input class='uk-checkbox' type='checkbox' name='answers'
-                               value="<%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>">
-                        <%=((MultipleChoice) currQuestion).getAllAnswers().get(i)%>
+                               value="<%=allAnswers.get(i)%>">
+                        <%=allAnswers.get(i)%>
                     </label>
                 </div>
                 <%
