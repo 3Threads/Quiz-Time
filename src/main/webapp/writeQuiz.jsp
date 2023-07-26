@@ -31,17 +31,16 @@
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
     ArrayList<Question> questions = questionsDAO.getQuestions(currQuiz.getQuizId());
-//    if (session.getAttribute("writingQuestions") == null) {
-//        questions = questionsDAO.getQuestions(currQuiz.getQuizId());
-//        session.setAttribute("writingQuestions", questions);
-//    } else {
-//        questions = (ArrayList<Question>) session.getAttribute("writingQuestions");
-//    }
+    if (session.getAttribute("writingQuestions") == null) {
+        questions = questionsDAO.getQuestions(currQuiz.getQuizId());
+        session.setAttribute("writingQuestions", questions);
+    } else {
+        questions = (ArrayList<Question>) session.getAttribute("writingQuestions");
+    }
     int questionInd = Integer.parseInt(request.getParameter("questionInd"));
     Question currQuestion = questions.get(questionInd);
-    ArrayList<String>[] answers = null;
+    ArrayList<String>[] answers = (ArrayList<String>[]) session.getAttribute("userAnswers");
 
-    answers = new ArrayList[8];
 %>
 <div class="container">
     <div class="row mt-3">
@@ -65,7 +64,10 @@
                     }
                 %>
             </div>
-            <a href="/writeQuiz?action=finish"><input type="button" class="btn btn-success mt-3" value="Finish"></a>
+            <form method="post" action="/writeQuiz">
+                <input type="hidden" name="action" value="finish">
+                <input type="submit" class="btn btn-success mt-3" value="Finish">
+            </form>
         </div>
         <div class="col-1"></div>
         <div class="col-8 uk-box-shadow-large uk-padding-small">
@@ -125,7 +127,7 @@
                 %>
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
-                        <input class='uk-radio' type='radio' name='answers'
+                        <input class='uk-radio' type='radio' name='answer'
                                value="<%=allAnswers.get(i)%>">
                         <%=allAnswers.get(i)%>
                     </label>
@@ -143,7 +145,7 @@
 
                 <div class="uk-form-controls uk-form-controls-text">
                     <label class="uk-margin-small">
-                        <input class='uk-checkbox' type='checkbox' name='answers'
+                        <input class='uk-checkbox' type='checkbox' name='answer'
                                value="<%=allAnswers.get(i)%>">
                         <%=allAnswers.get(i)%>
                     </label>
