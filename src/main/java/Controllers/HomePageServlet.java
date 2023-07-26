@@ -1,5 +1,7 @@
 package Controllers;
 
+import BusinessLogic.SessionRemove;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import java.io.IOException;
 public class HomePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        SessionRemove.removeQuizAttributes(httpServletRequest);
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
         } else {
