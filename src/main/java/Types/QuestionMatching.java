@@ -57,8 +57,12 @@ public class QuestionMatching extends QuestionAbstract {
     public boolean checkAnswer(ArrayList<String> userAnswer) {
         if (userAnswer == null || userAnswer.isEmpty()) return false;
         for (int i = 0; i < secondPart.size(); i++) {
-            int ind = Integer.parseInt(userAnswer.get(i));
-            if (!answers.get(firstPart.get(ind - 1)).equals(secondPart.get(i))) return false;
+            try {
+                int ind = Integer.parseInt(userAnswer.get(i));
+                if (!answers.get(firstPart.get(ind - 1)).equals(secondPart.get(i))) return false;
+            } catch (NumberFormatException e) {
+                return false;
+            }
         }
         return true;
     }
