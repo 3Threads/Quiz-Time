@@ -59,7 +59,7 @@
 
     function challengeAction(user, action, challId, quizID) {
         $.post('challenges', {userID: user, action: action, quizID: quizID}, () => {
-            $('#challenge'+challId).remove();
+            $('#challenge' + challId).remove();
             if (action === 'acceptChallenge') {
                 window.location.replace("/quiz?quizId=" + quizID);
             }
@@ -95,19 +95,22 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="/homePage"><img src="images/logo.png" class="img-fluid" alt="..."></a>
+            <a href="/homePage"><img src="images/logo.png" class="img-fluid logo" alt="..."></a>
         </div>
         <div class="col-2">
         </div>
         <div class="col d-flex align-items-end">
             <div class="container">
-                <div class="d-flex flex-row-reverse mb-2">
-                    <a style="margin-left: 5px" href="/logout">
+                <div class="d-flex flex-row-reverse  align-items-center mb-2">
+                    <a class="table_name" style="margin-left: 5px" href="/logout">
                         Log Out
                     </a>
-                    <a>|</a>
-                    <a href="#modal-notifications" class="mt-1" uk-toggle><i class="bi bi-bell-fill mt-1"
-                                                                             style="margin-right: 5px"></i>
+                    <a class="table_name">|</a>
+                    <a href="#modal-notifications" uk-toggle>
+                        <div class="table_name">
+                            <i class="bi bi-bell-fill mt-1"
+                               style="margin-right: 5px"></i>
+                        </div>
                     </a>
                     <div id="modal-notifications" uk-modal>
                         <div class="uk-modal-dialog bg-dark">
@@ -135,7 +138,8 @@
                                                 <li>
                                                     <div class="row" id=<%="request" + requestId%>>
                                                         <div class="col d-flex align-items-center">
-                                                            <a href=<%="/profile?user=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
+                                                            <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
+                                                                <%=reqUserInfo.getUsername()%>
                                                             </a>
 
                                                         </div>
@@ -237,30 +241,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="table_name">
 
-                    <a style="margin-right: 3px" href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
-                    </a>
+                        <a style="margin-right: 3px"
+                           href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class=" menuBar text-light"
-         style="height: 50px; border-style: solid; border-width: 2px; border-color: white; border-radius: 10px;">
-        <div class="container row" style="width: 100%">
+    <div class="menuBar text-light "
+         style="border-style: solid; border-width: 2px; border-color: white; border-radius: 10px;">
+        <div class="container row d-flex align-items-center" style="width: 100%">
             <div class="col-9 mb-1 mb-lg-0  mt-1">
                 <a href="/createQuiz">
-                    <button class="btn btn-dark text-light">Create Quiz</button>
+                    <button class="buttons btn btn-dark text-light">Create Quiz</button>
                 </a>
                 <a href="/randomQuiz">
-                    <button class="btn btn-dark text-light">Random Quiz</button>
+                    <button class="buttons btn btn-dark text-light">Random Quiz</button>
                 </a>
                 <a href="/chat">
-                    <button class="btn btn-dark text-light">Chats</button>
+                    <button class="buttons btn btn-dark text-light">Chats</button>
                 </a>
             </div>
             <form class="col d-flex mb-1 mb-lg-0 mt-1" role="search" method="get" action="/search">
                 <div class="input-group input-group-sm mb-1 mt-1">
-                    <input class="form-control me-2 bg-dark whitePlaceholder text-light" type="search"
+                    <input class="search-nav-bar form-control me-2 bg-dark whitePlaceholder text-light"
+                           type="search"
                            placeholder="Search"
                            aria-label="Search"
                            name="search"
