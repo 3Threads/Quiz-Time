@@ -29,7 +29,6 @@ public class WriteQuizServlet extends HttpServlet {
             return;
         }
         if (httpServletRequest.getParameter("questionInd") == null || questionIndIsOutOfBound(Integer.parseInt(httpServletRequest.getParameter("questionInd")), httpServletRequest)) {
-            if(httpServletRequest.getParameter("questionInd") == null) httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
             httpServletResponse.sendRedirect("/writeQuiz?quizId=" + httpServletRequest.getParameter("quizId") + "&questionInd=0");
             return;
         }
@@ -39,6 +38,8 @@ public class WriteQuizServlet extends HttpServlet {
             ArrayList<String>[] answers = new ArrayList[size];
             httpServletRequest.getSession().setAttribute("userAnswers", answers);
         }
+        if (httpServletRequest.getParameter("startTime") == null)
+            httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
         httpServletRequest.getRequestDispatcher("writeQuiz.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
@@ -69,7 +70,7 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("writingQuestions");
             httpServletRequest.getSession().removeAttribute("userAnswers");
             httpServletRequest.getSession().removeAttribute("startTime");
-            httpServletResponse.sendRedirect("/finishedQuiz?score=" + score+"&time="+time);
+            httpServletResponse.sendRedirect("/finishedQuiz?score=" + score + "&time=" + time);
         }
     }
 }
