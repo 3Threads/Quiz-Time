@@ -1,7 +1,9 @@
 package Controllers;
 
 import DAO.QuestionsDAO;
+import DAO.ResultsDAO;
 import Types.Question;
+import Types.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +74,12 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("writingQuestions");
             httpServletRequest.getSession().removeAttribute("userAnswers");
             httpServletRequest.getSession().removeAttribute("startTime");
-            httpServletResponse.sendRedirect("/quiz?quizId=" + httpServletRequest.getParameter("quizId") + "&score=" + score + "&time=" + time);
+            ResultsDAO resultsDAO = (ResultsDAO) httpServletRequest.getServletContext().getAttribute("resultsDB");
+            int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
+            int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
+
+            resultsDAO.addResult(userId, quizId, score, new Time(time));
+            httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time);
         }
     }
 }
