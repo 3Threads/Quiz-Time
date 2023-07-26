@@ -18,4 +18,12 @@ public class FillInTheBlank extends QuestionAbstract {
     public String generateQuestionText() {
         return getQuestionText() + (char) 0 + getQuestionText2() + (char) 0;
     }
+
+    @Override
+    public boolean checkAnswer(ArrayList<String> userAnswer) {
+        if(userAnswer == null || userAnswer.isEmpty()) return false;
+        String answer = userAnswer.get(0);
+        return getAnswers().contains(answer);
+    }
+
 }

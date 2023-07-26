@@ -3,6 +3,7 @@ package Types;
 import BusinessLogic.ListToString;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class MultipleChoice extends QuestionAbstract {
@@ -39,5 +40,18 @@ public class MultipleChoice extends QuestionAbstract {
         String res1 = res + (char) 0;
         String res2 = lts.generateString(incorrectAnswers);
         return res1 + res2;
+    }
+    @Override
+    public boolean checkAnswer(ArrayList<String> userAnswer) {
+        String answer = userAnswer.get(0);
+        return answer.equals(getAnswers().get(0));
+    }
+    public boolean checkAnswerSecond(ArrayList<String> userAnswer) {
+        if(userAnswer == null || userAnswer.isEmpty()) return false;
+        if(userAnswer.size() != getAnswers().size()) return false;
+        for(String us : userAnswer) {
+            if(!getAnswers().contains(us)) return false;
+        }
+        return true;
     }
 }

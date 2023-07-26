@@ -41,4 +41,17 @@ public class Matching extends QuestionAbstract {
         ListToString lts = new ListToString();
         return lts.generateString(arr);
     }
+    @Override
+    public boolean checkAnswer(ArrayList<String> userAnswer) {
+        if(userAnswer == null || userAnswer.isEmpty()) return false;
+        System.out.println(userAnswer.toString());
+        System.out.println(firstPart.toString());
+        System.out.println(secondPart.toString());
+        for(int i = 0; i < secondPart.size(); i++) {
+            System.out.println("i=" + i);
+            int ind = Integer.parseInt(userAnswer.get(i));
+            if(!answers.get(firstPart.get(ind-1)).equals(secondPart.get(i))) return false;
+        }
+        return true;
+    }
 }

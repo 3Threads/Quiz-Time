@@ -12,4 +12,6 @@ public interface Question {
     String generateQuestionText();
 
     String generateAnswers();
+
+    boolean checkAnswer(ArrayList<String> userAnswer);
 }
