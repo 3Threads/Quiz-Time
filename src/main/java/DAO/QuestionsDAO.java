@@ -24,7 +24,7 @@ public class QuestionsDAO {
             connect = dataSource.getConnection();
             String str = "INSERT INTO QUESTIONS VALUES(default, ?, ?, ?, ?);";
             PreparedStatement statement = connect.prepareStatement(str);
-            statement.setString(1, question.getType());
+            statement.setString(1, String.valueOf(question.getType()));
             statement.setInt(2, quizID);
             statement.setString(3, question.generateQuestionText());
             statement.setString(4, question.generateAnswers());
@@ -139,21 +139,28 @@ public class QuestionsDAO {
                     String[] questionTexts = questionText.split(String.valueOf((char) 0));
                     String text1 = questionTexts[0];
                     String text2 = questionTexts[1];
-                    question = new FillInTheBlank(text1, text2, "fillInTheBlank", allAnswers);
+                    question = new QuestionFillInTheBlank(text1, text2, allAnswers);
                 }
-                if (type.equals("questionResponse")) {
-                    question = new QuestionResponse(questionText, "questionResponse", allAnswers);
+                if (type.equals("textResponse")) {
+                    question = new QuestionTextResponse(questionText, allAnswers);
                 }
                 if (type.equals("pictureResponse")) {
                     String[] questionTexts = questionText.split(String.valueOf((char) 0));
-                    question = new PictureResponse(questionTexts[0], "pictureResponse", questionTexts[1], allAnswers);
+                    question = new QuestionPictureResponse(questionTexts[0], questionTexts[1], allAnswers);
                 }
-                if (type.equals("multipleChoice") || type.equals("multipleChoiceWithMultipleAnswers")) {
+                if (type.equals("multipleChoices")) {
                     String[] allAnsws = answers.split(String.valueOf((char) 0) + (char) 0);
                     ArrayList<String> correctAnswers = new ArrayList<>(List.of((allAnsws[0].split(String.valueOf((char) 0)))));
                     ArrayList<String> allPossibleAnswers = new ArrayList<>(List.of(allAnsws[1].split(String.valueOf((char) 0))));
                     allPossibleAnswers.addAll(correctAnswers);
-                    question = new MultipleChoice(questionText, type, correctAnswers, allPossibleAnswers);
+                    question = new QuestionMultipleChoices(questionText, correctAnswers, allPossibleAnswers);
+                }
+                if (type.equals("multipleChoicesWithMultipleAnswers")) {
+                    String[] allAnsws = answers.split(String.valueOf((char) 0) + (char) 0);
+                    ArrayList<String> correctAnswers = new ArrayList<>(List.of((allAnsws[0].split(String.valueOf((char) 0)))));
+                    ArrayList<String> allPossibleAnswers = new ArrayList<>(List.of(allAnsws[1].split(String.valueOf((char) 0))));
+                    allPossibleAnswers.addAll(correctAnswers);
+                    question = new QuestionMultipleChoicesWithMultipleAnswers(questionText, correctAnswers, allPossibleAnswers);
                 }
                 if (type.equals("matching")) {
                     ArrayList<String> allPairs = new ArrayList<>(List.of(answers.split(String.valueOf((char) 0))));
@@ -161,10 +168,10 @@ public class QuestionsDAO {
                     for (int i = 0; i < allPairs.size(); i += 2) {
                         pairs.put(allPairs.get(i), allPairs.get(i + 1));
                     }
-                    question = new Matching(questionText, "matching", pairs);
+                    question = new QuestionMatching(questionText, pairs);
                 }
-                if (type.equals("multiAnswer")) {
-                    question = new MultiAnswer(questionText, "multiAnswer", allAnswers);
+                if (type.equals("multiAnswers")) {
+                    question = new QuestionMultiAnswers(questionText, allAnswers);
                 }
                 questions.add(question);
             }

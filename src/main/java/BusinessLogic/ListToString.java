@@ -14,6 +14,7 @@ public class ListToString {
             for (String s : list) {
                 if (s.contains(Character.toString(delim))) {
                     found = false;
+                    break;
                 }
             }
             if (found) {
@@ -26,8 +27,8 @@ public class ListToString {
     public String generateString(ArrayList<String> list) {
         char delim = findDelim(list);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            sb.append(list.get(i));
+        for (String s : list) {
+            sb.append(s);
             sb.append(delim);
         }
         return sb.toString();

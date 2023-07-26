@@ -30,7 +30,39 @@
 <%@include file="header.jsp" %>
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
+
 %>
+<script>
+    function deleteScore() {
+        location.href = "/quiz?quizId=<%=request.getParameter("quizId")%>"
+    }
+
+    $(document).ready(function () {
+        <%
+        if(request.getParameter("score")!=null){
+        %>
+        UIkit.modal('#resultsModal').show();
+        <%
+        }
+        %>
+    })
+</script>
+<div id="resultsModal" uk-modal>
+    <div class="uk-modal-dialog bg-dark">
+        <button class="uk-modal-close-default" type="button" uk-close onclick="deleteScore()"></button>
+        <div class="uk-modal-header bg-dark">
+            <h2 class="uk-modal-title">Results</h2>
+        </div>
+        <div class="uk-modal-body">
+            <div class="uk-padding-small">
+                <div>Score: <%=request.getParameter("score")%>
+                </div>
+                <div>Time: <%=request.getParameter("time")%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row mt-3 uk-box-shadow-large uk-padding-small">
         <div class="col"><h1 style="margin: 0"><%=currQuiz.getQuizName()%>

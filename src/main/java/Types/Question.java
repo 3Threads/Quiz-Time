@@ -7,7 +7,7 @@ public interface Question {
 
     String getQuestionText();
 
-    String getType();
+    QuestionTypes getType();
 
     String generateQuestionText();
 

@@ -1,5 +1,5 @@
 <%@ page import="Types.Question" %>
-<%@ page import="Types.FillInTheBlank" %>
+<%@ page import="Types.QuestionFillInTheBlank" %>
 <%@ page import="Controllers.CreateQuizServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
@@ -330,7 +330,7 @@
                             <div class="col d-flex align-items-center"><%=i + 1%>)
                                 <%
                                     if (currQuestion.getType().equals("fillInTheBlank"))
-                                        out.print(currQuestion.getQuestionText() + " _____ " + ((FillInTheBlank) currQuestion).getQuestionText2());
+                                        out.print(currQuestion.getQuestionText() + " _____ " + ((QuestionFillInTheBlank) currQuestion).getQuestionText2());
                                     else {
                                         out.print(currQuestion.getQuestionText());
                                     }
