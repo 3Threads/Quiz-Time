@@ -1,6 +1,4 @@
 <%@ page import="Types.*" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Collections" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -30,18 +28,22 @@
 <%@include file="header.jsp" %>
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
-    ArrayList<Question> questions = questionsDAO.getQuestions(currQuiz.getQuizId());
-    if (session.getAttribute("writingQuestions") == null) {
+    ArrayList<Question> questions = (ArrayList<Question>) session.getAttribute("writingQuestions");
+    if (questions == null) {
         questions = questionsDAO.getQuestions(currQuiz.getQuizId());
         session.setAttribute("writingQuestions", questions);
-    } else {
-        questions = (ArrayList<Question>) session.getAttribute("writingQuestions");
     }
     int questionInd = Integer.parseInt(request.getParameter("questionInd"));
     Question currQuestion = questions.get(questionInd);
     ArrayList<String>[] answers = (ArrayList<String>[]) session.getAttribute("userAnswers");
 
 %>
+<script>
+    function goToQuestion(ind) {
+        $('#nextQuestionInd').val(ind);
+        $('#currQuestionForm').submit();
+    }
+</script>
 <div class="container">
     <div class="row mt-3">
         <div class="col-3 uk-box-shadow-large uk-padding-small">
@@ -52,7 +54,9 @@
                 <%
                     for (int i = 0; i < questions.size(); i++) {
                 %>
-                <a class="col-auto text-center" href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>&questionInd=<%=i%>"
+                <a class="col-auto text-center"
+                   href="#"
+                   onclick="goToQuestion(<%=i%>)"
                    style="width: 50px;
                        <%
                         if(questionInd==i) out.print("background-color: #3e4042;");
@@ -72,9 +76,10 @@
         <div class="col-1"></div>
         <div class="col-8 uk-box-shadow-large uk-padding-small">
             <h4>#<%=questionInd + 1%> Question</h4>
-            <form action="/writeQuiz" method="post">
+            <form action="/writeQuiz" method="post" id="currQuestionForm">
                 <input type="hidden" name="quizId" value="<%=currQuiz.getQuizId()%>">
                 <input type="hidden" name="questionInd" value="<%=questionInd%>">
+                <input type="hidden" name="nextQuestionInd" value="<%=questionInd+1%>" id="nextQuestionInd">
                 <input type="hidden" name="action" value="questionAnswer">
                 <% if (currQuestion.getType().equals("fillInTheBlank")) {
                 %>

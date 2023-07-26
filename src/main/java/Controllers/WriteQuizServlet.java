@@ -33,12 +33,12 @@ public class WriteQuizServlet extends HttpServlet {
             return;
         }
         if (httpServletRequest.getParameter("questionInd") == null || questionIndIsOutOfBound(Integer.parseInt(httpServletRequest.getParameter("questionInd")), httpServletRequest)) {
-            httpServletResponse.sendRedirect("/writeQuiz?quizId="+httpServletRequest.getParameter("quizId")+"&questionInd=0");
+            httpServletResponse.sendRedirect("/writeQuiz?quizId=" + httpServletRequest.getParameter("quizId") + "&questionInd=0");
             return;
         }
-        if(httpServletRequest.getSession().getAttribute("userAnswers") == null) {
+        if (httpServletRequest.getSession().getAttribute("userAnswers") == null) {
             int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
-            int size = ((QuestionsDAO)httpServletRequest.getServletContext().getAttribute("questionsDB")).getQuestions(quizId).size();
+            int size = ((QuestionsDAO) httpServletRequest.getServletContext().getAttribute("questionsDB")).getQuestions(quizId).size();
             ArrayList<String>[] answers = new ArrayList[size];
             httpServletRequest.getSession().setAttribute("userAnswers", answers);
         }
@@ -52,27 +52,29 @@ public class WriteQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-       if(httpServletRequest.getParameter("action").equals("questionAnswer")) {
+        if (httpServletRequest.getParameter("action").equals("questionAnswer")) {
             String[] answers = httpServletRequest.getParameterValues("answer");
             int questionInd = Integer.parseInt(httpServletRequest.getParameter("questionInd"));
-           ((ArrayList<String>[])httpServletRequest.getSession().getAttribute("userAnswers"))[questionInd] = new ArrayList<>(List.of(answers));
-           httpServletResponse.sendRedirect("/writeQuiz?quizId="+httpServletRequest.getParameter("quizId")+"&questionInd="+(questionInd+1));
-       }
-       if(httpServletRequest.getParameter("action").equals("finish")) {
-           int score = 0;
-           ArrayList<String>[] userAnswers = (ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers");
-           ArrayList<Question> questions = (ArrayList<Question>) httpServletRequest.getSession().getAttribute("writingQuestions");
-           for(int i = 0; i < questions.size(); i++) {
-               Question question = questions.get(i);
-               if(question.getType().equals("multipleChoiceAndMultipleAnswers")) {
-                    if(((MultipleChoice) question).checkAnswerSecond(userAnswers[i])) score++;
-               } else {
-                   if(question.checkAnswer(userAnswers[i])) score++;
-               }
-           }
-           httpServletRequest.getSession().removeAttribute("writingQuestions");
-           httpServletRequest.getSession().removeAttribute("userAnswers");
-           httpServletResponse.sendRedirect("/finishedQuiz?score="+score);
-       }
+            if (answers != null) {
+                ((ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers"))[questionInd] = new ArrayList<>(List.of(answers));
+            }
+            httpServletResponse.sendRedirect("/writeQuiz?quizId=" + httpServletRequest.getParameter("quizId") + "&questionInd=" + (httpServletRequest.getParameter("nextQuestionInd")));
+        }
+        if (httpServletRequest.getParameter("action").equals("finish")) {
+            int score = 0;
+            ArrayList<String>[] userAnswers = (ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers");
+            ArrayList<Question> questions = (ArrayList<Question>) httpServletRequest.getSession().getAttribute("writingQuestions");
+            for (int i = 0; i < questions.size(); i++) {
+                Question question = questions.get(i);
+                if (question.getType().equals("multipleChoiceAndMultipleAnswers")) {
+                    if (((MultipleChoice) question).checkAnswerSecond(userAnswers[i])) score++;
+                } else {
+                    if (question.checkAnswer(userAnswers[i])) score++;
+                }
+            }
+            httpServletRequest.getSession().removeAttribute("writingQuestions");
+            httpServletRequest.getSession().removeAttribute("userAnswers");
+            httpServletResponse.sendRedirect("/finishedQuiz?score=" + score);
+        }
     }
 }
