@@ -1,6 +1,5 @@
 package Controllers;
 
-import BusinessLogic.SessionRemove;
 import DAO.QuestionsDAO;
 import DAO.QuizzesDAO;
 import Types.*;
@@ -37,38 +36,52 @@ public class CreateQuizServlet extends HttpServlet {
                 int index = Integer.parseInt(httpServletRequest.getParameter("index"));
                 Question q = questions.get(index);
                 StringBuilder url = new StringBuilder("/createQuiz?index=" + index + "&editMode=true&type=" + q.getType());
-                if (q.getType().equals("fillInTheBlank")) {
-                    url.append("&questionText1=").append(q.getQuestionText()).append("&questionText2=").append(((FillInTheBlank) q).getQuestionText2());
+                if (q.getType().equals(QuestionTypes.fillInTheBlank)) {
+                    url.append("&questionText1=").append(q.getQuestionText()).append("&questionText2=").append(((QuestionFillInTheBlank) q).getQuestionText2());
                 } else {
                     url.append("&questionText=").append(q.getQuestionText());
                 }
 
 
-                if (q.getType().equals("pictureResponse")) {
-                    url.append("&imageUrl=").append(((PictureResponse) q).getPictureUrl());
+                if (q.getType().equals(QuestionTypes.pictureResponse)) {
+                    url.append("&imageUrl=").append(((QuestionPictureResponse) q).getPictureUrl());
                 }
-                if (q.getType().equals("multipleChoice") || q.getType().equals("multipleChoiceWithMultipleAnswers")) {
+                if (q.getType().equals(QuestionTypes.multipleChoices)) {
                     for (int i = 0; i < q.getAnswers().size(); i++) {
                         String ans = q.getAnswers().get(i);
                         url.append("&correctAnswerText=").append(ans);
                     }
-                    for (int i = 0; i < ((MultipleChoice) q).getIncorrectAnswers().size(); i++) {
-                        String ans = ((MultipleChoice) q).getIncorrectAnswers().get(i);
+                    assert q instanceof QuestionMultipleChoices;
+                    for (int i = 0; i < ((QuestionMultipleChoices) q).getIncorrectAnswers().size(); i++) {
+                        String ans = ((QuestionMultipleChoices) q).getIncorrectAnswers().get(i);
                         url.append("&incorrectAnswerText=").append(ans);
                     }
                 } else {
-                    if (q.getType().equals("matching")) {
-                        Map<String, String> pairs = ((Matching) q).getMatches();
-                        for (String pr : pairs.keySet()) {
-                            String ans = pairs.get(pr);
-                            url.append("&key=").append(pr);
-                            url.append("&value=").append(ans);
-                        }
-
-                    } else {
+                    if (q.getType().equals(QuestionTypes.multipleChoicesWithMultipleAnswers)) {
                         for (int i = 0; i < q.getAnswers().size(); i++) {
                             String ans = q.getAnswers().get(i);
-                            url.append("&answerText=").append(ans);
+                            url.append("&correctAnswerText=").append(ans);
+                        }
+                        assert q instanceof QuestionMultipleChoicesWithMultipleAnswers;
+                        for (int i = 0; i < ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().size(); i++) {
+                            String ans = ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().get(i);
+                            url.append("&incorrectAnswerText=").append(ans);
+                        }
+                    } else {
+                        if (q.getType().equals(QuestionTypes.matching)) {
+                            assert q instanceof QuestionMatching;
+                            Map<String, String> pairs = ((QuestionMatching) q).getMatches();
+                            for (String pr : pairs.keySet()) {
+                                String ans = pairs.get(pr);
+                                url.append("&key=").append(pr);
+                                url.append("&value=").append(ans);
+                            }
+
+                        } else {
+                            for (int i = 0; i < q.getAnswers().size(); i++) {
+                                String ans = q.getAnswers().get(i);
+                                url.append("&answerText=").append(ans);
+                            }
                         }
                     }
                 }
@@ -80,7 +93,8 @@ public class CreateQuizServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws
+            IOException {
         ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
         Question question = null;
         if (httpServletRequest.getParameter("title") != null) {
@@ -95,7 +109,7 @@ public class CreateQuizServlet extends HttpServlet {
             if (httpServletRequest.getParameter("questionType").equals("questionResponse")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                question = new QuestionResponse(questionText, "questionResponse", new ArrayList<>(List.of(answers)));
+                question = new QuestionTextResponse(questionText, new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
@@ -103,7 +117,7 @@ public class CreateQuizServlet extends HttpServlet {
                 String questionText = httpServletRequest.getParameter("questionText1");
                 String questionText2 = httpServletRequest.getParameter("questionText2");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                question = new FillInTheBlank(questionText, questionText2, "fillInTheBlank", new ArrayList<>(List.of(answers)));
+                question = new QuestionFillInTheBlank(questionText, questionText2, new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
@@ -111,14 +125,14 @@ public class CreateQuizServlet extends HttpServlet {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String url = httpServletRequest.getParameter("questionImage");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                question = new PictureResponse(questionText, "pictureResponse", url, new ArrayList<>(List.of(answers)));
+                question = new QuestionPictureResponse(questionText, url, new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
             if (httpServletRequest.getParameter("questionType").equals("multiAnswer")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("answer");
-                question = new MultiAnswer(questionText, "multiAnswer", new ArrayList<>(List.of(answers)));
+                question = new QuestionMultiAnswers(questionText, new ArrayList<>(List.of(answers)));
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
@@ -130,11 +144,11 @@ public class CreateQuizServlet extends HttpServlet {
                 for (int i = 0; i < questionText1.length; i++) {
                     answers.put(questionText1[i], questionText2[i]);
                 }
-                question = new Matching(questionText, "matching", answers);
+                question = new QuestionMatching(questionText, answers);
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
-            if (httpServletRequest.getParameter("questionType").equals("multipleChoice") || httpServletRequest.getParameter("questionType").equals("multipleChoiceWithMultipleAnswers")) {
+            if (httpServletRequest.getParameter("questionType").equals("multipleChoice")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("choosedIndex");
                 String[] answerTexts = httpServletRequest.getParameterValues("answerText");
@@ -144,9 +158,24 @@ public class CreateQuizServlet extends HttpServlet {
                 for (String answer : answers) {
                     answersList.add(answerTexts[Integer.parseInt(answer)]);
                 }
-                question = new MultipleChoice(questionText, httpServletRequest.getParameter("questionType"), answersList, allAnswers);
+                question = new QuestionMultipleChoices(questionText, answersList, allAnswers);
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
+
+            if (httpServletRequest.getParameter("questionType").equals("multipleChoiceWithMultipleAnswers")) {
+                String questionText = httpServletRequest.getParameter("questionText");
+                String[] answers = httpServletRequest.getParameterValues("choosedIndex");
+                String[] answerTexts = httpServletRequest.getParameterValues("answerText");
+
+                ArrayList<String> allAnswers = new ArrayList<>(List.of(answerTexts));
+                ArrayList<String> answersList = new ArrayList<>();
+                for (String answer : answers) {
+                    answersList.add(answerTexts[Integer.parseInt(answer)]);
+                }
+                question = new QuestionMultipleChoicesWithMultipleAnswers(questionText, answersList, allAnswers);
+                httpServletRequest.getSession().setAttribute("questions", questions);
+            }
+
             if (httpServletRequest.getParameter("index") != null) {
                 int ind = Integer.parseInt(httpServletRequest.getParameter("index"));
                 questions.add(ind, question);

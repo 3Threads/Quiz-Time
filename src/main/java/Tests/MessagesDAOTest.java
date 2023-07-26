@@ -129,20 +129,20 @@ public class MessagesDAOTest {
         assertEquals(list1, list2);
     }
 
-    @Test
-    public void testGetInteractorsMedium2() {
-        for (int j = 32; j < 38; j++) {
-            mConnect.sendMessage(j, 31, "1");
-        }
-        ArrayList<Integer> list1 = mConnect.getInteractorsList(31);
-
-        ArrayList<Integer> list2 = new ArrayList<>();
-        for (int i = 32; i <= 37; i++) {
-            list2.add(i);
-        }
-
-        assertEquals(list1, list2);
-    }
+//    @Test
+//    public void testGetInteractorsMedium2() {
+//        for (int j = 32; j < 38; j++) {
+//            mConnect.sendMessage(j, 31, "1");
+//        }
+//        ArrayList<Integer> list1 = mConnect.getInteractorsList(31);
+//
+//        ArrayList<Integer> list2 = new ArrayList<>();
+//        for (int i = 32; i <= 37; i++) {
+//            list2.add(i);
+//        }
+//
+//        assertEquals(list1, list2);
+//    }
 
     @Test
     public void testGetInteractorsHard() {

@@ -1,11 +1,7 @@
 package Controllers;
 
 import DAO.QuestionsDAO;
-import DAO.QuizzesDAO;
-import Types.MultipleChoice;
 import Types.Question;
-import Types.Quiz;
-import com.beust.ah.A;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -66,11 +62,7 @@ public class WriteQuizServlet extends HttpServlet {
             ArrayList<Question> questions = (ArrayList<Question>) httpServletRequest.getSession().getAttribute("writingQuestions");
             for (int i = 0; i < questions.size(); i++) {
                 Question question = questions.get(i);
-                if (question.getType().equals("multipleChoiceAndMultipleAnswers")) {
-                    if (((MultipleChoice) question).checkAnswerSecond(userAnswers[i])) score++;
-                } else {
-                    if (question.checkAnswer(userAnswers[i])) score++;
-                }
+                if (question.checkAnswer(userAnswers[i])) score++;
             }
             httpServletRequest.getSession().removeAttribute("writingQuestions");
             httpServletRequest.getSession().removeAttribute("userAnswers");
