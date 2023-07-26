@@ -53,10 +53,11 @@ public class WriteQuizServlet extends HttpServlet {
         if (httpServletRequest.getParameter("action").equals("questionAnswer")) {
             String[] answers = httpServletRequest.getParameterValues("answer");
             int questionInd = Integer.parseInt(httpServletRequest.getParameter("questionInd"));
-            if (answers != null) {
+            if (answers != null && httpServletRequest.getSession().getAttribute("userAnswers") != null) {
                 ((ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers"))[questionInd] = new ArrayList<>(List.of(answers));
             }
             httpServletResponse.sendRedirect("/writeQuiz?quizId=" + httpServletRequest.getParameter("quizId") + "&questionInd=" + (httpServletRequest.getParameter("nextQuestionInd")));
+            return;
         }
         if (httpServletRequest.getParameter("action").equals("finish")) {
             long time = System.currentTimeMillis() - (long) httpServletRequest.getSession().getAttribute("startTime");
