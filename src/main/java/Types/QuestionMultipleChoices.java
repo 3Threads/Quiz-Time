@@ -52,4 +52,21 @@ public class QuestionMultipleChoices extends QuestionAbstract {
         String answer = userAnswer.get(0);
         return answer.equals(getAnswers().get(0));
     }
+
+    @Override
+    public String getWriteQuizHTML(ArrayList<String>[] answers, int questionInd) {
+        String html = "<div class='mb-3'>" + getQuestionText() + "</div>";
+        for (String allAnswer : allAnswers) {
+            html += "<div class='uk-form-controls uk-form-controls-text'>" +
+                    "                    <label class='uk-margin-small'>" +
+                    "                        <input class='uk-radio' type='radio' name='answer' value='" + allAnswer + "'";
+            if (answers[questionInd] != null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswer))
+                html += "checked";
+            html += ">";
+
+            html += allAnswer;
+            html += "</label></div>";
+        }
+        return html;
+    }
 }

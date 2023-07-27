@@ -14,4 +14,6 @@ public interface Question {
     String generateAnswers();
 
     boolean checkAnswer(ArrayList<String> userAnswer);
+
+    String getWriteQuizHTML(ArrayList<String>[] answers, int questionInd);
 }

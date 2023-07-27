@@ -1,6 +1,5 @@
-<%@ page import="Types.Question" %>
-<%@ page import="Types.QuestionFillInTheBlank" %>
 <%@ page import="Controllers.CreateQuizServlet" %>
+<%@ page import="Types.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -29,7 +28,7 @@
 </head>
 <script type="text/javascript">
     function beforeSubmit() {
-        if ($('#questionType').val() === "multipleChoice" || $('#questionType').val() === "multipleChoiceWithMultipleAnswers") {
+        if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
             $("input[name=answers]").each(function (i, o) {
                 if ($(this).is(":checked")) {
                     $('#indexes').append("<input type='hidden' name='choosedIndex' value='" + i + "' id='indexOfChecked'>");
@@ -47,9 +46,9 @@
         childToAppend += "<input type='hidden' name='description' value='' id='descriptionLabel'>";
 
         switch (questionType) {
-            case "questionResponse":
+            case "textResponse":
                 childToAppend +=
-                    "<input type='hidden' name='questionType' value='questionResponse'>" +
+                    "<input type='hidden' name='questionType' value='textResponse'>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
                     "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText'>" +
                     "</div>" +
@@ -78,9 +77,9 @@
                     "<input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>";
                 break;
 
-            case "multipleChoice":
+            case "multipleChoices":
                 childToAppend +=
-                    "<input type='hidden' name='questionType' value='multipleChoice' id='questionType'>" +
+                    "<input type='hidden' name='questionType' value='multipleChoices' id='questionType'>" +
                     "<div id='indexes'>" +
                     "</div>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
@@ -106,9 +105,9 @@
                     "<input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>";
                 break;
 
-            case "multipleChoiceWithMultipleAnswers":
+            case "multipleChoicesWithMultipleAnswers":
                 childToAppend +=
-                    "<input type='hidden' name='questionType' value='multipleChoiceWithMultipleAnswers' id='questionType'>" +
+                    "<input type='hidden' name='questionType' value='multipleChoicesWithMultipleAnswers' id='questionType'>" +
                     "<div id='indexes'>" +
                     "</div>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
@@ -152,9 +151,9 @@
                     "<input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'> ";
                 break;
 
-            case "multiAnswer":
+            case "multiAnswers":
                 childToAppend +=
-                    "<input type='hidden' name='questionType' value='multiAnswer'>" +
+                    "<input type='hidden' name='questionType' value='multiAnswers'>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
                     "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText'>" +
                     "</div>" +
@@ -277,7 +276,8 @@
             "</div>");
     }
 
-    $(document).ready(() => {})
+    $(document).ready(() => {
+    })
 </script>
 <body>
 <%@include file="header.jsp" %>
@@ -298,18 +298,20 @@
                           aria-label="Description"
                           name="description"
                           id="descriptionField"
-                          style="height: 150px"><%if (session.getAttribute("description") != null) out.print(session.getAttribute("description")); %></textarea>
+                          style="height: 150px"><%
+                    if (session.getAttribute("description") != null) out.print(session.getAttribute("description"));
+                %></textarea>
                 <div class="row">
                     <div class="col">
                         <select aria-label="Custom controls" id="newQuestionType"
                                 class="form-select form-select-md bg-dark text-light">
-                            <option value="questionResponse">Question Response</option>
+                            <option value="textResponse">Question Response</option>
                             <option value="fillInTheBlank">Fill in the blank</option>
                             <option value="pictureResponse">Picture Response</option>
-                            <option value="multipleChoice">Multiple Choice</option>
-                            <option value="multipleChoiceWithMultipleAnswers">Multiple choice with multiple answers
+                            <option value="multipleChoices">Multiple Choice</option>
+                            <option value="multipleChoicesWithMultipleAnswers">Multiple choice with multiple answers
                             </option>
-                            <option value="multiAnswer">Multi Answers</option>
+                            <option value="multiAnswers">Multi Answers</option>
                             <option value="matching">Matching</option>
                         </select>
                     </div>
@@ -329,7 +331,7 @@
                         <div class="row">
                             <div class="col d-flex align-items-center"><%=i + 1%>)
                                 <%
-                                    if (currQuestion.getType().equals("fillInTheBlank"))
+                                    if (currQuestion.getType().equals(QuestionTypes.fillInTheBlank))
                                         out.print(currQuestion.getQuestionText() + " _____ " + ((QuestionFillInTheBlank) currQuestion).getQuestionText2());
                                     else {
                                         out.print(currQuestion.getQuestionText());
@@ -366,9 +368,9 @@
                         <input type='hidden' name='title' value='' id='titleLabel'>
                         <input type='hidden' name='description' value='' id='descriptionLabel'>
                             <%
-                                if(request.getParameter("type").equals("questionResponse")) {
+                                if(request.getParameter("type").equals("textResponse")) {
                             %>
-                        <input type='hidden' name='questionType' value='questionResponse'>
+                        <input type='hidden' name='questionType' value='textResponse'>
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
@@ -455,9 +457,9 @@
                         <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                             }
-                            if(request.getParameter("type").equals("multipleChoice")) {
+                            if(request.getParameter("type").equals("multipleChoices")) {
                         %>
-                        <input type='hidden' name='questionType' value='multipleChoice' id='questionType'>
+                        <input type='hidden' name='questionType' value='multipleChoices' id='questionType'>
                         <div id='indexes'></div>
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
@@ -504,9 +506,9 @@
                         <br>
                         <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
-                            } if(request.getParameter("type").equals("multipleChoiceWithMultipleAnswers")) {
+                            } if(request.getParameter("type").equals("multipleChoicesWithMultipleAnswers")) {
                         %>
-                        <input type='hidden' name='questionType' value='multipleChoiceWithMultipleAnswers'
+                        <input type='hidden' name='questionType' value='multipleChoicesWithMultipleAnswers'
                                id='questionType'>
                         <div id='indexes'></div>
                         <div class='uk-margin' style='margin-top: 0!important;'>
@@ -672,9 +674,9 @@
                         <br>
                         <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
-                                } if(request.getParameter("type").equals("multiAnswer")) {
+                                } if(request.getParameter("type").equals("multiAnswers")) {
                             %>
-                        <input type='hidden' name='questionType' value='multiAnswer'>
+                        <input type='hidden' name='questionType' value='multiAnswers'>
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'

@@ -30,4 +30,17 @@ public class QuestionPictureResponse extends QuestionAbstract {
         String answer = userAnswer.get(0);
         return getAnswers().contains(answer);
     }
+
+    @Override
+    public String getWriteQuizHTML(ArrayList<String>[] answers, int questionInd) {
+        String html = "<div class='mb-3'>" + getQuestionText() + "</div>";
+        html += "<img src='" + getPictureUrl() + "' alt='image' class='mb-3'>";
+        html += "<input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer'\n" +
+                "                       aria-label='Input' name='answer'";
+        if (answers[questionInd] != null && !answers[questionInd].isEmpty()) {
+            html += "value='" + answers[questionInd].get(0) + "'";
+        }
+        html += ">";
+        return html;
+    }
 }
