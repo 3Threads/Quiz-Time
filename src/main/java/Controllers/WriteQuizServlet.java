@@ -87,7 +87,7 @@ public class WriteQuizServlet extends HttpServlet {
             int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
             int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
 
-            resultsDAO.addResult(userId, quizId, score, new Time(time));
+            resultsDAO.addResult(userId, quizId, score, time);
             httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time);
         }
     }

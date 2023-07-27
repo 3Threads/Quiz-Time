@@ -1,18 +1,17 @@
 package Types;
 
-import java.sql.Time;
 import java.util.Date;
 
 public class Result {
-    private int userId;
-    private int quizId;
+    private final int userId;
+    private final int quizId;
 
-    private int score;
+    private final int score;
 
-    private Time spentTime;
-    private Date writtenDate;
+    private final long spentTime;
+    private final Date writtenDate;
 
-    public Result(int userId, int quizId, int score, Time spentTime, Date writtenDate) {
+    public Result(int userId, int quizId, int score, long spentTime, Date writtenDate) {
         this.userId = userId;
         this.quizId = quizId;
         this.score = score;
@@ -36,7 +35,7 @@ public class Result {
         return writtenDate;
     }
 
-    public Time getSpentTime() {
+    public long getSpentTime() {
         return spentTime;
     }
 }

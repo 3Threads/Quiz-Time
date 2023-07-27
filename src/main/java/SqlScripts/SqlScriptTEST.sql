@@ -46,7 +46,7 @@ CREATE TABLE COMPLETED_QUIZZES
     USER_ID    INT             not null,
     QUIZ_ID    INT             not null,
     SCORE      INT      default 0,
-    SPENT_TIME TIME            not null,
+    SPENT_TIME LONG            not null,
     WRITE_TIME DATETIME default current_timestamp,
     FOREIGN KEY (USER_ID) references USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) references QUIZZES (ID) ON DELETE CASCADE

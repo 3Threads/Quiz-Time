@@ -46,24 +46,22 @@ public class TypesTest {
 
     @Test
     public void testResultType() {
-        Time time1 = new Time(12);
         Date date1 = new Date(2023, 7, 22);
-        Result res1 = new Result(1, 01, 10, time1, date1);
+        Result res1 = new Result(1, 01, 10, 12L, date1);
 
         assertEquals(1, res1.getUserId());
         assertEquals(01, res1.getQuizId());
         assertEquals(10, res1.getScore());
-        assertEquals(time1, res1.getSpentTime());
+        assertEquals(12L, res1.getSpentTime());
         assertEquals(date1, res1.getWrittenDate());
 
-        Time time2 = new Time(120);
         Date date2 = new Date(2017, 11, 27);
-        Result res2 = new Result(12321123, 920001231, 0, time2, date2);
+        Result res2 = new Result(12321123, 920001231, 0, 120L, date2);
 
         assertEquals(12321123, res2.getUserId());
         assertEquals(920001231, res2.getQuizId());
         assertEquals(0, res2.getScore());
-        assertEquals(time2, res2.getSpentTime());
+        assertEquals(120L, res2.getSpentTime());
         assertEquals(date2, res2.getWrittenDate());
     }
 
