@@ -44,51 +44,92 @@
     QuestionsDAO questionsDAO = (QuestionsDAO) application.getAttribute("questionsDB");
 %>
 <script>
-    function requestAction(user1, user2, action, requestId) {
-        const http = new XMLHttpRequest();
-        const url = "friends?user1=" + user1 + "&user2=" + user2 + "&action=" + action;
-        http.onreadystatechange = function () {
-            if (http.readyState === 4) {
-                const element = document.getElementById("request" + requestId);
-                element.remove();
-            }
-        }
-        http.open("POST", url);
-        http.send(null);
+    function requestConstructor(reqId, reqUsername, myId) {
+        return "<li>\n <div class='row' id='request" + reqId + "'>\n <div class='col d-flex align-items-center'>\n<a href='/profile?user=" + reqId + "'>" + reqUsername + "</a>\n </div>\n<div class='col-auto'>\n<button onclick=\"requestAction(" + myId + "," + reqId + ", 'acceptRequest', " + reqId + ")\" class='btn btn-success'>Accept</button>\n<button onclick=\"requestAction(" + myId + "," + reqId + ", 'rejectRequest', " + reqId + ")\" class='btn btn-danger'>Reject</button>\n</div>\n</div>\n</li>\n";
     }
 
-    function challengeAction(user, action, challId, quizID) {
-        $.post('challenges', {userID: user, action: action, quizID: quizID}, () => {
-            $('#challenge'+challId).remove();
+    function challengeConstructor(userId, userName, quizId, quizName) {
+        return "<li>\n <div class=\"row\" id=\"challenge" + userId+"\">\n <div class=\"col d-flex align-items-center\">\n <a href=\"/profile?user=" + userId+"\">"+ userName   +"\n </a>\n <div style=\"margin-left: 3px\"> challenged you:</div>\n <a style=\"margin-left: 3px\"\n href=\"/quiz?quizId=" + quizId+ "\">" + quizName+ "\n </a>\n </div>\n <div class=\"col-auto\">\n <button onclick=\"challengeAction("+userId+", 'acceptChallenge',"+ userId+ "," + quizId+")\"\n class=\"btn btn-success\">Accept\n </button>\n <button onclick=\"challengeAction("+userId+", 'rejectChallenge', "+ userId+ ", " + quizId+")\"\n class=\"btn btn-danger\">Reject\n </button>\n </div>\n </div>\n </li>";
+    }
+
+    function chatConstructor(chatUserId, chatUserUsername) {
+        return "<li>\n <div class=\"row\">\n <div class=\"col d-flex align-items-center\">\n<div>New message from</div>\n <a style=\"margin-left: 3px\" href=\"/profile?user=" + chatUserId + "\">" + chatUserUsername + "</a>\n </div>\n <div class=\"col-auto\">\n <a href=\"/chat?chatWith=" + chatUserId + "\"> <button class=\"btn btn-primary\">Open chat</button> </a>\n </div>\n </div>\n </li>";
+    }
+
+    function requestAction(user1, user2, action, requestId) {
+        $.post('notifications', {notification: 'request', user1: user1, user2: user2, action: action}, () => {
+            $('#request' + requestId).remove();
+        });
+    }
+
+    function challengeAction(user, action, challengeId, quizID) {
+        $.post('notifications', {notification: 'challenge', userID: user, action: action, quizID: quizID}, () => {
+            $('#challenge' + challengeId).remove();
             if (action === 'acceptChallenge') {
                 window.location.replace("/quiz?quizId=" + quizID);
             }
         });
     }
+    function getNotifications() {
+        $.get('notifications', (responseText) => {
+            let realStr = responseText.trim();
+            let notifi;
+            notifi = realStr.split('$');
+            if (realStr !== '') {
+                if (notifi[0].trim() !== '') {
+                    let challengeList = notifi[0].trim();
+                    let challenges = challengeList.split("/");
+                    $('#challengesList').html('');
+                    challenges.forEach(challengeFunc);
 
-    function getRequests() {
-        $.get('getRequests', (responseText) => {
-            $('#requestsList').html(responseText);
+                    function challengeFunc(challenge) {
+                        let chall = challenge.trim();
+                        let components;
+                        components = chall.split("|");
+                        $('#challengesList').append(challengeConstructor(components[0], components[1], components[2], components[3]));
+                    }
+                }
+                if (notifi[1].trim() !== '') {
+                    let chatList = notifi[1].trim();
+                    let chats = chatList.split("/");
+                    $('#chatNotifications').html('');
+                    chats.forEach(chatFunc);
+
+                    function chatFunc(chat) {
+                            let ch = chat.trim();
+                            let components = ch.split("|");
+                            $('#chatNotifications').append(chatConstructor(components[0], components[1]));
+                    }
+                }
+                if (notifi[2].trim() !== '') {
+                    let requestsList = notifi[2].trim();
+                    let requests = requestsList.split("/");
+                    $('#requestsList').html('');
+                    requests.forEach(requestFunc);
+
+                    function requestFunc(request) {
+                        let req = request.trim();
+                        let components = req.split("|");
+                        $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
+                    }
+                }
+                if(notifi[0].trim() !== '' || notifi[1].trim() !== '' || notifi[2].trim() !== '') shake();
+            }
         });
     }
 
-    function getChallenges() {
-        $.get('challenges', (responseText) => {
-            console.log(responseText);
-            $('#challengesList').html(responseText);
-        });
-    }
+    function shake() {
+        const $animate = $('.animate');
+        $animate.addClass('uk-animation-shake');
 
-    function getChatNotifications() {
-        $.get('chatNotification', (responseText) => {
-            $('#chatNotifications').html(responseText);
-        });
+        $animate.one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+            function() {
+                $animate.removeClass('uk-animation-shake');
+            });
     }
 
     $(document).ready(function () {
-        setInterval(getRequests, 2000);
-        setInterval(getChatNotifications, 2000);
-        setInterval(getChallenges, 2000);
+        setInterval(getNotifications, 5000);
     });
 </script>
 <body class="bg-dark text-light">
@@ -106,8 +147,11 @@
                         Log Out
                     </a>
                     <a>|</a>
-                    <a href="#modal-notifications" class="mt-1" uk-toggle><i class="bi bi-bell-fill mt-1"
+                    <a href="#modal-notifications" class="mt-1" uk-toggle>
+                        <div class="animate">
+                        <i class="bi bi-bell-fill mt-1"
                                                                              style="margin-right: 5px"></i>
+                        </div>
                     </a>
                     <div id="modal-notifications" uk-modal>
                         <div class="uk-modal-dialog bg-dark">

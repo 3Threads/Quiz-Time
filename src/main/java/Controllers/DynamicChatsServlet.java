@@ -13,18 +13,21 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 @WebServlet(name = "getChats", value = "/getChats")
-public class getChatsServlet extends HttpServlet {
+public class DynamicChatsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         PrintWriter out = httpServletResponse.getWriter();
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-        if (myUser == null) return;
         HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
         ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
-        if (httpServletRequest.getParameter("chatWith") != "") {
-            Integer chatId = Integer.parseInt(httpServletRequest.getParameter("chatWith"));
+        if (!httpServletRequest.getParameter("chatWith").equals("")) {
+            int chatId = Integer.parseInt(httpServletRequest.getParameter("chatWith"));
             User myFriend = usersDAO.getUserById(chatId);
             if (!interactors.contains(myFriend.getId())) {
                 out.println("<div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n" +
@@ -36,7 +39,7 @@ public class getChatsServlet extends HttpServlet {
         }
         for (Integer person : interactors) {
             User myFriend = usersDAO.getUserById(person);
-            if (httpServletRequest.getParameter("chatWith") != ""
+            if (!httpServletRequest.getParameter("chatWith").equals("")
                     && myFriend.getId() == Integer.parseInt(httpServletRequest.getParameter("chatWith"))) {
                 out.println("<li><div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n" +
                         "                    <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriend.getId() + "\">" + myFriend.getUsername() + "\n" +
@@ -47,13 +50,10 @@ public class getChatsServlet extends HttpServlet {
                 out.println("<li><div class=\"d-flex align-items-center\">\n" +
                         "                    <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriend.getId() + "\">" + myFriend.getUsername() + "\n" +
                         "                   <div id=\"friend" + myFriend.getId() + "\">");
-                if (notSeenMessages.keySet().contains(myFriend.getId())) {
+                if (notSeenMessages.containsKey(myFriend.getId())) {
                     out.println(notSeenMessages.get(myFriend.getId()).size());
                 }
-                out.println("</div>\n" +
-                        "                    </a>\n" +
-                        "                </div><" +
-                        "/li>");
+                out.println("</div>\n </a>\n </div>\n</li>");
             }
         }
     }

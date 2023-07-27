@@ -40,7 +40,7 @@
     }
 
     function getMessages() {
-        $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
+        $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>, action: "currentChat"}, (responseText) => {
             if (responseText !== '') {
                 const chatBox = $(".chatBox");
                 const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
@@ -55,7 +55,7 @@
     }
 
     function getMessagesChat() {
-        $.get('notSeenChat', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
+        $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>,action: "notCurrentChat" }, (responseText) => {
             let realStr = responseText.trim();
             let fr = [];
             fr = realStr.split('/');
