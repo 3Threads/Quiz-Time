@@ -11,6 +11,9 @@
 <%@ page import="DAO.*" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="Types.Challenge" %>
+<%@ page import="Types.Quiz" %>
+<%@ page import="java.util.Random" %>
+<%@ page import="java.util.Date" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -49,7 +52,7 @@
     }
 
     function challengeConstructor(userId, userName, quizId, quizName) {
-        return "<li>\n <div class=\"row\" id=\"challenge" + userId+"\">\n <div class=\"col d-flex align-items-center\">\n <a href=\"/profile?user=" + userId+"\">"+ userName   +"\n </a>\n <div style=\"margin-left: 3px\"> challenged you:</div>\n <a style=\"margin-left: 3px\"\n href=\"/quiz?quizId=" + quizId+ "\">" + quizName+ "\n </a>\n </div>\n <div class=\"col-auto\">\n <button onclick=\"challengeAction("+userId+", 'acceptChallenge',"+ userId+ "," + quizId+")\"\n class=\"btn btn-success\">Accept\n </button>\n <button onclick=\"challengeAction("+userId+", 'rejectChallenge', "+ userId+ ", " + quizId+")\"\n class=\"btn btn-danger\">Reject\n </button>\n </div>\n </div>\n </li>";
+        return "<li>\n <div class=\"row\" id=\"challenge" + userId + "\">\n <div class=\"col d-flex align-items-center\">\n <a href=\"/profile?user=" + userId + "\">" + userName + "\n </a>\n <div style=\"margin-left: 3px\"> challenged you:</div>\n <a style=\"margin-left: 3px\"\n href=\"/quiz?quizId=" + quizId + "\">" + quizName + "\n </a>\n </div>\n <div class=\"col-auto\">\n <button onclick=\"challengeAction(" + userId + ", 'acceptChallenge'," + userId + "," + quizId + ")\"\n class=\"btn btn-success\">Accept\n </button>\n <button onclick=\"challengeAction(" + userId + ", 'rejectChallenge', " + userId + ", " + quizId + ")\"\n class=\"btn btn-danger\">Reject\n </button>\n </div>\n </div>\n </li>";
     }
 
     function chatConstructor(chatUserId, chatUserUsername) {
@@ -70,6 +73,7 @@
             }
         });
     }
+
     function getNotifications() {
         $.get('notifications', (responseText) => {
             let realStr = responseText.trim();
@@ -96,9 +100,9 @@
                     chats.forEach(chatFunc);
 
                     function chatFunc(chat) {
-                            let ch = chat.trim();
-                            let components = ch.split("|");
-                            $('#chatNotifications').append(chatConstructor(components[0], components[1]));
+                        let ch = chat.trim();
+                        let components = ch.split("|");
+                        $('#chatNotifications').append(chatConstructor(components[0], components[1]));
                     }
                 }
                 if (notifi[2].trim() !== '') {
@@ -113,7 +117,7 @@
                         $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
                     }
                 }
-                if(notifi[0].trim() !== '' || notifi[1].trim() !== '' || notifi[2].trim() !== '') shake();
+                if (notifi[0].trim() !== '' || notifi[1].trim() !== '' || notifi[2].trim() !== '') shake();
             }
         });
     }
@@ -123,7 +127,7 @@
         $animate.addClass('uk-animation-shake');
 
         $animate.one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
-            function() {
+            function () {
                 $animate.removeClass('uk-animation-shake');
             });
     }
@@ -149,8 +153,8 @@
                     <a>|</a>
                     <a href="#modal-notifications" class="mt-1" uk-toggle>
                         <div class="animate">
-                        <i class="bi bi-bell-fill mt-1"
-                                                                             style="margin-right: 5px"></i>
+                            <i class="bi bi-bell-fill mt-1"
+                               style="margin-right: 5px"></i>
                         </div>
                     </a>
                     <div id="modal-notifications" uk-modal>
@@ -295,7 +299,13 @@
                 <a href="/createQuiz">
                     <button class="btn btn-dark text-light">Create Quiz</button>
                 </a>
-                <a href="/randomQuiz">
+                <%
+                    ArrayList<Quiz> allQuizzesList = quizzesDAO.getPopularQuizzes();
+                    Random rand = new Random(new Date().getTime());
+                    int randInd = rand.nextInt(allQuizzesList.size());
+                    int randQuizId = allQuizzesList.get(randInd).getQuizId();
+                %>
+                <a href="/quiz?quizId=<%=randQuizId%>">
                     <button class="btn btn-dark text-light">Random Quiz</button>
                 </a>
                 <a href="/chat">

@@ -41,7 +41,7 @@ public class WriteQuizServlet extends HttpServlet {
             ArrayList<String>[] answers = new ArrayList[size];
             httpServletRequest.getSession().setAttribute("userAnswers", answers);
         }
-        if (httpServletRequest.getParameter("startTime") == null)
+        if (httpServletRequest.getSession().getAttribute("startTime") == null)
             httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
         httpServletRequest.getRequestDispatcher("writeQuiz.jsp").forward(httpServletRequest, httpServletResponse);
     }
