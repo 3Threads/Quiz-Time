@@ -251,10 +251,9 @@
             </div>
         </div>
     </div>
-    <div class="menuBar text-light "
-         style="border-style: solid; border-width: 2px; border-color: white; border-radius: 10px;">
+    <div class="menuBar text-light ">
         <div class="container row d-flex align-items-center" style="width: 100%">
-            <div class="col-9 mb-1 mb-lg-0  mt-1">
+            <div class="col-9">
                 <a href="/createQuiz">
                     <button class="buttons btn btn-dark text-light">Create Quiz</button>
                 </a>
@@ -265,7 +264,7 @@
                     <button class="buttons btn btn-dark text-light">Chats</button>
                 </a>
             </div>
-            <form class="col d-flex mb-1 mb-lg-0 mt-1" role="search" method="get" action="/search">
+            <form class="nav-bar col" role="search" method="get" action="/search">
                 <div class="input-group input-group-sm mb-1 mt-1">
                     <input class="search-nav-bar form-control me-2 bg-dark whitePlaceholder text-light"
                            type="search"
