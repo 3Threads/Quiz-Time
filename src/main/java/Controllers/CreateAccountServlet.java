@@ -23,7 +23,7 @@ public class CreateAccountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
         UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");

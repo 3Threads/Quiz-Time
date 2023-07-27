@@ -1,5 +1,6 @@
 package Controllers;
 
+import BusinessLogic.SessionRemove;
 import DAO.FriendsDAO;
 
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,10 @@ import java.io.IOException;
 public class FriendsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         int user1 = Integer.parseInt(httpServletRequest.getParameter("user1"));
         int user2 = Integer.parseInt(httpServletRequest.getParameter("user2"));
         String action = httpServletRequest.getParameter("action");
@@ -40,7 +45,11 @@ public class FriendsServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         int user1 = Integer.parseInt(httpServletRequest.getParameter("user1"));
         int user2 = Integer.parseInt(httpServletRequest.getParameter("user2"));
         String action = httpServletRequest.getParameter("action");

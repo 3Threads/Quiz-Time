@@ -6,12 +6,14 @@ DROP TABLE IF EXISTS CHALLENGES;
 DROP TABLE IF EXISTS MESSAGES;
 DROP TABLE IF EXISTS QUESTIONS;
 DROP TABLE IF EXISTS QUIZZES;
+DROP TABLE IF EXISTS ANNOUNCEMENTS;
 DROP TABLE IF EXISTS USERS;
 
 CREATE TABLE USERS
 (
     ID       int primary key NOT NULL AUTO_INCREMENT,
     USERNAME CHAR(64) UNIQUE not null,
+    STATUS   TINYINT DEFAULT 0,
     PASSWORD CHAR(64)        not null
 );
 
@@ -44,7 +46,7 @@ CREATE TABLE COMPLETED_QUIZZES
     USER_ID    INT             not null,
     QUIZ_ID    INT             not null,
     SCORE      INT      default 0,
-    SPENT_TIME TIME            not null,
+    SPENT_TIME LONG            not null,
     WRITE_TIME DATETIME default current_timestamp,
     FOREIGN KEY (USER_ID) references USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) references QUIZZES (ID) ON DELETE CASCADE
@@ -77,11 +79,18 @@ CREATE TABLE QUESTIONS
 (
     ID            int primary key not null AUTO_INCREMENT,
     CATEGORY_NAME char(64)        not null,
-    QUIZ_ID       int DEFAULT NULL,
+    QUIZ_ID       int             NOT NULL,
     QUESTION_TEXT TEXT,
     ANSWERS       TEXT,
-    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE,
-    CHECK (CATEGORY_NAME = 'fillInTheBlank' OR CATEGORY_NAME = 'matching' OR CATEGORY_NAME = 'multiAnswers' OR
-           CATEGORY_NAME = 'multipleChoices' OR CATEGORY_NAME = 'multipleChoicesWithMultipleAnswers' OR
-           CATEGORY_NAME = 'pictureResponse' OR CATEGORY_NAME = 'textResponse')
+    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
+);
+
+CREATE TABLE ANNOUNCEMENTS
+(
+    ID         int primary key NOT NULL AUTO_INCREMENT,
+    TITLE      TEXT            not null,
+    BODY       TEXT            not null,
+    WRITER_ID  INT             not null,
+    WRITE_TIME DATETIME default current_timestamp,
+    FOREIGN KEY (WRITER_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );

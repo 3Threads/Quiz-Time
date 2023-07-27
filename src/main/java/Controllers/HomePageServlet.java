@@ -14,6 +14,10 @@ import java.io.IOException;
 public class HomePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         SessionRemove.removeQuizAttributes(httpServletRequest);
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");

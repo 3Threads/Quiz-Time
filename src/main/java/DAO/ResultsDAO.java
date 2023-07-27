@@ -13,7 +13,7 @@ public class ResultsDAO {
         this.dataSource = dataSource;
     }
 
-    public void addResult(int userId, int quizId, int score, Time spentTime) {
+    public void addResult(int userId, int quizId, int score, long spentTime) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
@@ -22,7 +22,7 @@ public class ResultsDAO {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, quizId);
             preparedStatement.setInt(3, score);
-            preparedStatement.setTime(4, spentTime);
+            preparedStatement.setLong(4, spentTime);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class ResultsDAO {
         ResultSet result = statement.executeQuery();
         while (result.next()) {
             Result rs = new Result(result.getInt("USER_ID"), result.getInt("QUIZ_ID"), result.getInt("SCORE"),
-                    result.getTime("SPENT_TIME"), result.getDate("WRITE_TIME"));
+                    result.getLong("SPENT_TIME"), result.getDate("WRITE_TIME"));
             results.add(rs);
         }
         return results;

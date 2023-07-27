@@ -18,7 +18,7 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String query = "INSERT INTO USERS (USERNAME,  PASSWORD) VALUES( ?,  ?)";
+            String query = "INSERT INTO USERS VALUES(default, ?, default,  ?)";
             PreparedStatement statement = connect.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, HashPassword.stringToHash(password));
@@ -98,7 +98,7 @@ public class UsersDAO {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new User(resultSet.getInt("ID"), resultSet.getString("USERNAME"));
+                return new User(resultSet.getInt("ID"), resultSet.getString("USERNAME"), resultSet.getInt("STATUS"));
             }
             return null;
         } catch (SQLException e) {
@@ -113,5 +113,65 @@ public class UsersDAO {
             }
         }
         return null;
+    }
+    public void getAdminToUser(int userId) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getUserRow = "UPDATE USERS SET STATUS = 1 WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void deleteAdminToUser(int userId) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getUserRow = "UPDATE USERS SET STATUS = 0 WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void deleteUser(int userId) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getUserRow = "DELETE FROM USERS WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

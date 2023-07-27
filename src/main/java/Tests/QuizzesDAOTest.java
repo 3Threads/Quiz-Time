@@ -127,12 +127,12 @@ public class QuizzesDAOTest {
         quiz = quizzes.getQuizInfo(3);
         assertEquals(15, quiz.getCompleted());
 
-        ArrayList<Quiz> arr = quizzes.getPopularQuizzes(1);
+        ArrayList<Quiz> arr = quizzes.getPopularQuizzes();
         quiz = arr.get(0);
         assertEquals(quiz.getCompleted(), 15);
         assertEquals(quiz.getQuizId(), 3);
 
-        arr = quizzes.getPopularQuizzes(2);
+        arr = quizzes.getPopularQuizzes();
         quiz = arr.get(0);
         assertEquals(quiz.getCompleted(), 15);
         assertEquals(quiz.getQuizId(), 3);
@@ -140,7 +140,7 @@ public class QuizzesDAOTest {
         assertEquals(quiz.getCompleted(), 10);
         assertEquals(quiz.getQuizId(), 1);
 
-        arr = quizzes.getPopularQuizzes(3);
+        arr = quizzes.getPopularQuizzes();
         quiz = arr.get(0);
         assertEquals(quiz.getCompleted(), 15);
         assertEquals(quiz.getQuizId(), 3);

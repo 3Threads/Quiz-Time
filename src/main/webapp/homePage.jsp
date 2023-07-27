@@ -96,7 +96,7 @@
                             </thead>
                             <tbody>
                             <%
-                                ArrayList<Quiz> popularQuizzes = quizzesDAO.getPopularQuizzes(10);
+                                ArrayList<Quiz> popularQuizzes = quizzesDAO.getPopularQuizzes();
                                 int toFollow = Math.min(popularQuizzes.size(), 10);
                                 for (int i = 0; i < toFollow; i++) {
                                     Quiz quiz = popularQuizzes.get(i);

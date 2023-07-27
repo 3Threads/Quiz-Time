@@ -1,5 +1,6 @@
 package Controllers;
 
+import BusinessLogic.SessionRemove;
 import DAO.QuestionsDAO;
 import DAO.ResultsDAO;
 import Types.Question;
@@ -20,6 +21,10 @@ import java.util.List;
 public class WriteQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         httpServletRequest.getSession().removeAttribute("title");
         httpServletRequest.getSession().removeAttribute("description");
         httpServletRequest.getSession().removeAttribute("questions");
@@ -41,7 +46,7 @@ public class WriteQuizServlet extends HttpServlet {
             ArrayList<String>[] answers = new ArrayList[size];
             httpServletRequest.getSession().setAttribute("userAnswers", answers);
         }
-        if (httpServletRequest.getParameter("startTime") == null)
+        if (httpServletRequest.getSession().getAttribute("startTime") == null)
             httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
         httpServletRequest.getRequestDispatcher("writeQuiz.jsp").forward(httpServletRequest, httpServletResponse);
     }
@@ -53,6 +58,10 @@ public class WriteQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         if (httpServletRequest.getParameter("action").equals("questionAnswer")) {
             String[] answers = httpServletRequest.getParameterValues("answer");
             int questionInd = Integer.parseInt(httpServletRequest.getParameter("questionInd"));
@@ -78,7 +87,7 @@ public class WriteQuizServlet extends HttpServlet {
             int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
             int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
 
-            resultsDAO.addResult(userId, quizId, score, new Time(time));
+            resultsDAO.addResult(userId, quizId, score, time);
             httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time);
         }
     }

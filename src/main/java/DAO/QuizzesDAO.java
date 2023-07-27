@@ -37,13 +37,12 @@ public class QuizzesDAO {
         }
     }
 
-    public ArrayList<Quiz> getPopularQuizzes(int limit) {
+    public ArrayList<Quiz> getPopularQuizzes() {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getQuizzes = "SELECT * FROM QUIZZES ORDER BY COMPLETED DESC LIMIT ?;";
+            String getQuizzes = "SELECT * FROM QUIZZES ORDER BY COMPLETED DESC;";
             PreparedStatement statement = connect.prepareStatement(getQuizzes);
-            statement.setInt(1, limit);
             return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();

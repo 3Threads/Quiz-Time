@@ -44,13 +44,13 @@ public class ResultsDAOTest {
         quizzes.addQuiz("quiz5", "new quiz", 2);
         quizzes.addQuiz("quiz6", "my quiz", 1);
 
-        results.addResult(1, 1, 10, new Time(1000));
-        results.addResult(1, 1, 15, new Time(800));
-        results.addResult(1, 2, 30, new Time(900));
-        results.addResult(2, 1, 15, new Time(1500));
-        results.addResult(3, 4, 10, new Time(2000));
-        results.addResult(5, 1, 14, new Time(500));
-        results.addResult(4, 6, 30, new Time(3000));
+        results.addResult(1, 1, 10, 1000);
+        results.addResult(1, 1, 15, 800);
+        results.addResult(1, 2, 30, 900);
+        results.addResult(2, 1, 15, 1500);
+        results.addResult(3, 4, 10, 2000);
+        results.addResult(5, 1, 14, 500);
+        results.addResult(4, 6, 30, 3000);
     }
 
     /*

@@ -1,5 +1,9 @@
 <%@ page import="Types.Quiz" %>
 <%@ page import="Types.Result" %>
+<%@ page import="java.sql.Time" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -30,6 +34,10 @@
 <%@include file="header.jsp" %>
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
+
+    Date date = new Date();
+    DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+    formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 %>
 <script>
@@ -74,6 +82,13 @@
             <a href="#modalSendChallenges" uk-toggle>
                 <input type="button" class="btn btn-primary" value="Send Challenge">
             </a>
+            <%if (myUser.isAdmin() || currQuiz.getCreatorID() == myUser.getId()) {%>
+            <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete">
+                <input type="button" class="btn btn-danger" value="Delete Quiz" style="margin-left: 6px">
+            </a>
+            <%
+                }
+            %>
             <div id="modalSendChallenges" uk-modal>
                 <div class="uk-modal-dialog bg-dark">
                     <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -156,7 +171,7 @@
                             </td>
                             <td><%=res.getScore()%>
                             </td>
-                            <td><%=res.getSpentTime()%>
+                            <td><%=formatter.format(new Date(res.getSpentTime()))%>
                             </td>
                         </tr>
                         <%
@@ -192,7 +207,7 @@
                             </td>
                             <td><%=res.getScore()%>
                             </td>
-                            <td><%=res.getSpentTime()%>
+                            <td><%=formatter.format(new Date(res.getSpentTime()))%>
                             </td>
                         </tr>
                         <%
@@ -228,7 +243,7 @@
                             </td>
                             <td><%=res.getScore()%>
                             </td>
-                            <td><%=res.getSpentTime()%>
+                            <td><%=formatter.format(new Date(res.getSpentTime()))%>
                             </td>
                         </tr>
                         <%
