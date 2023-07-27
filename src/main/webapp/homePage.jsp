@@ -30,68 +30,94 @@
     <div class="row">
         <div class="col-4" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
             <br>
-            <h4>Announcements</h4>
+            <h4 class="headers">Announcements</h4>
             <div class="uk-card uk-card-default bg-dark text-light">
-                <div class="uk-card-header">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-card-header" style="height: 80px">
+                    <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
-                            <h5 class="uk-card-title uk-margin-remove-bottom text-light">lasha kuprashvili</h5>
+                            <h5 class="uk-card-title uk-margin-remove-bottom text-light">
+                                <div class="admins">lasha kuprashivii</div>
+                            </h5>
                             <p class="uk-text-meta uk-margin-remove-top">
-                                <time datetime="2016-04-01T19:00">July 10, 2023</time>
+                                <time class="admin_date" datetime="2016-04-01T19:00">July 10, 2023</time>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="uk-card-body">
-                    <p>bodyyyy.</p>
-                </div>
-                <div class="uk-card-footer">
-                    <a href="#" class="uk-button uk-text-meta">Read more</a>
+                <%-- max 20 wordsssssssssss--%>
+                <p class="card-middle" style="margin-right: 7px">
+                    Today is our Anniversary, and we want to tell you that it was honor ...
+                </p>
+                <div class="card-bottom uk-card-footer">
+                    <%--class="read_more uk-button uk-text-meta"--%>
+                    <a class="read_more" href="#">Read more</a>
                 </div>
             </div>
             <br>
             <div class="uk-card uk-card-default bg-dark text-light">
-                <div class="uk-card-header">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-card-header" style="height: 80px">
+                    <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
-                            <h5 class="uk-card-title uk-margin-remove-bottom text-light">Niko Khetsuriani</h5>
+                            <h5 class="uk-card-title uk-margin-remove-bottom text-light">
+                                <div class="admins">niko khetsuriani</div>
+                            </h5>
                             <p class="uk-text-meta uk-margin-remove-top">
-                                <time datetime="2016-04-01T19:00">April 01, 2016</time>
+                                <time class="admin_date" datetime="2016-04-01T19:00">July 10, 2023</time>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="uk-card-body">
-                    <p>I agree.</p>
-                </div>
-                <div class="uk-card-footer">
-                    <a href="#" class="uk-button uk-text-meta">Read more</a>
+                <%-- max 20 wordsssssssssss--%>
+                <p class="card-middle" style="margin-right: 7px">
+                    bodyysssssssssssssssssssssssss sssssssssssssssss a a a a asssssssssssss ssssssssssssssss
+                    ssssssssssssssss
+                </p>
+                <div class="card-bottom uk-card-footer">
+                    <%--class="read_more uk-button uk-text-meta"--%>
+                    <a class="read_more" href="#">Read more</a>
                 </div>
             </div>
+
         </div>
 
         <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">
             <br>
-            <h4 class="text-center">Quizzes</h4>
+            <h4 class="headers text-center">Quizzes</h4>
             <div>
                 <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
-                    <li><a style="color: white" href="">Popular</a></li>
-                    <li><a style="color: white" href="">Recent</a></li>
-                    <li><a style="color: white" href="">My Written</a></li>
-                    <li><a style="color: white" href="">My Created</a></li>
+                    <li><a style="color: white" href="">
+                        <div class="table_name">Popular</div>
+                    </a></li>
+                    <li><a style="color: white" href="">
+                        <div class="table_name">Recent</div>
+                    </a></li>
+                    <li><a style="color: white" href="">
+                        <div class="table_name">Completed</div>
+                    </a></li>
+                    <li><a style="color: white" href="">
+                        <div class="table_name">My Own</div>
+                    </a></li>
                 </ul>
                 <ul id="tables" class="uk-switcher uk-margin uk-box-shadow-large"
-                    style="max-height: 485px; overflow: auto;">
+                    style="height: 475px; overflow: auto;">
 
                     <%--Popular Quizzes Tables--%>
                     <li>
-                        <table name="Popular" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Completed</th>
-                                <th>Creation</th>
+                                <th>
+                                    <div class="table_name">#</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Name</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Users</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Creation</div>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -103,13 +129,27 @@
 
                             %>
                             <tr>
-                                <td><%=i + 1%>
+
+                                <td>
+                                    <div class="table_name">
+                                        <%=i + 1%>
+                                    </div>
                                 </td>
-                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
-                                </a></td>
-                                <td><%=quiz.getCompleted()%>
+                                <td>
+                                    <a href="/quiz?quizId=<%=quiz.getQuizId()%>">
+                                        <div class="table_name">
+                                            <%=quiz.getQuizName()%>
+                                        </div>
+                                    </a></td>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCompleted()%>
+                                    </div>
                                 </td>
-                                <td><%=quiz.getCreationTime()%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCreationTime()%>
+                                    </div>
                                 </td>
                             </tr>
                             <%
@@ -121,13 +161,21 @@
 
                     <%--Recent Quizzes Table--%>
                     <li>
-                        <table name="Recent" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Completed</th>
-                                <th>Creation</th>
+                                <th>
+                                    <div class="table_name">#</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Name</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Users</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Creation</div>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -139,13 +187,26 @@
 
                             %>
                             <tr>
-                                <td><%=i + 1%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=i + 1%>
+                                    </div>
                                 </td>
-                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
-                                </a></td>
-                                <td><%=quiz.getCompleted()%>
+                                <td>
+                                    <a href="/quiz?quizId=<%=quiz.getQuizId()%>">
+                                        <div class="table_name">
+                                            <%=quiz.getQuizName()%>
+                                        </div>
+                                    </a></td>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCompleted()%>
+                                    </div>
                                 </td>
-                                <td><%=quiz.getCreationTime()%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCreationTime()%>
+                                    </div>
                                 </td>
                             </tr>
                             <%
@@ -157,13 +218,22 @@
 
                     <%--My Written Quizzes Table--%>
                     <li>
-                        <table name="My Written" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Completed</th>
-                                <th>Creation</th>
+                                <th>
+                                    <div class="table_name">#</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Name</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Users</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Creation</div>
+                                </th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -177,13 +247,26 @@
 
                             %>
                             <tr>
-                                <td><%=i + 1%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=i + 1%>
+                                    </div>
                                 </td>
-                                <td><a href="/quiz?quizId=<%=quizId%>"><%=quiz.getQuizName()%>
-                                </a></td>
-                                <td><%=quiz.getCompleted()%>
+                                <td>
+                                    <a href="/quiz?quizId=<%=quiz.getQuizId()%>">
+                                        <div class="table_name">
+                                            <%=quiz.getQuizName()%>
+                                        </div>
+                                    </a></td>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCompleted()%>
+                                    </div>
                                 </td>
-                                <td><%=quiz.getCreationTime()%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCreationTime()%>
+                                    </div>
                                 </td>
                             </tr>
                             <%
@@ -195,13 +278,21 @@
 
                     <%--My Creates Quizzes Table--%>
                     <li>
-                        <table name="My Created" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Completed</th>
-                                <th>Creation</th>
+                                <th>
+                                    <div class="table_name">#</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Name</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Users</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Creation</div>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -213,13 +304,26 @@
 
                             %>
                             <tr>
-                                <td><%=i + 1%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=i + 1%>
+                                    </div>
                                 </td>
-                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
-                                </a></td>
-                                <td><%=quiz.getCompleted()%>
+                                <td>
+                                    <a href="/quiz?quizId=<%=quiz.getQuizId()%>">
+                                        <div class="table_name">
+                                            <%=quiz.getQuizName()%>
+                                        </div>
+                                    </a></td>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCompleted()%>
+                                    </div>
                                 </td>
-                                <td><%=quiz.getCreationTime()%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCreationTime()%>
+                                    </div>
                                 </td>
                             </tr>
                             <%
@@ -234,6 +338,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
