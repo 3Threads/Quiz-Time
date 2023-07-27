@@ -84,6 +84,7 @@ CREATE TABLE QUESTIONS
     ANSWERS       TEXT,
     FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
 );
+
 CREATE TABLE ANNOUNCEMENTS
 (
     ID         int primary key NOT NULL AUTO_INCREMENT,
@@ -143,13 +144,14 @@ VALUES ('textResponse', 1, 'Is this text response?', CONCAT('yes', CHAR(0), 'of 
        ('fillInTheBlank', 2, CONCAT('This is', char(0), 'question', char(0)), CONCAT('fill in the blank', char(0))),
        ('pictureResponse', 3, CONCAT('Hwo is on the picture?', char(0),
                                      'https://images.ctfassets.net/1fvlg6xqnm65/38dVtZPZ3GgHDqabOUqPDX/7d9cb3fe57de48b4fec7f2182957c59f/Lewis_Hamilton_Header.png?w=3840&q=80',
-           CHAR(0)),
+                                     CHAR(0)),
         CONCAT('lewis', char(0), 'hamilton', char(0), 'lewis hamilton', char(0))),
        ('multipleChoices', 4, 'Score for this project?',
         CONCAT('120%', char(0), char(0), '90%', char(0), '80%', char(0))),
        ('multipleChoicesWithMultipleAnswers', 5, 'Team contains?',
         CONCAT('niko', char(0), 'akaki', char(0), 'dachi', char(0), 'lasha', char(0), char(0), 'giorgi', char(0))),
        ('multiAnswers', 6, 'Count from 1', CONCAT('1', char(0), '2', char(0), '3', char(0)));
+
 INSERT INTO ANNOUNCEMENTS (TITLE, BODY, WRITER_ID)
 VALUES ('New quiz announced', 'Are you ready for the best Quiz?', 1),
        ('I am new admin', 'I am going to add many news.', 2),
