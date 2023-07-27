@@ -15,6 +15,10 @@ import java.io.IOException;
 public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         SessionRemove.removeQuizAttributes(httpServletRequest);
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
@@ -34,7 +38,11 @@ public class ChatServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         String message = httpServletRequest.getParameter("message");
         if (httpServletRequest.getParameter("sendTo") != null && !message.trim().equals("")) {
             int sendTo = Integer.parseInt(httpServletRequest.getParameter("sendTo"));

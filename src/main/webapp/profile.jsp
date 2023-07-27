@@ -32,7 +32,8 @@
 <div class="container">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <h3>Username: <%=pageUser.getUsername() %>
+            <h3>
+                Username: <%=pageUser.getUsername() %>
             </h3>
             <br>
             <% if (profileId != myUser.getId()) {
@@ -63,29 +64,50 @@
             }
                 if (info.getAccepted() == 1) {%>
             <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=unfriend"%>>
-                <button class="btn btn-danger">unfriend</button>
+                <button class="btn btn-danger">Unfriend</button>
             </a>
 
             <%
                 }
             %>
             <a href=<%="/chat?chatWith=" + pageUser.getId()%>>
-                <button class="btn btn-primary">chat</button>
+                <button class="btn btn-primary">Chat</button>
             </a>
+            <br><br><br>
             <%
                 }
             %>
 
-            <br><br><br>
-            <% if(pageUser.getId() != myUser.getId() && myUser.isAdmin()) {
-                %>
-                <form method="post" action="/profile">
-                    <input type="hidden" name="deleteUserId" value=<%=pageUser.getId()%>>
-                    <button class="btn btn-danger">Delete User</button>
-                </form>
+            <% if (pageUser.getId() == myUser.getId() || myUser.isAdmin()) {
+            %>
+            <form method="post" action="/profile">
+                <input type="hidden" name="userId" value=<%=pageUser.getId()%>>
+                <input type="hidden" name="action" value="deleteProfile">
+                <button type="submit" class="btn btn-danger">Delete User</button>
+            </form>
             <%
                 }
+                if (myUser.isAdmin()) {
+                    if (pageUser.isAdmin()) {
             %>
+            <form method="post" action="/profile">
+                <input type="hidden" name="userId" value=<%=pageUser.getId()%>>
+                <input type="hidden" name="action" value="deleteAdmin">
+                <button type="submit" class="btn btn-danger">Delete Admin</button>
+            </form>
+            <%
+            } else {
+            %>
+            <form method="post" action="/profile">
+                <input type="hidden" name="userId" value=<%=pageUser.getId()%>>
+                <input type="hidden" name="action" value="addToAdmin">
+                <button type="submit" class="btn btn-primary">Add Admin</button>
+            </form>
+            <%
+                    }
+                }
+            %>
+            <br>
             <div class="uk-padding-small " uk-scrollspy="cls: uk-animation-slide-left; repeat: true"
                  style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>

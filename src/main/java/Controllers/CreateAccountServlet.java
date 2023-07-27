@@ -14,6 +14,10 @@ import java.io.IOException;
 public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         SessionRemove.removeQuizAttributes(httpServletRequest);
         if (httpServletRequest.getSession().getAttribute("userInfo") != null) {
             httpServletResponse.sendRedirect("/homePage");
@@ -23,7 +27,11 @@ public class CreateAccountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
         UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");

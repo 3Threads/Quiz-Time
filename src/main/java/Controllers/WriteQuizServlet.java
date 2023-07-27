@@ -1,5 +1,6 @@
 package Controllers;
 
+import BusinessLogic.SessionRemove;
 import DAO.QuestionsDAO;
 import DAO.ResultsDAO;
 import Types.Question;
@@ -20,6 +21,10 @@ import java.util.List;
 public class WriteQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         httpServletRequest.getSession().removeAttribute("title");
         httpServletRequest.getSession().removeAttribute("description");
         httpServletRequest.getSession().removeAttribute("questions");
@@ -53,6 +58,10 @@ public class WriteQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         if (httpServletRequest.getParameter("action").equals("questionAnswer")) {
             String[] answers = httpServletRequest.getParameterValues("answer");
             int questionInd = Integer.parseInt(httpServletRequest.getParameter("questionInd"));

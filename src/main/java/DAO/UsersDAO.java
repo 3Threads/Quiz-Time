@@ -134,6 +134,26 @@ public class UsersDAO {
             }
         }
     }
+    public void deleteAdminToUser(int userId) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getUserRow = "UPDATE USERS SET STATUS = 0 WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public void deleteUser(int userId) {
         Connection connect = null;
         try {

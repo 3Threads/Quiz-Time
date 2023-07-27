@@ -74,6 +74,13 @@
             <a href="#modalSendChallenges" uk-toggle>
                 <input type="button" class="btn btn-primary" value="Send Challenge">
             </a>
+            <%if (myUser.isAdmin() || currQuiz.getCreatorID() == myUser.getId()) {%>
+            <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete">
+                <input type="button" class="btn btn-danger" value="Delete Quiz" style="margin-left: 6px">
+            </a>
+            <%
+                }
+            %>
             <div id="modalSendChallenges" uk-modal>
                 <div class="uk-modal-dialog bg-dark">
                     <button class="uk-modal-close-default" type="button" uk-close></button>

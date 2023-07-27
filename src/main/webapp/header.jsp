@@ -74,6 +74,15 @@
         });
     }
 
+    <%--function checkingUserInfo() {--%>
+    <%--    $.get('checkUser', {userName: '<%=myUser.getUsername()%>', userId:<%=myUser.getId()%>}, (responseText) => {--%>
+    <%--        console.log(responseText);--%>
+    <%--        if (responseText.trim() === 'login') {--%>
+    <%--            window.location.replace("/login");--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--}--%>
+
     function getNotifications() {
         $.get('notifications', (responseText) => {
             let realStr = responseText.trim();
@@ -134,6 +143,7 @@
 
     $(document).ready(function () {
         setInterval(getNotifications, 5000);
+        // setInterval(checkingUserInfo, 7000);
     });
 </script>
 <body class="bg-dark text-light">
