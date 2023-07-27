@@ -43,7 +43,6 @@ public class ProfileServlet extends HttpServlet {
             UsersDAO usersDAO = ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB"));
             int userId = Integer.parseInt(httpServletRequest.getParameter("userId"));
             int myUserId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
-            System.out.println(userId+" "+myUserId);
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
             if ((myUser.isAdmin() || myUserId == userId) && action.equals("deleteProfile")) {
                 usersDAO.deleteUser(userId);

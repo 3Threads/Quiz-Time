@@ -23,20 +23,19 @@
 </head>
 <script>
     function fc() {
-        const http = new XMLHttpRequest();
-        const msg = document.getElementById("message").value;
-        const url = "chat?sendTo=" + document.getElementById("sendInp").value + "&message=" + msg;
-        http.onreadystatechange = function () {
-            if (http.readyState === 4 && msg.trim() !== "") {
+        $.post('chat', {sendTo: document.getElementById("sendInp").value, message: document.getElementById("message").value}, (responseText) => {
+            if(responseText.trim() == 'login') {
+                window.location.replace("/login");
+                return;
+            }
+            if (document.getElementById("message").value !== "") {
                 $('#message').val('')
                 $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
             }
-        }
-        http.open("POST", url);
-        http.send(null);
+        });
     }
 
     function getMessages() {

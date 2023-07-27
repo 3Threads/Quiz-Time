@@ -40,7 +40,7 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.getWriter().println("login");
             return;
         }
         String message = httpServletRequest.getParameter("message");
