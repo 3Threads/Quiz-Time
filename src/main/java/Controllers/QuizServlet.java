@@ -25,7 +25,7 @@ public class QuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/homePage");
             return;
         }
-        Quiz currQuiz =((QuizzesDAO) getServletContext().getAttribute("quizzesDAO")).getQuizInfo(Integer.parseInt(httpServletRequest.getParameter("quizId")));
+        Quiz currQuiz =((QuizzesDAO) getServletContext().getAttribute("quizzesDB")).getQuizInfo(Integer.parseInt(httpServletRequest.getParameter("quizId")));
         if(currQuiz == null) {
             httpServletResponse.sendRedirect("/homePage");
             return;
