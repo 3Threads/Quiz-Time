@@ -63,7 +63,7 @@
     }
 
     function challengeAction(user, action, challengeId, quizID) {
-        $.post('challenges', {notification: 'challenge', userID: user, action: action, quizID: quizID}, () => {
+        $.post('notifications', {notification: 'challenge', userID: user, action: action, quizID: quizID}, () => {
             $('#challenge' + challengeId).remove();
             if (action === 'acceptChallenge') {
                 window.location.replace("/quiz?quizId=" + quizID);
@@ -73,53 +73,59 @@
     function getNotifications() {
         $.get('notifications', (responseText) => {
             let realStr = responseText.trim();
-            let notifi = [];
+            let notifi;
             notifi = realStr.split('$');
-            if (realStr != '') {
+            if (realStr !== '') {
                 if (notifi[0].trim() !== '') {
                     let challengeList = notifi[0].trim();
-                    let challenges = [];
-                    challenges = challengeList.split("/");
+                    let challenges = challengeList.split("/");
                     $('#challengesList').html('');
                     challenges.forEach(challengeFunc);
 
                     function challengeFunc(challenge) {
                         let chall = challenge.trim();
-                        let components = [];
+                        let components;
                         components = chall.split("|");
                         $('#challengesList').append(challengeConstructor(components[0], components[1], components[2], components[3]));
                     }
                 }
                 if (notifi[1].trim() !== '') {
                     let chatList = notifi[1].trim();
-                    let chats = [];
-                    chats = chatList.split("/");
+                    let chats = chatList.split("/");
                     $('#chatNotifications').html('');
                     chats.forEach(chatFunc);
 
                     function chatFunc(chat) {
                             let ch = chat.trim();
-                            let components = [];
-                            components = ch.split("|");
+                            let components = ch.split("|");
                             $('#chatNotifications').append(chatConstructor(components[0], components[1]));
                     }
                 }
                 if (notifi[2].trim() !== '') {
                     let requestsList = notifi[2].trim();
-                    let requests = [];
-                    requests = requestsList.split("/");
+                    let requests = requestsList.split("/");
                     $('#requestsList').html('');
                     requests.forEach(requestFunc);
 
                     function requestFunc(request) {
                         let req = request.trim();
-                        let components = [];
-                        components = req.split("|");
+                        let components = req.split("|");
                         $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
                     }
                 }
+                if(notifi[0].trim() !== '' || notifi[1].trim() !== '' || notifi[2].trim() !== '') shake();
             }
         });
+    }
+
+    function shake() {
+        const $animate = $('.animate');
+        $animate.addClass('uk-animation-shake');
+
+        $animate.one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+            function() {
+                $animate.removeClass('uk-animation-shake');
+            });
     }
 
     $(document).ready(function () {
@@ -141,8 +147,11 @@
                         Log Out
                     </a>
                     <a>|</a>
-                    <a href="#modal-notifications" class="mt-1" uk-toggle><i class="bi bi-bell-fill mt-1"
+                    <a href="#modal-notifications" class="mt-1" uk-toggle>
+                        <div class="animate">
+                        <i class="bi bi-bell-fill mt-1"
                                                                              style="margin-right: 5px"></i>
+                        </div>
                     </a>
                     <div id="modal-notifications" uk-modal>
                         <div class="uk-modal-dialog bg-dark">

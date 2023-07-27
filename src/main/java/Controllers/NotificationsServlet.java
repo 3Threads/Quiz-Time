@@ -16,12 +16,14 @@ import java.util.HashMap;
 
 
 @WebServlet(name = "notifications", value = "/notifications")
-public class notificationsServlet extends HttpServlet {
+public class NotificationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
+            httpServletResponse.sendRedirect("/login");
+        }
         PrintWriter out = httpServletResponse.getWriter();
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-        if (myUser == null) return;
         QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
         UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         ChallengesDAO challengesDAO = (ChallengesDAO) httpServletRequest.getServletContext().getAttribute("challengesDB");
