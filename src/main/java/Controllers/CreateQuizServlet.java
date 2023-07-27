@@ -107,7 +107,7 @@ public class CreateQuizServlet extends HttpServlet {
         }
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
-            if (httpServletRequest.getParameter("questionType").equals("questionResponse")) {
+            if (httpServletRequest.getParameter("questionType").equals("textResponse")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("answer");
                 question = new QuestionTextResponse(questionText, new ArrayList<>(List.of(answers)));
@@ -130,7 +130,7 @@ public class CreateQuizServlet extends HttpServlet {
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
-            if (httpServletRequest.getParameter("questionType").equals("multiAnswer")) {
+            if (httpServletRequest.getParameter("questionType").equals("multiAnswers")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("answer");
                 question = new QuestionMultiAnswers(questionText, new ArrayList<>(List.of(answers)));
@@ -149,7 +149,7 @@ public class CreateQuizServlet extends HttpServlet {
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
-            if (httpServletRequest.getParameter("questionType").equals("multipleChoice")) {
+            if (httpServletRequest.getParameter("questionType").equals("multipleChoices")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("choosedIndex");
                 String[] answerTexts = httpServletRequest.getParameterValues("answerText");
@@ -163,7 +163,7 @@ public class CreateQuizServlet extends HttpServlet {
                 httpServletRequest.getSession().setAttribute("questions", questions);
             }
 
-            if (httpServletRequest.getParameter("questionType").equals("multipleChoiceWithMultipleAnswers")) {
+            if (httpServletRequest.getParameter("questionType").equals("multipleChoicesWithMultipleAnswers")) {
                 String questionText = httpServletRequest.getParameter("questionText");
                 String[] answers = httpServletRequest.getParameterValues("choosedIndex");
                 String[] answerTexts = httpServletRequest.getParameterValues("answerText");
