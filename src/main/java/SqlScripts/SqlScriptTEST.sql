@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS MESSAGES;
 DROP TABLE IF EXISTS QUESTIONS;
 DROP TABLE IF EXISTS QUIZZES;
 DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS ANNOUNCEMENTS;
+DROP TABLE IF EXISTS ADMINS;
 
 CREATE TABLE USERS
 (
@@ -77,11 +79,25 @@ CREATE TABLE QUESTIONS
 (
     ID            int primary key not null AUTO_INCREMENT,
     CATEGORY_NAME char(64)        not null,
-    QUIZ_ID       int DEFAULT NULL,
+    QUIZ_ID       int             NOT NULL,
     QUESTION_TEXT TEXT,
     ANSWERS       TEXT,
-    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE,
-    CHECK (CATEGORY_NAME = 'fillInTheBlank' OR CATEGORY_NAME = 'matching' OR CATEGORY_NAME = 'multiAnswers' OR
-           CATEGORY_NAME = 'multipleChoices' OR CATEGORY_NAME = 'multipleChoicesWithMultipleAnswers' OR
-           CATEGORY_NAME = 'pictureResponse' OR CATEGORY_NAME = 'textResponse')
+    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
+);
+
+CREATE TABLE ADMINS
+(
+    ID       int primary key NOT NULL AUTO_INCREMENT,
+    USERNAME CHAR(64) UNIQUE not null,
+    PASSWORD CHAR(64)        not null
+);
+
+CREATE TABLE ANNOUNCEMENTS
+(
+    ID         int primary key NOT NULL AUTO_INCREMENT,
+    TITLE      TEXT        not null,
+    BODY       TEXT        not null,
+    WRITER_ID  INT             not null,
+    WRITE_TIME DATETIME default current_timestamp,
+    FOREIGN KEY (WRITER_ID) REFERENCES ADMINS (ID) ON DELETE CASCADE
 );

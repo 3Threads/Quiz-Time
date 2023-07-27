@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS MESSAGES;
 DROP TABLE IF EXISTS QUESTIONS;
 DROP TABLE IF EXISTS QUIZZES;
 DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS ANNOUNCEMENTS;
+DROP TABLE IF EXISTS ADMINS;
 
 CREATE TABLE USERS
 (
@@ -77,13 +79,27 @@ CREATE TABLE QUESTIONS
 (
     ID            int primary key not null AUTO_INCREMENT,
     CATEGORY_NAME char(64)        not null,
-    QUIZ_ID       int DEFAULT NULL,
+    QUIZ_ID       int             NOT NULL,
     QUESTION_TEXT TEXT,
     ANSWERS       TEXT,
-    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE,
-    CHECK (CATEGORY_NAME = 'fillInTheBlank' OR CATEGORY_NAME = 'matching' OR CATEGORY_NAME = 'multiAnswers' OR
-           CATEGORY_NAME = 'multipleChoices' OR CATEGORY_NAME = 'multipleChoicesWithMultipleAnswers' OR
-           CATEGORY_NAME = 'pictureResponse' OR CATEGORY_NAME = 'textResponse')
+    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
+);
+
+CREATE TABLE ADMINS
+(
+    ID       int primary key NOT NULL AUTO_INCREMENT,
+    USERNAME CHAR(64) UNIQUE not null,
+    PASSWORD CHAR(64)        not null
+);
+
+CREATE TABLE ANNOUNCEMENTS
+(
+    ID         int primary key NOT NULL AUTO_INCREMENT,
+    TITLE      TEXT        not null,
+    BODY       TEXT        not null,
+    WRITER_ID  INT             not null,
+    WRITE_TIME DATETIME default current_timestamp,
+    FOREIGN KEY (WRITER_ID) REFERENCES ADMINS (ID) ON DELETE CASCADE
 );
 
 INSERT INTO USERS (USERNAME, PASSWORD)
@@ -130,3 +146,24 @@ VALUES (1, 2, 1),
        (2, 1, 3),
        (3, 5, 5);
 
+INSERT INTO QUESTIONS(CATEGORY_NAME, QUIZ_ID, QUESTION_TEXT, ANSWERS)
+VALUES ('textResponse', 1, 'Is this text response?', CONCAT('yes', CHAR(0), 'of course', CHAR(0))),
+       ('fillInTheBlank', 2, CONCAT('This is', char(0), 'question', char(0)), CONCAT('fill in the blank', char(0))),
+       ('pictureResponse', 3, CONCAT('Hwo is on the picture?', char(0),
+                                     'https://images.ctfassets.net/1fvlg6xqnm65/38dVtZPZ3GgHDqabOUqPDX/7d9cb3fe57de48b4fec7f2182957c59f/Lewis_Hamilton_Header.png?w=3840&q=80',
+                                     CHAR(0)),
+        CONCAT('lewis', char(0), 'hamilton', char(0), 'lewis hamilton', char(0))),
+       ('multipleChoices', 4, 'Score for this project?',
+        CONCAT('120%', char(0), char(0), '90%', char(0), '80%', char(0))),
+       ('multipleChoicesWithMultipleAnswers', 5, 'Team contains?',
+        CONCAT('niko', char(0), 'akaki', char(0), 'dachi', char(0), 'lasha', char(0), char(0), 'giorgi', char(0))),
+       ('multiAnswers', 6, 'Count from 1', CONCAT('1', char(0), '2', char(0), '3', char(0)));
+
+INSERT INTO ADMINS (USERNAME, PASSWORD)
+VALUES ('ADMIN', '2def06fb91eb2d1bcd9e22dd131c6999113b552b'),
+       ('ADMIN2', '2def06fb91eb2d1bcd9e22dd131c6999113b552b');
+
+INSERT INTO ANNOUNCEMENTS (TITLE, BODY, WRITER_ID)
+VALUES ('New quiz announced', 'Are you ready for the best Quiz?', 1),
+       ('I am new admin', 'I am going to add many news.', 2),
+       ('Hello guys', 'The best announcement is here. I am writer of it. Please active more people.', 1);
