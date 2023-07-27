@@ -129,7 +129,7 @@
     }
 
     $(document).ready(function () {
-        setInterval(getNotifications, 2000);
+        setInterval(getNotifications, 5000);
     });
 </script>
 <body class="bg-dark text-light">
