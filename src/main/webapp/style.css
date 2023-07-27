@@ -69,56 +69,88 @@ a {
 }
 
 
-@media screen and (min-width: 901px) {
+@media screen and (min-width: 1001px) {
     .read_more {
-        font-size: 1.2vw; /* Set a default font size that corresponds to the largest width */
+        font-size: 15px; /* Set a default font size that corresponds to the largest width */
+        /*font-size: 15px; !* Set a default font size that corresponds to the largest width *!*/
+        transition: font-size 0.5s ease;
+
     }
 
     .table_name {
-        font-size: 1vw;
+        font-size: 15px;
         text-align: center;
+        transition: font-size 0.5s ease;
+
     }
 
     .headers {
-        font-size: 2vw;
+        font-size: 25px;
+        transition: font-size 0.5s ease;
+
     }
 
     .admins {
-        font-size: 1.5vw;
+        font-size: 20px;
         white-space: nowrap;
+        transition: font-size 0.5s ease;
+
     }
 
     .admin_date {
-        font-size: 0.9vw;
+        font-size: 12px;
         white-space: nowrap;
+        transition: font-size 0.5s ease;
+
     }
 
     .buttons {
-        font-size: 1.1vw;
+        font-size: 15px;
+        transition: font-size 0.5s ease;
+
     }
 
     .search-nav-bar {
-        height: 2.1vw;
+        height: 25px;
     !important;
+        transition: font-size 0.5s ease;
     }
 
     .card-middle {
-        font-size: 1vw;
-        height: 80px;
+        font-size: 15px;
+        height: 75px;
         margin-left: 20px;
         margin-top: 20px;
+        transition: font-size 0.5s ease;
+
+    }
+
+
+    .card-bottom {
+        height: 60px;
+        transition: font-size 0.5s ease;
+
+    }
+
+    .logo {
+        height: 100px;
+        width: 400px;
+        transition: height 0.5s ease, width 1s ease;
+
     }
 }
 
 
 /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
     .card-top {
         font-size: 10px;
         height: 80px;
         margin-left: 20px;
         margin-top: 20px;
+        transition: font-size 0.5s ease;
+
     }
 
     .card-middle {
@@ -126,47 +158,66 @@ a {
         height: 80px;
         margin-left: 10px;
         margin-top: 18px;
+        transition: font-size 0.5s ease;
+
     }
+
+    .card-bottom {
+        height: 55px;
+    }
+
 
     .read_more {
         font-size: 10.8px !important;
         white-space: nowrap;
+        transition: font-size 0.5s ease;
+
     }
 
     .table_name {
         font-size: 9.5px !important;
         text-align: center;
         white-space: nowrap;
+        transition: font-size 0.5s ease;
+
     }
 
     .headers {
         font-size: 18px;
+        transition: font-size 0.5s ease;
+
     }
 
     .admins {
         font-size: 13.5px;
+        transition: font-size 0.5s ease;
+
         /*white-space: nowrap ;*/
     }
 
     .admin_date {
         font-size: 8.1px;
         white-space: nowrap;
+        transition: font-size 0.5s ease;
+
     }
 
     .buttons {
         font-size: 10px;
+        transition: font-size 0.5s ease;
+
     }
 
     .search-nav-bar {
         height: 14px;
     !important;
+        transition: font-size 0.5s ease;
+    }
+
+    .logo {
+        height: 50px;
+        width: 200px;
+        transition: height 0.5s ease, width 1s ease;
     }
 }
 
-.logo {
-    height: 8vw;
-}
-
-.card-bottom {
-    height: 55px;
-}
