@@ -21,6 +21,7 @@ public class NotificationsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
+            return;
         }
         PrintWriter out = httpServletResponse.getWriter();
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
