@@ -33,12 +33,12 @@ public class TypesTest {
 
     @Test
     public void testUserType() {
-        User user1 = new User(1, "niko");
+        User user1 = new User(1, "niko", 0);
 
         assertEquals(1, user1.getId());
         assertEquals("niko", user1.getUsername());
 
-        User user2 = new User(2, "akaki");
+        User user2 = new User(2, "akaki", 0);
 
         assertEquals(2, user2.getId());
         assertEquals("akaki", user2.getUsername());

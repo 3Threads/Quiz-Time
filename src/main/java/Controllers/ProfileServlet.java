@@ -1,6 +1,8 @@
 package Controllers;
 
 import BusinessLogic.SessionRemove;
+import DAO.UsersDAO;
+import Types.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +23,12 @@ public class ProfileServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if(((User) httpServletRequest.getSession().getAttribute("userInfo")).isAdmin()
+                && httpServletRequest.getParameter("deleteUserId") != null) {
+            UsersDAO usersDAO = ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB"));
+            usersDAO.deleteUser(Integer.parseInt(httpServletRequest.getParameter("deleteUserId")));
+            httpServletResponse.sendRedirect("/homePage");
+        } else httpServletResponse.sendRedirect("/homePage");
     }
 }

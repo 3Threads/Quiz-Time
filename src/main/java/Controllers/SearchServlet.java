@@ -22,7 +22,7 @@ public class SearchServlet extends HttpServlet {
             UsersDAO usConnect = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
             int searchUserId;
             searchUserId = usConnect.getUserId(searchUserName);
-            if (searchUserId != 0) {
+            if (searchUserId != -1) {
                 httpServletResponse.sendRedirect("/profile?user=" + searchUserId);
             } else httpServletResponse.sendRedirect("/homePage");
         }

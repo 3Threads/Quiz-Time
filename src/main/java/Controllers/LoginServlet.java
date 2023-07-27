@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         try {
             if (sql.checkUser(username, password)) {
                 int userId = sql.getUserId(username);
-                User user = new User(userId, username);
+                User user = sql.getUserById(userId);
                 httpServletRequest.getSession().setAttribute("userInfo", user);
                 httpServletRequest.getSession().removeAttribute("questions");
                 httpServletRequest.getSession().removeAttribute("title");

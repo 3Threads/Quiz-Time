@@ -77,6 +77,15 @@
             %>
 
             <br><br><br>
+            <% if(pageUser.getId() != myUser.getId() && myUser.isAdmin()) {
+                %>
+                <form method="post" action="/profile">
+                    <input type="hidden" name="deleteUserId" value=<%=pageUser.getId()%>>
+                    <button class="btn btn-danger">Delete User</button>
+                </form>
+            <%
+                }
+            %>
             <div class="uk-padding-small " uk-scrollspy="cls: uk-animation-slide-left; repeat: true"
                  style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>
