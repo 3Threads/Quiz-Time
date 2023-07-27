@@ -73,29 +73,36 @@ a {
     .read_more {
         font-size: 1.2vw; /* Set a default font size that corresponds to the largest width */
     }
-    .table_name{
+
+    .table_name {
         font-size: 1vw;
         text-align: center;
     }
-    .headers{
+
+    .headers {
         font-size: 2vw;
     }
-    .admins{
+
+    .admins {
         font-size: 1.5vw;
-        white-space: nowrap ;
-    }
-    .admin_date{
-        font-size: 0.9vw;
-        white-space: nowrap ;
-    }
-    .buttons{
-        font-size: 1.1vw;
-    }
-    .search-nav-bar{
-        height: 2.1vw;!important;
+        white-space: nowrap;
     }
 
-    .card-middle{
+    .admin_date {
+        font-size: 0.9vw;
+        white-space: nowrap;
+    }
+
+    .buttons {
+        font-size: 1.1vw;
+    }
+
+    .search-nav-bar {
+        height: 2.1vw;
+    !important;
+    }
+
+    .card-middle {
         font-size: 1vw;
         height: 80px;
         margin-left: 20px;
@@ -107,46 +114,59 @@ a {
 /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
 
 @media screen and (max-width: 900px) {
-    .card-top{
-        font-size: 1vw;
+    .card-top {
+        font-size: 10px;
         height: 80px;
         margin-left: 20px;
         margin-top: 20px;
     }
-    .card-middle{
+
+    .card-middle {
         font-size: 10px;
         height: 80px;
-        margin-left: 7px;
-        margin-top: 10px;
+        margin-left: 10px;
+        margin-top: 18px;
     }
+
     .read_more {
-        font-size: 10.8px!important;
-        white-space: nowrap ;
+        font-size: 10.8px !important;
+        white-space: nowrap;
     }
-    .table_name{
-        font-size: 9.5px!important;
+
+    .table_name {
+        font-size: 9.5px !important;
         text-align: center;
-        white-space: nowrap ;
+        white-space: nowrap;
     }
-    .headers{
+
+    .headers {
         font-size: 18px;
     }
-    .admins{
+
+    .admins {
         font-size: 13.5px;
         /*white-space: nowrap ;*/
     }
-    .admin_date{
+
+    .admin_date {
         font-size: 8.1px;
-        white-space: nowrap ;
+        white-space: nowrap;
     }
-    .buttons{
+
+    .buttons {
         font-size: 10px;
     }
-    .search-nav-bar{
-        height: 14px;!important;
+
+    .search-nav-bar {
+        height: 14px;
+    !important;
     }
 }
 
-    .logo{
-        height :8vw;
-    }
+.logo {
+    height: 8vw;
+}
+
+.card-bottom {
+    height: 55px;
+}

@@ -30,14 +30,13 @@
     <div class="row">
         <div class="col-4" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
             <br>
-            <%--            557.8--%>
             <h4 class="headers">Announcements</h4>
             <div class="uk-card uk-card-default bg-dark text-light">
-                <div class="uk-card-header" style="max-height: 80px">
+                <div class="uk-card-header" style="height: 80px">
                     <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
                             <h5 class="uk-card-title uk-margin-remove-bottom text-light">
-                                <div class="admins">lasha kuprashivii  </div>
+                                <div class="admins">lasha kuprashivii</div>
                             </h5>
                             <p class="uk-text-meta uk-margin-remove-top">
                                 <time class="admin_date" datetime="2016-04-01T19:00">July 10, 2023</time>
@@ -50,16 +49,17 @@
                     Today is our Anniversary, and we want to tell you that it was honor ...
                 </p>
                 <div class="card-bottom uk-card-footer">
-                    <a class="read_more" href="#" class="uk-button uk-text-meta">Read more</a>
+                    <%--class="read_more uk-button uk-text-meta"--%>
+                    <a class="read_more" href="#">Read more</a>
                 </div>
             </div>
             <br>
-            <div class="uk-card uk-card-default bg-dark text-light" >
-                <div class="uk-card-header" style="max-height: 80px">
+            <div class="uk-card uk-card-default bg-dark text-light">
+                <div class="uk-card-header" style="height: 80px">
                     <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
                             <h5 class="uk-card-title uk-margin-remove-bottom text-light">
-                                <div class="admins">niko khetsuriani </div>
+                                <div class="admins">niko khetsuriani</div>
                             </h5>
                             <p class="uk-text-meta uk-margin-remove-top">
                                 <time class="admin_date" datetime="2016-04-01T19:00">July 10, 2023</time>
@@ -69,10 +69,12 @@
                 </div>
                 <%-- max 20 wordsssssssssss--%>
                 <p class="card-middle" style="margin-right: 7px">
-                    bodyysssssssssssssssssssssssss sssssssssssssssss a a a a asssssssssssss ssssssssssssssss ssssssssssssssss
+                    bodyysssssssssssssssssssssssss sssssssssssssssss a a a a asssssssssssss ssssssssssssssss
+                    ssssssssssssssss
                 </p>
                 <div class="card-bottom uk-card-footer">
-                    <a class="read_more" href="#" class="uk-button uk-text-meta">Read more</a>
+                    <%--class="read_more uk-button uk-text-meta"--%>
+                    <a class="read_more" href="#">Read more</a>
                 </div>
             </div>
 
@@ -101,7 +103,7 @@
 
                     <%--Popular Quizzes Tables--%>
                     <li>
-                        <table name="Popular" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>
@@ -159,7 +161,7 @@
 
                     <%--Recent Quizzes Table--%>
                     <li>
-                        <table name="Recent" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>
@@ -216,7 +218,7 @@
 
                     <%--My Written Quizzes Table--%>
                     <li>
-                        <table name="My Written" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>
@@ -276,7 +278,7 @@
 
                     <%--My Creates Quizzes Table--%>
                     <li>
-                        <table name="My Created" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
                                 <th>
