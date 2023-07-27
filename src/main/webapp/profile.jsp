@@ -2,6 +2,9 @@
 <%@ page import="Types.User" %>
 <%@ page import="Types.FriendInfo" %>
 <%@ page import="Types.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.util.*" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -26,6 +29,9 @@
 <%
     int profileId = Integer.parseInt(request.getParameter("user"));
     User pageUser = usersDAO.getUserById(profileId);
+
+    DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+    formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 %>
 <body class="bg-dark text-light">
 <br><br>
@@ -195,7 +201,7 @@
                                 </a></td>
                                 <td><%=result.getScore()%>
                                 </td>
-                                <td><%=result.getSpentTime()%>
+                                <td><%=formatter.format(new Date(result.getSpentTime()))%>
                                 </td>
                             </tr>
                             <%

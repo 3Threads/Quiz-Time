@@ -35,8 +35,7 @@
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
 
-    Date date = new Date();
-    DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+    DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 %>
