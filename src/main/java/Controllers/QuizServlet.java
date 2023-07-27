@@ -2,6 +2,8 @@ package Controllers;
 
 import BusinessLogic.SessionRemove;
 import DAO.ChallengesDAO;
+import DAO.QuizzesDAO;
+import Types.Quiz;
 import Types.User;
 
 import javax.servlet.ServletException;
@@ -20,6 +22,11 @@ public class QuizServlet extends HttpServlet {
             return;
         }
         if (httpServletRequest.getParameter("quizId") == null) {
+            httpServletResponse.sendRedirect("/homePage");
+            return;
+        }
+        Quiz currQuiz =((QuizzesDAO) getServletContext().getAttribute("quizzesDAO")).getQuizInfo(Integer.parseInt(httpServletRequest.getParameter("quizId")));
+        if(currQuiz == null) {
             httpServletResponse.sendRedirect("/homePage");
             return;
         }
