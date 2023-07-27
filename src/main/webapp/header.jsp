@@ -106,15 +106,15 @@
                         Log Out
                     </a>
                     <a class="table_name">|</a>
-                    <a href="#modal-notifications">
+                    <a href="#modal-notifications" uk-toggle>
                         <div class="table_name">
                             <i class="bi bi-bell-fill mt-1"
                                style="margin-right: 5px"></i>
                         </div>
                     </a>
-                    <div id="modal-notifications">
+                    <div id="modal-notifications" uk-modal>
                         <div class="uk-modal-dialog bg-dark">
-                            <button class="uk-modal-close-default" type="button"></button>
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
                             <div class="uk-modal-header bg-dark">
                                 <h2 class="uk-modal-title">Notifications</h2>
                             </div>
