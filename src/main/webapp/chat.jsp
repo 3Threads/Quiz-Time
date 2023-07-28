@@ -29,8 +29,9 @@
                 return;
             }
             if (document.getElementById("message").value !== "") {
+                let msg = document.getElementById("message").value;
                 $('#message').val('')
-                $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
+                $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg  + "</p></div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
