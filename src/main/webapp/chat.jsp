@@ -76,7 +76,6 @@
                     let params = str.trim().split("$");
                     let fr = "friend" + params[0];
                     let cur = parseInt(document.getElementById(fr).textContent);
-                    console.log(cur);
                     if (cur !== parseInt(params[1])) {
                         let kk = "chat" + params[0];
                         $('#' + kk).remove();
@@ -106,9 +105,8 @@
                 fr.forEach(chatFunc);
 
                 function chatFunc(str) {
-                    if (str != '') {
+                    if (str !== '') {
                         let param = str.trim().split('/');
-                        console.log(curChats);
                         if (!curChats.includes(parseInt(param[0]))) {
                             curChats.push(parseInt(param[0]));
                             if (parseInt(param[0]) === <%=request.getParameter("chatWith")%>) {
@@ -167,7 +165,6 @@
                 %>
                 <li id=<%="chat" + myFriend.getId()%>>
                     <script>
-                        console.log("pushing " + <%=myFriend.getId()%>);
                         curChats.push(<%=myFriend.getId()%>)
                     </script>
                     <div class="d-flex align-items-center" <%
