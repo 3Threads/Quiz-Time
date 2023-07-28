@@ -23,15 +23,21 @@
 </head>
 <script>
     function fc() {
-        $.post('chat', {sendTo: document.getElementById("sendInp").value, message: document.getElementById("message").value}, (responseText) => {
-            if(responseText.trim() == 'login') {
+        $.post('chat', {
+            sendTo: document.getElementById("sendInp").value,
+            message: document.getElementById("message").value
+        }, (responseText) => {
+            if (responseText.trim() == 'login') {
                 window.location.replace("/login");
                 return;
             }
             if (document.getElementById("message").value !== "") {
+                let fr = "chat" + document.getElementById("sendInp").value;
+                $('#' + fr).remove();
+                $('#chatList').prepend(chatWithConstructor(document.getElementById("sendInp").value, document.getElementById("name").value));
                 let msg = document.getElementById("message").value;
                 $('#message').val('')
-                $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg  + "</p></div>")
+                $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
@@ -55,42 +61,63 @@
     }
 
     function getMessagesChat() {
-        $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>,action: "notCurrentChat" }, (responseText) => {
+        $.get('notSeen', {
+            chatWith: <%=request.getParameter("chatWith")%>,
+            action: "notCurrentChat"
+        }, (responseText) => {
             let realStr = responseText.trim();
             let fr = [];
             fr = realStr.split('/');
             fr.splice(fr.length - 1, 1);
             if (realStr !== '') {
-                console.log(realStr);
                 fr.forEach(myFunction);
 
                 function myFunction(str) {
-                    let str1 = "";
-                    let newInd = -1;
-                    for (let i = 0; i < str.length; i++) {
-                        if (str[i] === '$') {
-                            newInd = i;
-                            break;
-                        }
-                        str1 += str[i];
+                    let params = str.trim().split("$");
+                    let fr = "friend" + params[0];
+                    let cur = parseInt(document.getElementById(fr).textContent);
+                    console.log(cur);
+                    if (cur !== parseInt(params[1])) {
+                        let kk = "chat" + params[0];
+                        $('#' + kk).remove();
+                        $('#chatList').prepend(chatsConstructor(params[0], params[2]));
+                        $('#' + fr).text(params[1]);
                     }
-                    let id = parseInt(str1);
-                    let numNotSeen = "";
-                    for (let i = newInd + 1; i < str.length; i++) {
-                        numNotSeen += str[i];
-                    }
-                    let fr = "friend" + id;
-                    $('#' + fr).text(numNotSeen);
                 }
             }
         });
     }
 
+    let curChats = [];
+
+    function chatWithConstructor(myFriendId, myFriendUsername) {
+        return "<li id=\"chat" + myFriendId + "\"><div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriendId + "\">" + myFriendUsername + "\n<div id=\"friend" + myFriendId + "\"> </div>\n </a>\n </div></li>"
+    }
+
+    function chatsConstructor(myFriendId, myFriendUsername) {
+        return "<li id=\"chat" + myFriendId + "\"><div class=\"d-flex align-items-center\">\n <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriendId + "\">" + myFriendUsername + "\n<div id=\"friend" + myFriendId + "\"> </div>\n </a>\n </div></li>"
+    }
+
     function getChats() {
         $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
-            if (responseText !== '') {
-                console.log(responseText);
-                $('#chatList').html(responseText);
+            if (responseText.trim() !== '') {
+                if (curChats.length === 0) $('#chatList').html('');
+                let fr = responseText.trim().split('$');
+                fr.forEach(chatFunc);
+
+                function chatFunc(str) {
+                    if (str != '') {
+                        let param = str.trim().split('/');
+                        console.log(curChats);
+                        if (!curChats.includes(parseInt(param[0]))) {
+                            curChats.push(parseInt(param[0]));
+                            if (parseInt(param[0]) === <%=request.getParameter("chatWith")%>) {
+                                $('#chatList').append(chatWithConstructor(param[0], param[1]));
+                            } else $('#chatList').append(chatsConstructor(param[0], param[1]))
+                        }
+                    }
+                }
+
                 getMessages();
                 getMessagesChat();
             }
@@ -98,7 +125,7 @@
     }
 
     $(document).ready(function () {
-        setInterval(getChats, 2000);
+        setInterval(getChats, 5000);
         $(".chatBox").scrollTop(function () {
             return this.scrollHeight;
         });
@@ -121,18 +148,28 @@
                         User myFriend = usersDAO.getUserById(chatId);
                         if (!interactors.contains(myFriend.getId())) {
                 %>
-                <div class="d-flex align-items-center" style="background-color: #3e4042;">
-                    <a class="fullWidthList" href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
-                    </a>
-                    <div id=<%="friend" + myFriend.getId()%>></div>
-                </div>
+                <li id=<%="chat" + myFriend.getId()%>>
+                    <script>
+                        curChats.push(<%=myFriend.getId()%>)
+                    </script>
+                    <div class="d-flex align-items-center" style="background-color: #3e4042;">
+                        <a class="fullWidthList"
+                           href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
+                        </a>
+                        <div id=<%="friend" + myFriend.getId()%>></div>
+                    </div>
+                </li>
                 <%
                         }
                     }
                     for (Integer person : interactors) {
                         User myFriend = usersDAO.getUserById(person);
                 %>
-                <li>
+                <li id=<%="chat" + myFriend.getId()%>>
+                    <script>
+                        console.log("pushing " + <%=myFriend.getId()%>);
+                        curChats.push(<%=myFriend.getId()%>)
+                    </script>
                     <div class="d-flex align-items-center" <%
                         if (request.getParameter("chatWith") != null
                                 && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))) {
@@ -154,13 +191,12 @@
                 %>
             </ul>
         </div>
-
+        <% if (request.getParameter("chatWith") != null) {
+            chatId = Integer.parseInt(request.getParameter("chatWith"));%>
         <div class="col"></div>
         <div class="col-8 " style="max-height: 100%;">
             <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
                 <div id="chat" class="container-fluid uk-padding-small">
-                    <% if (request.getParameter("chatWith") != null) {
-                        chatId = Integer.parseInt(request.getParameter("chatWith"));%>
                     <%
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
                         for (Message message : messages) {
@@ -171,14 +207,13 @@
                         </p>
                     </div>
                     <%
-                            } else {
+                    } else {
                     %>
                     <div class="uk-align-right bg-primary messageBox">
                         <p class="messageParagraph"><%=message.getMessage()%>
                         </p>
                     </div>
                     <%
-                                }
                             }
                         }
                     %>
@@ -188,6 +223,8 @@
                 <form class="d-flex row" onsubmit="fc(); return false;">
                     <div class="col input-group input-group-md">
                         <input type="hidden" name="sendTo" id="sendInp" value=<%=chatId%>>
+                        <input type="hidden" name="sendTo" id="name"
+                               value=<%=usersDAO.getUserById(chatId).getUsername()%>>
                         <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md"
                                type="text"
                                placeholder="Input message"
@@ -198,6 +235,9 @@
                     </div>
                 </form>
             </div>
+            <%
+                }
+            %>
         </div>
     </div>
 </div>

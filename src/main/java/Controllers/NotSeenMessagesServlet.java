@@ -2,6 +2,7 @@ package Controllers;
 
 
 import DAO.MessagesDAO;
+import DAO.UsersDAO;
 import Types.User;
 
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,7 @@ public class NotSeenMessagesServlet extends HttpServlet {
                 if(httpServletRequest.getParameter("chatWith").equals("") ||
                         us != Integer.parseInt(httpServletRequest.getParameter("chatWith"))) {
                     ArrayList<String> messages = notSeen.get(us);
-                    out.println(us+"$"+messages.size()+"/");
+                    out.println(us+"$"+messages.size()+"$"+((UsersDAO)httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(us).getUsername()+"/");
                 }
             }
         }
