@@ -45,6 +45,7 @@
     QuizzesDAO quizzesDAO = (QuizzesDAO) application.getAttribute("quizzesDB");
     ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
     QuestionsDAO questionsDAO = (QuestionsDAO) application.getAttribute("questionsDB");
+    AnnouncementsDAO announcementsDAO = (AnnouncementsDAO) application.getAttribute("announcementsDB");
 %>
 <script>
     function requestConstructor(reqId, reqUsername, myId) {

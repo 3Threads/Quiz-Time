@@ -78,6 +78,16 @@ a {
         transition: font-size 0.5s ease;
     }
 
+    .card-announcement-middle {
+        font-size: 15px;
+        margin-left: 20px;
+        margin-top: 15px;
+        align-items: center;
+        margin-right: 20px;
+        transition: font-size 0.5s ease;
+    }
+
+
     .card-bottom {
         height: 60px;
         transition: font-size 0.5s ease;
@@ -155,7 +165,14 @@ a {
         margin-left: 10px;
         margin-top: 18px;
         transition: font-size 0.5s ease;
+    }
 
+    .card-announcement-middle {
+        font-size: 10px;
+        min-height: 40px;
+        margin-left: 10px;
+        margin-top: 10px;
+        transition: font-size 0.5s ease;
     }
 
     .card-bottom {
