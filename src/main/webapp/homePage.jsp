@@ -42,23 +42,29 @@
                         <h2 class="uk-modal-title">Announcements</h2>
                     </div>
                     <div class="uk-modal-body">
+                        <%
+                            if(myUser.isAdmin()){
+                        %>
                         <form action="/homePage" method="post">
                             <input type="hidden" name="action" value="addAnnouncement">
-                            <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
+                            <input class="titleArea uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
                                    placeholder="Title"
                                    aria-label="Title"
                                    name="title"
                                    id="titleField"
                                    style="width: 50%;">
-                            <textarea class="uk-margin form-control bg-dark whitePlaceholder text-light"
+                            <textarea class="txtArea uk-margin form-control bg-dark whitePlaceholder text-light"
                                       placeholder="Description"
                                       aria-label="Description"
                                       name="description"
                                       id="descriptionField"
-                                      style="height: 150px"></textarea>
-                            <button class="btn btn-success">Post</button>
+                                      ></textarea>
+                            <button class="buttons btn btn-success">Post</button>
                         </form>
                         <hr>
+                        <%
+                            }
+                        %>
 
                         <%
                             ArrayList<Types.Announcement> announcements = announcementsDAO.getAnnouncements();
@@ -140,7 +146,7 @@
                 </p>
                 <div class="card-bottom uk-card-footer">
                     <%--class="read_more uk-button uk-text-meta"--%>
-                    <a class="read_more" href="#">Read more</a>
+                    <a href="#modalAnnouncements" class="read_more" uk-toggle>Read more</a>
                 </div>
             </div>
             <br>

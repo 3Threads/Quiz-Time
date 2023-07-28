@@ -161,7 +161,7 @@
                     <a class="table_name" style="margin-left: 5px" href="/logout">
                         Log Out
                     </a>
-                    <a>|</a>
+                    <a class="table_name">|</a>
                     <a href="#modal-notifications" class="mt-1" uk-toggle>
                         <div class="animate table_name">
                             <i class="bi bi-bell-fill mt-1"
