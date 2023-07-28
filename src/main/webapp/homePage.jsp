@@ -47,19 +47,19 @@
                         %>
                         <form action="/homePage" method="post">
                             <input type="hidden" name="action" value="addAnnouncement">
-                            <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
+                            <input class="titleArea uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
                                    placeholder="Title"
                                    aria-label="Title"
                                    name="title"
                                    id="titleField"
                                    style="width: 50%;">
-                            <textarea class="uk-margin form-control bg-dark whitePlaceholder text-light"
+                            <textarea class="txtArea uk-margin form-control bg-dark whitePlaceholder text-light"
                                       placeholder="Description"
                                       aria-label="Description"
                                       name="description"
                                       id="descriptionField"
-                                      style="height: 150px"></textarea>
-                            <button class="btn btn-success">Post</button>
+                                      ></textarea>
+                            <button class="buttons btn btn-success">Post</button>
                         </form>
                         <hr>
 
@@ -137,7 +137,6 @@
                 <p class="card-middle" style="margin-right: 7px">
                     <%
                         String body = announcement.getBody();
-                        body+="qeqweqeqwe qeqweqweqwd qeqweqwsad qeqweqwd qeqwesd qeqweqwdq qeqweasd qwd qeqweasd qqeqwewd sad qwdqeqwe aqeqwesdqwd asdqwd as";
                         String[] arrBody = body.split(" ");
                         int sz = Math.min(10, arrBody.length);
                         for (int j = 0; j < sz; j++) {
@@ -148,7 +147,7 @@
                 </p>
                 <div class="card-bottom uk-card-footer">
                     <%--class="read_more uk-button uk-text-meta"--%>
-                    <a class="read_more" href="#">Read more</a>
+                    <a href="#modalAnnouncements" class="read_more" uk-toggle>Read more</a>
                 </div>
             </div>
             <br>

@@ -146,6 +146,15 @@ a {
         width: 400px;
         transition: width 0.5s ease, height 0.5s ease;
     }
+
+    .txtArea{
+        font-size: 20px;
+        height: 140px;
+    }
+    .titleArea{
+        font-size: 20px;
+    }
+
 }
 
 
@@ -227,6 +236,15 @@ a {
         height: 50px;
         width: 200px;
         transition: width 0.5s ease, height 0.5s ease;
+    }
+
+    .txtArea{
+        font-size: 14px;
+        height: 120px;
+    }
+
+    .titleArea{
+        font-size: 14px;
     }
 }
 
