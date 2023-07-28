@@ -42,6 +42,9 @@
                         <h2 class="uk-modal-title">Announcements</h2>
                     </div>
                     <div class="uk-modal-body">
+                        <%
+                            if (myUser.isAdmin()) {
+                        %>
                         <form action="/homePage" method="post">
                             <input type="hidden" name="action" value="addAnnouncement">
                             <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
@@ -61,10 +64,10 @@
                         <hr>
 
                         <%
+                            }
                             ArrayList<Types.Announcement> announcements = announcementsDAO.getAnnouncements();
 
-                            for (int i = 0; i < announcements.size(); i++) {
-                                Announcement announcement = announcements.get(i);
+                            for (Announcement announcement : announcements) {
                                 int userId = announcement.getWriterId();
                                 User user = usersDAO.getUserById(userId);
                                 String userName = user.getUsername();
@@ -76,10 +79,11 @@
                                     <div class="uk-width-expand">
                                         <h5 class="uk-card-title uk-margin-remove-bottom text-light">
                                             <div class="admins">
-                                                <%=userName%>
+                                                <%=announcement.getTitle()%>
                                             </div>
                                         </h5>
-                                        <p class="uk-text-meta uk-margin-remove-top">
+                                        <p class="uk-text-meta uk-margin-remove-top admin_date">
+                                            <%=userName%>
                                             <time class="admin_date" datetime="2016-04-01T19:00">
                                                 <%=announcement.getWriteTime()%>
                                             </time>
@@ -118,10 +122,13 @@
                     <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
                             <h5 class="uk-card-title uk-margin-remove-bottom text-light">
-                                <div class="admins"><%=userName%></div>
+                                <div class="admins"><%=announcement.getTitle()%>
+                                </div>
                             </h5>
-                            <p class="uk-text-meta uk-margin-remove-top">
-                                <time class="admin_date" datetime="2016-04-01T19:00"><%=announcement.getWriteTime()%></time>
+                            <p class="uk-text-meta uk-margin-remove-top admin_date">
+                                <%=userName%>
+                                <time class="admin_date" datetime="2016-04-01T19:00"><%=announcement.getWriteTime()%>
+                                </time>
                             </p>
                         </div>
                     </div>
@@ -130,8 +137,9 @@
                 <p class="card-middle" style="margin-right: 7px">
                     <%
                         String body = announcement.getBody();
+                        body+="qeqweqeqwe qeqweqweqwd qeqweqwsad qeqweqwd qeqwesd qeqweqwdq qeqweasd qwd qeqweasd qqeqwewd sad qwdqeqwe aqeqwesdqwd asdqwd as";
                         String[] arrBody = body.split(" ");
-                        int sz = Math.min(20, arrBody.length);
+                        int sz = Math.min(10, arrBody.length);
                         for (int j = 0; j < sz; j++) {
                             out.print(arrBody[j]);
                             out.print(" ");

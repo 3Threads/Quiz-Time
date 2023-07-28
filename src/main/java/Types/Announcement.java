@@ -3,11 +3,11 @@ package Types;
 import java.util.Date;
 
 public class Announcement {
-    private int id;
-    private String title;
-    private String body;
-    private int writerId;
-    private Date writeTime;
+    private final int id;
+    private final String title;
+    private final String body;
+    private final int writerId;
+    private final Date writeTime;
 
     public Announcement(int id, String title, String body, int writerId, Date writeTime) {
         this.id = id;
