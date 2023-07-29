@@ -24,37 +24,20 @@ public class DynamicChatsServlet extends HttpServlet {
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-        HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
         ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
         if (!httpServletRequest.getParameter("chatWith").equals("")) {
             int chatId = Integer.parseInt(httpServletRequest.getParameter("chatWith"));
             User myFriend = usersDAO.getUserById(chatId);
             if (!interactors.contains(myFriend.getId())) {
-                out.println("<div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n" +
-                        "                    <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriend.getId() + "\">" + myFriend.getUsername() + "\n" +
-                        "                    </a>\n" +
-                        "                    <div id=\"friend" + myFriend.getId() + "\"></div>\n" +
-                        "                </div>");
+                out.println(myFriend.getId()+"/"+myFriend.getUsername());
+                if(interactors.size() != 1) out.println("$");
             }
         }
-        for (Integer person : interactors) {
-            User myFriend = usersDAO.getUserById(person);
-            if (!httpServletRequest.getParameter("chatWith").equals("")
-                    && myFriend.getId() == Integer.parseInt(httpServletRequest.getParameter("chatWith"))) {
-                out.println("<li><div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n" +
-                        "                    <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriend.getId() + "\">" + myFriend.getUsername() + "\n" +
-                        "                   <div id=\"friend" + myFriend.getId() + "\"> </div>\n" +
-                        "                    </a>\n" +
-                        "                </div></li>");
-            } else {
-                out.println("<li><div class=\"d-flex align-items-center\">\n" +
-                        "                    <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriend.getId() + "\">" + myFriend.getUsername() + "\n" +
-                        "                   <div id=\"friend" + myFriend.getId() + "\">");
-                if (notSeenMessages.containsKey(myFriend.getId())) {
-                    out.println(notSeenMessages.get(myFriend.getId()).size());
-                }
-                out.println("</div>\n </a>\n </div>\n</li>");
-            }
+        for (int i = 0; i < interactors.size();i++) {
+            User myFriend = usersDAO.getUserById(interactors.get(i));
+            if(i != interactors.size()-1) {
+                out.println(myFriend.getId() + "/" + myFriend.getUsername() + "$");
+            }else out.println(myFriend.getId() + "/" + myFriend.getUsername());
         }
     }
 }

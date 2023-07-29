@@ -47,6 +47,9 @@
     QuestionsDAO questionsDAO = (QuestionsDAO) application.getAttribute("questionsDB");
 %>
 <script>
+    let haveRequestsFrom=[];
+    let haveChallengeFrom=[];
+    let haveChatsNotificationFrom=[];
     function requestConstructor(reqId, reqUsername, myId) {
         return "<li>\n <div class='row' id='request" + reqId + "'>\n <div class='col d-flex align-items-center'>\n<a href='/profile?user=" + reqId + "'>" + reqUsername + "</a>\n </div>\n<div class='col-auto'>\n<button onclick=\"requestAction(" + myId + "," + reqId + ", 'acceptRequest', " + reqId + ")\" class='btn btn-success'>Accept</button>\n<button onclick=\"requestAction(" + myId + "," + reqId + ", 'rejectRequest', " + reqId + ")\" class='btn btn-danger'>Reject</button>\n</div>\n</div>\n</li>\n";
     }
@@ -58,31 +61,35 @@
     function chatConstructor(chatUserId, chatUserUsername) {
         return "<li>\n <div class=\"row\">\n <div class=\"col d-flex align-items-center\">\n<div>New message from</div>\n <a style=\"margin-left: 3px\" href=\"/profile?user=" + chatUserId + "\">" + chatUserUsername + "</a>\n </div>\n <div class=\"col-auto\">\n <a href=\"/chat?chatWith=" + chatUserId + "\"> <button class=\"btn btn-primary\">Open chat</button> </a>\n </div>\n </div>\n </li>";
     }
-
     function requestAction(user1, user2, action, requestId) {
         $.post('notifications', {notification: 'request', user1: user1, user2: user2, action: action}, () => {
             $('#request' + requestId).remove();
+            const index = haveRequestsFrom.indexOf(user2);
+            haveRequestsFrom.splice(index, 1);
         });
     }
-
+    function searchForArray(haystack, needle){
+        let i, j, current;
+        for(i = 0; i < haystack.length; ++i){
+            if(needle.length === haystack[i].length){
+                current = haystack[i];
+                for(j = 0; j < needle.length && needle[j] === current[j]; ++j);
+                if(j === needle.length)
+                    return i;
+            }
+        }
+        return -1;
+    }
     function challengeAction(user, action, challengeId, quizID) {
         $.post('notifications', {notification: 'challenge', userID: user, action: action, quizID: quizID}, () => {
             $('#challenge' + challengeId).remove();
+            let index = searchForArray(haveChallengeFrom, [user, quizID]);
+            haveChallengeFrom.splice(index, 1);
             if (action === 'acceptChallenge') {
                 window.location.replace("/quiz?quizId=" + quizID);
             }
         });
     }
-
-    <%--function checkingUserInfo() {--%>
-    <%--    $.get('checkUser', {userName: '<%=myUser.getUsername()%>', userId:<%=myUser.getId()%>}, (responseText) => {--%>
-    <%--        console.log(responseText);--%>
-    <%--        if (responseText.trim() === 'login') {--%>
-    <%--            window.location.replace("/login");--%>
-    <%--        }--%>
-    <%--    });--%>
-    <%--}--%>
-
     function getNotifications() {
         $.get('notifications', (responseText) => {
             let realStr = responseText.trim();
@@ -92,38 +99,44 @@
                 if (notifi[0].trim() !== '') {
                     let challengeList = notifi[0].trim();
                     let challenges = challengeList.split("/");
-                    $('#challengesList').html('');
                     challenges.forEach(challengeFunc);
 
                     function challengeFunc(challenge) {
                         let chall = challenge.trim();
                         let components;
                         components = chall.split("|");
-                        $('#challengesList').append(challengeConstructor(components[0], components[1], components[2], components[3]));
+                        if(searchForArray(haveChallengeFrom, [parseInt(components[0]), parseInt(components[2])]) === -1) {
+                            haveChallengeFrom.push([parseInt(components[0]), parseInt(components[2])]);
+                            $('#challengesList').append(challengeConstructor(components[0], components[1], components[2], components[3]));
+                        }
                     }
                 }
                 if (notifi[1].trim() !== '') {
                     let chatList = notifi[1].trim();
                     let chats = chatList.split("/");
-                    $('#chatNotifications').html('');
                     chats.forEach(chatFunc);
 
                     function chatFunc(chat) {
                         let ch = chat.trim();
                         let components = ch.split("|");
-                        $('#chatNotifications').append(chatConstructor(components[0], components[1]));
+                        if(!haveChatsNotificationFrom.includes(parseInt(components[0]))) {
+                            haveChatsNotificationFrom.push(parseInt(components[0]));
+                            $('#chatNotifications').append(chatConstructor(components[0], components[1]));
+                        }
                     }
                 }
                 if (notifi[2].trim() !== '') {
                     let requestsList = notifi[2].trim();
                     let requests = requestsList.split("/");
-                    $('#requestsList').html('');
                     requests.forEach(requestFunc);
 
                     function requestFunc(request) {
                         let req = request.trim();
                         let components = req.split("|");
-                        $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
+                        if(!haveRequestsFrom.includes(parseInt(components[0]))) {
+                            haveRequestsFrom.push(parseInt(components[0]));
+                            $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
+                        }
                     }
                 }
                 if (notifi[0].trim() !== '' || notifi[1].trim() !== '' || notifi[2].trim() !== '') shake();
@@ -143,7 +156,6 @@
 
     $(document).ready(function () {
         setInterval(getNotifications, 5000);
-        // setInterval(checkingUserInfo, 7000);
     });
 </script>
 <body class="bg-dark text-light">
@@ -196,11 +208,13 @@
                                                             <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
                                                                 <%=reqUserInfo.getUsername()%>
                                                             </a>
-
+                                                        <script>
+                                                            haveRequestsFrom.push(<%=reqUserInfo.getId()%>);
+                                                        </script>
                                                         </div>
                                                         <div class="col-auto">
                                                             <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"
-                                                                    class="btn btn-success">accept
+                                                                    class="btn btn-success">Accept
                                                             </button>
                                                             <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"
                                                                     class="btn btn-danger">Reject
@@ -217,8 +231,8 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <div id="challengesList" class="uk-padding-small">
-                                            <ul class="uk-list container-fluid "
+                                        <div class="uk-padding-small">
+                                            <ul id="challengesList" class="uk-list container-fluid "
                                                 style="max-height: 200px; overflow: auto">
 
 
@@ -230,7 +244,9 @@
 
                                                 %>
                                                 <li>
-
+                                                    <script>
+                                                        haveChallengeFrom.push([<%=challUserInfo.getId()%>, <%=challenge.getQuizId()%>]);
+                                                    </script>
                                                     <div class="row" id="<%="challenge" + challId%>">
                                                         <div class="col d-flex align-items-center">
                                                             <a href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
@@ -270,6 +286,9 @@
                                                         User chatUser = usersDAO.getUserById(id);
                                                 %>
                                                 <li>
+                                                    <script>
+                                                        haveChatsNotificationFrom.push(<%=chatUser.getId()%>);
+                                                    </script>
                                                     <div class="row">
                                                         <div class="col d-flex align-items-center">
                                                             <div>New message from</div>
