@@ -1,5 +1,5 @@
 <%@ page import="Types.Message" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -28,7 +28,7 @@
             sendTo: document.getElementById("sendInp").value,
             message: document.getElementById("message").value
         }, (responseText) => {
-            if (responseText.trim() == 'login') {
+            if (responseText.trim() === 'login') {
                 window.location.replace("/login");
                 return;
             }
@@ -37,11 +37,11 @@
                 $('#' + fr).remove();
                 $('#chatList').prepend(chatWithConstructor(document.getElementById("sendInp").value, document.getElementById("name").value));
                 let msg = document.getElementById("message").value;
-                msg  = msg.replaceAll("<3","<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
-                msg  = msg.replaceAll(":)","<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
-                msg  = msg.replaceAll(":D","<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
-                msg  = msg.replaceAll(":|","<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
-                msg  = msg.replaceAll(":(","<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
+                msg = msg.replaceAll("<3", "<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
+                msg = msg.replaceAll(":)", "<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
+                msg = msg.replaceAll(":D", "<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
+                msg = msg.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
+                msg = msg.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
                 $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
                 $('.chatBox').scrollTop(function () {
@@ -51,16 +51,37 @@
         });
     }
 
+    function writeEmoji(ind) {
+        const messageInp = $('#message');
+        switch (ind) {
+            case 0:
+                messageInp.val(messageInp.val() + ":)")
+                break
+            case 1:
+                messageInp.val(messageInp.val() + ":D")
+                break
+            case 2:
+                messageInp.val(messageInp.val() + ":|")
+                break
+            case 3:
+                messageInp.val(messageInp.val() + ":(")
+                break
+            case 4:
+                messageInp.val(messageInp.val() + "<3")
+                break
+        }
+    }
+
     function getMessages() {
         $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>, action: "currentChat"}, (responseText) => {
             if (responseText !== '') {
                 const chatBox = $(".chatBox");
                 const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
-                responseText  = responseText.replaceAll("<3","<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
-                responseText  = responseText.replaceAll(":)","<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
-                responseText  = responseText.replaceAll(":D","<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
-                responseText  = responseText.replaceAll(":|","<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
-                responseText  = responseText.replaceAll(":(","<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
+                responseText = responseText.replaceAll("<3", "<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
+                responseText = responseText.replaceAll(":)", "<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
+                responseText = responseText.replaceAll(":D", "<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
+                responseText = responseText.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
+                responseText = responseText.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#chat').html($('#chat').html() + responseText);
                 if (responseText !== "" && shouldScroll) {
                     chatBox.scrollTop(function () {
@@ -77,7 +98,7 @@
             action: "notCurrentChat"
         }, (responseText) => {
             let realStr = responseText.trim();
-            let fr = [];
+            let fr;
             fr = realStr.split('/');
             fr.splice(fr.length - 1, 1);
             if (realStr !== '') {
@@ -126,6 +147,7 @@
                         }
                     }
                 }
+
                 getMessages();
                 getMessagesChat();
             }
@@ -141,7 +163,7 @@
 </script>
 <body>
 <%@include file="header.jsp" %>
-<% Integer chatId = null;%>
+<% Integer chatId;%>
 <div class="container">
 
     <div class="row mt-3" style="height: 65%">
@@ -185,7 +207,7 @@
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                             <div id=<%="friend" + myFriend.getId()%>>
                                 <%
-                                    if (notSeenMessages.keySet().contains(myFriend.getId())) {
+                                    if (notSeenMessages.containsKey(myFriend.getId())) {
                                         out.println(notSeenMessages.get(myFriend.getId()).size());
                                     }
                                 %>
@@ -208,11 +230,11 @@
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
                         for (Message message : messages) {
                             String msg = message.getMessage();
-                            msg  = msg.replaceAll("<3","<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
-                            msg  = msg.replaceAll("\\:\\)","<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
-                            msg  = msg.replaceAll(":D","<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
-                            msg  = msg.replaceAll("\\:\\|","<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
-                            msg  = msg.replaceAll("\\:\\(","<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
+                            msg = msg.replaceAll("<3", "<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
+                            msg = msg.replaceAll(":\\)", "<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
+                            msg = msg.replaceAll(":D", "<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
+                            msg = msg.replaceAll(":\\|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
+                            msg = msg.replaceAll(":\\(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                             if (message.getFrom() == chatId) {
                     %>
                     <div class="uk-align-left messageBox" style="background-color: #3e4042;">
@@ -234,16 +256,52 @@
             </div>
             <div class="mt-2" style="height: 10%;">
                 <form class="d-flex row" onsubmit="fc(); return false;">
-                    <div class="col input-group input-group-md">
+                    <div class="col input-group input-group-md row">
                         <input type="hidden" name="sendTo" id="sendInp" value=<%=chatId%>>
                         <input type="hidden" name="sendTo" id="name"
                                value=<%=usersDAO.getUserById(chatId).getUsername()%>>
-                        <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md"
+                        <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md col"
                                type="text"
                                placeholder="Input message"
                                name="message"/>
+                        <div class="uk-inline col-auto d-flex align-items-center" style="margin-left: 5px; margin-right: 5px; padding: 0; ">
+                            <button class="btn btn-dark" type="button">
+                                <i class='bi bi-emoji-smile-fill' style='color: #FFD400;'></i>
+                            </button>
+                            <div class="uk-card uk-card-body bg-dark text-light"
+                                 uk-drop="pos: top-center; mode:click"
+                                 style="padding: 10px;">
+                                <div class="row justify-content-center">
+                                    <button type="button" class="col-auto text-center btn btn-dark"
+                                            onclick="writeEmoji(0)"
+                                    >
+                                        <i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>
+                                    </button>
+                                    <button type="button" class="col-auto text-center btn btn-dark"
+                                            onclick="writeEmoji(1)"
+                                    >
+                                        <i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>
+                                    </button>
+                                    <button type="button" class="col-auto text-center btn btn-dark"
+                                            onclick="writeEmoji(2)"
+                                    >
+                                        <i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>
+                                    </button>
+                                    <button type="button" class="col-auto text-center btn btn-dark"
+                                            onclick="writeEmoji(3)"
+                                    >
+                                        <i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>
+                                    </button>
+                                    <button type="button" class="col-auto text-center btn btn-dark"
+                                            onclick="writeEmoji(4)"
+                                    >
+                                        <i class='bi bi-heart-fill' style='color: #C30000;'> </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto" style="padding-left: 0">
                         <button type="submit" class="btn btn-primary">Send</button>
                     </div>
                 </form>
