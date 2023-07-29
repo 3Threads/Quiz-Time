@@ -128,11 +128,11 @@ a {
     .buttons {
         font-size: 15px;
         transition: font-size 0.5s ease;
-
     }
 
     .nav-bar {
-        margin-bottom: 1px;!important;
+        margin-bottom: 1px;
+    !important;
     }
 
     .search-nav-bar {
@@ -147,16 +147,16 @@ a {
         transition: width 0.5s ease, height 0.5s ease;
     }
 
-    .txtArea{
+    .txtArea {
         font-size: 20px;
         height: 140px;
     }
-    .titleArea{
+
+    .titleArea {
         font-size: 20px;
     }
 
 }
-
 
 
 @media screen and (max-width: 1000px) {
@@ -223,7 +223,8 @@ a {
     }
 
     .nav-bar {
-        margin-bottom: 2px;!important;
+        margin-bottom: 2px;
+    !important;
     }
 
     .search-nav-bar {
@@ -238,13 +239,66 @@ a {
         transition: width 0.5s ease, height 0.5s ease;
     }
 
-    .txtArea{
+    .txtArea {
         font-size: 14px;
         height: 120px;
     }
 
-    .titleArea{
+    .titleArea {
         font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 601px) {
+
+    .notification-name {
+        font-size: 15px;
+        text-align: center;
+        white-space: nowrap;
+        transition: font-size 0.5s ease;
+    }
+
+    .notification-titles {
+        font-size: 15px;
+        text-align: center;
+        white-space: nowrap;
+        transition: font-size 0.5s ease;
+    }
+    .notification-title {
+        font-size: 25px;
+        transition: font-size 0.5s ease;
+    }
+
+    .notification-buttons {
+        font-size: 15px;
+        transition: font-size 0.5s ease;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    .notification-name {
+        font-size: 9.5px !important;
+        text-align: center;
+        white-space: nowrap;
+        transition: font-size 0.5s ease;
+    }
+    .notification-titles {
+        font-size: 11px !important;
+        text-align: center;
+        white-space: nowrap;
+        transition: font-size 0.5s ease;
+    }
+
+    .notification-title {
+        font-size: 20px;
+        transition: font-size 0.5s ease;
+    }
+
+    .notification-buttons {
+        font-size: 10px;
+        transition: font-size 0.5s ease;
     }
 }
 
