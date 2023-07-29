@@ -45,6 +45,7 @@
     QuizzesDAO quizzesDAO = (QuizzesDAO) application.getAttribute("quizzesDB");
     ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
     QuestionsDAO questionsDAO = (QuestionsDAO) application.getAttribute("questionsDB");
+    AnnouncementsDAO announcementsDAO = (AnnouncementsDAO) application.getAttribute("announcementsDB");
 %>
 <script>
     let haveRequestsFrom=[];
@@ -172,7 +173,7 @@
                     <a class="table_name" style="margin-left: 5px" href="/logout">
                         Log Out
                     </a>
-                    <a>|</a>
+                    <a class="table_name">|</a>
                     <a href="#modal-notifications" class="mt-1" uk-toggle>
                         <div class="animate table_name">
                             <i class="bi bi-bell-fill mt-1"

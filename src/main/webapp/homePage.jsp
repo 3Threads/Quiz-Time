@@ -1,5 +1,4 @@
-<%@ page import="Types.Quiz" %>
-<%@ page import="Types.Result" %>
+<%@ page import="Types.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -26,59 +25,138 @@
 </head>
 <body class="bg-dark text-light" style="overflow-x: clip">
 <%@include file="header.jsp" %>
+<%
+
+%>
 <div class="container">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
             <br>
-            <h4 class="headers">Announcements</h4>
+            <a href="#modalAnnouncements" class="mt-1" uk-toggle>
+                <h4 class="headers">Announcements</h4>
+            </a>
+            <div id="modalAnnouncements" uk-modal>
+                <div class="uk-modal-dialog bg-dark">
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <div class="uk-modal-header bg-dark">
+                        <h2 class="uk-modal-title">Announcements</h2>
+                    </div>
+                    <div class="uk-modal-body">
+                        <%
+                            if (myUser.isAdmin()) {
+                        %>
+                        <form action="/homePage" method="post">
+                            <input class="titleArea uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
+                                   placeholder="Title"
+                                   aria-label="Title"
+                                   name="title"
+                                   id="titleField"
+                                   style="width: 50%;">
+                            <textarea class="txtArea uk-margin form-control bg-dark whitePlaceholder text-light"
+                                      placeholder="Description"
+                                      aria-label="Description"
+                                      name="description"
+                                      id="descriptionField"
+                                      ></textarea>
+                            <button class="buttons btn btn-success">Post</button>
+                        </form>
+                        <hr>
+
+                        <%
+                            }
+                            ArrayList<Types.Announcement> announcements = announcementsDAO.getAnnouncements();
+
+                            for (Announcement announcement : announcements) {
+                                int userId = announcement.getWriterId();
+                                User user = usersDAO.getUserById(userId);
+                                String userName = user.getUsername();
+                        %>
+
+                        <div class="uk-card uk-card-default bg-dark text-light">
+                            <div class="uk-card-header" style="height: 80px">
+                                <div class="uk-grid-small uk-flex-middle">
+                                    <div class="uk-width-expand">
+                                        <h5 class="uk-card-title uk-margin-remove-bottom text-light">
+                                            <div class="admins">
+                                                <%=announcement.getTitle()%>
+                                            </div>
+                                        </h5>
+                                        <p class="uk-text-meta uk-margin-remove-top admin_date">
+                                            <%=userName%>
+                                            <time class="admin_date" datetime="2016-04-01T19:00">
+                                                <%=announcement.getWriteTime()%>
+                                            </time>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <%-- max 20 wordsssssssssss--%>
+                            <p class="card-announcement-middle ">
+                                <%=
+                                announcement.getBody()
+                                %>
+                                <br><br>
+                            </p>
+                        </div>
+
+                        <%
+                            }
+                        %>
+
+                    </div>
+                </div>
+            </div>
+            <%
+                int toFollow = Math.min(announcements.size(), 2);
+                for (int i = 0; i < toFollow; i++) {
+                    Announcement announcement = announcements.get(i);
+                    int userId = announcement.getWriterId();
+                    User user = usersDAO.getUserById(userId);
+                    String userName = user.getUsername();
+
+            %>
+
             <div class="uk-card uk-card-default bg-dark text-light">
                 <div class="uk-card-header" style="height: 80px">
                     <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
                             <h5 class="uk-card-title uk-margin-remove-bottom text-light">
-                                <div class="admins">lasha kuprashivii</div>
+                                <div class="admins"><%=announcement.getTitle()%>
+                                </div>
                             </h5>
-                            <p class="uk-text-meta uk-margin-remove-top">
-                                <time class="admin_date" datetime="2016-04-01T19:00">July 10, 2023</time>
+                            <p class="uk-text-meta uk-margin-remove-top admin_date">
+                                <%=userName%>
+                                <time class="admin_date" datetime="2016-04-01T19:00"><%=announcement.getWriteTime()%>
+                                </time>
                             </p>
                         </div>
                     </div>
                 </div>
                 <%-- max 20 wordsssssssssss--%>
                 <p class="card-middle" style="margin-right: 7px">
-                    Today is our Anniversary, and we want to tell you that it was honor ...
+                    <%
+                        String body = announcement.getBody();
+                        String[] arrBody = body.split(" ");
+                        int sz = Math.min(10, arrBody.length);
+                        for (int j = 0; j < sz; j++) {
+                            out.print(arrBody[j]);
+                            out.print(" ");
+                        }
+                    %>
                 </p>
                 <div class="card-bottom uk-card-footer">
                     <%--class="read_more uk-button uk-text-meta"--%>
-                    <a class="read_more" href="#">Read more</a>
+                    <a href="#modalAnnouncements" class="read_more" uk-toggle>Read more</a>
                 </div>
             </div>
             <br>
-            <div class="uk-card uk-card-default bg-dark text-light">
-                <div class="uk-card-header" style="height: 80px">
-                    <div class="uk-grid-small uk-flex-middle">
-                        <div class="uk-width-expand">
-                            <h5 class="uk-card-title uk-margin-remove-bottom text-light">
-                                <div class="admins">niko khetsuriani</div>
-                            </h5>
-                            <p class="uk-text-meta uk-margin-remove-top">
-                                <time class="admin_date" datetime="2016-04-01T19:00">July 10, 2023</time>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <%-- max 20 wordsssssssssss--%>
-                <p class="card-middle" style="margin-right: 7px">
-                    bodyysssssssssssssssssssssssss sssssssssssssssss a a a a asssssssssssss ssssssssssssssss
-                    ssssssssssssssss
-                </p>
-                <div class="card-bottom uk-card-footer">
-                    <%--class="read_more uk-button uk-text-meta"--%>
-                    <a class="read_more" href="#">Read more</a>
-                </div>
-            </div>
+
+            <%
+                }
+            %>
 
         </div>
+
 
         <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">
             <br>
@@ -123,7 +201,7 @@
                             <tbody>
                             <%
                                 ArrayList<Quiz> popularQuizzes = quizzesDAO.getPopularQuizzes();
-                                int toFollow = Math.min(popularQuizzes.size(), 10);
+                                toFollow = Math.min(popularQuizzes.size(), 10);
                                 for (int i = 0; i < toFollow; i++) {
                                     Quiz quiz = popularQuizzes.get(i);
 
