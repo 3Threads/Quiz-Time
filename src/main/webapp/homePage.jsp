@@ -46,7 +46,6 @@
                             if (myUser.isAdmin()) {
                         %>
                         <form action="/homePage" method="post">
-                            <input type="hidden" name="action" value="addAnnouncement">
                             <input class="titleArea uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
                                    placeholder="Title"
                                    aria-label="Title"
