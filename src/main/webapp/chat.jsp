@@ -173,8 +173,9 @@
                 <%
                     HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
-                    if (request.getParameter("chatWith") != null) {
-                        chatId = Integer.parseInt(request.getParameter("chatWith"));
+                    String chatWith = request.getParameter("chatWith");
+                    if (chatWith != null && !chatWith.trim().equals("")) {
+                        chatId = Integer.parseInt(chatWith);
                         User myFriend = usersDAO.getUserById(chatId);
                         if (!interactors.contains(myFriend.getId())) {
                 %>
@@ -200,8 +201,7 @@
                         curChats.push(<%=myFriend.getId()%>)
                     </script>
                     <div class="d-flex align-items-center" <%
-                        if (request.getParameter("chatWith") != null
-                                && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))) {
+                        if (chatWith != null && !chatWith.trim().equals("") && myFriend.getId() == Integer.parseInt(chatWith)) {
                     %> style="background-color: #3e4042;" <%}%>>
                         <a class="fullWidthList"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
@@ -220,8 +220,8 @@
                 %>
             </ul>
         </div>
-        <% if (request.getParameter("chatWith") != null) {
-            chatId = Integer.parseInt(request.getParameter("chatWith"));%>
+        <% if (chatWith != null && !chatWith.trim().equals("")) {
+            chatId = Integer.parseInt(chatWith);%>
         <div class="col"></div>
         <div class="col-8 " style="max-height: 100%;">
             <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
@@ -264,7 +264,8 @@
                                type="text"
                                placeholder="Input message"
                                name="message"/>
-                        <div class="uk-inline col-auto d-flex align-items-center" style="margin-left: 5px; margin-right: 5px; padding: 0; ">
+                        <div class="uk-inline col-auto d-flex align-items-center"
+                             style="margin-left: 5px; margin-right: 5px; padding: 0; ">
                             <button class="btn btn-dark" type="button">
                                 <i class='bi bi-emoji-smile-fill' style='color: #FFD400;'></i>
                             </button>

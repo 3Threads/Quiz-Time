@@ -15,37 +15,38 @@ import java.io.IOException;
 public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest, httpServletResponse)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
             httpServletResponse.sendRedirect("/login");
-        } else {
-            if (httpServletRequest.getParameter("chatWith") != null) {
-                User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-                if (Integer.parseInt(httpServletRequest.getParameter("chatWith")) == myUser.getId()) {
-                    httpServletResponse.sendRedirect("/chat");
-                    return;
-                }
-                MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
-                User curUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-                msg.setMessagesSeen(curUser.getId(), Integer.parseInt(httpServletRequest.getParameter("chatWith")));
-            }
-            httpServletRequest.getRequestDispatcher("chat.jsp").forward(httpServletRequest, httpServletResponse);
+            return;
         }
+        String chatWith = httpServletRequest.getParameter("chatWith");
+        if (chatWith != null && !chatWith.trim().equals("")) {
+            User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+            if (Integer.parseInt(chatWith) == myUser.getId()) {
+                httpServletResponse.sendRedirect("/chat");
+                return;
+            }
+            MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
+            msg.setMessagesSeen(myUser.getId(), Integer.parseInt(chatWith));
+        }
+        httpServletRequest.getRequestDispatcher("chat.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest, httpServletResponse)) {
             httpServletResponse.getWriter().println("login");
             return;
         }
         String message = httpServletRequest.getParameter("message");
-        if (httpServletRequest.getParameter("sendTo") != null && !message.trim().equals("")) {
-            int sendTo = Integer.parseInt(httpServletRequest.getParameter("sendTo"));
+        String sendToStr = httpServletRequest.getParameter("sendTo");
+        if (sendToStr != null && !message.trim().equals("") && !sendToStr.trim().equals("")) {
+            int sendTo = Integer.parseInt(sendToStr);
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
             MessagesDAO connect = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
             connect.sendMessage(myUser.getId(), sendTo, message);
