@@ -17,6 +17,7 @@
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Quiz Time</title>
@@ -36,6 +37,11 @@
                 $('#' + fr).remove();
                 $('#chatList').prepend(chatWithConstructor(document.getElementById("sendInp").value, document.getElementById("name").value));
                 let msg = document.getElementById("message").value;
+                msg  = msg.replaceAll("<3","<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
+                msg  = msg.replaceAll(":)","<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
+                msg  = msg.replaceAll(":D","<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
+                msg  = msg.replaceAll(":|","<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
+                msg  = msg.replaceAll(":(","<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
                 $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
                 $('.chatBox').scrollTop(function () {
@@ -50,6 +56,11 @@
             if (responseText !== '') {
                 const chatBox = $(".chatBox");
                 const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
+                responseText  = responseText.replaceAll("<3","<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
+                responseText  = responseText.replaceAll(":)","<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
+                responseText  = responseText.replaceAll(":D","<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
+                responseText  = responseText.replaceAll(":|","<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
+                responseText  = responseText.replaceAll(":(","<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#chat').html($('#chat').html() + responseText);
                 if (responseText !== "" && shouldScroll) {
                     chatBox.scrollTop(function () {
@@ -115,7 +126,6 @@
                         }
                     }
                 }
-
                 getMessages();
                 getMessagesChat();
             }
@@ -123,7 +133,7 @@
     }
 
     $(document).ready(function () {
-        setInterval(getChats, 5000);
+        setInterval(getChats, 2000);
         $(".chatBox").scrollTop(function () {
             return this.scrollHeight;
         });
@@ -197,17 +207,23 @@
                     <%
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
                         for (Message message : messages) {
+                            String msg = message.getMessage();
+                            msg  = msg.replaceAll("<3","<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
+                            msg  = msg.replaceAll("\\:\\)","<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
+                            msg  = msg.replaceAll(":D","<i class='bi bi-emoji-laughing-fill' style='color: #FFD400;'> </i>");
+                            msg  = msg.replaceAll("\\:\\|","<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
+                            msg  = msg.replaceAll("\\:\\(","<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                             if (message.getFrom() == chatId) {
                     %>
                     <div class="uk-align-left messageBox" style="background-color: #3e4042;">
-                        <p class="messageParagraph"><%=message.getMessage()%>
+                        <p class="messageParagraph"><%=msg%>
                         </p>
                     </div>
                     <%
                     } else {
                     %>
                     <div class="uk-align-right bg-primary messageBox">
-                        <p class="messageParagraph"><%=message.getMessage()%>
+                        <p class="messageParagraph"><%=msg%>
                         </p>
                     </div>
                     <%
