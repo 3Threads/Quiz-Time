@@ -21,10 +21,6 @@ public class HomePageServlet extends HttpServlet {
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-            return;
-        }
         httpServletRequest.getRequestDispatcher("homePage.jsp").forward(httpServletRequest, httpServletResponse);
     }
 

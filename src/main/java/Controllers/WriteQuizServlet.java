@@ -27,10 +27,6 @@ public class WriteQuizServlet extends HttpServlet {
         httpServletRequest.getSession().removeAttribute("title");
         httpServletRequest.getSession().removeAttribute("description");
         httpServletRequest.getSession().removeAttribute("questions");
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-            return;
-        }
 
         int quizId;
         try {
@@ -86,8 +82,6 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/homePage");
             return;
         }
-
-
         if (httpServletRequest.getParameter("action").equals("questionAnswer")) {
             String[] answers = httpServletRequest.getParameterValues("answer");
             int questionInd;

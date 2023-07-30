@@ -21,10 +21,6 @@ public class QuizServlet extends HttpServlet {
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-            return;
-        }
         int quizId;
         try {
             quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
@@ -60,10 +56,5 @@ public class QuizServlet extends HttpServlet {
             return;
         }
         httpServletRequest.getRequestDispatcher("quiz.jsp").forward(httpServletRequest, httpServletResponse);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-
     }
 }

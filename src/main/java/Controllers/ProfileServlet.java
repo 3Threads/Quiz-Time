@@ -19,10 +19,6 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-            return;
-        }
         int profileId;
         try {
             profileId = Integer.parseInt(httpServletRequest.getParameter("user"));
