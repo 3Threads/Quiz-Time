@@ -43,7 +43,7 @@
                 msg = msg.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
                 msg = msg.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
-                $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
+                $('#chat').append("<div class='row justify-content-end'style='margin-right: 8px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
@@ -237,16 +237,20 @@
                             msg = msg.replaceAll(":\\(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                             if (message.getFrom() == chatId) {
                     %>
-                    <div class="uk-align-left messageBox" style="background-color: #3e4042;">
-                        <p class="messageParagraph"><%=msg%>
-                        </p>
+                    <div class="row justify-content-start" style="margin-left: 8px;">
+                        <div class="messageBox" style="background-color: #3e4042;">
+                            <p class="messageParagraph"><%=msg%>
+                            </p>
+                        </div>
                     </div>
                     <%
                     } else {
                     %>
-                    <div class="uk-align-right bg-primary messageBox">
-                        <p class="messageParagraph"><%=msg%>
-                        </p>
+                    <div class="row justify-content-end" style="margin-right: 8px;">
+                        <div class="bg-primary messageBox">
+                            <p class="messageParagraph"><%=msg%>
+                            </p>
+                        </div>
                     </div>
                     <%
                             }

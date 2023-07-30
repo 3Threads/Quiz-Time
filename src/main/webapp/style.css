@@ -34,7 +34,8 @@ a {
 .messageBox {
     padding: 7px;
     height: auto;
-    width: 70%;
+    width: auto;
+    max-width: 70%;
     border-radius: 10px;
     margin-bottom: 10px;
 }
@@ -264,6 +265,7 @@ a {
         white-space: nowrap;
         transition: font-size 0.5s ease;
     }
+
     .notification-title {
         font-size: 25px;
         transition: font-size 0.5s ease;
@@ -284,6 +286,7 @@ a {
         white-space: nowrap;
         transition: font-size 0.5s ease;
     }
+
     .notification-titles {
         font-size: 11px !important;
         text-align: center;
