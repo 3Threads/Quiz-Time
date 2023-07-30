@@ -91,19 +91,16 @@
                 <div class="col-auto">
                     <div class="uk-grid-small uk-child-width-auto" uk-grid id="countdown"
                          uk-countdown="date: <%=new Date((Long) session.getAttribute("endTime") + 1000).toGMTString()%>">
-                        <div>
-                            <div class="uk-countdown-number uk-countdown-hours"></div>
-                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Hours</div>
+                        <div class="mt-1">
+                            <div class="uk-countdown-number uk-countdown-hours" style="font-size: medium"></div>
                         </div>
-                        <div class="uk-countdown-separator">:</div>
-                        <div>
-                            <div class="uk-countdown-number uk-countdown-minutes"></div>
-                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Minutes</div>
+                        <div class="uk-countdown-separator" style="font-size: small">:</div>
+                        <div class="mt-1">
+                            <div class="uk-countdown-number uk-countdown-minutes" style="font-size: medium"></div>
                         </div>
-                        <div class="uk-countdown-separator">:</div>
-                        <div>
-                            <div class="uk-countdown-number uk-countdown-seconds"></div>
-                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Seconds</div>
+                        <div class="uk-countdown-separator" style="font-size: small">:</div>
+                        <div class="mt-1">
+                            <div class="uk-countdown-number uk-countdown-seconds" style="font-size: medium"></div>
                         </div>
                     </div>
                 </div>

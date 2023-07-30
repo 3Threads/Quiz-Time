@@ -22,6 +22,17 @@
             crossorigin="anonymous">
     </script>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">
+    </script>
+
+    <!-- Include Moment.js CDN -->
+    <script type="text/javascript" src=
+            "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js">
+    </script>
+
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Quiz Time</title>
@@ -38,6 +49,7 @@
         $('#titleLabel').val($('#titleField').val());
         $('#descriptionLabel').val($('#descriptionField').val());
     }
+
     function addNewQuestion() {
         const questionType = $('#newQuestionType').val();
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
@@ -221,6 +233,7 @@
             "   </div>" +
             "</div>");
     }
+
     function addAnswerRadio() {
         $('#answerRadios').append("" +
             "<div class='row  d-flex align-items-center uk-margin'>" +
@@ -274,7 +287,15 @@
             "</div>");
     }
 
+    function toggleTimeFormat() {
+        $('#timeFormat').toggle();
+    }
+
+
     $(document).ready(() => {
+        $('#datetime').datetimepicker({
+            format: 'HH:mm:ss'
+        });
     })
 </script>
 <body>
@@ -299,7 +320,24 @@
                           style="height: 150px" required><%
                     if (session.getAttribute("description") != null) out.print(session.getAttribute("description"));
                 %></textarea>
-                <div class="row">
+
+                <label><input class="uk-checkbox" type="checkbox" checked onchange="toggleTimeFormat()"> Set
+                    timer</label>
+                <div class="row mt-2" id="timeFormat">
+                    <div class="col-4">
+                        <input class='form-control bg-dark whitePlaceholder text-light' type='number'
+                               placeholder='Hour' aria-label='Input' name='hour' required min="0" max="3">
+                    </div>
+                    <div class="col-4">
+                        <input class='form-control bg-dark whitePlaceholder text-light' type='number'
+                               placeholder='Minute' aria-label='Input' name='minute' required min="0" max="59">
+                    </div>
+                    <div class="col-4">
+                        <input class='form-control bg-dark whitePlaceholder text-light' type='number'
+                               placeholder='Second' aria-label='Input' name='second' required min="0" max="59">
+                    </div>
+                </div>
+                <div class="row mt-3">
                     <div class="col">
                         <select aria-label="Custom controls" id="newQuestionType"
                                 class="form-select form-select-md bg-dark text-light">
@@ -351,8 +389,8 @@
                     %>
                 </ul>
                 <%
-                    if(request.getSession().getAttribute("questions") != null) {
-                        if(((ArrayList<Question>)request.getSession().getAttribute("questions")).size() != 0) {
+                    if (request.getSession().getAttribute("questions") != null) {
+                        if (((ArrayList<Question>) request.getSession().getAttribute("questions")).size() != 0) {
                 %>
                 <button class="btn btn-success">Create Quiz</button>
                 <%
@@ -574,7 +612,8 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Image URL' aria-label='Input' name='questionImage'
-                                   pattern="https?://.+" title="Include http://" value="<%=request.getParameter("imageUrl")%>" required>
+                                   pattern="https?://.+" title="Include http://"
+                                   value="<%=request.getParameter("imageUrl")%>" required>
                         </div>
                         <div id='answerFields'>
                             <%
