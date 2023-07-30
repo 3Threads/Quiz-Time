@@ -56,7 +56,7 @@ public class ChatServlet extends HttpServlet {
         if (sendToStr != null && !message.trim().equals("") && !sendToStr.trim().equals("")) {
             int sendTo;
             try {
-                sendTo = Integer.parseInt(httpServletRequest.getParameter("chatWith"));
+                sendTo = Integer.parseInt(sendToStr);
             } catch (NumberFormatException e) {
                 httpServletResponse.sendRedirect("/chat");
                 return;

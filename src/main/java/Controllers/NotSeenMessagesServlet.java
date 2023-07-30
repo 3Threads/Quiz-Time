@@ -34,8 +34,12 @@ public class NotSeenMessagesServlet extends HttpServlet {
                     messagesDAO.setMessagesSeen(myUser.getId(), us);
                     ArrayList<String> messages = notSeen.get(us);
                     for (String msg : messages) {
-                        out.println("\n<div class=\"uk-align-left messageBox\" style=\"background-color: #3e4042;\">\n" +
-                                "                        <p class=\"messageParagraph\">" + msg + "</p> </div>");
+                        out.println("<div class='row justify-content-start' style='margin-left: 8px;'>" +
+                                "                        <div class='messageBox' style='background-color: #3e4042;'>" +
+                                "                            <p class='messageParagraph'>" + msg +
+                                "                            </p>" +
+                                "                        </div>" +
+                                "                    </div>");
                     }
                 }
             }
