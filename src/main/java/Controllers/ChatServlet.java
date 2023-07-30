@@ -21,10 +21,6 @@ public class ChatServlet extends HttpServlet {
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-            return;
-        }
         int chatWith;
         if (httpServletRequest.getParameter("chatWith") != null) {
             try {

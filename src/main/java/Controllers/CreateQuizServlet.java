@@ -27,10 +27,6 @@ public class CreateQuizServlet extends HttpServlet {
         httpServletRequest.getSession().removeAttribute("writingQuestions");
         httpServletRequest.getSession().removeAttribute("userAnswers");
         httpServletRequest.getSession().removeAttribute("startTime");
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-            return;
-        }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
             ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
             try {

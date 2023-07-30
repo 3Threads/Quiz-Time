@@ -19,10 +19,6 @@ public class SearchServlet extends HttpServlet {
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-            return;
-        }
         String searchUserName = httpServletRequest.getParameter("search");
         if(searchUserName==null || searchUserName.trim().equals("")){
             httpServletResponse.sendRedirect("/homePage");
