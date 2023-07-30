@@ -43,6 +43,14 @@
         $('#nextQuestionInd').val(ind);
         $('#currQuestionForm').submit();
     }
+
+
+    setTimeout(function () {
+        console.log("amoiwura");
+        $('#finishQuiz').submit()
+    }, <%=((Long)session.getAttribute("endTime")) - new Date().getTime()%>);
+
+
 </script>
 <div class="container">
     <div class="row mt-3">
@@ -68,7 +76,7 @@
                     }
                 %>
             </div>
-            <form method="post" action="/writeQuiz">
+            <form method="post" action="/writeQuiz" id="finishQuiz">
                 <input type="hidden" name="action" value="finish">
                 <input type="hidden" name="quizId" value="<%=request.getParameter("quizId")%>">
                 <input type="submit" class="btn btn-success mt-3" value="Finish">
@@ -76,7 +84,31 @@
         </div>
         <div class="col-1"></div>
         <div class="col-8 uk-box-shadow-large uk-padding-small">
-            <h4>#<%=questionInd + 1%> Question</h4>
+            <div class="row">
+                <div class="col">
+                    <h4>#<%=questionInd + 1%> Question</h4>
+                </div>
+                <div class="col-auto">
+                    <div class="uk-grid-small uk-child-width-auto" uk-grid id="countdown"
+                         uk-countdown="date: <%=new Date((Long) session.getAttribute("endTime") + 1000).toGMTString()%>">
+                        <div>
+                            <div class="uk-countdown-number uk-countdown-hours"></div>
+                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Hours</div>
+                        </div>
+                        <div class="uk-countdown-separator">:</div>
+                        <div>
+                            <div class="uk-countdown-number uk-countdown-minutes"></div>
+                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Minutes</div>
+                        </div>
+                        <div class="uk-countdown-separator">:</div>
+                        <div>
+                            <div class="uk-countdown-number uk-countdown-seconds"></div>
+                            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Seconds</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <form action="/writeQuiz" method="post" id="currQuestionForm">
                 <input type="hidden" name="quizId" value="<%=currQuiz.getQuizId()%>">
                 <input type="hidden" name="questionInd" value="<%=questionInd%>">

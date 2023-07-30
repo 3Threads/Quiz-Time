@@ -59,8 +59,10 @@ public class WriteQuizServlet extends HttpServlet {
             ArrayList<String>[] answers = new ArrayList[size];
             httpServletRequest.getSession().setAttribute("userAnswers", answers);
         }
-        if (httpServletRequest.getSession().getAttribute("startTime") == null)
+        if (httpServletRequest.getSession().getAttribute("startTime") == null) {
             httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
+            httpServletRequest.getSession().setAttribute("endTime", System.currentTimeMillis() + 10000); //aq aris shesacvleli time
+        }
         httpServletRequest.getRequestDispatcher("writeQuiz.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
@@ -117,6 +119,7 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("writingQuestions");
             httpServletRequest.getSession().removeAttribute("userAnswers");
             httpServletRequest.getSession().removeAttribute("startTime");
+            httpServletRequest.getSession().removeAttribute("endTime");
             ResultsDAO resultsDAO = (ResultsDAO) httpServletRequest.getServletContext().getAttribute("resultsDB");
             int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
 
