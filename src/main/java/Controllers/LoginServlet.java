@@ -19,30 +19,27 @@ public class LoginServlet extends HttpServlet {
         SessionRemove.removeQuizAttributes(httpServletRequest);
         if (httpServletRequest.getSession().getAttribute("userInfo") != null) {
             httpServletResponse.sendRedirect("/homePage");
-        } else {
-            httpServletRequest.getRequestDispatcher("index.jsp").forward(httpServletRequest, httpServletResponse);
+            return;
         }
+        httpServletRequest.getRequestDispatcher("index.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
         UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
-        try {
-            if (sql.checkUser(username, password)) {
-                int userId = sql.getUserId(username);
-                User user = sql.getUserById(userId);
-                httpServletRequest.getSession().setAttribute("userInfo", user);
-                httpServletRequest.getSession().removeAttribute("questions");
-                httpServletRequest.getSession().removeAttribute("title");
-                httpServletRequest.getSession().removeAttribute("description");
-                httpServletResponse.sendRedirect("/homePage");
-            } else {
-                httpServletResponse.sendRedirect("/login?loginFailed=true");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        if (sql.checkUser(username, password)) {
+            int userId = sql.getUserId(username);
+            User user = sql.getUserById(userId);
+            httpServletRequest.getSession().setAttribute("userInfo", user);
+            httpServletRequest.getSession().removeAttribute("questions");
+            httpServletRequest.getSession().removeAttribute("title");
+            httpServletRequest.getSession().removeAttribute("description");
+            httpServletResponse.sendRedirect("/homePage");
+            return;
         }
+        httpServletResponse.sendRedirect("/login?loginFailed=true");
     }
 }

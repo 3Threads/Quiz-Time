@@ -16,7 +16,7 @@ import java.io.IOException;
 public class QuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
@@ -25,27 +25,36 @@ public class QuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
             return;
         }
-        Quiz currQuiz =((QuizzesDAO) getServletContext().getAttribute("quizzesDB")).getQuizInfo(Integer.parseInt(httpServletRequest.getParameter("quizId")));
+        int quizId;
+        try {
+            quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
+        } catch (NumberFormatException e) {
+            httpServletResponse.sendRedirect("/homePage");
+            return;
+        }
+        Quiz currQuiz = ((QuizzesDAO) getServletContext().getAttribute("quizzesDB")).getQuizInfo(quizId);
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-        if(httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
-            if(myUser.isAdmin() || myUser.getId() == currQuiz.getCreatorID()) {
-                ((QuizzesDAO) getServletContext().getAttribute("quizzesDB")).deleteQuiz(Integer.parseInt(httpServletRequest.getParameter("quizId")));
+        if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
+            if (myUser.isAdmin() || myUser.getId() == currQuiz.getCreatorID()) {
+                ((QuizzesDAO) getServletContext().getAttribute("quizzesDB")).deleteQuiz(quizId);
                 httpServletResponse.sendRedirect("/homePage");
                 return;
             }
         }
-        if (httpServletRequest.getParameter("quizId") == null) {
-            httpServletResponse.sendRedirect("/homePage");
-            return;
-        }
-        if(currQuiz == null) {
+
+        if (currQuiz == null) {
             httpServletResponse.sendRedirect("/homePage");
             return;
         }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("sendChallenge")) {
-            int friendId = Integer.parseInt(httpServletRequest.getParameter("friendId"));
+            int friendId;
+            try {
+                friendId = Integer.parseInt(httpServletRequest.getParameter("friendId"));
+            } catch (NumberFormatException e) {
+                httpServletResponse.sendRedirect("/homePage");
+                return;
+            }
             ChallengesDAO challengesDAO = (ChallengesDAO) httpServletRequest.getServletContext().getAttribute("challengesDB");
-            int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
             challengesDAO.sendChallenge(myUser.getId(), friendId, quizId);
             httpServletResponse.sendRedirect("/quiz?quizId=" + quizId);
             return;
