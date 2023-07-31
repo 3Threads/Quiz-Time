@@ -4,9 +4,6 @@ import Types.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -114,7 +111,7 @@ public class TypesTest {
         int qz1CreatorID = 12345;
         int qz1Completed = 21;
 
-        Quiz qz1 = new Quiz(qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Completed);
+        Quiz qz1 = new Quiz(null, qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Completed);
 
         assertEquals(qz1ID, qz1.getQuizId());
         assertEquals(qz1Name, qz1.getQuizName());

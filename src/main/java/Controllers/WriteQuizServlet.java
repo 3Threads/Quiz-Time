@@ -2,8 +2,10 @@ package Controllers;
 
 import BusinessLogic.SessionRemove;
 import DAO.QuestionsDAO;
+import DAO.QuizzesDAO;
 import DAO.ResultsDAO;
 import Types.Question;
+import Types.Quiz;
 import Types.User;
 
 import javax.servlet.ServletException;
@@ -45,6 +47,8 @@ public class WriteQuizServlet extends HttpServlet {
         }
 
         QuestionsDAO questionsDAO = (QuestionsDAO) httpServletRequest.getServletContext().getAttribute("questionsDB");
+        QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
+        Quiz quiz = quizzesDAO.getQuizInfo(quizId);
         if (questionsDAO.getQuestionsIdByQuizId(quizId).size() == 0) {
             httpServletResponse.sendRedirect("/homePage");
             return;
@@ -61,7 +65,8 @@ public class WriteQuizServlet extends HttpServlet {
         }
         if (httpServletRequest.getSession().getAttribute("startTime") == null) {
             httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
-            httpServletRequest.getSession().setAttribute("endTime", System.currentTimeMillis() + 10000); //aq aris shesacvleli time dachi
+            long time = quiz.getTimeLimit().getHours() * 3600000 +  quiz.getTimeLimit().getMinutes()*60000+ quiz.getTimeLimit().getSeconds()*1000;
+            httpServletRequest.getSession().setAttribute("endTime", System.currentTimeMillis() + time);
         }
         httpServletRequest.getRequestDispatcher("writeQuiz.jsp").forward(httpServletRequest, httpServletResponse);
     }

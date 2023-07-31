@@ -1,5 +1,6 @@
 <%@ page import="Controllers.CreateQuizServlet" %>
 <%@ page import="Types.*" %>
+<%@ page import="java.sql.Time" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -48,6 +49,9 @@
         }
         $('#titleLabel').val($('#titleField').val());
         $('#descriptionLabel').val($('#descriptionField').val());
+        $('#hourLabel').val($('#Hour').val());
+        $('#minuteLabel').val($('#Minute').val());
+        $('#secondLabel').val($('#Second').val());
     }
 
     function addNewQuestion() {
@@ -55,7 +59,9 @@
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
         childToAppend += "<input type='hidden' name='title' value='' id='titleLabel'>";
         childToAppend += "<input type='hidden' name='description' value='' id='descriptionLabel'>";
-
+        childToAppend += "<input type='hidden' name='hour' value='' id='hourLabel'>";
+        childToAppend += "<input type='hidden' name='minute'  value='' id='minuteLabel'>";
+        childToAppend += "<input type='hidden' name='second'  value='' id='secondLabel'>";
         switch (questionType) {
             case "textResponse":
                 childToAppend +=
@@ -323,18 +329,22 @@
 
                 <label><input class="uk-checkbox" type="checkbox" checked onchange="toggleTimeFormat()"> Set
                     timer</label>
+                <%
+                    Time time = null;
+                    if (session.getAttribute("timeLimit") != null) time = (Time) session.getAttribute("timeLimit");
+                %>
                 <div class="row mt-2" id="timeFormat">
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
-                               placeholder='Hour' aria-label='Input' name='hour' required min="0" max="3">
+                               placeholder='Hour' id="Hour" aria-label='Input' name='hour' value="<%if(time != null) out.print(time.getHours());%>" required min="0" max="3">
                     </div>
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
-                               placeholder='Minute' aria-label='Input' name='minute' required min="0" max="59">
+                               placeholder='Minute' id="Minute"  aria-label='Input' name='minute' value="<%if(time != null) out.print(time.getMinutes());%>" required min="0" max="59">
                     </div>
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
-                               placeholder='Second' aria-label='Input' name='second' required min="0" max="59">
+                               placeholder='Second' id="Second" aria-label='Input' name='second' value="<%if(time != null) out.print(time.getSeconds());%>" required min="0" max="59">
                     </div>
                 </div>
                 <div class="row mt-3">

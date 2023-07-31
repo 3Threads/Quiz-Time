@@ -14,15 +14,16 @@ public class QuizzesDAO {
         this.dataSource = dataSource;
     }
 
-    public void addQuiz(String quizName, String description, int creatorID) {
+    public void addQuiz(String quizName, String description, int creatorID, Time timeLimit) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "INSERT INTO QUIZZES VALUES(default,?,?,0,default,?)";
+            String str = "INSERT INTO QUIZZES VALUES(default,?,?,0,default,?,?)";
             PreparedStatement statement = connect.prepareStatement(str);
             statement.setString(1, quizName);
             statement.setString(2, description);
             statement.setInt(3, creatorID);
+            statement.setTime(4, timeLimit);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +69,8 @@ public class QuizzesDAO {
             int creatorID = result.getInt("CREATOR_ID");
             Date creatingDate = result.getDate("CREATION_TIME");
             int completed = result.getInt("COMPLETED");
-            Quiz quiz = new Quiz(quizId, quizName, description, creatingDate, creatorID, completed);
+            Time timeLimit = result.getTime("TIME_LIMIT");
+            Quiz quiz = new Quiz(timeLimit, quizId, quizName, description, creatingDate, creatorID, completed);
             quizzes.add(quiz);
         }
         return quizzes;

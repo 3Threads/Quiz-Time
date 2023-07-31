@@ -30,6 +30,7 @@ CREATE TABLE QUIZZES
     COMPLETED     INT      default 0,
     CREATION_TIME DATETIME default current_timestamp,
     CREATOR_ID    INT             not null,
+    TIME_LIMIT    TIME default 0,
     FOREIGN KEY (CREATOR_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
 
