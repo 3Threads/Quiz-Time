@@ -14,22 +14,23 @@ import java.io.IOException;
 public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-        } else {
-            String searchUserName = httpServletRequest.getParameter("search");
-            UsersDAO usConnect = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
-            int searchUserId;
-            searchUserId = usConnect.getUserId(searchUserName);
-            if (searchUserId != -1) {
-                httpServletResponse.sendRedirect("/profile?user=" + searchUserId);
-            } else httpServletResponse.sendRedirect("/homePage");
+        String searchUserName = httpServletRequest.getParameter("search");
+        if(searchUserName==null || searchUserName.trim().equals("")){
+            httpServletResponse.sendRedirect("/homePage");
+            return;
         }
+        UsersDAO usConnect = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
+        int searchUserId;
+        searchUserId = usConnect.getUserId(searchUserName);
+        if (searchUserId != -1) {
+            httpServletResponse.sendRedirect("/profile?user=" + searchUserId);
+        } else httpServletResponse.sendRedirect("/homePage");
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 <%@ page import="Types.Quiz" %>
 <%@ page import="Types.Result" %>
-<%@ page import="java.sql.Time" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
@@ -64,15 +63,25 @@
             <div class="uk-padding-small">
                 <div>Score: <%=request.getParameter("score")%>
                 </div>
-                <div>Time: <%=request.getParameter("time")%>
+                <%
+                    if (request.getParameter("time") != null) {
+                %>
+                <div>Time: <%= formatter.format(new Date((Long.parseLong(request.getParameter("time")))))%>
                 </div>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
 </div>
 <div class="container">
     <div class="row mt-3 uk-box-shadow-large uk-padding-small">
-        <div class="col"><h1 style="margin: 0"><%=currQuiz.getQuizName()%>
+        <div class="col"><h1 style="margin: 0"><%=currQuiz
+                .
+                getQuizName
+                        (
+                        )%>
         </h1></div>
         <div class="col-auto d-flex align-items-center">
             <a href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>">
@@ -81,7 +90,28 @@
             <a href="#modalSendChallenges" uk-toggle>
                 <input type="button" class="btn btn-primary" value="Send Challenge">
             </a>
-            <%if (myUser.isAdmin() || currQuiz.getCreatorID() == myUser.getId()) {%>
+            <%
+                if
+                (
+                        myUser
+                                .
+                                isAdmin
+                                        (
+                                        )
+                                ||
+                                currQuiz
+                                        .
+                                        getCreatorID
+                                                (
+                                                )
+                                        ==
+                                        myUser
+                                                .
+                                                getId
+                                                        (
+                                                        )
+                ) {
+            %>
             <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete">
                 <input type="button" class="btn btn-danger" value="Delete Quiz" style="margin-left: 6px">
             </a>
@@ -99,26 +129,106 @@
                             <ul id="requestsList" class="uk-list container-fluid"
                                 style="max-height: 200px; overflow: auto">
                                 <%
-                                    ArrayList<Integer> friends = friendsDAO.getFriendsList(myUser.getId());
-                                    for (Integer reqId : friends) {
-                                        User reqUserInfo = usersDAO.getUserById(reqId);
-                                        if (!challengesDAO.alreadyChallenged(myUser.getId(), reqUserInfo.getId(), currQuiz.getQuizId())) {
+                                    ArrayList
+                                            <
+                                                    Integer
+                                                    >
+                                            friends
+                                            =
+                                            friendsDAO
+                                                    .
+                                                    getFriendsList
+                                                            (
+                                                                    myUser
+                                                                            .
+                                                                            getId
+                                                                                    (
+                                                                                    )
+                                                            );
+                                    for
+                                    (
+                                            Integer
+                                                    reqId
+                                            :
+                                            friends
+                                    ) {
+                                        User
+                                                reqUserInfo
+                                                =
+                                                usersDAO
+                                                        .
+                                                        getUserById
+                                                                (
+                                                                        reqId
+                                                                );
+                                        if
+                                        (
+                                                !
+                                                        challengesDAO
+                                                                .
+                                                                alreadyChallenged
+                                                                        (
+                                                                                myUser
+                                                                                        .
+                                                                                        getId
+                                                                                                (
+                                                                                                )
+                                                                                ,
+                                                                                reqUserInfo
+                                                                                        .
+                                                                                        getId
+                                                                                                (
+                                                                                                )
+                                                                                ,
+                                                                                currQuiz
+                                                                                        .
+                                                                                        getQuizId
+                                                                                                (
+                                                                                                )
+                                                                        )
+                                        ) {
                                 %>
                                 <li>
                                     <div class="row">
                                         <div class="col d-flex align-items-center">
-                                            <a href=<%="/profile?user=" + reqUserInfo.getId()%>><%=reqUserInfo.getUsername()%>
+                                            <a href=<%="/profile?user="
+                                                    +
+                                                    reqUserInfo
+                                                            .
+                                                            getId
+                                                                    (
+                                                                    )%>><%=reqUserInfo
+                                                    .
+                                                    getUsername
+                                                            (
+                                                            )%>
                                             </a>
                                         </div>
                                         <div class="col-auto">
-                                            <a href=<%="/quiz?quizId=" + currQuiz.getQuizId() + "&action=sendChallenge&friendId=" + reqUserInfo.getId()%>>
+                                            <a href=<%="/quiz?quizId="
+                                                    +
+                                                    currQuiz
+                                                            .
+                                                            getQuizId
+                                                                    (
+                                                                    )
+                                                    +
+                                                    "&action=sendChallenge&friendId="
+                                                    +
+                                                    reqUserInfo
+                                                            .
+                                                            getId
+                                                                    (
+                                                                    )%>>
                                                 <input class="btn btn-success" type="button" value="Send">
                                             </a>
                                         </div>
                                     </div>
                                 </li>
                                 <%
-                                            requestId++;
+                                            requestId
+                                                    ++
+                                            ;
                                         }
                                     }
                                 %>
@@ -132,7 +242,11 @@
     <div class="row uk-margin-small mt-5">
         <div class="col-4 uk-box-shadow-large" style="max-height: 537px; overflow: auto; margin-bottom: 20px">
             <h3>Description:</h3>
-            <div class="mt-2"><%=currQuiz.getQuizDescription()%>
+            <div class="mt-2"><%=currQuiz
+                    .
+                    getQuizDescription
+                            (
+                            )%>
             </div>
         </div>
         <div class="col-8">
@@ -155,22 +269,104 @@
                         </thead>
                         <tbody>
                         <%
-                            ArrayList<Result> results = resultsDAO.getQuizResults(currQuiz.getQuizId());
-                            int toFollow = Math.min(results.size(), 10);
-                            for (int i = 0; i < toFollow; i++) {
-                                Result res = results.get(i);
+                            ArrayList
+                                    <
+                                            Result
+                                            >
+                                    results
+                                    =
+                                    resultsDAO
+                                            .
+                                            getQuizResults
+                                                    (
+                                                            currQuiz
+                                                                    .
+                                                                    getQuizId
+                                                                            (
+                                                                            )
+                                                    );
+                            int
+                                    toFollow
+                                    =
+                                    Math
+                                            .
+                                            min
+                                                    (
+                                                            results
+                                                                    .
+                                                                    size
+                                                                            (
+                                                                            )
+                                                            ,
+                                                            10
+                                                    );
+                            for
+                            (
+                                    int
+                                    i
+                                    =
+                                    0
+                                    ;
+                                    i
+                                            <
+                                            toFollow
+                                    ;
+                                    i
+                                            ++
+                            ) {
+                                Result
+                                        res
+                                        =
+                                        results
+                                                .
+                                                get
+                                                        (
+                                                                i
+                                                        );
 
                         %>
                         <tr>
-                            <td><%=i + 1%>
+                            <td><%=i
+                                    +
+                                    1%>
                             </td>
                             <td>
-                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO.getUserById(res.getUserId()).getUsername()%>
+                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO
+                                        .
+                                        getUserById
+                                                (
+                                                        res
+                                                                .
+                                                                getUserId
+                                                                        (
+                                                                        )
+                                                )
+                                                .
+                                        getUsername
+                                                (
+                                                )%>
                                 </a>
                             </td>
-                            <td><%=res.getScore()%>
+                            <td><%=res
+                                    .
+                                    getScore
+                                            (
+                                            )%>
                             </td>
-                            <td><%=formatter.format(new Date(res.getSpentTime()))%>
+                            <td><%=formatter
+                                    .
+                                    format
+                                            (
+                                                    new
+                                                            Date
+                                                            (
+                                                                    res
+                                                                            .
+                                                                            getSpentTime
+                                                                                    (
+                                                                                    )
+                                                            )
+                                            )%>
                             </td>
                         </tr>
                         <%
@@ -191,22 +387,110 @@
                         </thead>
                         <tbody>
                         <%
-                            ArrayList<Result> friendsResults = resultsDAO.getUserFriendsResultOnQuiz(myUser.getId(), currQuiz.getQuizId());
-                            toFollow = Math.min(friendsResults.size(), 10);
-                            for (int i = 0; i < toFollow; i++) {
-                                Result res = friendsResults.get(i);
+                            ArrayList
+                                    <
+                                            Result
+                                            >
+                                    friendsResults
+                                    =
+                                    resultsDAO
+                                            .
+                                            getUserFriendsResultOnQuiz
+                                                    (
+                                                            myUser
+                                                                    .
+                                                                    getId
+                                                                            (
+                                                                            )
+                                                            ,
+                                                            currQuiz
+                                                                    .
+                                                                    getQuizId
+                                                                            (
+                                                                            )
+                                                    );
+                            toFollow
+                                    =
+                                    Math
+                                            .
+                                            min
+                                                    (
+                                                            friendsResults
+                                                                    .
+                                                                    size
+                                                                            (
+                                                                            )
+                                                            ,
+                                                            10
+                                                    )
+                            ;
+                            for
+                            (
+                                    int
+                                    i
+                                    =
+                                    0
+                                    ;
+                                    i
+                                            <
+                                            toFollow
+                                    ;
+                                    i
+                                            ++
+                            ) {
+                                Result
+                                        res
+                                        =
+                                        friendsResults
+                                                .
+                                                get
+                                                        (
+                                                                i
+                                                        );
 
                         %>
                         <tr>
-                            <td><%=i + 1%>
+                            <td><%=i
+                                    +
+                                    1%>
                             </td>
                             <td>
-                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO.getUserById(res.getUserId()).getUsername()%>
+                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO
+                                        .
+                                        getUserById
+                                                (
+                                                        res
+                                                                .
+                                                                getUserId
+                                                                        (
+                                                                        )
+                                                )
+                                                .
+                                        getUsername
+                                                (
+                                                )%>
                                 </a>
                             </td>
-                            <td><%=res.getScore()%>
+                            <td><%=res
+                                    .
+                                    getScore
+                                            (
+                                            )%>
                             </td>
-                            <td><%=formatter.format(new Date(res.getSpentTime()))%>
+                            <td><%=formatter
+                                    .
+                                    format
+                                            (
+                                                    new
+                                                            Date
+                                                            (
+                                                                    res
+                                                                            .
+                                                                            getSpentTime
+                                                                                    (
+                                                                                    )
+                                                            )
+                                            )%>
                             </td>
                         </tr>
                         <%
@@ -227,22 +511,101 @@
                         </thead>
                         <tbody>
                         <%
-                            ArrayList<Result> myResults = resultsDAO.getUserResultsOnQuiz(myUser.getId(), currQuiz.getQuizId());
-                            toFollow = Math.min(myResults.size(), 10);
-                            for (int i = 0; i < toFollow; i++) {
-                                Result res = myResults.get(i);
+                            ArrayList
+                                    <
+                                            Result
+                                            >
+                                    myResults
+                                    =
+                                    resultsDAO
+                                            .
+                                            getUserResultsOnQuiz
+                                                    (
+                                                            myUser
+                                                                    .
+                                                                    getId
+                                                                            (
+                                                                            )
+                                                            ,
+                                                            currQuiz
+                                                                    .
+                                                                    getQuizId
+                                                                            (
+                                                                            )
+                                                    );
+                            toFollow
+                                    =
+                                    Math
+                                            .
+                                            min
+                                                    (
+                                                            myResults
+                                                                    .
+                                                                    size
+                                                                            (
+                                                                            )
+                                                            ,
+                                                            10
+                                                    )
+                            ;
+                            for
+                            (
+                                    int
+                                    i
+                                    =
+                                    0
+                                    ;
+                                    i
+                                            <
+                                            toFollow
+                                    ;
+                                    i
+                                            ++
+                            ) {
+                                Result
+                                        res
+                                        =
+                                        myResults
+                                                .
+                                                get
+                                                        (
+                                                                i
+                                                        );
 
                         %>
                         <tr>
-                            <td><%=i + 1%>
+                            <td><%=i
+                                    +
+                                    1%>
                             </td>
                             <td>
-                                <a href="/profile?user=<%=res.getUserId()%>"><%= myUser.getUsername()%>
+                                <a href="/profile?user=<%=res.getUserId()%>"><%= myUser
+                                        .
+                                        getUsername
+                                                (
+                                                )%>
                                 </a>
                             </td>
-                            <td><%=res.getScore()%>
+                            <td><%=res
+                                    .
+                                    getScore
+                                            (
+                                            )%>
                             </td>
-                            <td><%=formatter.format(new Date(res.getSpentTime()))%>
+                            <td><%=formatter
+                                    .
+                                    format
+                                            (
+                                                    new
+                                                            Date
+                                                            (
+                                                                    res
+                                                                            .
+                                                                            getSpentTime
+                                                                                    (
+                                                                                    )
+                                                            )
+                                            )%>
                             </td>
                         </tr>
                         <%

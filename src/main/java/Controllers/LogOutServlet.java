@@ -17,9 +17,4 @@ public class LogOutServlet extends HttpServlet {
         httpServletRequest.getSession().removeAttribute("userInfo");
         httpServletResponse.sendRedirect("/login");
     }
-
-    @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-
-    }
 }

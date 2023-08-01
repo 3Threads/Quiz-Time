@@ -34,13 +34,13 @@
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="text" class="form-control bg-dark text-light whitePlaceholder"
-                                       name="username" placeholder="Username">
+                                       placeholder="Username" name="username" maxlength="20" minlength="4" pattern="[^$\|\/]+" title="Your username must not exist '$','|' or '/'" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="password" class="form-control bg-dark text-light whitePlaceholder"
-                                       name="password" placeholder="Password">
+                                       name="password" placeholder="Password" minlength="5" required>
                             </div>
                         </div>
                         <div class="row">

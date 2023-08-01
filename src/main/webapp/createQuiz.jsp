@@ -1,5 +1,6 @@
 <%@ page import="Controllers.CreateQuizServlet" %>
 <%@ page import="Types.*" %>
+<%@ page import="java.sql.Time" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -22,6 +23,17 @@
             crossorigin="anonymous">
     </script>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">
+    </script>
+
+    <!-- Include Moment.js CDN -->
+    <script type="text/javascript" src=
+            "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js">
+    </script>
+
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Quiz Time</title>
@@ -29,6 +41,12 @@
 <script type="text/javascript">
     function beforeSubmit() {
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
+            if($('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
+                if(document.querySelector('input[name=answers]:checked') == null) {
+                    window.alert("You need to choose an option!");
+                    return false;
+                }
+            }
             $("input[name=answers]").each(function (i, o) {
                 if ($(this).is(":checked")) {
                     $('#indexes').append("<input type='hidden' name='choosedIndex' value='" + i + "' id='indexOfChecked'>");
@@ -37,6 +55,9 @@
         }
         $('#titleLabel').val($('#titleField').val());
         $('#descriptionLabel').val($('#descriptionField').val());
+        $('#hourLabel').val($('#Hour').val());
+        $('#minuteLabel').val($('#Minute').val());
+        $('#secondLabel').val($('#Second').val());
     }
 
     function addNewQuestion() {
@@ -44,13 +65,15 @@
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
         childToAppend += "<input type='hidden' name='title' value='' id='titleLabel'>";
         childToAppend += "<input type='hidden' name='description' value='' id='descriptionLabel'>";
-
+        childToAppend += "<input type='hidden' name='hour' value='' id='hourLabel'>";
+        childToAppend += "<input type='hidden' name='minute'  value='' id='minuteLabel'>";
+        childToAppend += "<input type='hidden' name='second'  value='' id='secondLabel'>";
         switch (questionType) {
             case "textResponse":
                 childToAppend +=
                     "<input type='hidden' name='questionType' value='textResponse'>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
-                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText'>" +
+                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText' required>" +
                     "</div>" +
                     "<div id='answerFields'>" +
                     "    <div class='uk-margin'>" +
@@ -65,13 +88,13 @@
                     "<input type='hidden' name='questionType' value='fillInTheBlank'>" +
                     "<div class='uk-margin row' style='margin-top: 0!important;'>" +
                     "    <div class='col' style='padding-right: 0'>" +
-                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'> " +
+                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' required> " +
                     "    </div>" +
                     "    <div class='col' style='padding-left: 4px; padding-right: 4px'>" +
                     "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required>" +
                     "    </div>" +
                     "    <div class='col' style='padding-left: 0'>" +
-                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'>" +
+                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' required>" +
                     "    </div> </div> <div id='answerFields'> " +
                     "</div>" +
                     "<input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>";
@@ -83,14 +106,14 @@
                     "<div id='indexes'>" +
                     "</div>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
-                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'>" +
+                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText' required>" +
                     "</div>" +
                     "<div id='answerRadios'>" +
                     "    <div class='row  d-flex align-items-center uk-margin'>" +
                     "        <div class='col-auto'><input class='uk-radio' type='radio' name='answers' checked>" +
                     "        </div>" +
                     "        <div class='col'>" +
-                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'>" +
+                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' required>" +
                     "        </div>" +
                     "    </div>" +
                     "    <div class='row  d-flex align-items-center uk-margin'>" +
@@ -98,7 +121,7 @@
                     "            <input class='uk-radio' type='radio' name='answers'>" +
                     "        </div>" +
                     "        <div class='col'>" +
-                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'>" +
+                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' required>" +
                     "        </div>" +
                     "    </div>" +
                     "</div>" +
@@ -111,7 +134,7 @@
                     "<div id='indexes'>" +
                     "</div>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
-                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'>" +
+                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText' required>" +
                     "</div>" +
                     "<div id='answerCheckboxes'>" +
                     "    <div class='row  d-flex align-items-center uk-margin'>" +
@@ -119,7 +142,7 @@
                     "            <input class='uk-checkbox' type='checkbox' name='answers' checked>" +
                     "        </div>" +
                     "        <div class='col'>" +
-                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'>" +
+                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' required>" +
                     "        </div>" +
                     "    </div>" +
                     "    <div class='row  d-flex align-items-center uk-margin'>" +
@@ -127,7 +150,7 @@
                     "            <input class='uk-checkbox' type='checkbox' name='answers'>" +
                     "        </div>" +
                     "        <div class='col'>" +
-                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'>" +
+                    "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' required>" +
                     "        </div>" +
                     "    </div>" +
                     "</div>" +
@@ -138,10 +161,10 @@
                 childToAppend +=
                     "<input type='hidden' name='questionType' value='pictureResponse'>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
-                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText'>" +
+                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input' name='questionText' required>" +
                     "</div>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
-                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Image URL' aria-label='Input' name='questionImage'>" +
+                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Image URL' aria-label='Input' pattern='https?://.+' title='Include http://' name='questionImage' required>" +
                     "</div>" +
                     "<div id='answerFields'>" +
                     "    <div class='uk-margin'>" +
@@ -155,7 +178,7 @@
                 childToAppend +=
                     "<input type='hidden' name='questionType' value='multiAnswers'>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
-                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText'>" +
+                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText' required>" +
                     "</div>" +
                     "<div id='answerFields'>" +
                     "    <div class='uk-margin'>" +
@@ -169,26 +192,26 @@
                 childToAppend +=
                     "<input type='hidden' name='questionType' value='matching'>" +
                     "<div class='uk-margin' style='margin-top: 0!important;'>" +
-                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText'>" +
+                    "    <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question' aria-label='Input'  name='questionText' required>" +
                     "</div>" +
                     "<div class='row uk-margin'>" +
                     "    <div class='col' style='padding-right: 0'>" +
-                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'>" +
+                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' required>" +
                     "    </div>" +
                     "    <div class='col-2'>" +
                     "    </div>" +
                     "    <div class='col' style='padding-left: 0'>" +
-                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'>" +
+                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' required>" +
                     "    </div>" +
                     "</div>" +
                     "<div class='uk-margin row' style='margin-top: 0!important;'>" +
                     "    <div class='col' style='padding-right: 0'>" +
-                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'>" +
+                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' required>" +
                     "    </div>" +
                     "    <div class='col-2'>" +
                     "    </div>" +
                     "    <div class='col' style='padding-left: 0'>" +
-                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'>" +
+                    "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' required>" +
                     "    </div>" +
                     "</div>" +
                     "<div id='answerFields'>" +
@@ -230,7 +253,7 @@
             "       <input class='uk-radio' type='radio' name='answers'>" +
             "   </div>" +
             "   <div class='col'>" +
-            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'>" +
+            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' required>" +
             "   </div>" +
             "   <div class='col-auto'>" +
             "       <div>" +
@@ -247,7 +270,7 @@
             "       <input class='uk-checkbox' type='checkbox' name='answers'>" +
             "   </div>" +
             "   <div class='col'>" +
-            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText'>" +
+            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answerText' required>" +
             "   </div>" +
             "   <div class='col-auto'>" +
             "       <div>" +
@@ -261,12 +284,12 @@
         $('#answerFields').append("" +
             "<div class='uk-margin row' style='margin-top: 0!important;'>" +
             "   <div class='col' style='padding-right: 0'>" +
-            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1'>" +
+            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 1' aria-label='Input' name='questionText1' required>" +
             "   </div>" +
             "   <div class='col-2'>" +
             "   </div>" +
             "   <div class='col' style='padding-left: 0'>" +
-            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2'>" +
+            "       <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' required>" +
             "   </div>" +
             "   <div class='col-auto'>" +
             "       <div>" +
@@ -276,32 +299,73 @@
             "</div>");
     }
 
-    $(document).ready(() => {
-    })
+    function toggleTimeFormat() {
+        $('#timeFormat').toggle();
+        const checkbox = $("#timeFormatCheckBox");
+        if (checkbox.is(':checked')) {
+            $('#Hour').prop('required', true);
+            $('#Minute').prop('required', true);
+            $('#Second').prop('required', true);
+        } else {
+            $('#Hour').prop('required', false);
+            $('#Minute').prop('required', false);
+            $('#Second').prop('required', false);
+        }
+    }
 </script>
 <body>
 <%@include file="header.jsp" %>
 <div class="container">
     <div class="row mt-3">
         <div class="col-6">
-            <form action="/createQuiz" method="post">
+            <form name="quiz-form" action="/createQuiz" method="post">
                 <input type="hidden" value="createQuiz" name="action">
                 <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
                        placeholder="Title"
                        aria-label="Title"
                        name="title"
                        id="titleField"
+                       pattern="[^$\|\/]+"
+                       title="Your quiz name must not exist '$','|' or '/'"
                        value="<%if(session.getAttribute("title")!=null) out.print(session.getAttribute("title"));%>"
-                       style="width: 50%;">
+                       style="width: 50%;" required>
+                <%
+                    if(request.getAttribute("QuizTitleExist") != null) {
+                %>
+                <h7>This quiz name is already exist</h7><br>
+                <%
+                    }
+                %>
                 <textarea class="uk-margin form-control bg-dark whitePlaceholder text-light"
                           placeholder="Description"
                           aria-label="Description"
                           name="description"
                           id="descriptionField"
-                          style="height: 150px"><%
+                          style="height: 150px" required><%
                     if (session.getAttribute("description") != null) out.print(session.getAttribute("description"));
                 %></textarea>
-                <div class="row">
+
+                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheckBox" checked onchange="toggleTimeFormat()"> Set
+                    timer</label>
+                <%
+                    Time time = null;
+                    if (session.getAttribute("timeLimit") != null) time = (Time) session.getAttribute("timeLimit");
+                %>
+                <div class="row mt-2" id="timeFormat">
+                    <div class="col-4">
+                        <input class='form-control bg-dark whitePlaceholder text-light' type='number'
+                               placeholder='Hour' id="Hour" aria-label='Input' name='hour' value="<%if(time != null) out.print(time.getHours());%>"  required min="0" max="3">
+                    </div>
+                    <div class="col-4">
+                        <input class='form-control bg-dark whitePlaceholder text-light' type='number'
+                               placeholder='Minute' id="Minute"  aria-label='Input' name='minute' value="<%if(time != null) out.print(time.getMinutes());%>" required min="0" max="59">
+                    </div>
+                    <div class="col-4">
+                        <input class='form-control bg-dark whitePlaceholder text-light' type='number'
+                               placeholder='Second' id="Second" aria-label='Input' name='second' value="<%if(time != null) out.print(time.getSeconds());%>" required min="0" max="59">
+                    </div>
+                </div>
+                <div class="row mt-3">
                     <div class="col">
                         <select aria-label="Custom controls" id="newQuestionType"
                                 class="form-select form-select-md bg-dark text-light">
@@ -325,7 +389,6 @@
                         ArrayList<Question> questions = CreateQuizServlet.getQuestionsFromSession(request);
                         for (int i = 0; i < questions.size(); i++) {
                             Question currQuestion = questions.get(i);
-
                     %>
                     <li>
                         <div class="row">
@@ -352,7 +415,15 @@
                         }
                     %>
                 </ul>
-                <button class="btn btn-success">Create Quiz</button>
+                <%
+                    if (request.getSession().getAttribute("questions") != null) {
+                        if (((ArrayList<Question>) request.getSession().getAttribute("questions")).size() != 0) {
+                %>
+                <button type="submit" class="btn btn-success">Create Quiz</button>
+                <%
+                        }
+                    }
+                %>
             </form>
 
         </div>
@@ -367,6 +438,9 @@
                         <input type='hidden' name='action' value='addQuestion'>
                         <input type='hidden' name='title' value='' id='titleLabel'>
                         <input type='hidden' name='description' value='' id='descriptionLabel'>
+                        <input type='hidden' name='hour' value='' id='hourLabel'>
+                        <input type='hidden' name='minute'  value='' id='minuteLabel'>
+                        <input type='hidden' name='second'  value='' id='secondLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>
@@ -374,7 +448,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>">
+                                   value="<%=request.getParameter("questionText")%>" required>
                         </div>
                         <div id='answerFields'>
                             <%
@@ -421,15 +495,15 @@
                             <div class='col' style='padding-right: 0'><input
                                     class='form-control bg-dark whitePlaceholder text-light' type='text'
                                     placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                    value="<%=request.getParameter("questionText1")%>"></div>
+                                    value="<%=request.getParameter("questionText1")%>" required></div>
                             <div class='col' style='padding-left: 4px; padding-right: 4px'><input
                                     class='form-control bg-dark whitePlaceholder text-light' type='text'
-                                    placeholder='Answer' aria-label='Input' name='answer' required
-                                    value="<%=answers[0]%>"></div>
+                                    placeholder='Answer' aria-label='Input' name='answer'
+                                    value="<%=answers[0]%>" required></div>
                             <div class='col' style='padding-left: 0'><input
                                     class='form-control bg-dark whitePlaceholder text-light' type='text'
                                     placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                    value="<%=request.getParameter("questionText2")%>"></div>
+                                    value="<%=request.getParameter("questionText2")%>" required></div>
                         </div>
                         <div id='answerFields'>
                             <%
@@ -464,7 +538,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>">
+                                   value="<%=request.getParameter("questionText")%>" required>
                         </div>
                         <div id='answerRadios'>
                             <%
@@ -480,7 +554,7 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=correctAnswers[i]%>">
+                                           value="<%=correctAnswers[i]%>" required>
                                 </div>
                             </div>
                             <%
@@ -495,7 +569,7 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=incorrectAnswer%>">
+                                           value="<%=incorrectAnswer%>" required>
                                 </div>
                             </div>
                             <%
@@ -514,13 +588,13 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>">
+                                   value="<%=request.getParameter("questionText")%>" required>
                         </div>
                         <div id='answerCheckboxes'>
                             <%
                                 String[] correctAnswers = request.getParameterValues("correctAnswerText");
                                 String[] incorrectAnswers = request.getParameterValues("incorrectAnswerText");
-                                for (String correctAnswer : correctAnswers) {
+                                for (int i = 0; i < correctAnswers.length; i++) {
 
                             %>
                             <div class='row  d-flex align-items-center uk-margin'>
@@ -530,12 +604,13 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=correctAnswer%>">
+                                           value="<%=correctAnswers[i]%>" required>
                                 </div>
                             </div>
                             <%
                                 }
-                                for (String incorrectAnswer : incorrectAnswers) {
+                                if(incorrectAnswers != null) {
+                                    for (int i = 0; i < incorrectAnswers.length; i++) {
 
                             %>
                             <div class='row  d-flex align-items-center uk-margin'>
@@ -545,10 +620,11 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=incorrectAnswer%>">
+                                           value="<%=incorrectAnswers[i]%>" required>
                                 </div>
                             </div>
                             <%
+                                    }
                                 }
                             %>
                         </div>
@@ -563,12 +639,13 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>">
+                                   value="<%=request.getParameter("questionText")%>" required>
                         </div>
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Image URL' aria-label='Input' name='questionImage'
-                                   value="<%=request.getParameter("imageUrl")%>">
+                                   pattern="https?://.+" title="Include http://"
+                                   value="<%=request.getParameter("imageUrl")%>" required>
                         </div>
                         <div id='answerFields'>
                             <%
@@ -614,33 +691,33 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>">
+                                   value="<%=request.getParameter("questionText")%>" required>
                         </div>
                         <div class='row uk-margin'>
                             <div class='col' style='padding-right: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                       value="<%=keys[0]%>">
+                                       value="<%=keys[0]%>" required>
                             </div>
                             <div class='col-2'></div>
                             <div class='col' style='padding-left: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                       value="<%=values[0]%>">
+                                       value="<%=values[0]%>" required>
                             </div>
                         </div>
                         <div class='uk-margin row' style='margin-top: 0!important;'>
                             <div class='col' style='padding-right: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                       value="<%=keys[1]%>">
+                                       value="<%=keys[1]%>" required>
                             </div>
                             <div class='col-2'>
                             </div>
                             <div class='col' style='padding-left: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                       value="<%=values[1]%>">
+                                       value="<%=values[1]%>" required>
                             </div>
                         </div>
                         <div id='answerFields'>
@@ -651,14 +728,14 @@
                                 <div class='col' style='padding-right: 0'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                           value="<%=keys[i]%>">
+                                           value="<%=keys[i]%>" required>
                                 </div>
                                 <div class='col-2'>
                                 </div>
                                 <div class='col' style='padding-left: 0'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                           value="<%=values[i]%>">
+                                           value="<%=values[i]%>" required>
                                 </div>
                                 <div class='col-auto'>
                                     <input type='button' class='btn btn-danger' value='Delete'
@@ -680,7 +757,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>">
+                                   value="<%=request.getParameter("questionText")%>" required>
                         </div>
                         <div id='answerFields'>
                                 <%

@@ -14,36 +14,44 @@ import java.io.IOException;
 public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-        } else {
-            int profileId = Integer.parseInt(httpServletRequest.getParameter("user"));
-            User pageUser = ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(profileId);
-            if (pageUser == null) {
-                httpServletResponse.sendRedirect("/homePage");
-                return;
-            }
-            httpServletRequest.getRequestDispatcher("profile.jsp").forward(httpServletRequest, httpServletResponse);
+        int profileId;
+        try {
+            profileId = Integer.parseInt(httpServletRequest.getParameter("user"));
+        } catch (NumberFormatException e) {
+            httpServletResponse.sendRedirect("/homePage");
+            return;
         }
+        User pageUser = ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(profileId);
+        if (pageUser == null) {
+            httpServletResponse.sendRedirect("/homePage");
+            return;
+        }
+        httpServletRequest.getRequestDispatcher("profile.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
-        if (httpServletRequest.getParameter("action") != null) {
-            String action = httpServletRequest.getParameter("action");
+        String action = httpServletRequest.getParameter("action");
+        int userId;
+        try {
+            userId = Integer.parseInt(httpServletRequest.getParameter("userId"));
+        } catch (NumberFormatException e) {
+            httpServletResponse.sendRedirect("/homePage");
+            return;
+        }
+        if (action != null) {
             UsersDAO usersDAO = ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB"));
-            int userId = Integer.parseInt(httpServletRequest.getParameter("userId"));
-            int myUserId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+            int myUserId = myUser.getId();
             if ((myUser.isAdmin() || myUserId == userId) && action.equals("deleteProfile")) {
                 usersDAO.deleteUser(userId);
                 if (myUserId == userId) {
@@ -56,13 +64,13 @@ public class ProfileServlet extends HttpServlet {
             }
             if (myUser.isAdmin()) {
                 if (action.equals("deleteAdmin")) {
-                    usersDAO.deleteAdminToUser(Integer.parseInt(httpServletRequest.getParameter("userId")));
+                    usersDAO.deleteAdminToUser(userId);
                 }
                 if (action.equals("addToAdmin")) {
-                    usersDAO.getAdminToUser(Integer.parseInt(httpServletRequest.getParameter("userId")));
+                    usersDAO.getAdminToUser(userId);
                 }
             }
         }
-        httpServletResponse.sendRedirect("/profile?user=" + Integer.parseInt(httpServletRequest.getParameter("userId")));
+        httpServletResponse.sendRedirect("/profile?user=" + userId);
     }
 }

@@ -26,25 +26,30 @@ public class NotSeenMessagesServlet extends HttpServlet {
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
         HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
-        if(httpServletRequest.getParameter("action").equals("currentChat")) {
-            if (httpServletRequest.getParameter("chatWith").equals("")) return;
+        String chatWith = httpServletRequest.getParameter("chatWith");
+        if (httpServletRequest.getParameter("action").equals("currentChat")) {
+            if (chatWith.equals("")) return;
             for (int us : notSeen.keySet()) {
-                if (us == Integer.parseInt(httpServletRequest.getParameter("chatWith"))) {
+                if (us == Integer.parseInt(chatWith)) {
                     messagesDAO.setMessagesSeen(myUser.getId(), us);
                     ArrayList<String> messages = notSeen.get(us);
                     for (String msg : messages) {
-                        out.println("\n<div class=\"uk-align-left messageBox\" style=\"background-color: #3e4042;\">\n" +
-                                "                        <p class=\"messageParagraph\">" + msg + "</p> </div>");
+                        out.println("<div class='row justify-content-start' style='margin-left: 8px;'>" +
+                                "                        <div class='messageBox' style='background-color: #3e4042;'>" +
+                                "                            <p class='messageParagraph'>" + msg +
+                                "                            </p>" +
+                                "                        </div>" +
+                                "                    </div>");
                     }
                 }
             }
         }
-        if(httpServletRequest.getParameter("action").equals("notCurrentChat")) {
-            for(int us : notSeen.keySet()) {
-                if(httpServletRequest.getParameter("chatWith").equals("") ||
-                        us != Integer.parseInt(httpServletRequest.getParameter("chatWith"))) {
+        if (httpServletRequest.getParameter("action").equals("notCurrentChat")) {
+            for (int us : notSeen.keySet()) {
+                if (chatWith.equals("") ||
+                        us != Integer.parseInt(chatWith)) {
                     ArrayList<String> messages = notSeen.get(us);
-                    out.println(us+"$"+messages.size()+"$"+((UsersDAO)httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(us).getUsername()+"/");
+                    out.println(us + "$" + messages.size() + "$" + ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(us).getUsername() + "/");
                 }
             }
         }

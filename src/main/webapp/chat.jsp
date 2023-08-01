@@ -43,7 +43,7 @@
                 msg = msg.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
                 msg = msg.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
-                $('#chat').append("<div class='uk-align-right bg-primary messageBox'><p class='messageParagraph'>" + msg + "</p></div>")
+                $('#chat').append("<div class='row justify-content-end'style='margin-right: 8px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
@@ -164,17 +164,18 @@
 <body>
 <%@include file="header.jsp" %>
 <% Integer chatId;%>
-<div class="container">
+<div class="container" style="min-height: 460px">
 
-    <div class="row mt-3" style="height: 65%">
-        <div class="col-3" style="height: 100%;">
+    <div class="row mt-3" style="height: 65%; min-height: 450px">
+        <div class="col-4" style="height: 90%;">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
                 <%
                     HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
-                    if (request.getParameter("chatWith") != null) {
-                        chatId = Integer.parseInt(request.getParameter("chatWith"));
+                    String chatWith = request.getParameter("chatWith");
+                    if (chatWith != null && !chatWith.trim().equals("")) {
+                        chatId = Integer.parseInt(chatWith);
                         User myFriend = usersDAO.getUserById(chatId);
                         if (!interactors.contains(myFriend.getId())) {
                 %>
@@ -200,8 +201,7 @@
                         curChats.push(<%=myFriend.getId()%>)
                     </script>
                     <div class="d-flex align-items-center" <%
-                        if (request.getParameter("chatWith") != null
-                                && myFriend.getId() == Integer.parseInt(request.getParameter("chatWith"))) {
+                        if (chatWith != null && !chatWith.trim().equals("") && myFriend.getId() == Integer.parseInt(chatWith)) {
                     %> style="background-color: #3e4042;" <%}%>>
                         <a class="fullWidthList"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
@@ -220,10 +220,10 @@
                 %>
             </ul>
         </div>
-        <% if (request.getParameter("chatWith") != null) {
-            chatId = Integer.parseInt(request.getParameter("chatWith"));%>
+        <% if (chatWith != null && !chatWith.trim().equals("")) {
+            chatId = Integer.parseInt(chatWith);%>
         <div class="col"></div>
-        <div class="col-8 " style="max-height: 100%;">
+        <div class="col-7 " style="max-height: 100%;">
             <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
                 <div id="chat" class="container-fluid uk-padding-small">
                     <%
@@ -237,16 +237,20 @@
                             msg = msg.replaceAll(":\\(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                             if (message.getFrom() == chatId) {
                     %>
-                    <div class="uk-align-left messageBox" style="background-color: #3e4042;">
-                        <p class="messageParagraph"><%=msg%>
-                        </p>
+                    <div class="row justify-content-start" style="margin-left: 1px;">
+                        <div class="messageBox" style="background-color: #3e4042;">
+                            <p class="messageParagraph"><%=msg%>
+                            </p>
+                        </div>
                     </div>
                     <%
                     } else {
                     %>
-                    <div class="uk-align-right bg-primary messageBox">
-                        <p class="messageParagraph"><%=msg%>
-                        </p>
+                    <div class="row justify-content-end" style="margin-right: 1px;">
+                        <div class="bg-primary messageBox">
+                            <p class="messageParagraph"><%=msg%>
+                            </p>
+                        </div>
                     </div>
                     <%
                             }
@@ -262,9 +266,11 @@
                                value=<%=usersDAO.getUserById(chatId).getUsername()%>>
                         <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md col"
                                type="text"
+                               style="margin-left: 12px; border-radius:10px"
                                placeholder="Input message"
                                name="message"/>
-                        <div class="uk-inline col-auto d-flex align-items-center" style="margin-left: 5px; margin-right: 5px; padding: 0; ">
+                        <div class="uk-inline col-auto d-flex align-items-center"
+                             style="margin-left: 5px; margin-right: 5px; padding: 0; ">
                             <button class="btn btn-dark" type="button">
                                 <i class='bi bi-emoji-smile-fill' style='color: #FFD400;'></i>
                             </button>

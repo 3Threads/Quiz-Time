@@ -1,8 +1,11 @@
 package Types;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class Quiz {
+
+    private final Time timeLimit;
     private final String quizName;
     private final String quizDescription;
     private final Date creationTime;
@@ -11,7 +14,8 @@ public class Quiz {
 
     private final int quizId;
 
-    public Quiz(int quizId,String quizName, String quizDescription, Date creationTime, int creatorID,  int completed) {
+    public Quiz(Time timeLimit, int quizId, String quizName, String quizDescription, Date creationTime, int creatorID, int completed) {
+        this.timeLimit = timeLimit;
         this.quizId = quizId;
         this.quizName = quizName;
         this.quizDescription = quizDescription;
@@ -42,5 +46,9 @@ public class Quiz {
 
     public int getCreatorID() {
         return creatorID;
+    }
+
+    public Time getTimeLimit() {
+        return timeLimit;
     }
 }

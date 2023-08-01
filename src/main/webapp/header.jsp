@@ -184,17 +184,17 @@
                         <div class="uk-modal-dialog bg-dark">
                             <button class="uk-modal-close-default" type="button" uk-close></button>
                             <div class="uk-modal-header bg-dark">
-                                <h2 class="uk-modal-title">Notifications</h2>
+                                <h2 class="notification-title uk-modal-title">Notifications</h2>
                             </div>
                             <div class="uk-modal-body">
                                 <ul class="uk-flex-left" data-uk-tab="{connect:'#notification tab'}">
-                                    <li><a style="color: white" href="">Friend Requests</a></li>
-                                    <li><a style="color: white" href="">Challenges</a></li>
-                                    <li><a style="color: white" href="">Messages</a></li>
+                                    <li><a class="notification-titles" style="color: white" href="">Friend Requests</a></li>
+                                    <li><a class="notification-titles" style="color: white" href="">Challenges</a></li>
+                                    <li><a class="notification-titles" style="color: white" href="">Messages</a></li>
                                 </ul>
                                 <ul id="notification tab" class="uk-switcher uk-margin">
                                     <li>
-                                        <div class="uk-padding-small">
+                                        <div class="notification-name uk-padding-small">
                                             <ul id="requestsList" class="uk-list container-fluid"
                                                 style="max-height: 200px; overflow: auto">
                                                 <%
@@ -215,10 +215,10 @@
                                                         </div>
                                                         <div class="col-auto">
                                                             <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"
-                                                                    class="btn btn-success">Accept
+                                                                    class="notification-buttons btn btn-success">Accept
                                                             </button>
                                                             <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"
-                                                                    class="btn btn-danger">Reject
+                                                                    class="notification-buttons btn btn-danger">Reject
                                                             </button>
                                                         </div>
                                                     </div>
@@ -232,7 +232,7 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <div class="uk-padding-small">
+                                        <div class="notification-name uk-padding-small">
                                             <ul id="challengesList" class="uk-list container-fluid "
                                                 style="max-height: 200px; overflow: auto">
 
@@ -260,10 +260,10 @@
                                                         </div>
                                                         <div class="col-auto">
                                                             <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
-                                                                    class="btn btn-success">Accept
+                                                                    class="notification-buttons btn btn-success">Accept
                                                             </button>
                                                             <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
-                                                                    class="btn btn-danger">Reject
+                                                                    class="notification-buttons btn btn-danger">Reject
                                                             </button>
                                                         </div>
                                                     </div>
@@ -290,7 +290,7 @@
                                                     <script>
                                                         haveChatsNotificationFrom.push(<%=chatUser.getId()%>);
                                                     </script>
-                                                    <div class="row">
+                                                    <div class="notification-name row">
                                                         <div class="col d-flex align-items-center">
                                                             <div>New message from</div>
                                                             <a style="margin-left: 3px"
@@ -300,7 +300,7 @@
                                                         </div>
                                                         <div class="col-auto">
                                                             <a href=<%="/chat?chatWith=" + chatUser.getId()%>>
-                                                                <button class="btn btn-primary">Open chat</button>
+                                                                <button class="notification-buttons btn btn-primary">Open chat</button>
                                                             </a>
                                                         </div>
                                                     </div>

@@ -2,6 +2,7 @@ package Controllers;
 
 import BusinessLogic.SessionRemove;
 import DAO.MessagesDAO;
+import DAO.UsersDAO;
 import Types.User;
 
 import javax.servlet.ServletException;
@@ -15,37 +16,51 @@ import java.io.IOException;
 public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-        } else {
-            if (httpServletRequest.getParameter("chatWith") != null) {
-                User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-                if (Integer.parseInt(httpServletRequest.getParameter("chatWith")) == myUser.getId()) {
-                    httpServletResponse.sendRedirect("/chat");
-                    return;
-                }
-                MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
-                User curUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
-                msg.setMessagesSeen(curUser.getId(), Integer.parseInt(httpServletRequest.getParameter("chatWith")));
+        int chatWith;
+        if (httpServletRequest.getParameter("chatWith") != null) {
+            try {
+                chatWith = Integer.parseInt(httpServletRequest.getParameter("chatWith"));
+            } catch (NumberFormatException e) {
+                httpServletResponse.sendRedirect("/chat");
+                return;
             }
-            httpServletRequest.getRequestDispatcher("chat.jsp").forward(httpServletRequest, httpServletResponse);
+            UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
+            if (usersDAO.getUserById(chatWith) == null) {
+                httpServletResponse.sendRedirect("/chat");
+                return;
+            }
+            User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
+            if (chatWith == myUser.getId()) {
+                httpServletResponse.sendRedirect("/chat");
+                return;
+            }
+            MessagesDAO msg = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
+            msg.setMessagesSeen(myUser.getId(), chatWith);
         }
+        httpServletRequest.getRequestDispatcher("chat.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.getWriter().println("login");
             return;
         }
         String message = httpServletRequest.getParameter("message");
-        if (httpServletRequest.getParameter("sendTo") != null && !message.trim().equals("")) {
-            int sendTo = Integer.parseInt(httpServletRequest.getParameter("sendTo"));
+        String sendToStr = httpServletRequest.getParameter("sendTo");
+        if (sendToStr != null && !message.trim().equals("") && !sendToStr.trim().equals("")) {
+            int sendTo;
+            try {
+                sendTo = Integer.parseInt(sendToStr);
+            } catch (NumberFormatException e) {
+                httpServletResponse.sendRedirect("/chat");
+                return;
+            }
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
             MessagesDAO connect = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
             connect.sendMessage(myUser.getId(), sendTo, message);

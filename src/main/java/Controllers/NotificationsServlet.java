@@ -32,18 +32,19 @@ public class NotificationsServlet extends HttpServlet {
         for (int i = 0; i < challenges.size(); i++) {
             Challenge challenge = challenges.get(i);
             User challUserInfo = usersDAO.getUserById(challenge.getUserId());
-            if(i != challenges.size() - 1) {
-                out.println(challUserInfo.getId()+"|"+challUserInfo.getUsername()+"|"+challenge.getQuizId()+"|"+quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName() + "/");
-            } else out.println(challUserInfo.getId()+"|"+challUserInfo.getUsername()+"|"+challenge.getQuizId()+"|"+quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName());
+            if (i != challenges.size() - 1) {
+                out.println(challUserInfo.getId() + "|" + challUserInfo.getUsername() + "|" + challenge.getQuizId() + "|" + quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName() + "/");
+            } else
+                out.println(challUserInfo.getId() + "|" + challUserInfo.getUsername() + "|" + challenge.getQuizId() + "|" + quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName());
         }
         out.println('$');
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
-        if(!notSeen.isEmpty()) {
+        if (!notSeen.isEmpty()) {
             int x = 0;
             for (int id : notSeen.keySet()) {
                 User chatUser = usersDAO.getUserById(id);
-                if (x != notSeen.keySet().size()-1) {
+                if (x != notSeen.keySet().size() - 1) {
                     out.println(chatUser.getId() + "|" + chatUser.getUsername() + "/");
                 } else out.println(chatUser.getId() + "|" + chatUser.getUsername());
                 x++;
@@ -54,14 +55,15 @@ public class NotificationsServlet extends HttpServlet {
         ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());
         for (int i = 0; i < requests.size(); i++) {
             User reqUserInfo = usersDAO.getUserById(requests.get(i));
-            if(i != requests.size()-1) {
+            if (i != requests.size() - 1) {
                 out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "/");
             } else out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername());
         }
     }
+
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        if(httpServletRequest.getParameter("notification").equals("challenge")) {
+        if (httpServletRequest.getParameter("notification").equals("challenge")) {
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
             int userID = Integer.parseInt(httpServletRequest.getParameter("userID"));
 
@@ -69,9 +71,6 @@ public class NotificationsServlet extends HttpServlet {
             String action = httpServletRequest.getParameter("action");
             ChallengesDAO challengesDAO = (ChallengesDAO) httpServletRequest.getServletContext().getAttribute("challengesDB");
 
-            if (action.equals("sendChallenge")) {
-                challengesDAO.sendChallenge(myUser.getId(), userID, quizID);
-            }
             if (action.equals("acceptChallenge")) {
                 challengesDAO.removeChallenge(userID, myUser.getId(), quizID);
             }
@@ -79,25 +78,16 @@ public class NotificationsServlet extends HttpServlet {
                 challengesDAO.removeChallenge(userID, myUser.getId(), quizID);
             }
         }
-        if(httpServletRequest.getParameter("notification").equals("request")) {
+        if (httpServletRequest.getParameter("notification").equals("request")) {
             int user1 = Integer.parseInt(httpServletRequest.getParameter("user1"));
             int user2 = Integer.parseInt(httpServletRequest.getParameter("user2"));
             String action = httpServletRequest.getParameter("action");
             FriendsDAO fr = (FriendsDAO) httpServletRequest.getServletContext().getAttribute("friendsDB");
-            if (action.equals("sendRequest")) {
-                fr.sendFriendRequest(user1, user2);
-            }
             if (action.equals("acceptRequest")) {
                 fr.acceptRequest(user1, user2);
             }
-            if (action.equals("cancelRequest")) {
-                fr.rejectRequest(user2, user1);
-            }
             if (action.equals("rejectRequest")) {
                 fr.rejectRequest(user1, user2);
-            }
-            if (action.equals("unfriend")) {
-                fr.deleteFriend(user1, user2);
             }
         }
     }

@@ -11,97 +11,108 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Time;
+import java.util.*;
 
 @WebServlet(name = "createQuiz", value = "/createQuiz")
 public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
         httpServletRequest.getSession().removeAttribute("writingQuestions");
         httpServletRequest.getSession().removeAttribute("userAnswers");
         httpServletRequest.getSession().removeAttribute("startTime");
-        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
-        } else {
-            if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
-                ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
+        if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
+            ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
+            try {
                 questions.remove(Integer.parseInt(httpServletRequest.getParameter("index")));
-                httpServletRequest.getSession().setAttribute("questions", questions);
+            } catch (NumberFormatException e) {
                 httpServletResponse.sendRedirect("/createQuiz");
                 return;
             }
-            if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("edit")) {
-                ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
-                int index = Integer.parseInt(httpServletRequest.getParameter("index"));
-                Question q = questions.get(index);
-                StringBuilder url = new StringBuilder("/createQuiz?index=" + index + "&editMode=true&type=" + q.getType());
-                if (q.getType().equals(QuestionTypes.fillInTheBlank)) {
-                    url.append("&questionText1=").append(q.getQuestionText()).append("&questionText2=").append(((QuestionFillInTheBlank) q).getQuestionText2());
-                } else {
-                    url.append("&questionText=").append(q.getQuestionText());
-                }
+            httpServletRequest.getSession().setAttribute("questions", questions);
+            httpServletResponse.sendRedirect("/createQuiz");
+            return;
+        }
+        if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("edit")) {
+            ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
+            int index;
+            Question q;
+            try {
+                index = Integer.parseInt(httpServletRequest.getParameter("index"));
+                q = questions.get(index);
+            } catch (Exception e) {
+                httpServletResponse.sendRedirect("/createQuiz");
+                return;
+            }
+            if (q == null) {
+                httpServletResponse.sendRedirect("/createQuiz");
+                return;
+            }
+            StringBuilder url = new StringBuilder("/createQuiz?index=" + index + "&editMode=true&type=" + q.getType());
+            if (q.getType().equals(QuestionTypes.fillInTheBlank)) {
+                url.append("&questionText1=").append(q.getQuestionText()).append("&questionText2=").append(((QuestionFillInTheBlank) q).getQuestionText2());
+            } else {
+                url.append("&questionText=").append(q.getQuestionText());
+            }
 
 
-                if (q.getType().equals(QuestionTypes.pictureResponse)) {
-                    url.append("&imageUrl=").append(((QuestionPictureResponse) q).getPictureUrl());
+            if (q.getType().equals(QuestionTypes.pictureResponse)) {
+                url.append("&imageUrl=").append(((QuestionPictureResponse) q).getPictureUrl());
+            }
+            if (q.getType().equals(QuestionTypes.multipleChoices)) {
+                for (int i = 0; i < q.getAnswers().size(); i++) {
+                    String ans = q.getAnswers().get(i);
+                    url.append("&correctAnswerText=").append(ans);
                 }
-                if (q.getType().equals(QuestionTypes.multipleChoices)) {
+                assert q instanceof QuestionMultipleChoices;
+                for (int i = 0; i < ((QuestionMultipleChoices) q).getIncorrectAnswers().size(); i++) {
+                    String ans = ((QuestionMultipleChoices) q).getIncorrectAnswers().get(i);
+                    url.append("&incorrectAnswerText=").append(ans);
+                }
+            } else {
+                if (q.getType().equals(QuestionTypes.multipleChoicesWithMultipleAnswers)) {
                     for (int i = 0; i < q.getAnswers().size(); i++) {
                         String ans = q.getAnswers().get(i);
                         url.append("&correctAnswerText=").append(ans);
                     }
-                    assert q instanceof QuestionMultipleChoices;
-                    for (int i = 0; i < ((QuestionMultipleChoices) q).getIncorrectAnswers().size(); i++) {
-                        String ans = ((QuestionMultipleChoices) q).getIncorrectAnswers().get(i);
+                    assert q instanceof QuestionMultipleChoicesWithMultipleAnswers;
+                    for (int i = 0; i < ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().size(); i++) {
+                        String ans = ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().get(i);
                         url.append("&incorrectAnswerText=").append(ans);
                     }
                 } else {
-                    if (q.getType().equals(QuestionTypes.multipleChoicesWithMultipleAnswers)) {
+                    if (q.getType().equals(QuestionTypes.matching)) {
+                        assert q instanceof QuestionMatching;
+                        Map<String, String> pairs = ((QuestionMatching) q).getMatches();
+                        for (String pr : pairs.keySet()) {
+                            String ans = pairs.get(pr);
+                            url.append("&key=").append(pr);
+                            url.append("&value=").append(ans);
+                        }
+
+                    } else {
                         for (int i = 0; i < q.getAnswers().size(); i++) {
                             String ans = q.getAnswers().get(i);
-                            url.append("&correctAnswerText=").append(ans);
-                        }
-                        assert q instanceof QuestionMultipleChoicesWithMultipleAnswers;
-                        for (int i = 0; i < ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().size(); i++) {
-                            String ans = ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().get(i);
-                            url.append("&incorrectAnswerText=").append(ans);
-                        }
-                    } else {
-                        if (q.getType().equals(QuestionTypes.matching)) {
-                            assert q instanceof QuestionMatching;
-                            Map<String, String> pairs = ((QuestionMatching) q).getMatches();
-                            for (String pr : pairs.keySet()) {
-                                String ans = pairs.get(pr);
-                                url.append("&key=").append(pr);
-                                url.append("&value=").append(ans);
-                            }
-
-                        } else {
-                            for (int i = 0; i < q.getAnswers().size(); i++) {
-                                String ans = q.getAnswers().get(i);
-                                url.append("&answerText=").append(ans);
-                            }
+                            url.append("&answerText=").append(ans);
                         }
                     }
                 }
-                httpServletResponse.sendRedirect(String.valueOf(url));
-                return;
             }
-            httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
+            httpServletResponse.sendRedirect(String.valueOf(url));
+            return;
         }
+        httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws
-            IOException {
-        if(!SessionRemove.checkUser(httpServletRequest,httpServletResponse)) {
+            IOException, ServletException {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
         }
@@ -113,6 +124,13 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("description") != null) {
             httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
+        }
+        if (httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
+                && httpServletRequest.getParameter("second") != "") {
+            Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
+                    Integer.parseInt(httpServletRequest.getParameter("minute")),
+                            Integer.parseInt(httpServletRequest.getParameter("second")));
+            httpServletRequest.getSession().setAttribute("timeLimit", time);
         }
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
@@ -187,7 +205,17 @@ public class CreateQuizServlet extends HttpServlet {
             }
 
             if (httpServletRequest.getParameter("index") != null) {
-                int ind = Integer.parseInt(httpServletRequest.getParameter("index"));
+                int ind;
+                try {
+                    ind = Integer.parseInt(httpServletRequest.getParameter("index"));
+                } catch (Exception e) {
+                    httpServletResponse.sendRedirect("/createQuiz");
+                    return;
+                }
+                if(ind>=questions.size() || ind<0){
+                    httpServletResponse.sendRedirect("/createQuiz");
+                    return;
+                }
                 questions.add(ind, question);
                 questions.remove(ind + 1);
             } else questions.add(question);
@@ -196,10 +224,25 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
+            QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
+            System.out.println(quizzesDAO.checkQuizName(title));
+            if(!quizzesDAO.checkQuizName(title)) {
+                httpServletRequest.setAttribute("QuizTitleExist", "true");
+                httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
+                return;
+            }
             String description = httpServletRequest.getParameter("description");
+            Time time = null;
+            if(httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
+                    && httpServletRequest.getParameter("second") != "") {
+                int hour = Integer.parseInt(httpServletRequest.getParameter("hour"));
+                int minute = Integer.parseInt(httpServletRequest.getParameter("minute"));
+                int second = Integer.parseInt(httpServletRequest.getParameter("second"));
+                time = new Time(hour, minute, second);
+            } else time = new Time(0,0,0);
             User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
             QuizzesDAO qzDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
-            qzDAO.addQuiz(title, description, user.getId());
+            qzDAO.addQuiz(title, description, user.getId(), time);
             Quiz quiz = qzDAO.getQuizByName(title);
             int quizID = quiz.getQuizId();
 
@@ -210,7 +253,7 @@ public class CreateQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("title");
             httpServletRequest.getSession().removeAttribute("description");
             httpServletRequest.getSession().removeAttribute("questions");
-
+            httpServletRequest.getSession().removeAttribute("timeLimit");
             httpServletResponse.sendRedirect("/quiz?quizId=" + quizID);
         }
     }
