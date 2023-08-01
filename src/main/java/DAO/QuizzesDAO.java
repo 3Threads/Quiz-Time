@@ -209,5 +209,27 @@ public class QuizzesDAO {
         }
         return null;
     }
-
+    public boolean checkQuizName(String quizName) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getQuiz = "SELECT * FROM QUIZZES WHERE QUIZ_NAME = ?;";
+            PreparedStatement statement = connect.prepareStatement(getQuiz);
+            statement.setString(1, quizName);
+            ArrayList<Quiz> quizzes = getQuizzes(statement);
+            if (quizzes.isEmpty()) return true;
+            else return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
 }

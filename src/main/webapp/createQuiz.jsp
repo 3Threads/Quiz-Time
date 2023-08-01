@@ -41,6 +41,12 @@
 <script type="text/javascript">
     function beforeSubmit() {
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
+            if($('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
+                if(document.querySelector('input[name=answers]:checked') == null) {
+                    window.alert("You need to choose an option!");
+                    return false;
+                }
+            }
             $("input[name=answers]").each(function (i, o) {
                 if ($(this).is(":checked")) {
                     $('#indexes').append("<input type='hidden' name='choosedIndex' value='" + i + "' id='indexOfChecked'>");
@@ -306,28 +312,30 @@
             $('#Second').prop('required', false);
         }
     }
-
-
-    $(document).ready(() => {
-        $('#datetime').datetimepicker({
-            format: 'HH:mm:ss'
-        });
-    })
 </script>
 <body>
 <%@include file="header.jsp" %>
 <div class="container">
     <div class="row mt-3">
         <div class="col-6">
-            <form action="/createQuiz" method="post">
+            <form name="quiz-form" action="/createQuiz" method="post">
                 <input type="hidden" value="createQuiz" name="action">
                 <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
                        placeholder="Title"
                        aria-label="Title"
                        name="title"
                        id="titleField"
+                       pattern="[^$\|\/]+"
+                       title="Your quiz name must not exist '$','|' or '/'"
                        value="<%if(session.getAttribute("title")!=null) out.print(session.getAttribute("title"));%>"
                        style="width: 50%;" required>
+                <%
+                    if(request.getAttribute("QuizTitleExist") != null) {
+                %>
+                <h7>This quiz name is already exist</h7><br>
+                <%
+                    }
+                %>
                 <textarea class="uk-margin form-control bg-dark whitePlaceholder text-light"
                           placeholder="Description"
                           aria-label="Description"
@@ -411,7 +419,7 @@
                     if (request.getSession().getAttribute("questions") != null) {
                         if (((ArrayList<Question>) request.getSession().getAttribute("questions")).size() != 0) {
                 %>
-                <button class="btn btn-success">Create Quiz</button>
+                <button type="submit" class="btn btn-success">Create Quiz</button>
                 <%
                         }
                     }
@@ -586,7 +594,7 @@
                             <%
                                 String[] correctAnswers = request.getParameterValues("correctAnswerText");
                                 String[] incorrectAnswers = request.getParameterValues("incorrectAnswerText");
-                                for (String correctAnswer : correctAnswers) {
+                                for (int i = 0; i < correctAnswers.length; i++) {
 
                             %>
                             <div class='row  d-flex align-items-center uk-margin'>
@@ -596,12 +604,13 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=correctAnswer%>" required>
+                                           value="<%=correctAnswers[i]%>" required>
                                 </div>
                             </div>
                             <%
                                 }
-                                for (String incorrectAnswer : incorrectAnswers) {
+                                if(incorrectAnswers != null) {
+                                    for (int i = 0; i < incorrectAnswers.length; i++) {
 
                             %>
                             <div class='row  d-flex align-items-center uk-margin'>
@@ -611,10 +620,11 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=incorrectAnswer%>" required>
+                                           value="<%=incorrectAnswers[i]%>" required>
                                 </div>
                             </div>
                             <%
+                                    }
                                 }
                             %>
                         </div>

@@ -111,7 +111,7 @@ public class CreateQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws
-            IOException {
+            IOException, ServletException {
         if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
@@ -224,6 +224,13 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
+            QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
+            System.out.println(quizzesDAO.checkQuizName(title));
+            if(!quizzesDAO.checkQuizName(title)) {
+                httpServletRequest.setAttribute("QuizTitleExist", "true");
+                httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
+                return;
+            }
             String description = httpServletRequest.getParameter("description");
             Time time = null;
             if(httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
