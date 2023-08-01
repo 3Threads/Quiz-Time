@@ -46,7 +46,8 @@
                             if (myUser.isAdmin()) {
                         %>
                         <form action="/homePage" method="post">
-                            <input class="titleArea uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
+                            <input class="titleArea uk-margin form-control bg-dark whitePlaceholder text-light"
+                                   type="text"
                                    placeholder="Title"
                                    aria-label="Title"
                                    name="title"
@@ -57,7 +58,7 @@
                                       aria-label="Description"
                                       name="description"
                                       id="descriptionField"
-                                      ></textarea>
+                            ></textarea>
                             <button class="buttons btn btn-success">Post</button>
                         </form>
                         <hr>
@@ -115,10 +116,9 @@
                     String userName = user.getUsername();
 
             %>
-
             <div class="uk-card uk-card-default bg-dark text-light">
                 <div class="uk-card-header" style="height: 80px">
-                    <div class="uk-grid-small uk-flex-middle">
+                <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
                             <h5 class="uk-card-title uk-margin-remove-bottom text-light">
                                 <div class="admins"><%=announcement.getTitle()%>
@@ -132,6 +132,7 @@
                         </div>
                     </div>
                 </div>
+
                 <%-- max 20 wordsssssssssss--%>
                 <p class="card-middle" style="margin-right: 7px">
                     <%

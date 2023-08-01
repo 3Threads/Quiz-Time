@@ -32,12 +32,12 @@ a {
 }
 
 .messageBox {
-    padding: 7px;
+    padding: 5px;
     height: auto;
     width: auto;
     max-width: 70%;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
 }
 
 .fullWidthList {
@@ -250,7 +250,7 @@ a {
     }
 }
 
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 551px) {
 
     .notification-name {
         font-size: 15px;
@@ -278,7 +278,7 @@ a {
 
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 550px) {
 
     .notification-name {
         font-size: 9.5px !important;
