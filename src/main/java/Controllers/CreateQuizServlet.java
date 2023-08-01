@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Time;
+import java.util.*;
 
 @WebServlet(name = "createQuiz", value = "/createQuiz")
 public class CreateQuizServlet extends HttpServlet {
@@ -113,7 +111,7 @@ public class CreateQuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws
-            IOException {
+            IOException, ServletException {
         if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.sendRedirect("/login");
             return;
@@ -126,6 +124,13 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("description") != null) {
             httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
+        }
+        if (httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
+                && httpServletRequest.getParameter("second") != "") {
+            Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
+                    Integer.parseInt(httpServletRequest.getParameter("minute")),
+                            Integer.parseInt(httpServletRequest.getParameter("second")));
+            httpServletRequest.getSession().setAttribute("timeLimit", time);
         }
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
@@ -219,10 +224,25 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
+            QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
+            System.out.println(quizzesDAO.checkQuizName(title));
+            if(!quizzesDAO.checkQuizName(title)) {
+                httpServletRequest.setAttribute("QuizTitleExist", "true");
+                httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
+                return;
+            }
             String description = httpServletRequest.getParameter("description");
+            Time time = null;
+            if(httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
+                    && httpServletRequest.getParameter("second") != "") {
+                int hour = Integer.parseInt(httpServletRequest.getParameter("hour"));
+                int minute = Integer.parseInt(httpServletRequest.getParameter("minute"));
+                int second = Integer.parseInt(httpServletRequest.getParameter("second"));
+                time = new Time(hour, minute, second);
+            } else time = new Time(0,0,0);
             User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
             QuizzesDAO qzDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
-            qzDAO.addQuiz(title, description, user.getId());
+            qzDAO.addQuiz(title, description, user.getId(), time);
             Quiz quiz = qzDAO.getQuizByName(title);
             int quizID = quiz.getQuizId();
 
@@ -233,7 +253,7 @@ public class CreateQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("title");
             httpServletRequest.getSession().removeAttribute("description");
             httpServletRequest.getSession().removeAttribute("questions");
-
+            httpServletRequest.getSession().removeAttribute("timeLimit");
             httpServletResponse.sendRedirect("/quiz?quizId=" + quizID);
         }
     }

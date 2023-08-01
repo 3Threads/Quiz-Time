@@ -45,10 +45,9 @@
     }
 
 
-    setTimeout(function () {
-        console.log("amoiwura");
+    const timeout = setTimeout(function () {
         $('#finishQuiz').submit()
-    }, <%=((Long)session.getAttribute("endTime")) - new Date().getTime()%>);
+    }, <% if(session.getAttribute("endTime") != null) out.println(((Long)session.getAttribute("endTime")) - new Date().getTime());%>);
 
 
 </script>
@@ -88,6 +87,9 @@
                 <div class="col">
                     <h4>#<%=questionInd + 1%> Question</h4>
                 </div>
+                <%
+                    if (session.getAttribute("endTime") != null) {
+                %>
                 <div class="col-auto">
                     <div class="uk-grid-small uk-child-width-auto" uk-grid id="countdown"
                          uk-countdown="date: <%=new Date((Long) session.getAttribute("endTime") + 1000).toGMTString()%>">
@@ -104,6 +106,15 @@
                         </div>
                     </div>
                 </div>
+                <%
+                } else {
+                %>
+                <script>
+                    clearTimeout(timeout);
+                </script>
+                <%
+                    }
+                %>
             </div>
 
             <form action="/writeQuiz" method="post" id="currQuestionForm">

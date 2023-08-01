@@ -37,7 +37,7 @@ public class QuestionsDAOTest {
 
             // quiz ID is value of i
             String quizName = "quiz" + i;
-            quizzes.addQuiz(quizName, "new quiz", i);
+            quizzes.addQuiz(quizName, "new quiz", i, null);
 
             // question ID:  1    ,  2    ,  3    ....
             //              "100" , "200" , "300" ....
@@ -75,7 +75,7 @@ public class QuestionsDAOTest {
 
     private static void quiz11() {
         uConnect.addUser("11", "1");
-        quizzes.addQuiz("quiz11", "new quiz", 11);
+        quizzes.addQuiz("quiz11", "new quiz", 11, null);
 
         // Question #11
         String questionText1 = "are you ok??";
@@ -107,7 +107,7 @@ public class QuestionsDAOTest {
 
     private static void quiz12() {
         uConnect.addUser("12", "1");
-        quizzes.addQuiz("quiz12", "new quiz", 12);
+        quizzes.addQuiz("quiz12", "new quiz", 12, null);
 
         // Question #13
         String questionText1 = "are you ok?";
@@ -133,7 +133,7 @@ public class QuestionsDAOTest {
 
     private static void quiz13() {
         uConnect.addUser("13", "1");
-        quizzes.addQuiz("quiz13", "new quiz", 13);
+        quizzes.addQuiz("quiz13", "new quiz", 13, null);
 
         // Question #14
         String questionText1 = "are you okk?";

@@ -2,9 +2,10 @@ package Types;
 
 import BusinessLogic.ListToString;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class QuestionAbstract implements Question {
+public abstract class QuestionAbstract implements Question, Serializable {
     private final String questionText;
     private final ArrayList<String> answers;
 
