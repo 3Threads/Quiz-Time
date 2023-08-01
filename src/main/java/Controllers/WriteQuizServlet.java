@@ -66,7 +66,9 @@ public class WriteQuizServlet extends HttpServlet {
         if (httpServletRequest.getSession().getAttribute("startTime") == null) {
             httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
             long time = quiz.getTimeLimit().getHours() * 3600000 +  quiz.getTimeLimit().getMinutes()*60000+ quiz.getTimeLimit().getSeconds()*1000;
-            httpServletRequest.getSession().setAttribute("endTime", System.currentTimeMillis() + time);
+            if(time != 0) {
+                httpServletRequest.getSession().setAttribute("endTime", System.currentTimeMillis() + time);
+            }
         }
         httpServletRequest.getRequestDispatcher("writeQuiz.jsp").forward(httpServletRequest, httpServletResponse);
     }

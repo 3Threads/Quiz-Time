@@ -295,6 +295,16 @@
 
     function toggleTimeFormat() {
         $('#timeFormat').toggle();
+        const checkbox = $("#timeFormatCheckBox");
+        if (checkbox.is(':checked')) {
+            $('#Hour').prop('required', true);
+            $('#Minute').prop('required', true);
+            $('#Second').prop('required', true);
+        } else {
+            $('#Hour').prop('required', false);
+            $('#Minute').prop('required', false);
+            $('#Second').prop('required', false);
+        }
     }
 
 
@@ -327,7 +337,7 @@
                     if (session.getAttribute("description") != null) out.print(session.getAttribute("description"));
                 %></textarea>
 
-                <label><input class="uk-checkbox" type="checkbox" checked onchange="toggleTimeFormat()"> Set
+                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheckBox" checked onchange="toggleTimeFormat()"> Set
                     timer</label>
                 <%
                     Time time = null;
@@ -336,7 +346,7 @@
                 <div class="row mt-2" id="timeFormat">
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
-                               placeholder='Hour' id="Hour" aria-label='Input' name='hour' value="<%if(time != null) out.print(time.getHours());%>" required min="0" max="3">
+                               placeholder='Hour' id="Hour" aria-label='Input' name='hour' value="<%if(time != null) out.print(time.getHours());%>"  required min="0" max="3">
                     </div>
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
@@ -371,7 +381,6 @@
                         ArrayList<Question> questions = CreateQuizServlet.getQuestionsFromSession(request);
                         for (int i = 0; i < questions.size(); i++) {
                             Question currQuestion = questions.get(i);
-
                     %>
                     <li>
                         <div class="row">
@@ -421,6 +430,9 @@
                         <input type='hidden' name='action' value='addQuestion'>
                         <input type='hidden' name='title' value='' id='titleLabel'>
                         <input type='hidden' name='description' value='' id='descriptionLabel'>
+                        <input type='hidden' name='hour' value='' id='hourLabel'>
+                        <input type='hidden' name='minute'  value='' id='minuteLabel'>
+                        <input type='hidden' name='second'  value='' id='secondLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>

@@ -118,8 +118,6 @@ public class CreateQuizServlet extends HttpServlet {
         }
         ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
         Question question = null;
-        System.out.println(httpServletRequest.getParameter("hour"));
-        System.out.println(httpServletRequest.getParameter("description"));
         if (httpServletRequest.getParameter("title") != null) {
             httpServletRequest.getSession().setAttribute("title", httpServletRequest.getParameter("title"));
         }
@@ -227,10 +225,14 @@ public class CreateQuizServlet extends HttpServlet {
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
             String description = httpServletRequest.getParameter("description");
-            int hour = Integer.parseInt(httpServletRequest.getParameter("hour"));
-            int minute = Integer.parseInt(httpServletRequest.getParameter("minute"));
-            int second = Integer.parseInt(httpServletRequest.getParameter("second"));
-            Time time = new Time(hour, minute, second);
+            Time time = null;
+            if(httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
+                    && httpServletRequest.getParameter("second") != "") {
+                int hour = Integer.parseInt(httpServletRequest.getParameter("hour"));
+                int minute = Integer.parseInt(httpServletRequest.getParameter("minute"));
+                int second = Integer.parseInt(httpServletRequest.getParameter("second"));
+                time = new Time(hour, minute, second);
+            } else time = new Time(0,0,0);
             User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
             QuizzesDAO qzDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
             qzDAO.addQuiz(title, description, user.getId(), time);
