@@ -59,7 +59,7 @@
                                       name="description"
                                       id="descriptionField"
                             ></textarea>
-                            <button class="buttons btn btn-success">Post</button>
+                            <button class="btn btn-success">Post</button>
                         </form>
                         <hr>
 
@@ -78,13 +78,13 @@
                                 <div class="uk-grid-small uk-flex-middle">
                                     <div class="uk-width-expand">
                                         <h5 class="uk-card-title uk-margin-remove-bottom text-light">
-                                            <div class="admins">
+                                            <div class="announcement-admins">
                                                 <%=announcement.getTitle()%>
                                             </div>
                                         </h5>
-                                        <p class="uk-text-meta uk-margin-remove-top admin_date">
+                                        <p class="uk-text-meta uk-margin-remove-top announcement-admin-date">
                                             <%=userName%>
-                                            <time class="admin_date" datetime="2016-04-01T19:00">
+                                            <time  datetime="2016-04-01T19:00">
                                                 <%=announcement.getWriteTime()%>
                                             </time>
                                         </p>
@@ -117,7 +117,7 @@
 
             %>
             <div class="uk-card uk-card-default bg-dark text-light">
-                <div class="uk-card-header" style="height: 80px">
+                <div class="uk-card-header header">
                 <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
                             <h5 class="uk-card-title uk-margin-remove-bottom text-light">
@@ -208,7 +208,6 @@
 
                             %>
                             <tr>
-
                                 <td>
                                     <div class="table_name">
                                         <%=i + 1%>
@@ -219,7 +218,8 @@
                                         <div class="table_name">
                                             <%=quiz.getQuizName()%>
                                         </div>
-                                    </a></td>
+                                    </a>
+                                </td>
                                 <td>
                                     <div class="table_name">
                                         <%=quiz.getCompleted()%>
@@ -231,6 +231,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
@@ -288,6 +289,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
@@ -348,6 +350,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
@@ -405,6 +408,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>

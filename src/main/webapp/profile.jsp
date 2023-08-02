@@ -117,7 +117,7 @@
             <div class="uk-padding-small " uk-scrollspy="cls: uk-animation-slide-left; repeat: true"
                  style="border: solid 1px gray; border-radius: 10px;">
                 <h4>Friends:</h4>
-                <ul class="uk-list uk-list-divider" style="max-height: 200px; overflow: auto">
+                <ul class="uk-list uk-list-divider" style="max-height: 275px; overflow: auto">
                     <% ArrayList<Integer> friends = friendsDAO.getFriendsList(profileId);
                         for (Integer friend : friends) {
                             User myFriend = usersDAO.getUserById(friend); %>
@@ -133,20 +133,33 @@
             <br>
             <div>
                 <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
-                    <li><a style="color: white" href="">Created quizzes</a></li>
-                    <li><a style="color: white" href="">Completed quizzes</a></li>
+                    <li><a style="color: white" href="">
+                        <div class="table_name">Created quizzes</div>
+                    </a></li>
+                    <li><a style="color: white" href="">
+                        <div class="table_name">Completed quizzes</div>
+                    </a></li>
                 </ul>
                 <ul id="tables" class="uk-switcher uk-margin uk-box-shadow-large"
-                    style="max-height: 485px; overflow: auto;">
+                    style="height: 475px; overflow: auto;">
 
+                    <%--My created quizzes--%>
                     <li>
-                        <table name="My created" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Completed</th>
-                                <th>Creation</th>
+                                <th>
+                                    <div class="table_name">#</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Name</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Users</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Creation</div>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -158,15 +171,30 @@
 
                             %>
                             <tr>
-                                <td><%=i + 1%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=i + 1%>
+                                    </div>
                                 </td>
-                                <td><a href="/quiz?quizId=<%=quiz.getQuizId()%>"><%=quiz.getQuizName()%>
-                                </a></td>
-                                <td><%=quiz.getCompleted()%>
+                                <td>
+                                    <a href="/quiz?quizId=<%=quiz.getQuizId()%>">
+                                        <div class="table_name">
+                                            <%=quiz.getQuizName()%>
+                                        </div>
+                                    </a>
                                 </td>
-                                <td><%=quiz.getCreationTime()%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCompleted()%>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_name">
+                                        <%=quiz.getCreationTime()%>
+                                    </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
@@ -174,14 +202,23 @@
                         </table>
                     </li>
 
+                    <%--My completed quizzes--%>
                     <li>
-                        <table name="My Completed" class="uk-table uk-table-divider">
+                        <table class="uk-table uk-table-divider">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Score</th>
-                                <th>Time</th>
+                                <th>
+                                    <div class="table_name">#</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Name</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Score</div>
+                                </th>
+                                <th>
+                                    <div class="table_name">Time</div>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -195,15 +232,31 @@
 
                             %>
                             <tr>
-                                <td><%=i + 1%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=i + 1%>
+                                    </div>
                                 </td>
-                                <td><a href="/quiz?quizId=<%=quizId%>"><%=quiz.getQuizName()%>
-                                </a></td>
-                                <td><%=result.getScore()%>
+                                <td>
+                                    <a href="/quiz?quizId=<%=quiz.getQuizId()%>">
+                                        <div class="table_name">
+                                            <%=quiz.getQuizName()%>
+                                        </div>
+                                    </a>
                                 </td>
-                                <td><%=formatter.format(new Date(result.getSpentTime()))%>
+                                <td>
+                                    <div class="table_name">
+                                        <%=result.getScore()%>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_name">
+                                        <%=formatter.format(new Date(result.getSpentTime()))%>
+                                    </div>
                                 </td>
                             </tr>
+                            <tr></tr>
+
                             <%
                                 }
                             %>
