@@ -45,11 +45,11 @@
 
     $(document).ready(function () {
         <%
-        if(request.getParameter("score")!=null){
+            if(request.getParameter("score")!=null){
         %>
         UIkit.modal('#resultsModal').show();
         <%
-        }
+            }
         %>
     })
 </script>
@@ -66,7 +66,7 @@
                 <%
                     if (request.getParameter("time") != null) {
                 %>
-                <div>Time: <%= formatter.format(new Date((Long.parseLong(request.getParameter("time")))))%>
+                <div>Time: <%=formatter.format(new Date((Long.parseLong(request.getParameter("time")))))%>
                 </div>
                 <%
                     }
@@ -78,12 +78,11 @@
 <div class="container">
     <div class="row">
         <div class="row mt-3 uk-box-shadow-large uk-padding-small">
-            <div class="col"><h1 style="margin: 0"><%=currQuiz
-                    .
-                    getQuizName
-                            (
-                            )%>
-            </h1></div>
+            <div class="col">
+                <h1 style="margin: 0">
+                    <%=currQuiz.getQuizName()%>
+                </h1>
+            </div>
             <div class="col-auto d-flex align-items-center">
                 <a href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>">
                     <input type="button" class="btn btn-success" value="Start Quiz" style="margin-right: 6px">
@@ -92,26 +91,7 @@
                     <input type="button" class="btn btn-primary" value="Send Challenge">
                 </a>
                 <%
-                    if
-                    (
-                            myUser
-                                    .
-                                    isAdmin
-                                            (
-                                            )
-                                    ||
-                                    currQuiz
-                                            .
-                                            getCreatorID
-                                                    (
-                                                    )
-                                            ==
-                                            myUser
-                                                    .
-                                                    getId
-                                                            (
-                                                            )
-                    ) {
+                    if (myUser.isAdmin() || currQuiz.getCreatorID() == myUser.getId()) {
                 %>
                 <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete">
                     <input type="button" class="btn btn-danger" value="Delete Quiz" style="margin-left: 6px">
@@ -130,106 +110,29 @@
                                 <ul id="requestsList" class="uk-list container-fluid"
                                     style="max-height: 200px; overflow: auto">
                                     <%
-                                        ArrayList
-                                                <
-                                                        Integer
-                                                        >
-                                                friends
-                                                =
-                                                friendsDAO
-                                                        .
-                                                        getFriendsList
-                                                                (
-                                                                        myUser
-                                                                                .
-                                                                                getId
-                                                                                        (
-                                                                                        )
-                                                                );
-                                        for
-                                        (
-                                                Integer
-                                                        reqId
-                                                :
-                                                friends
-                                        ) {
-                                            User
-                                                    reqUserInfo
-                                                    =
-                                                    usersDAO
-                                                            .
-                                                            getUserById
-                                                                    (
-                                                                            reqId
-                                                                    );
-                                            if
-                                            (
-                                                    !
-                                                            challengesDAO
-                                                                    .
-                                                                    alreadyChallenged
-                                                                            (
-                                                                                    myUser
-                                                                                            .
-                                                                                            getId
-                                                                                                    (
-                                                                                                    )
-                                                                                    ,
-                                                                                    reqUserInfo
-                                                                                            .
-                                                                                            getId
-                                                                                                    (
-                                                                                                    )
-                                                                                    ,
-                                                                                    currQuiz
-                                                                                            .
-                                                                                            getQuizId
-                                                                                                    (
-                                                                                                    )
-                                                                            )
-                                            ) {
+                                        ArrayList<Integer> friends = friendsDAO.getFriendsList(myUser.getId());
+                                        for (Integer reqId : friends) {
+                                            User reqUserInfo = usersDAO.getUserById(reqId);
+                                            if (!challengesDAO.alreadyChallenged(myUser.getId(), reqUserInfo.getId(), currQuiz.getQuizId())) {
+
                                     %>
                                     <li>
                                         <div class="row">
                                             <div class="col d-flex align-items-center">
-                                                <a href=<%="/profile?user="
-                                                        +
-                                                        reqUserInfo
-                                                                .
-                                                                getId
-                                                                        (
-                                                                        )%>><%=reqUserInfo
-                                                        .
-                                                        getUsername
-                                                                (
-                                                                )%>
+                                                <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
+                                                    <%=reqUserInfo.getUsername()%>
                                                 </a>
                                             </div>
                                             <div class="col-auto">
                                                 <a href=<%="/quiz?quizId="
-                                                        +
-                                                        currQuiz
-                                                                .
-                                                                getQuizId
-                                                                        (
-                                                                        )
-                                                        +
-                                                        "&action=sendChallenge&friendId="
-                                                        +
-                                                        reqUserInfo
-                                                                .
-                                                                getId
-                                                                        (
-                                                                        )%>>
+                                                        + currQuiz.getQuizId() + "&action=sendChallenge&friendId=" + reqUserInfo.getId()%>>
                                                     <input class="btn btn-success" type="button" value="Send">
                                                 </a>
                                             </div>
                                         </div>
                                     </li>
                                     <%
-                                                requestId
-                                                        ++
-                                                ;
+                                                requestId++;
                                             }
                                         }
                                     %>
@@ -244,11 +147,8 @@
             <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px">
                 <h3>Description:</h3>
                 <hr>
-                <div class="mt-2"><%=currQuiz
-                        .
-                        getQuizDescription
-                                (
-                                )%>
+                <div class="mt-2">
+                    <%=currQuiz.getQuizDescription()%>
                 </div>
             </div>
             <div class="col-8">
@@ -285,60 +185,10 @@
                             </thead>
                             <tbody>
                             <%
-                                ArrayList
-                                        <
-                                                Result
-                                                >
-                                        results
-                                        =
-                                        resultsDAO
-                                                .
-                                                getQuizResults
-                                                        (
-                                                                currQuiz
-                                                                        .
-                                                                        getQuizId
-                                                                                (
-                                                                                )
-                                                        );
-                                int
-                                        toFollow
-                                        =
-                                        Math
-                                                .
-                                                min
-                                                        (
-                                                                results
-                                                                        .
-                                                                        size
-                                                                                (
-                                                                                )
-                                                                ,
-                                                                10
-                                                        );
-                                for
-                                (
-                                        int
-                                        i
-                                        =
-                                        0
-                                        ;
-                                        i
-                                                <
-                                                toFollow
-                                        ;
-                                        i
-                                                ++
-                                ) {
-                                    Result
-                                            res
-                                            =
-                                            results
-                                                    .
-                                                    get
-                                                            (
-                                                                    i
-                                                            );
+                                ArrayList<Result> results = resultsDAO.getQuizResults(currQuiz.getQuizId());
+                                int toFollow = Math.min(results.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Result res = results.get(i);
 
                             %>
                             <tr>
@@ -393,44 +243,9 @@
                             <tbody>
                             <%
                                 ArrayList<Result> friendsResults = resultsDAO.getUserFriendsResultOnQuiz(myUser.getId(), currQuiz.getQuizId());
-                                toFollow
-                                        =
-                                        Math
-                                                .
-                                                min
-                                                        (
-                                                                friendsResults
-                                                                        .
-                                                                        size
-                                                                                (
-                                                                                )
-                                                                ,
-                                                                10
-                                                        )
-                                ;
-                                for
-                                (
-                                        int
-                                        i
-                                        =
-                                        0
-                                        ;
-                                        i
-                                                <
-                                                toFollow
-                                        ;
-                                        i
-                                                ++
-                                ) {
-                                    Result
-                                            res
-                                            =
-                                            friendsResults
-                                                    .
-                                                    get
-                                                            (
-                                                                    i
-                                                            );
+                                toFollow = Math.min(friendsResults.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Result res = friendsResults.get(i);
 
                             %>
                             <tr>
@@ -484,66 +299,10 @@
                             </thead>
                             <tbody>
                             <%
-                                ArrayList
-                                        <
-                                                Result
-                                                >
-                                        myResults
-                                        =
-                                        resultsDAO
-                                                .
-                                                getUserResultsOnQuiz
-                                                        (
-                                                                myUser
-                                                                        .
-                                                                        getId
-                                                                                (
-                                                                                )
-                                                                ,
-                                                                currQuiz
-                                                                        .
-                                                                        getQuizId
-                                                                                (
-                                                                                )
-                                                        );
-                                toFollow
-                                        =
-                                        Math
-                                                .
-                                                min
-                                                        (
-                                                                myResults
-                                                                        .
-                                                                        size
-                                                                                (
-                                                                                )
-                                                                ,
-                                                                10
-                                                        )
-                                ;
-                                for
-                                (
-                                        int
-                                        i
-                                        =
-                                        0
-                                        ;
-                                        i
-                                                <
-                                                toFollow
-                                        ;
-                                        i
-                                                ++
-                                ) {
-                                    Result
-                                            res
-                                            =
-                                            myResults
-                                                    .
-                                                    get
-                                                            (
-                                                                    i
-                                                            );
+                                ArrayList<Result> myResults = resultsDAO.getUserResultsOnQuiz(myUser.getId(), currQuiz.getQuizId());
+                                toFollow = Math.min(myResults.size(), 10);
+                                for (int i = 0; i < toFollow; i++) {
+                                    Result res = myResults.get(i);
 
                             %>
                             <tr>
@@ -570,6 +329,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
