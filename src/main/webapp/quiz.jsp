@@ -34,6 +34,17 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
+    <script>
+        const btn = document.querySelector("button");
+        const post = document.querySelector(".post1");
+        const widget = document.querySelector(".star-widget");
+        btn.onclick = () => {
+            widget.style.display = "none";
+            post.style.display = "block";
+            return false;
+        }
+    </script>
+
     <title>Quiz Time</title>
 </head>
 <body>
@@ -79,7 +90,35 @@
                     }
                 %>
             </div>
+
         </div>
+        <div class="container1" style="margin-left: 100px;">
+            <div class="post1">
+                <div class="text1">Thanks for rating us!</div>
+            </div>
+            <div class="star-widget">
+                <input type="radio" name="rate" id="rate-5">
+                <label for="rate-5" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-4">
+                <label for="rate-4" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-3">
+                <label for="rate-3" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-2">
+                <label for="rate-2" class="fas fa-star"></label>
+                <input type="radio" name="rate" id="rate-1">
+                <label for="rate-1" class="fas fa-star"></label>
+                <form action="#">
+                    <header></header>
+                    <div class="textarea">
+                        <textarea cols="30" placeholder="Describe your experience.."></textarea>
+                    </div>
+                    <div class="btn1">
+                        <button type="submit">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+            <br>
     </div>
 </div>
 <div class="container">
@@ -152,50 +191,14 @@
         </div>
         <div class="row uk-margin-small mt-5">
             <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px">
-<%--                <div style="font-size: 20px">--%>
-<%--                    <span class="fa fa-star checked"></span>--%>
-<%--                    <span class="fa fa-star checked"></span>--%>
-<%--                    <span class="fa fa-star checked"></span>--%>
-<%--                    <span class="fa fa-star"></span>--%>
-<%--                    <span class="fa fa-star"></span>--%>
-<%--                </div>--%>
+                <%--                <div style="font-size: 20px">--%>
+                <%--                    <span class="fa fa-star checked"></span>--%>
+                <%--                    <span class="fa fa-star checked"></span>--%>
+                <%--                    <span class="fa fa-star checked"></span>--%>
+                <%--                    <span class="fa fa-star"></span>--%>
+                <%--                    <span class="fa fa-star"></span>--%>
+                <%--                </div>--%>
 
-    <div class="container1">
-        <div class="post1">
-            <div class="text1">Thanks for rating us!</div>
-        </div>
-        <div class="star-widget">
-            <input type="radio" name="rate" id="rate-5">
-            <label for="rate-5" class="fas fa-star"></label>
-            <input type="radio" name="rate" id="rate-4">
-            <label for="rate-4" class="fas fa-star"></label>
-            <input type="radio" name="rate" id="rate-3">
-            <label for="rate-3" class="fas fa-star"></label>
-            <input type="radio" name="rate" id="rate-2">
-            <label for="rate-2" class="fas fa-star"></label>
-            <input type="radio" name="rate" id="rate-1">
-            <label for="rate-1" class="fas fa-star"></label>
-            <form action="#">
-                <header></header>
-                <div class="textarea">
-                    <textarea cols="30" placeholder="Describe your experience.."></textarea>
-                </div>
-                <div class="btn1">
-                    <button type="submit">Post</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <script>
-        const btn = document.querySelector("button");
-        const post = document.querySelector(".post1");
-        const widget = document.querySelector(".star-widget");
-        btn.onclick = ()=>{
-            widget.style.display = "none";
-            post.style.display = "block";
-            return false;
-        }
-    </script>
 
                 <h3>Description:</h3>
                 <hr>

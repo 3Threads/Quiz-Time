@@ -391,3 +391,18 @@ form .btn1 button{
 form .btn1 button:hover{
     background: #1b1b1b;
 }
+#rate-1 {
+    display: none;
+}
+#rate-2 {
+    display: none;
+}
+#rate-3 {
+    display: none;
+}
+#rate-4 {
+    display: none;
+}
+#rate-5 {
+    display: none;
+}
