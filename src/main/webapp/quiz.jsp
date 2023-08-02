@@ -18,6 +18,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
@@ -26,6 +28,11 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
+
+    <meta charset="utf-8">
+    <title>Star Rating Form | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
     <title>Quiz Time</title>
 </head>
@@ -145,6 +152,51 @@
         </div>
         <div class="row uk-margin-small mt-5">
             <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px">
+<%--                <div style="font-size: 20px">--%>
+<%--                    <span class="fa fa-star checked"></span>--%>
+<%--                    <span class="fa fa-star checked"></span>--%>
+<%--                    <span class="fa fa-star checked"></span>--%>
+<%--                    <span class="fa fa-star"></span>--%>
+<%--                    <span class="fa fa-star"></span>--%>
+<%--                </div>--%>
+
+    <div class="container1">
+        <div class="post1">
+            <div class="text1">Thanks for rating us!</div>
+        </div>
+        <div class="star-widget">
+            <input type="radio" name="rate" id="rate-5">
+            <label for="rate-5" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-4">
+            <label for="rate-4" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-3">
+            <label for="rate-3" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-2">
+            <label for="rate-2" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-1">
+            <label for="rate-1" class="fas fa-star"></label>
+            <form action="#">
+                <header></header>
+                <div class="textarea">
+                    <textarea cols="30" placeholder="Describe your experience.."></textarea>
+                </div>
+                <div class="btn1">
+                    <button type="submit">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const btn = document.querySelector("button");
+        const post = document.querySelector(".post1");
+        const widget = document.querySelector(".star-widget");
+        btn.onclick = ()=>{
+            widget.style.display = "none";
+            post.style.display = "block";
+            return false;
+        }
+    </script>
+
                 <h3>Description:</h3>
                 <hr>
                 <div class="mt-2">
