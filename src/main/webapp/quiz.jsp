@@ -118,7 +118,7 @@
                 </form>
             </div>
         </div>
-            <br>
+        <br>
     </div>
 </div>
 <div class="container">
@@ -394,6 +394,74 @@
                 </ul>
             </div>
         </div>
+        <div class="row mt-3 uk-box-shadow-large uk-padding-small" style="margin-bottom: 50px;">
+            <div style="align-content: center; display: inline-block;">
+
+                <div class="col-auto " style="overflow: auto; margin-bottom: 10px; text-align: left; font-size: 20px; display: inline-block;">
+                    20 Comments
+                </div>
+                <div class="col-auto " style="overflow: auto; margin-bottom: 10px; font-size: 220px; display: inline-block; float: right">
+                    <select aria-label="Custom controls" id="newQuestionType"
+                            class="form-select form-select-md bg-dark text-light">
+                        <option value="textResponse">Question Response</option>
+                        <option value="fillInTheBlank">Fill in the blank</option>
+                        <option value="pictureResponse">Picture Response</option>
+                        <option value="multipleChoices">Multiple Choice</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+
+            <div style="display: inline-block;">
+                <div style="font-size:17px; display: inline-block;">
+                    @Nikusha
+                </div>
+                <div style="font-size:15px; display: inline-block; color: #aaa">
+                    | 10-04-2023
+                </div>
+            </div>
+            <div style="display: inline-block; ">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+            <div style=" margin-bottom: 25px">
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+            </div>
+
+            <div style="display: inline-block;">
+                <div style="font-size:17px; display: inline-block;">
+                    @niko
+                </div>
+                <div style="font-size:15px; display: inline-block; color: #aaa">
+                    | 10-04-2023
+                </div>
+            </div>
+            <div style="display: inline-block; ">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+
+            <div style="margin-bottom: 25px">
+                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
+            </div>
+
+        </div>
+
     </div>
 </div>
 </body>
