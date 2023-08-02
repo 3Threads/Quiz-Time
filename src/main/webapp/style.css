@@ -70,7 +70,115 @@ a {
 }
 
 
-@media screen and (min-width: 1001px) {
+.card-announcement-middle {
+    font-size: 15px;
+    margin-left: 20px;
+    margin-top: 15px;
+    align-items: center;
+    margin-right: 20px;
+    transition: font-size 0.5s ease;
+}
+
+.announcement-admin-date {
+    font-size: 12px;
+    white-space: nowrap;
+    transition: font-size 0.5s ease;
+}
+
+.announcement-admins {
+    font-size: 20px;
+    transition: font-size 0.5s ease;
+}
+
+
+.table_name {
+    font-size: 15px;
+    text-align: center;
+    white-space: nowrap;
+    transition: font-size 0.5s ease;
+}
+
+.headers {
+    font-size: 25px;
+    transition: font-size 0.5s ease;
+}
+
+.buttons {
+    font-size: 15px;
+    transition: font-size 0.5s ease;
+}
+
+.nav-bar {
+    margin-bottom: 1px;
+!important;
+}
+
+.search-nav-bar {
+    height: 25px;
+!important;
+    transition: font-size 0.5s ease;
+}
+
+
+.txtArea {
+    font-size: 20px;
+    height: 140px;
+}
+
+.titleArea {
+    font-size: 20px;
+}
+
+.txtArea {
+    font-size: 14px;
+    height: 120px;
+}
+
+.titleArea {
+    font-size: 14px;
+}
+
+
+.notification-name {
+    font-size: 15px;
+    text-align: center;
+    white-space: nowrap;
+    transition: font-size 0.5s ease;
+}
+
+.notification-titles {
+    font-size: 15px;
+    text-align: center;
+    white-space: nowrap;
+    transition: font-size 0.5s ease;
+}
+
+.notification-title {
+    font-size: 25px;
+    transition: font-size 0.5s ease;
+}
+
+.notification-buttons {
+    font-size: 15px;
+    transition: font-size 0.5s ease;
+}
+
+@media screen and (min-width: 992px) {
+    .header {
+        height: 80px;
+    }
+
+    .admins {
+        font-size: 20px;
+        transition: font-size 0.5s ease;
+    }
+
+    .admin_date {
+        font-size: 12px;
+        white-space: nowrap;
+        transition: font-size 0.5s ease;
+    }
+
     .card-middle {
         font-size: 15px;
         height: 75px;
@@ -79,20 +187,9 @@ a {
         transition: font-size 0.5s ease;
     }
 
-    .card-announcement-middle {
-        font-size: 15px;
-        margin-left: 20px;
-        margin-top: 15px;
-        align-items: center;
-        margin-right: 20px;
-        transition: font-size 0.5s ease;
-    }
-
-
     .card-bottom {
         height: 60px;
         transition: font-size 0.5s ease;
-
     }
 
     .read_more {
@@ -101,66 +198,18 @@ a {
         transition: font-size 0.5s ease;
     }
 
-    .table_name {
-        font-size: 15px;
-        text-align: center;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .headers {
-        font-size: 25px;
-        transition: font-size 0.5s ease;
-    }
-
-    .admins {
-        font-size: 20px;
-        transition: font-size 0.5s ease;
-    }
-
-
-    .admin_date {
-        font-size: 12px;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-
-    }
-
-    .buttons {
-        font-size: 15px;
-        transition: font-size 0.5s ease;
-    }
-
-    .nav-bar {
-        margin-bottom: 1px;
-    !important;
-    }
-
-    .search-nav-bar {
-        height: 25px;
-    !important;
-        transition: font-size 0.5s ease;
-    }
-
     .logo {
         height: 100px;
         width: 400px;
         transition: width 0.5s ease, height 0.5s ease;
     }
-
-    .txtArea {
-        font-size: 20px;
-        height: 140px;
-    }
-
-    .titleArea {
-        font-size: 20px;
-    }
-
 }
 
+@media screen and (max-width: 991px) {
+    .header {
+        height: 84px;
+    }
 
-@media screen and (max-width: 1000px) {
     .card-top {
         font-size: 10px;
         height: 80px;
@@ -177,14 +226,6 @@ a {
         transition: font-size 0.5s ease;
     }
 
-    .card-announcement-middle {
-        font-size: 10px;
-        min-height: 40px;
-        margin-left: 10px;
-        margin-top: 10px;
-        transition: font-size 0.5s ease;
-    }
-
     .card-bottom {
         height: 54px;
     }
@@ -192,18 +233,6 @@ a {
     .read_more {
         font-size: 10.8px !important;
         white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .table_name {
-        font-size: 9.5px !important;
-        text-align: center;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .headers {
-        font-size: 18px;
         transition: font-size 0.5s ease;
     }
 
@@ -218,90 +247,11 @@ a {
         transition: font-size 0.5s ease;
     }
 
-    .buttons {
-        font-size: 10px;
-        transition: font-size 0.5s ease;
-    }
-
-    .nav-bar {
-        margin-bottom: 2px;
-    !important;
-    }
-
-    .search-nav-bar {
-        height: 14px;
-    !important;
-        transition: font-size 0.5s ease;
-    }
-
     .logo {
         height: 50px;
         width: 200px;
         transition: width 0.5s ease, height 0.5s ease;
     }
-
-    .txtArea {
-        font-size: 14px;
-        height: 120px;
-    }
-
-    .titleArea {
-        font-size: 14px;
-    }
 }
 
-@media screen and (min-width: 551px) {
-
-    .notification-name {
-        font-size: 15px;
-        text-align: center;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .notification-titles {
-        font-size: 15px;
-        text-align: center;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .notification-title {
-        font-size: 25px;
-        transition: font-size 0.5s ease;
-    }
-
-    .notification-buttons {
-        font-size: 15px;
-        transition: font-size 0.5s ease;
-    }
-
-}
-
-@media screen and (max-width: 550px) {
-
-    .notification-name {
-        font-size: 9.5px !important;
-        text-align: center;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .notification-titles {
-        font-size: 11px !important;
-        text-align: center;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .notification-title {
-        font-size: 20px;
-        transition: font-size 0.5s ease;
-    }
-
-    .notification-buttons {
-        font-size: 10px;
-        transition: font-size 0.5s ease;
-    }
-}
 

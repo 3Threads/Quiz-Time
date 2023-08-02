@@ -251,20 +251,34 @@
         </div>
         <div class="col-8">
             <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
-                <li><a style="color: white" href="">Global</a></li>
-                <li><a style="color: white" href="">Friends</a></li>
-                <li><a style="color: white" href="">Personal</a></li>
+                <li><a style="color: white" href="">
+                    <div class="table_name">Global</div>
+                </a></li>
+                <li><a style="color: white" href="">
+                    <div class="table_name">Friends</div>
+                </a></li>
+                <li><a style="color: white" href="">
+                    <div class="table_name">Personal</div>
+                </a></li>
             </ul>
             <ul id="tables" class="uk-switcher uk-margin uk-box-shadow-large"
-                style="max-height: 485px; overflow: auto;">
+                style="height: 475px; overflow: auto;">
                 <li>
                     <table class="uk-table uk-table-divider" style="max-height: 600px; overflow: auto;">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Username</th>
-                            <th>Score</th>
-                            <th>Time</th>
+                            <th>
+                                <div class="table_name">#</div>
+                            </th>
+                            <th>
+                                <div class="table_name">UserName</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Score</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Time</div>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -326,47 +340,27 @@
 
                         %>
                         <tr>
-                            <td><%=i
-                                    +
-                                    1%>
+                            <td>
+                                <div class="table_name">
+                                    <%=i + 1%>
+                                </div>
                             </td>
                             <td>
-                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO
-                                        .
-                                        getUserById
-                                                (
-                                                        res
-                                                                .
-                                                                getUserId
-                                                                        (
-                                                                        )
-                                                )
-                                                .
-                                        getUsername
-                                                (
-                                                )%>
+                                <a href="/profile?user=<%=res.getUserId()%>">
+                                    <div class="table_name">
+                                        <%= usersDAO.getUserById(res.getUserId()).getUsername()%>
+                                    </div>
                                 </a>
                             </td>
-                            <td><%=res
-                                    .
-                                    getScore
-                                            (
-                                            )%>
+                            <td>
+                                <div class="table_name">
+                                    <%=res.getScore()%>
+                                </div>
                             </td>
-                            <td><%=formatter
-                                    .
-                                    format
-                                            (
-                                                    new
-                                                            Date
-                                                            (
-                                                                    res
-                                                                            .
-                                                                            getSpentTime
-                                                                                    (
-                                                                                    )
-                                                            )
-                                            )%>
+                            <td>
+                                <div class="table_name">
+                                    <%=formatter.format(new Date(res.getSpentTime()))%>
+                                </div>
                             </td>
                         </tr>
                         <%
@@ -379,36 +373,23 @@
                     <table class="uk-table uk-table-divider">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Username</th>
-                            <th>Score</th>
-                            <th>Time</th>
+                            <th>
+                                <div class="table_name">#</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Username</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Score</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Time</div>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
                         <%
-                            ArrayList
-                                    <
-                                            Result
-                                            >
-                                    friendsResults
-                                    =
-                                    resultsDAO
-                                            .
-                                            getUserFriendsResultOnQuiz
-                                                    (
-                                                            myUser
-                                                                    .
-                                                                    getId
-                                                                            (
-                                                                            )
-                                                            ,
-                                                            currQuiz
-                                                                    .
-                                                                    getQuizId
-                                                                            (
-                                                                            )
-                                                    );
+                            ArrayList<Result> friendsResults = resultsDAO.getUserFriendsResultOnQuiz(myUser.getId(), currQuiz.getQuizId());
                             toFollow
                                     =
                                     Math
@@ -450,47 +431,27 @@
 
                         %>
                         <tr>
-                            <td><%=i
-                                    +
-                                    1%>
+                            <td>
+                                <div class="table_name">
+                                    <%=i + 1%>
+                                </div>
                             </td>
                             <td>
-                                <a href="/profile?user=<%=res.getUserId()%>"><%= usersDAO
-                                        .
-                                        getUserById
-                                                (
-                                                        res
-                                                                .
-                                                                getUserId
-                                                                        (
-                                                                        )
-                                                )
-                                                .
-                                        getUsername
-                                                (
-                                                )%>
+                                <a href="/profile?user=<%=res.getUserId()%>">
+                                    <div class="table_name">
+                                        <%=usersDAO.getUserById(res.getUserId()).getUsername()%>
+                                    </div>
                                 </a>
                             </td>
-                            <td><%=res
-                                    .
-                                    getScore
-                                            (
-                                            )%>
+                            <td>
+                                <div class="table_name">
+                                    <%=res.getScore()%>
+                                </div>
                             </td>
-                            <td><%=formatter
-                                    .
-                                    format
-                                            (
-                                                    new
-                                                            Date
-                                                            (
-                                                                    res
-                                                                            .
-                                                                            getSpentTime
-                                                                                    (
-                                                                                    )
-                                                            )
-                                            )%>
+                            <td>
+                                <div class="table_name">
+                                    <%=formatter.format(new Date(res.getSpentTime()))%>
+                                </div>
                             </td>
                         </tr>
                         <%
@@ -503,10 +464,18 @@
                     <table class="uk-table uk-table-divider">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Username</th>
-                            <th>Score</th>
-                            <th>Time</th>
+                            <th>
+                                <div class="table_name">#</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Username</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Score</div>
+                            </th>
+                            <th>
+                                <div class="table_name">Time</div>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -574,38 +543,27 @@
 
                         %>
                         <tr>
-                            <td><%=i
-                                    +
-                                    1%>
+                            <td>
+                                <div class="table_name">
+                                    <%=i + 1%>
+                                </div>
                             </td>
                             <td>
-                                <a href="/profile?user=<%=res.getUserId()%>"><%= myUser
-                                        .
-                                        getUsername
-                                                (
-                                                )%>
+                                <a href="/profile?user=<%=res.getUserId()%>">
+                                    <div class="table_name">
+                                        <%=myUser.getUsername()%>
+                                    </div>
                                 </a>
                             </td>
-                            <td><%=res
-                                    .
-                                    getScore
-                                            (
-                                            )%>
+                            <td>
+                                <div class="table_name">
+                                    <%=res.getScore()%>
+                                </div>
                             </td>
-                            <td><%=formatter
-                                    .
-                                    format
-                                            (
-                                                    new
-                                                            Date
-                                                            (
-                                                                    res
-                                                                            .
-                                                                            getSpentTime
-                                                                                    (
-                                                                                    )
-                                                            )
-                                            )%>
+                            <td>
+                                <div class="table_name">
+                                    <%=formatter.format(new Date(res.getSpentTime()))%>
+                                </div>
                             </td>
                         </tr>
                         <%
