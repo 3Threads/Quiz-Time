@@ -29,6 +29,7 @@ public class WriteQuizServlet extends HttpServlet {
         httpServletRequest.getSession().removeAttribute("title");
         httpServletRequest.getSession().removeAttribute("description");
         httpServletRequest.getSession().removeAttribute("questions");
+        httpServletRequest.getSession().removeAttribute("timeLimit");
 
         int quizId;
         try {
