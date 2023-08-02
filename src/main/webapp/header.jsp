@@ -46,6 +46,7 @@
     ResultsDAO resultsDAO = (ResultsDAO) application.getAttribute("resultsDB");
     QuestionsDAO questionsDAO = (QuestionsDAO) application.getAttribute("questionsDB");
     AnnouncementsDAO announcementsDAO = (AnnouncementsDAO) application.getAttribute("announcementsDB");
+    RatingsDAO ratingsDAO = (RatingsDAO) application.getAttribute("ratingsDB");
 %>
 <script>
     let haveRequestsFrom=[];

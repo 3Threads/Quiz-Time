@@ -27,6 +27,8 @@ public class ContextListener implements ServletContextListener {
         servletContextEvent.getServletContext().setAttribute("questionsDB", questionsDAO);
         AnnouncementsDAO announcementsDAO = new AnnouncementsDAO(dataSource);
         servletContextEvent.getServletContext().setAttribute("announcementsDB", announcementsDAO);
+        RatingsDAO ratingsDAO = new RatingsDAO(dataSource);
+        servletContextEvent.getServletContext().setAttribute("ratingsDB", ratingsDAO);
     }
 
     @Override

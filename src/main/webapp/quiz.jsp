@@ -181,7 +181,7 @@
                     <textarea cols="30" placeholder="Describe your experience.."></textarea>
                 </div>
                 <div class="btn1">
-                    <button type="submit">Post</button>
+                    <button onclick="addRating()">Post</button>
                 </div>
             </form>
         </div>
