@@ -169,11 +169,11 @@
         </div>
         <div class="col d-flex align-items-end">
             <div class="container">
-                <div class="d-flex flex-row-reverse  align-items-center mb-2">
+                <div class="d-flex flex-row-reverse align-items-center mb-2">
                     <a class="table_name" style="margin-left: 5px" href="/logout">
                         Log Out
                     </a>
-                    <a class="table_name">|</a>
+                    <div class="table_name">|</div>
                     <a href="#modal-notifications" class="mt-1" uk-toggle>
                         <div class="animate table_name">
                             <i class="bi bi-bell-fill mt-1"
