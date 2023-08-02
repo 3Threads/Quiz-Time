@@ -208,7 +208,6 @@
 
                             %>
                             <tr>
-
                                 <td>
                                     <div class="table_name">
                                         <%=i + 1%>
@@ -219,7 +218,8 @@
                                         <div class="table_name">
                                             <%=quiz.getQuizName()%>
                                         </div>
-                                    </a></td>
+                                    </a>
+                                </td>
                                 <td>
                                     <div class="table_name">
                                         <%=quiz.getCompleted()%>
@@ -231,6 +231,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
@@ -288,6 +289,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
@@ -348,6 +350,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
@@ -405,6 +408,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr></tr>
                             <%
                                 }
                             %>
