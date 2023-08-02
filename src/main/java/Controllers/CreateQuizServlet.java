@@ -25,6 +25,19 @@ public class CreateQuizServlet extends HttpServlet {
         httpServletRequest.getSession().removeAttribute("writingQuestions");
         httpServletRequest.getSession().removeAttribute("userAnswers");
         httpServletRequest.getSession().removeAttribute("startTime");
+        if (httpServletRequest.getParameter("title") != null) {
+            httpServletRequest.getSession().setAttribute("title", httpServletRequest.getParameter("title"));
+        }
+        if (httpServletRequest.getParameter("description") != null) {
+            httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
+        }
+        if (httpServletRequest.getParameter("hour") != null && httpServletRequest.getParameter("minute") != null
+                && httpServletRequest.getParameter("second") != null) {
+            Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
+                    Integer.parseInt(httpServletRequest.getParameter("minute")),
+                    Integer.parseInt(httpServletRequest.getParameter("second")));
+            httpServletRequest.getSession().setAttribute("timeLimit", time);
+        }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
             ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
             try {

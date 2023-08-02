@@ -298,7 +298,36 @@
             "   </div>" +
             "</div>");
     }
-
+    function editOrDelete(action, index) {
+        let url = "/createQuiz?action="+action+"&index="+index;
+        if($('#titleField').val() !== '') {
+            console.log($('#titleField').val());
+            url += "&title=";
+            url += $('#titleField').val();
+        }
+        if($('#descriptionField').val() !== '') {
+            console.log($('#descriptionField').val());
+            url += "&description=";
+            url += $('#descriptionField').val();
+        }
+        if($('#Hour').val() !== '') {
+            console.log($('#Hour').val());
+            url += "&hour=";
+            url += $('#Hour').val();
+        }
+        if($('#Minute').val() !== '') {
+            console.log($('#Minute').val());
+            url += "&minute=";
+            url += $('#Minute').val();
+        }
+        if($('#Second').val() !== '') {
+            console.log($('#Second').val());
+            url += "&second=";
+            url += $('#Second').val();
+        }
+        console.log(url);
+        $(location).attr('href',url);
+    }
     function toggleTimeFormat() {
         $('#timeFormat').toggle();
         const checkbox = $("#timeFormatCheckBox");
@@ -402,12 +431,8 @@
                                 %>
                             </div>
                             <div class="col-auto">
-                                <a href="/createQuiz?action=edit&index=<%=i%>">
-                                    <input type="button" class="btn btn-primary" value="Edit">
-                                </a>
-                                <a href="/createQuiz?action=delete&index=<%=i%>">
-                                    <input type="button" class="btn btn-danger" value="Delete">
-                                </a>
+                                <input onclick="editOrDelete('edit',<%=i%>)" type="button" class="btn btn-primary" value="Edit">
+                                <input onclick="editOrDelete('delete',<%=i%>)" type="button" class="btn btn-danger" value="Delete">
                             </div>
                         </div>
                     </li>

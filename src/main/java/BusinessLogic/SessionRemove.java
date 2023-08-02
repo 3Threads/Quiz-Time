@@ -12,7 +12,7 @@ public class SessionRemove {
         request.getSession().removeAttribute("title");
         request.getSession().removeAttribute("description");
         request.getSession().removeAttribute("questions");
-        request.getSession().removeAttribute("startTime");
+        request.getSession().removeAttribute("timeLimit");
     }
     public static boolean checkUser(HttpServletRequest request) throws IOException {
         UsersDAO usersDAO = (UsersDAO) request.getServletContext().getAttribute("usersDB");
