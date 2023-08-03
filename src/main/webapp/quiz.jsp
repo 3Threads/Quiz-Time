@@ -70,29 +70,36 @@
     })
     function addRate() {
         let num = 0;
-        if(document.getElementById('rate-5').checked) {
+        if (document.getElementById('rate-5').checked) {
             num = 5;
-        }else if(document.getElementById('rate-4').checked) {
+        } else if (document.getElementById('rate-4').checked) {
             num = 4
-        } else if(document.getElementById('rate-3').checked) {
+        } else if (document.getElementById('rate-3').checked) {
             num = 3
-        }else if(document.getElementById('rate-2').checked) {
+        } else if (document.getElementById('rate-2').checked) {
             num = 2
-        }else if(document.getElementById('rate-1').checked) {
+        } else if (document.getElementById('rate-1').checked) {
             num = 1
         }
-        $.post('quiz', {userId: <%=myUser.getId()%>, quizId: <%=currQuiz.getQuizId()%>,rate: num, comment: $('#comment').val(), action: "addRate"}, (text) => {
-            if(text === 'login') {
-                $(location).attr('href',"/login");
-            } else $(location).attr('href',"/quiz?quizId="+<%=currQuiz.getQuizId()%>);
+        $.post('quiz', {
+            userId: <%=myUser.getId()%>,
+            quizId: <%=currQuiz.getQuizId()%>,
+            rate: num,
+            comment: $('#comment').val(),
+            action: "addRate"
+        }, (text) => {
+            if (text === 'login') {
+                $(location).attr('href', "/login");
+            } else $(location).attr('href', "/quiz?quizId=" +<%=currQuiz.getQuizId()%>);
         });
     }
+
     function deleteComment(userId) {
         $.post('quiz', {userId: userId, quizId: <%=currQuiz.getQuizId()%>, action: "deleteRate"}, (text) => {
-            if(text === 'login') {
-                $(location).attr('href',"/login");
+            if (text === 'login') {
+                $(location).attr('href', "/login");
             }
-            $('#'+userId).remove();
+            $('#' + userId).remove();
             let curNum = parseInt($('#commentsNum').text());
             $('#commentsNum').text(curNum - 1);
         });
@@ -119,11 +126,8 @@
             </div>
 
         </div>
-        <%if(!ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {%>
+        <%if (!ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {%>
         <div class="container1" style="margin-left: 100px;">
-            <div class="post1">
-                <div class="text1">Thanks for rating us!</div>
-            </div>
             <div class="star-widget">
                 <input type="radio" name="rate" id="rate-5">
                 <label for="rate-5" class="fas fa-star"></label>
@@ -138,7 +142,7 @@
                 <form onsubmit="addRate(); return false;">
                     <header></header>
                     <div class="textarea">
-                        <textarea id="comment"cols="30" placeholder="Describe your experience.."></textarea>
+                        <textarea id="comment" cols="30" placeholder="Describe your experience.."></textarea>
                     </div>
                     <div class="btn1">
                         <button type="submit">Post</button>
@@ -160,18 +164,18 @@
                     <%=currQuiz.getQuizName()%>
                 </h1>
                 <% int avgRating = ratingsDAO.getAvgRatingOfQuiz(currQuiz.getQuizId()); %>
-                <div style="display: inline-block; font-size: 30px ">
-                    <% for(int i = 0; i < avgRating; i++) {%>
+                <h1 style="display: inline-block; white-space: nowrap">
+                    <% for (int i = 0; i < avgRating; i++) {%>
                     <span class="fa fa-star checked"></span>
                     <%
                         }
-                        for(int i = 0; i < 5-avgRating; i++) {
+                        for (int i = 0; i < 5 - avgRating; i++) {
                     %>
                     <span class="fa fa-star"></span>
                     <%
                         }
                     %>
-                </div>
+                </h1>
             </div>
             <div class="col-auto d-flex align-items-center">
                 <a href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>">
@@ -431,9 +435,9 @@
         </div>
         <%
             ArrayList<Types.Rating> rates = ratingsDAO.getQuizRatings(currQuiz.getQuizId());
-            if(ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {
-                for(int i = 0; i < rates.size(); i++) {
-                    if(rates.get(i).getUserId() == myUser.getId()) {
+            if (ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {
+                for (int i = 0; i < rates.size(); i++) {
+                    if (rates.get(i).getUserId() == myUser.getId()) {
                         Rating rr = rates.get(i);
                         rates.remove(i);
                         rates.add(0, rr);
@@ -444,53 +448,60 @@
         <div class="row mt-3 uk-box-shadow-large uk-padding-small" style="margin-bottom: 50px;">
             <div style="align-content: center; display: inline-block;">
 
-                <div class="col-auto " style="overflow: auto; margin-bottom: 10px; text-align: left; font-size: 20px; display: inline-block;">
-                    <div style="display: inline-block" id="commentsNum"><%=rates.size()%></div> <div style="display: inline-block">Comments</div>
+                <div class="col-auto "
+                     style="overflow: auto; margin-bottom: 10px; text-align: left; font-size: 20px; display: inline-block;">
+                    <div style="display: inline-block" id="commentsNum"><%=rates.size()%>
+                    </div>
+                    <div style="display: inline-block">Comments</div>
                 </div>
-                <div class="col-auto " style="overflow: auto; margin-bottom: 10px; font-size: 220px; display: inline-block; float: right">
+                <div class="col-auto "
+                     style="overflow: auto; margin-bottom: 10px; font-size: 220px; display: inline-block; float: right">
                     <select aria-label="Custom controls" id="newQuestionType"
                             class="form-select form-select-md bg-dark text-light">
-                        <option value="textResponse">Question Response</option>
-                        <option value="fillInTheBlank">Fill in the blank</option>
-                        <option value="pictureResponse">Picture Response</option>
-                        <option value="multipleChoices">Multiple Choice</option>
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
                     </select>
                 </div>
             </div>
             <hr>
             <%
-                for(Rating rate : rates) {
+                for (Rating rate : rates) {
                     User user = usersDAO.getUserById(rate.getUserId());
             %>
             <div id="<%=user.getId()%>">
-                <%
-                    if(myUser.isAdmin() || user.getId() == myUser.getId()) {
-                %>
-                <button class="btn btn-danger" onclick="deleteComment(<%=user.getId()%>)">Delete</button>
-                <%
-                    }
-                %>
+
                 <div style="display: inline-block;">
-                    <div style="font-size:17px; display: inline-block;">
-                        <%=user.getUsername()%>
+                    <a href="/profile?user=<%=user.getId()%>">
+                        <div style="font-size:17px; display: inline-block;">
+                            @<%=user.getUsername()%>
+                        </div>
+                    </a>
+                    <% int rating = rate.getRating(); %>
+                    <div style="font-size:17px; display: inline-block; ">
+                        <% for (int i = 0; i < rating; i++) {%>
+                        <span class="fa fa-star checked"></span>
+                        <%
+                            }
+                            for (int i = 0; i < 5 - rating; i++) {
+                        %>
+                        <span class="fa fa-star"></span>
+                        <%
+                            }
+                        %>
                     </div>
                     <div style="font-size:15px; display: inline-block; color: #aaa">
                         | <%=rate.getRatingsDate()%>
                     </div>
                 </div>
-                <% int rating = rate.getRating(); %>
-                <div style="display: inline-block; ">
-                    <% for(int i = 0; i < rating; i++) {%>
-                    <span class="fa fa-star checked"></span>
-                    <%
-                        }
-                        for(int i = 0; i < 5-rating; i++) {
-                    %>
-                    <span class="fa fa-star"></span>
-                    <%
-                        }
-                    %>
-                </div>
+
+                <%
+                    if (myUser.isAdmin() || user.getId() == myUser.getId()) {
+                %>
+                <a class="btn-danger" style="float:right; color: #aaa" onclick="deleteComment(<%=user.getId()%>)">Delete
+                    comment</a>
+                <%
+                    }
+                %>
 
                 <div style=" margin-bottom: 25px">
                     <%=rate.getComment()%>

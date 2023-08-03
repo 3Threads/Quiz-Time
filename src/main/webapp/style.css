@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
 .whitePlaceholder::placeholder {
     color: darkgray;
 }
@@ -259,9 +261,6 @@ a {
 }
 
 
-
-
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 *{
     margin: 0;
     padding: 0;
@@ -322,19 +321,19 @@ input#rate-5:checked ~ label{
     text-shadow: 0 0 20px #952;
 }
 #rate-1:checked ~ form header:before{
-    content: "I just hate it ";
+    content: "I just hate it";
 }
 #rate-2:checked ~ form header:before{
-    content: "I don't like it ";
+    content: "I don't like it";
 }
 #rate-3:checked ~ form header:before{
-    content: "It is awesome ";
+    content: "It is awesome";
 }
 #rate-4:checked ~ form header:before{
-    content: "I just like it ";
+    content: "I just like it";
 }
 #rate-5:checked ~ form header:before{
-    content: "I just love it ";
+    content: "I just love it";
 }
 .container1 form{
     display: none;
