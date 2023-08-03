@@ -72,4 +72,36 @@ public class AnnouncementsDAO {
             }
         }
     }
+    public ArrayList<Announcement> searchAnnouncement(String searchTitle) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            ArrayList<Announcement> announcements = new ArrayList<>();
+            String foundAnnouncements = "SELECT * FROM ANNOUNCEMENTS WHERE TITLE LIKE ?;";
+            PreparedStatement statement = connect.prepareStatement(foundAnnouncements);
+            statement.setString(1, "%"+searchTitle+"%");
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                int id = result.getInt("ID");
+                String title = result.getString("TITLE");
+                String body = result.getString("BODY");
+                int writerId = result.getInt("WRITER_ID");
+                Date writeTime = result.getDate("WRITE_TIME");
+                Announcement announcement = new Announcement(id, title, body, writerId, writeTime);
+                announcements.add(announcement);
+            }
+            return announcements;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }

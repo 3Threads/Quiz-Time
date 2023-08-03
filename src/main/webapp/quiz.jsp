@@ -164,7 +164,7 @@
                     <%=currQuiz.getQuizName()%>
                 </h1>
                 <% int avgRating = ratingsDAO.getAvgRatingOfQuiz(currQuiz.getQuizId()); %>
-                <h1 style="display: inline-block; white-space: nowrap">
+                <h1 id="avgRating"style="display: inline-block; white-space: nowrap">
                     <% for (int i = 0; i < avgRating; i++) {%>
                     <span class="fa fa-star checked"></span>
                     <%

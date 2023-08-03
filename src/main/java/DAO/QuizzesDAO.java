@@ -232,4 +232,26 @@ public class QuizzesDAO {
         }
         return false;
     }
+    public ArrayList<Quiz> searchQuizzes(String quizName) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getQuiz = "SELECT * FROM QUIZZES WHERE QUIZ_NAME LIKE ?;";
+            PreparedStatement statement = connect.prepareStatement(getQuiz);
+            statement.setString(1, "%"+quizName+"%");
+            System.out.println(statement);
+            return getQuizzes(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }

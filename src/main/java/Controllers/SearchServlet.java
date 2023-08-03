@@ -15,6 +15,10 @@ import java.io.IOException;
 public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
+            httpServletResponse.sendRedirect("/login");
+            return;
+        }
         try {
             httpServletRequest.getRequestDispatcher("searchPage.jsp").forward(httpServletRequest, httpServletResponse);
         } catch (ServletException e) {

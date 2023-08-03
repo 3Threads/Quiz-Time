@@ -26,13 +26,17 @@
 
 <body class="bg-dark text-light" style="overflow-x: clip">
 <%@include file="header.jsp" %>
-
+<%
+    ArrayList<User> users = usersDAO.searchUsers(request.getParameter("search"));
+    ArrayList<Quiz> quizzes = quizzesDAO.searchQuizzes(request.getParameter("search"));
+    ArrayList<Announcement> announcements = announcementsDAO.searchAnnouncement(request.getParameter("search"));
+%>
 <div class="container">
 
     <div class="row" style="height: 80%; min-height: 700px;">
         <div class="col-4 mt-3 uk-box-shadow-large uk-padding-small" style="margin-bottom: 20px; height: 95%">
             <div class="headers">
-                Search results for: niko
+                Search results for: <%=request.getParameter("search")%>
             </div>
             <hr>
 
@@ -103,33 +107,40 @@
                         Users
                     </div>
                     <hr>
+                        <%if(users.size() == 0) {%>
+                        <div class="search-body">
+                            Results Not Found
+                        </div>
+                        <%
+                            }
+                            for(User user : users) {
+                        %>
                     <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            user1
+                        <a style="display: inline-block" href=<%="/profile?user="+user.getId()%>>
+                            <%=user.getUsername()%>
                         </a>
                         <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                             -
                         </div>
-                        <a href=<%="/chat?chatWith="%>>
+                        <%
+                            if(user.getId() != myUser.getId()) {
+                        %>
+                        <a href=<%="/chat?chatWith="+user.getId()%>>
                             <div class=" btn-primary" style="display: inline-block;">
                                 <i class="bi bi-envelope"></i>
                             </div>
                         </a>
-                    </div>
-
-                    <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            dachiGoshadze
-                        </a>
-                        <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
-                            -
+                        <%} else {%>
+                        <div style="display: inline-block">
+                            (You)
                         </div>
-                        <a href=<%="/chat?chatWith="%>>
-                            <div class=" btn-primary" style="display: inline-block;">
-                                <i class="bi bi-envelope"></i>
-                            </div>
-                        </a>
+                        <%
+                            }
+                        %>
                     </div>
+                        <%
+                            }
+                        %>
                     <br><br>
 
                     <%--Quizzes--%>
@@ -137,28 +148,28 @@
                         Quizzes
                     </div>
                     <hr>
+                        <%if(quizzes.size() == 0) {%>
+                        <div class="search-body">
+                            Results Not Found
+                        </div>
+                        <%
+                            }
+                            for(Quiz quiz : quizzes) {
+                        %>
                     <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            Quiz1
+                        <a style="display: inline-block" href=<%="/quiz?quizId="+quiz.getQuizId()%>>
+                            <%=quiz.getQuizName()%>
                         </a>
                         <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                             created by
                         </div>
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            dachiGoshadze
+                        <a style="display: inline-block" href=<%="/profile?user="+quiz.getCreatorID()%>>
+                            <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
                         </a>
                     </div>
-                    <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            Quiz1
-                        </a>
-                        <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
-                            created by
-                        </div>
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            dachiGoshadze
-                        </a>
-                    </div>
+                        <%
+                            }
+                        %>
                     <br><br>
 
                     <%--Announcements--%>
@@ -167,10 +178,12 @@
                     </div>
                     <hr>
                     <div class="search-body">
+                        <%if(announcements.size() == 0) {%>
+                        <div class="search-body">
+                            Results Not Found
+                        </div>
                         <%
-
-                            ArrayList<Types.Announcement> announcements = announcementsDAO.getAnnouncements();
-
+                            }
                             for (Announcement announcement : announcements) {
                                 int userId = announcement.getWriterId();
                                 User user = usersDAO.getUserById(userId);
@@ -213,33 +226,40 @@
                         Users
                     </div>
                     <hr>
-                    <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            user1
-                        </a>
-                        <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
-                            -
+                        <%if(users.size() == 0) {%>
+                        <div class="search-body">
+                            Results Not Found
                         </div>
-                        <a href=<%="/chat?chatWith="%>>
-                            <div class=" btn-primary" style="display: inline-block;">
-                                <i class="bi bi-envelope"></i>
+                        <%
+                            }
+                            for(User user : users) {
+                        %>
+                        <div class="search-body">
+                            <a style="display: inline-block" href=<%="/profile?user="+user.getId()%>>
+                                <%=user.getUsername()%>
+                            </a>
+                            <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
+                                -
                             </div>
-                        </a>
-                    </div>
-
-                    <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            dachiGoshadze
-                        </a>
-                        <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
-                            -
+                            <%
+                                if(user.getId() != myUser.getId()) {
+                            %>
+                            <a href=<%="/chat?chatWith="+user.getId()%>>
+                                <div class=" btn-primary" style="display: inline-block;">
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+                            </a>
+                            <%} else {%>
+                            <div style="display: inline-block">
+                                (You)
+                            </div>
+                            <%
+                                }
+                            %>
                         </div>
-                        <a href=<%="/chat?chatWith="%>>
-                            <div class=" btn-primary" style="display: inline-block;">
-                                <i class="bi bi-envelope"></i>
-                            </div>
-                        </a>
-                    </div>
+                        <%
+                            }
+                        %>
                 </div>
                 <div class="tab-pane fade" id="v-pills-quizzes" role="tabpanel"
                      aria-labelledby="v-pills-quizzes-tab" tabindex="0">
@@ -249,29 +269,28 @@
                         Quizzes
                     </div>
                     <hr>
-                    <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            Quiz1
-                        </a>
-                        <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
-                            created by
+                        <%if(quizzes.size() == 0) {%>
+                            <div class="search-body">
+                                Results Not Found
+                            </div>
+                        <%
+                            }
+                            for(Quiz quiz : quizzes) {
+                        %>
+                        <div class="search-body">
+                            <a style="display: inline-block" href=<%="/quiz?quizId="+quiz.getQuizId()%>>
+                                <%=quiz.getQuizName()%>
+                            </a>
+                            <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
+                                created by
+                            </div>
+                            <a style="display: inline-block" href=<%="/profile?user="+quiz.getCreatorID()%>>
+                                <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
+                            </a>
                         </div>
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            dachiGoshadze
-                        </a>
-                    </div>
-                    <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            Quiz1
-                        </a>
-                        <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
-                            created by
-                        </div>
-                        <a style="display: inline-block" href=<%="/profile?user=" %>>
-                            dachiGoshadze
-                        </a>
-                    </div>
-
+                        <%
+                            }
+                        %>
                 </div>
                 <div class="tab-pane fade" id="v-pills-announcements" role="tabpanel"
                      aria-labelledby="v-pills-announcements-tab" tabindex="0">
@@ -283,7 +302,12 @@
                     <hr>
 
                         <div class="search-body">
+                            <%if(announcements.size() == 0) {%>
+                                <div class="search-body">
+                                    Results Not Found
+                                </div>
                             <%
+                            }
                                 for (Announcement announcement : announcements) {
                                     int userId = announcement.getWriterId();
                                     User user = usersDAO.getUserById(userId);
