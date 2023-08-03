@@ -3,6 +3,7 @@ package Controllers;
 import BusinessLogic.SessionRemove;
 import DAO.ChallengesDAO;
 import DAO.QuizzesDAO;
+import DAO.RatingsDAO;
 import Types.Quiz;
 import Types.User;
 
@@ -57,4 +58,27 @@ public class QuizServlet extends HttpServlet {
         }
         httpServletRequest.getRequestDispatcher("quiz.jsp").forward(httpServletRequest, httpServletResponse);
     }
+    @Override
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if (!SessionRemove.checkUser(httpServletRequest)) {
+            httpServletResponse.getWriter().println("login");
+            return;
+        }
+        SessionRemove.removeQuizAttributes(httpServletRequest);
+        if(httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addRate")) {
+            int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
+            int userId = Integer.parseInt(httpServletRequest.getParameter("userId"));
+            int rate = Integer.parseInt(httpServletRequest.getParameter("rate"));
+            String comment = httpServletRequest.getParameter("comment");
+            RatingsDAO ratingsDAO = (RatingsDAO) httpServletRequest.getServletContext().getAttribute("ratingsDB");
+            ratingsDAO.addRatingToQuiz(userId, quizId, rate, comment);
+        }
+        if(httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("deleteRate")) {
+            int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
+            int userId = Integer.parseInt(httpServletRequest.getParameter("userId"));
+            RatingsDAO ratingsDAO = (RatingsDAO) httpServletRequest.getServletContext().getAttribute("ratingsDB");
+            ratingsDAO.deleteRating(userId, quizId);
+        }
+    }
+
 }

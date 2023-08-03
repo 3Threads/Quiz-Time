@@ -1,8 +1,7 @@
-<%@ page import="Types.Quiz" %>
-<%@ page import="Types.Result" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
+<%@ page import="Types.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -51,7 +50,6 @@
 <%@include file="header.jsp" %>
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
-
     DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 
@@ -70,6 +68,35 @@
             }
         %>
     })
+    function addRate() {
+        let num = 0;
+        if(document.getElementById('rate-5').checked) {
+            num = 5;
+        }else if(document.getElementById('rate-4').checked) {
+            num = 4
+        } else if(document.getElementById('rate-3').checked) {
+            num = 3
+        }else if(document.getElementById('rate-2').checked) {
+            num = 2
+        }else if(document.getElementById('rate-1').checked) {
+            num = 1
+        }
+        $.post('quiz', {userId: <%=myUser.getId()%>, quizId: <%=currQuiz.getQuizId()%>,rate: num, comment: $('#comment').val(), action: "addRate"}, (text) => {
+            if(text === 'login') {
+                $(location).attr('href',"/login");
+            } else $(location).attr('href',"/quiz?quizId="+<%=currQuiz.getQuizId()%>);
+        });
+    }
+    function deleteComment(userId) {
+        $.post('quiz', {userId: userId, quizId: <%=currQuiz.getQuizId()%>, action: "deleteRate"}, (text) => {
+            if(text === 'login') {
+                $(location).attr('href',"/login");
+            }
+            $('#'+userId).remove();
+            let curNum = parseInt($('#commentsNum').text());
+            $('#commentsNum').text(curNum - 1);
+        });
+    }
 </script>
 <div id="resultsModal" uk-modal>
     <div class="uk-modal-dialog bg-dark">
@@ -92,6 +119,7 @@
             </div>
 
         </div>
+        <%if(!ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {%>
         <div class="container1" style="margin-left: 100px;">
             <div class="post1">
                 <div class="text1">Thanks for rating us!</div>
@@ -107,10 +135,10 @@
                 <label for="rate-2" class="fas fa-star"></label>
                 <input type="radio" name="rate" id="rate-1">
                 <label for="rate-1" class="fas fa-star"></label>
-                <form action="#">
+                <form onsubmit="addRate(); return false;">
                     <header></header>
                     <div class="textarea">
-                        <textarea cols="30" placeholder="Describe your experience.."></textarea>
+                        <textarea id="comment"cols="30" placeholder="Describe your experience.."></textarea>
                     </div>
                     <div class="btn1">
                         <button type="submit">Post</button>
@@ -118,16 +146,32 @@
                 </form>
             </div>
         </div>
+        <%
+            }
+        %>
         <br>
     </div>
 </div>
 <div class="container">
     <div class="row">
         <div class="row mt-3 uk-box-shadow-large uk-padding-small">
-            <div class="col">
-                <h1 style="margin: 0">
+            <div style="display: inline-block" class="col">
+                <h1 style="margin: 0; display: inline-block;">
                     <%=currQuiz.getQuizName()%>
                 </h1>
+                <% int avgRating = ratingsDAO.getAvgRatingOfQuiz(currQuiz.getQuizId()); %>
+                <div style="display: inline-block; font-size: 30px ">
+                    <% for(int i = 0; i < avgRating; i++) {%>
+                    <span class="fa fa-star checked"></span>
+                    <%
+                        }
+                        for(int i = 0; i < 5-avgRating; i++) {
+                    %>
+                    <span class="fa fa-star"></span>
+                    <%
+                        }
+                    %>
+                </div>
             </div>
             <div class="col-auto d-flex align-items-center">
                 <a href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>">
@@ -191,15 +235,6 @@
         </div>
         <div class="row uk-margin-small mt-5">
             <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px">
-                <%--                <div style="font-size: 20px">--%>
-                <%--                    <span class="fa fa-star checked"></span>--%>
-                <%--                    <span class="fa fa-star checked"></span>--%>
-                <%--                    <span class="fa fa-star checked"></span>--%>
-                <%--                    <span class="fa fa-star"></span>--%>
-                <%--                    <span class="fa fa-star"></span>--%>
-                <%--                </div>--%>
-
-
                 <h3>Description:</h3>
                 <hr>
                 <div class="mt-2">
@@ -394,11 +429,23 @@
                 </ul>
             </div>
         </div>
+        <%
+            ArrayList<Types.Rating> rates = ratingsDAO.getQuizRatings(currQuiz.getQuizId());
+            if(ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {
+                for(int i = 0; i < rates.size(); i++) {
+                    if(rates.get(i).getUserId() == myUser.getId()) {
+                        Rating rr = rates.get(i);
+                        rates.remove(i);
+                        rates.add(0, rr);
+                    }
+                }
+            }
+        %>
         <div class="row mt-3 uk-box-shadow-large uk-padding-small" style="margin-bottom: 50px;">
             <div style="align-content: center; display: inline-block;">
 
                 <div class="col-auto " style="overflow: auto; margin-bottom: 10px; text-align: left; font-size: 20px; display: inline-block;">
-                    20 Comments
+                    <div style="display: inline-block" id="commentsNum"><%=rates.size()%></div> <div style="display: inline-block">Comments</div>
                 </div>
                 <div class="col-auto " style="overflow: auto; margin-bottom: 10px; font-size: 220px; display: inline-block; float: right">
                     <select aria-label="Custom controls" id="newQuestionType"
@@ -411,55 +458,47 @@
                 </div>
             </div>
             <hr>
-
-            <div style="display: inline-block;">
-                <div style="font-size:17px; display: inline-block;">
-                    @Nikusha
+            <%
+                for(Rating rate : rates) {
+                    User user = usersDAO.getUserById(rate.getUserId());
+            %>
+            <div id="<%=user.getId()%>">
+                <%
+                    if(myUser.isAdmin() || user.getId() == myUser.getId()) {
+                %>
+                <button class="btn btn-danger" onclick="deleteComment(<%=user.getId()%>)">Delete</button>
+                <%
+                    }
+                %>
+                <div style="display: inline-block;">
+                    <div style="font-size:17px; display: inline-block;">
+                        <%=user.getUsername()%>
+                    </div>
+                    <div style="font-size:15px; display: inline-block; color: #aaa">
+                        | <%=rate.getRatingsDate()%>
+                    </div>
                 </div>
-                <div style="font-size:15px; display: inline-block; color: #aaa">
-                    | 10-04-2023
+                <% int rating = rate.getRating(); %>
+                <div style="display: inline-block; ">
+                    <% for(int i = 0; i < rating; i++) {%>
+                    <span class="fa fa-star checked"></span>
+                    <%
+                        }
+                        for(int i = 0; i < 5-rating; i++) {
+                    %>
+                    <span class="fa fa-star"></span>
+                    <%
+                        }
+                    %>
+                </div>
+
+                <div style=" margin-bottom: 25px">
+                    <%=rate.getComment()%>
                 </div>
             </div>
-            <div style="display: inline-block; ">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-            </div>
-
-            <div style=" margin-bottom: 25px">
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-            </div>
-
-            <div style="display: inline-block;">
-                <div style="font-size:17px; display: inline-block;">
-                    @niko
-                </div>
-                <div style="font-size:15px; display: inline-block; color: #aaa">
-                    | 10-04-2023
-                </div>
-            </div>
-            <div style="display: inline-block; ">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-            </div>
-
-
-            <div style="margin-bottom: 25px">
-                first thanks so much codeNepal for your help and amazing inspiring really i appreciate your help,
-            </div>
-
+            <%
+                }
+            %>
         </div>
 
     </div>

@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Types.*;
 
+import static java.lang.Math.round;
+
 public class RatingsDAO {
     private final BasicDataSource dataSource;
     public RatingsDAO(BasicDataSource dataSource) {
@@ -29,7 +31,8 @@ public class RatingsDAO {
                 num++;
                 sum += resultSet.getInt("RATING");
             }
-            if(num != 0) return sum / num;
+            double avg = sum / num;
+            if(num != 0) return (int) round(avg);
             return 0;
         } catch (SQLException e) {
             e.printStackTrace();
