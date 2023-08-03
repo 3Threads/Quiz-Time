@@ -405,3 +405,19 @@ form .btn1 button:hover{
 #rate-5 {
     display: none;
 }
+
+
+.search-body{
+    margin-left: 5px;
+    margin-right: 1px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.search-header{
+    font-size: 20px;
+    margin-left: 5px;
+    margin-right: 1px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
