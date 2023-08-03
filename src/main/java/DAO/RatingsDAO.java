@@ -7,12 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import Types.*;
 
 import static java.lang.Math.round;
 
 public class RatingsDAO {
     private final BasicDataSource dataSource;
+
     public RatingsDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -27,12 +29,14 @@ public class RatingsDAO {
             ResultSet resultSet = statement.executeQuery();
             int num = 0;
             int sum = 0;
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 num++;
                 sum += resultSet.getInt("RATING");
             }
-            double avg = sum / num;
-            if(num != 0) return (int) round(avg);
+            if (num != 0) {
+                double avg = (double) sum / num;
+                return (int) round(avg);
+            }
             return 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,6 +51,7 @@ public class RatingsDAO {
         }
         return 0;
     }
+
     public ArrayList<Rating> getQuizRatings(int quizId) {
         Connection connect = null;
         try {
@@ -56,7 +61,7 @@ public class RatingsDAO {
             statement.setInt(1, quizId);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<Rating> ratings = new ArrayList<>();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 ratings.add(new Rating(resultSet.getInt("USER_ID"), resultSet.getInt("RATING"),
                         resultSet.getString("COMMENT"), resultSet.getDate("RATED_DATE")));
             }
@@ -74,6 +79,7 @@ public class RatingsDAO {
         }
         return null;
     }
+
     public void addRatingToQuiz(int userId, int quizId, int rating, String comment) {
         Connection connect = null;
         try {
@@ -97,6 +103,7 @@ public class RatingsDAO {
             }
         }
     }
+
     public void deleteRating(int userId, int quizId) {
         Connection connect = null;
         try {
@@ -118,6 +125,7 @@ public class RatingsDAO {
             }
         }
     }
+
     public Boolean haveAlreadyRated(int userId, int quizId) {
         Connection connect = null;
         try {
@@ -127,7 +135,7 @@ public class RatingsDAO {
             statement.setInt(1, userId);
             statement.setInt(2, quizId);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) return true;
+            if (resultSet.next()) return true;
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
