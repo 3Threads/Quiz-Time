@@ -42,11 +42,17 @@
                 Username:
                 <div style="white-space: nowrap; display: inline-block">
                     <%=pageUser.getUsername() %>
+                    <%
+                        if(pageUser.getId() != myUser.getId()) {
+                    %>
                     <a href=<%="/chat?chatWith=" + pageUser.getId()%>>
                         <div style="display: inline-block;">
                             <i class="bi bi-envelope"></i>
                         </div>
                     </a>
+                    <%
+                        }
+                    %>
                 </div>
                 <hr>
             </div>
