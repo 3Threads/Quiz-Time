@@ -58,6 +58,9 @@
         $('#hourLabel').val($('#Hour').val());
         $('#minuteLabel').val($('#Minute').val());
         $('#secondLabel').val($('#Second').val());
+        if($('#timeFormatCheckBox').is(':checked')){
+            $('#timeFormatCheckLabel').val("on");
+        } else $('#timeFormatCheckLabel').val("off");
     }
 
     function addNewQuestion() {
@@ -68,6 +71,7 @@
         childToAppend += "<input type='hidden' name='hour' value='' id='hourLabel'>";
         childToAppend += "<input type='hidden' name='minute'  value='' id='minuteLabel'>";
         childToAppend += "<input type='hidden' name='second'  value='' id='secondLabel'>";
+        childToAppend += "<input type='hidden' name='timeFormatChecker'  value='' id='timeFormatCheckLabel'>";
         switch (questionType) {
             case "textResponse":
                 childToAppend +=
@@ -341,6 +345,18 @@
             $('#Second').prop('required', false);
         }
     }
+    $(document).ready(
+        function() {
+            if(<%=session.getAttribute("timeFormatChecker") != null
+                && session.getAttribute("timeFormatChecker").equals("off")%>) {
+                $('#timeFormat').toggle();
+                $('#Hour').prop('required', false);
+                $('#Minute').prop('required', false);
+                $('#Second').prop('required', false);
+                $('#timeFormatCheckBox').prop('checked', false);
+            }
+        }
+    )
 </script>
 <body>
 <%@include file="header.jsp" %>
@@ -373,9 +389,7 @@
                           style="height: 150px" required><%
                     if (session.getAttribute("description") != null) out.print(session.getAttribute("description"));
                 %></textarea>
-
-                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheckBox" checked onchange="toggleTimeFormat()"> Set
-                    timer</label>
+                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheck" checked onchange="toggleTimeFormat()"> Set timer</label>
                 <%
                     Time time = null;
                     if (session.getAttribute("timeLimit") != null) time = (Time) session.getAttribute("timeLimit");
@@ -466,6 +480,7 @@
                         <input type='hidden' name='hour' value='' id='hourLabel'>
                         <input type='hidden' name='minute'  value='' id='minuteLabel'>
                         <input type='hidden' name='second'  value='' id='secondLabel'>
+                        <input type='hidden' name='timeFormatCheck'  value='' id='timeFormatCheckLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>

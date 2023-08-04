@@ -138,14 +138,16 @@ public class CreateQuizServlet extends HttpServlet {
         if (httpServletRequest.getParameter("description") != null) {
             httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
         }
-        if (httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
-                && httpServletRequest.getParameter("second") != "") {
+        if (!httpServletRequest.getParameter("hour").equals("") && !httpServletRequest.getParameter("minute").equals("")
+                && !httpServletRequest.getParameter("second").equals("")) {
             Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
                     Integer.parseInt(httpServletRequest.getParameter("minute")),
                             Integer.parseInt(httpServletRequest.getParameter("second")));
             httpServletRequest.getSession().setAttribute("timeLimit", time);
         }
-
+        if(httpServletRequest.getParameter("timeFormatChecker") != null && !httpServletRequest.getParameter("timeFormatChecker").equals("")) {
+            httpServletRequest.getSession().setAttribute("timeFormatChecker", httpServletRequest.getParameter("timeFormatChecker"));
+        }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
             if (httpServletRequest.getParameter("questionType").equals("textResponse")) {
                 String questionText = httpServletRequest.getParameter("questionText");
@@ -238,21 +240,23 @@ public class CreateQuizServlet extends HttpServlet {
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
             QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
-            System.out.println(quizzesDAO.checkQuizName(title));
             if(!quizzesDAO.checkQuizName(title)) {
                 httpServletRequest.setAttribute("QuizTitleExist", "true");
                 httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
                 return;
             }
             String description = httpServletRequest.getParameter("description");
-            Time time = null;
-            if(httpServletRequest.getParameter("hour") != "" && httpServletRequest.getParameter("minute") != ""
-                    && httpServletRequest.getParameter("second") != "") {
-                int hour = Integer.parseInt(httpServletRequest.getParameter("hour"));
-                int minute = Integer.parseInt(httpServletRequest.getParameter("minute"));
-                int second = Integer.parseInt(httpServletRequest.getParameter("second"));
-                time = new Time(hour, minute, second);
-            } else time = new Time(0,0,0);
+            Time time = new Time(0, 0, 0);
+            if(httpServletRequest.getParameter("timeFormatCheck") != null &&
+                    httpServletRequest.getParameter("timeFormatCheck").equals("on")) {
+                if (!httpServletRequest.getParameter("hour").equals("") && !httpServletRequest.getParameter("minute").equals("")
+                        && !httpServletRequest.getParameter("second").equals("")) {
+                    int hour = Integer.parseInt(httpServletRequest.getParameter("hour"));
+                    int minute = Integer.parseInt(httpServletRequest.getParameter("minute"));
+                    int second = Integer.parseInt(httpServletRequest.getParameter("second"));
+                    time = new Time(hour, minute, second);
+                }
+            }
             User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
             QuizzesDAO qzDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
             qzDAO.addQuiz(title, description, user.getId(), time);
