@@ -49,9 +49,10 @@
     RatingsDAO ratingsDAO = (RatingsDAO) application.getAttribute("ratingsDB");
 %>
 <script>
-    let haveRequestsFrom=[];
-    let haveChallengeFrom=[];
-    let haveChatsNotificationFrom=[];
+    let haveRequestsFrom = [];
+    let haveChallengeFrom = [];
+    let haveChatsNotificationFrom = [];
+
     function requestConstructor(reqId, reqUsername, myId) {
         return "<li>\n <div class='row' id='request" + reqId + "'>\n <div class='col d-flex align-items-center'>\n<a href='/profile?user=" + reqId + "'>" + reqUsername + "</a>\n </div>\n<div class='col-auto'>\n<button onclick=\"requestAction(" + myId + "," + reqId + ", 'acceptRequest', " + reqId + ")\" class='btn btn-success'>Accept</button>\n<button onclick=\"requestAction(" + myId + "," + reqId + ", 'rejectRequest', " + reqId + ")\" class='btn btn-danger'>Reject</button>\n</div>\n</div>\n</li>\n";
     }
@@ -63,6 +64,7 @@
     function chatConstructor(chatUserId, chatUserUsername) {
         return "<li>\n <div class=\"row\">\n <div class=\"col d-flex align-items-center\">\n<div>New message from</div>\n <a style=\"margin-left: 3px\" href=\"/profile?user=" + chatUserId + "\">" + chatUserUsername + "</a>\n </div>\n <div class=\"col-auto\">\n <a href=\"/chat?chatWith=" + chatUserId + "\"> <button class=\"btn btn-primary\">Open chat</button> </a>\n </div>\n </div>\n </li>";
     }
+
     function requestAction(user1, user2, action, requestId) {
         $.post('notifications', {notification: 'request', user1: user1, user2: user2, action: action}, () => {
             $('#request' + requestId).remove();
@@ -70,18 +72,20 @@
             haveRequestsFrom.splice(index, 1);
         });
     }
-    function searchForArray(haystack, needle){
+
+    function searchForArray(haystack, needle) {
         let i, j, current;
-        for(i = 0; i < haystack.length; ++i){
-            if(needle.length === haystack[i].length){
+        for (i = 0; i < haystack.length; ++i) {
+            if (needle.length === haystack[i].length) {
                 current = haystack[i];
-                for(j = 0; j < needle.length && needle[j] === current[j]; ++j);
-                if(j === needle.length)
+                for (j = 0; j < needle.length && needle[j] === current[j]; ++j) ;
+                if (j === needle.length)
                     return i;
             }
         }
         return -1;
     }
+
     function challengeAction(user, action, challengeId, quizID) {
         $.post('notifications', {notification: 'challenge', userID: user, action: action, quizID: quizID}, () => {
             $('#challenge' + challengeId).remove();
@@ -92,6 +96,7 @@
             }
         });
     }
+
     function getNotifications() {
         $.get('notifications', (responseText) => {
             let realStr = responseText.trim();
@@ -107,7 +112,7 @@
                         let chall = challenge.trim();
                         let components;
                         components = chall.split("|");
-                        if(searchForArray(haveChallengeFrom, [parseInt(components[0]), parseInt(components[2])]) === -1) {
+                        if (searchForArray(haveChallengeFrom, [parseInt(components[0]), parseInt(components[2])]) === -1) {
                             haveChallengeFrom.push([parseInt(components[0]), parseInt(components[2])]);
                             $('#challengesList').append(challengeConstructor(components[0], components[1], components[2], components[3]));
                         }
@@ -121,7 +126,7 @@
                     function chatFunc(chat) {
                         let ch = chat.trim();
                         let components = ch.split("|");
-                        if(!haveChatsNotificationFrom.includes(parseInt(components[0]))) {
+                        if (!haveChatsNotificationFrom.includes(parseInt(components[0]))) {
                             haveChatsNotificationFrom.push(parseInt(components[0]));
                             $('#chatNotifications').append(chatConstructor(components[0], components[1]));
                         }
@@ -135,7 +140,7 @@
                     function requestFunc(request) {
                         let req = request.trim();
                         let components = req.split("|");
-                        if(!haveRequestsFrom.includes(parseInt(components[0]))) {
+                        if (!haveRequestsFrom.includes(parseInt(components[0]))) {
                             haveRequestsFrom.push(parseInt(components[0]));
                             $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
                         }
@@ -189,11 +194,15 @@
                             </div>
                             <div class="uk-modal-body">
                                 <ul class="uk-flex-left" data-uk-tab="{connect:'#notification tab'}">
-                                    <li><a class="notification-titles" style="color: white" href="">Friend Requests</a></li>
+                                    <li><a class="notification-titles" style="color: white" href="">Friend Requests</a>
+                                    </li>
                                     <li><a class="notification-titles" style="color: white" href="">Challenges</a></li>
                                     <li><a class="notification-titles" style="color: white" href="">Messages</a></li>
                                 </ul>
+
                                 <ul id="notification tab" class="uk-switcher uk-margin">
+
+                                    <%--Friend requests--%>
                                     <li>
                                         <div class="notification-name uk-padding-small">
                                             <ul id="requestsList" class="uk-list container-fluid"
@@ -210,17 +219,35 @@
                                                             <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
                                                                 <%=reqUserInfo.getUsername()%>
                                                             </a>
-                                                        <script>
-                                                            haveRequestsFrom.push(<%=reqUserInfo.getId()%>);
-                                                        </script>
+                                                            <script>
+                                                                haveRequestsFrom.push(<%=reqUserInfo.getId()%>);
+                                                            </script>
                                                         </div>
                                                         <div class="col-auto">
-                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"
-                                                                    class="notification-buttons btn btn-success">Accept
-                                                            </button>
-                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"
-                                                                    class="notification-buttons btn btn-danger">Reject
-                                                            </button>
+                                                            <a title="Accept friend request" href="">
+                                                                <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"
+                                                                        style="display: inline-block;"
+                                                                        type="button"
+                                                                        class="btn btn-outline-success notification-buttons">
+                                                                    <i class="bi bi-person-plus-fill"></i> Accept
+                                                                </button>
+                                                            </a>
+
+                                                            <a title="Reject friend request" href="">
+                                                                <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"
+                                                                        style="display: inline-block;"
+                                                                        type="button"
+                                                                        class="btn btn-outline-danger notification-buttons">
+                                                                    <i class="bi bi-person-x-fill"></i> Reject
+                                                                </button>
+                                                            </a>
+
+                                                            <%--                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"--%>
+                                                            <%--                                                                    class="notification-buttons btn btn-success">Accept--%>
+                                                            <%--                                                            </button>--%>
+                                                            <%--                                                            <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"--%>
+                                                            <%--                                                                    class="notification-buttons btn btn-danger">Reject--%>
+                                                            <%--                                                            </button>--%>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -229,14 +256,14 @@
                                                     }
                                                 %>
                                             </ul>
-
                                         </div>
                                     </li>
+
+                                    <%--Challenges--%>
                                     <li>
                                         <div class="notification-name uk-padding-small">
                                             <ul id="challengesList" class="uk-list container-fluid "
                                                 style="max-height: 200px; overflow: auto">
-
 
                                                 <%
                                                     ArrayList<Challenge> challenges = challengesDAO.getChallenges(myUser.getId());
@@ -257,18 +284,37 @@
                                                             <a style="margin-left: 3px"
                                                                href=<%= "/quiz?quizId=" + challenge.getQuizId()%>><%=quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName()%>
                                                             </a>
-
                                                         </div>
+
                                                         <div class="col-auto">
-                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
-                                                                    class="notification-buttons btn btn-success">Accept
-                                                            </button>
-                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
-                                                                    class="notification-buttons btn btn-danger">Reject
-                                                            </button>
+                                                            <a title="Accept challenge" href="">
+                                                                <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
+                                                                        style="display: inline-block;"
+                                                                        type="button"
+                                                                        class="btn btn-outline-success notification-buttons">
+                                                                    <i class="bi bi-check-lg"></i>
+                                                                    Accept
+                                                                </button>
+                                                            </a>
+
+                                                            <a title="Reject challenge" href="">
+                                                                <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
+                                                                        style="display: inline-block;"
+                                                                        type="button"
+                                                                        class="btn btn-outline-danger notification-buttons">
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                    Reject
+                                                                </button>
+                                                            </a>
+
+                                                            <%--                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"--%>
+                                                            <%--                                                                    class="notification-buttons btn btn-success">Accept--%>
+                                                            <%--                                                            </button>--%>
+                                                            <%--                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"--%>
+                                                            <%--                                                                    class="notification-buttons btn btn-danger">Reject--%>
+                                                            <%--                                                            </button>--%>
                                                         </div>
                                                     </div>
-
                                                 </li>
                                                 <%
                                                         challId++;
@@ -278,6 +324,8 @@
                                             </ul>
                                         </div>
                                     </li>
+
+                                    <%--Chat--%>
                                     <li>
                                         <div class="uk-padding-small">
                                             <ul id="chatNotifications" class="uk-list container-fluid"
@@ -300,8 +348,12 @@
 
                                                         </div>
                                                         <div class="col-auto">
-                                                            <a href=<%="/chat?chatWith=" + chatUser.getId()%>>
-                                                                <button class="notification-buttons btn btn-primary">Open chat</button>
+                                                            <a title="Open chat" href=<%="/chat?chatWith=" + chatUser.getId()%>>
+                                                                <button style="display: inline-block;"
+                                                                        type="button"
+                                                                        class="btn btn-outline-primary notification-buttons">
+                                                                    <i class="bi bi-envelope"></i> Open
+                                                                </button>
                                                             </a>
                                                         </div>
                                                     </div>
@@ -309,10 +361,10 @@
                                                 <%
                                                     }
                                                 %>
-
                                             </ul>
                                         </div>
                                     </li>
+
                                 </ul>
                             </div>
                         </div>
