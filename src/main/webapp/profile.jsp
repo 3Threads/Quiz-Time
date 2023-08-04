@@ -38,79 +38,128 @@
 <div class="container">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <h3>
-                Username: <%=pageUser.getUsername() %>
-            </h3>
-            <br>
+            <div style="font-size: 25px">
+                Username:
+                <div style="white-space: nowrap; display: inline-block">
+                    <%=pageUser.getUsername() %>
+                    <a href=<%="/chat?chatWith=" + pageUser.getId()%>>
+                        <div style="display: inline-block;">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                    </a>
+                </div>
+                <hr>
+            </div>
             <% if (profileId != myUser.getId()) {
                 FriendInfo info = friendsDAO.getBetweenUsersInfo(profileId, myUser.getId());
                 if (info.getAccepted() == -1) {
             %>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=sendRequest"%>>
-                <button class="btn btn-success">Add Friend</button>
+            <a title="Add friend"
+               href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=sendRequest"%>>
+                <button type="button" class="btn btn-outline-success profile-button">
+                    <i class="bi bi-person-plus-fill"></i> Add friend
+                </button>
             </a>
+
             <%
                 }
                 if (info.getAccepted() == 0) {
                     if (info.getUser1Id() == profileId) {
             %>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=acceptRequest"%>>
-                <button class="btn btn-success">Accept Request</button>
-            </a><br><br>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=rejectRequest&from=profile"%>>
-                <button class="btn btn-danger">Reject Request</button>
-            </a>
+
+            <div>
+                <a title="Accept friend request"
+                   href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=acceptRequest"%>>
+                    <button style="display: inline-block; width: 48%" type="button"
+                            class="btn btn-outline-success profile-button">
+                        <i class="bi bi-person-plus-fill"></i> Accept
+                    </button>
+                </a>
+
+                <a title="Reject friend request"
+                   href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=rejectRequest&from=profile"%>>
+                    <button style="display: inline-block; width: 48%; float: right" type="button"
+                            class="btn btn-outline-danger profile-button">
+                        <i class="bi bi-person-x-fill"></i> Reject
+                    </button>
+                </a>
+            </div>
+
             <%
             } else {
             %>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=cancelRequest"%>>
-                <button class="btn btn-danger">Delete Request</button>
-            </a>
-            <% }
-            }
-                if (info.getAccepted() == 1) {%>
-            <a href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=unfriend"%>>
-                <button class="btn btn-danger">Unfriend</button>
+
+            <a title="Delete friend request"
+               href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=cancelRequest"%>>
+                <button type="button" class="btn btn-outline-danger profile-button">
+                    <i class="bi bi-x-octagon-fill"></i> Delete request
+                </button>
             </a>
 
             <%
+                    }
                 }
+                if (info.getAccepted() == 1) {
             %>
-            <a href=<%="/chat?chatWith=" + pageUser.getId()%>>
-                <button class="btn btn-primary">Chat</button>
+
+            <a title="Remove friend"
+               href=<%="/friends?user1=" + myUser.getId() + "&user2=" + profileId + "&action=unfriend"%>>
+                <button type="button" class="btn btn-outline-danger profile-button">
+                    <i class="bi bi-person-dash-fill"></i> Remove
+                </button>
             </a>
-            <br><br><br>
+
             <%
+                    }
                 }
             %>
 
-            <% if (pageUser.getId() == myUser.getId() || myUser.isAdmin()) {
-            %>
-            <form method="post" action="/profile">
-                <input type="hidden" name="userId" value=<%=pageUser.getId()%>>
-                <input type="hidden" name="action" value="deleteProfile">
-                <button type="submit" class="btn btn-danger">Delete User</button>
-            </form>
             <%
-                }
                 if (myUser.isAdmin()) {
                     if (pageUser.isAdmin()) {
             %>
+
             <form method="post" action="/profile">
                 <input type="hidden" name="userId" value=<%=pageUser.getId()%>>
                 <input type="hidden" name="action" value="deleteAdmin">
-                <button type="submit" class="btn btn-danger">Delete Admin</button>
+
+                <a title="Remove the user from the admin role">
+                    <button type="submit" class="btn btn-outline-danger profile-button">
+                        <i class="bi bi-chevron-double-down"></i> Remove admin
+                    </button>
+                </a>
             </form>
+
             <%
             } else {
             %>
             <form method="post" action="/profile">
                 <input type="hidden" name="userId" value=<%=pageUser.getId()%>>
                 <input type="hidden" name="action" value="addToAdmin">
-                <button type="submit" class="btn btn-primary">Add Admin</button>
+                <a title="Grant admin privileges to the user">
+                    <button type="submit" class="btn btn-outline-primary profile-button">
+                        <i class="bi bi-chevron-double-up"></i> Make admin
+                    </button>
+                </a>
             </form>
             <%
                     }
+                }
+            %>
+            <%
+                if (pageUser.getId() == myUser.getId() || myUser.isAdmin()) {
+            %>
+            <form method="post" action="/profile">
+                <input type="hidden" name="userId" value=<%=pageUser.getId()%>>
+                <input type="hidden" name="action" value="deleteProfile">
+                <a title="Delete user's account">
+                    <button type="submit" class="btn btn-outline-danger profile-button">
+                        <i class="bi bi-exclamation-octagon-fill"></i>
+                        Delete
+                    </button>
+                </a>
+            </form>
+            <%
                 }
             %>
             <br>

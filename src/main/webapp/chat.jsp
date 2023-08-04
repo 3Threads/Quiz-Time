@@ -270,10 +270,11 @@
                                placeholder="Input message"
                                name="message"/>
                         <div class="uk-inline col-auto d-flex align-items-center"
-                             style="margin-left: 5px; margin-right: 5px; padding: 0; ">
-                            <button class="btn btn-dark" type="button">
+                             style="margin-left: 10px; margin-right: 10px; padding: 0; ">
+                            <a class="btn-primary" style="display: inline-block;">
                                 <i class='bi bi-emoji-smile-fill' style='color: #FFD400;'></i>
-                            </button>
+                            </a>
+
                             <div class="uk-card uk-card-body bg-dark text-light"
                                  uk-drop="pos: top-center; mode:click"
                                  style="padding: 10px;">
