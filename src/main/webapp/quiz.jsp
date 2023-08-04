@@ -238,7 +238,7 @@
             </div>
         </div>
         <div class="row uk-margin-small mt-5">
-            <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px">
+            <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px; max-height: 530px">
                 <h3>Description:</h3>
                 <hr>
                 <div class="mt-2">
