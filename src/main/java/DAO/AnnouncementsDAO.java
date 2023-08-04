@@ -25,17 +25,7 @@ public class AnnouncementsDAO {
             ArrayList<Announcement> announcements = new ArrayList<>();
             String foundAnnouncements = "SELECT * FROM ANNOUNCEMENTS ORDER BY WRITE_TIME DESC";
             PreparedStatement statement = connect.prepareStatement(foundAnnouncements);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                int id = result.getInt("ID");
-                String title = result.getString("TITLE");
-                String body = result.getString("BODY");
-                int writerId = result.getInt("WRITER_ID");
-                Date writeTime = result.getDate("WRITE_TIME");
-                Announcement announcement = new Announcement(id, title, body, writerId, writeTime);
-                announcements.add(announcement);
-            }
-            return announcements;
+            return getAnnouncements(announcements, statement);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -72,25 +62,16 @@ public class AnnouncementsDAO {
             }
         }
     }
-    public ArrayList<Announcement> searchAnnouncement(String searchTitle) {
+    public ArrayList<Announcement> searchAnnouncement(String searchString) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
             ArrayList<Announcement> announcements = new ArrayList<>();
-            String foundAnnouncements = "SELECT * FROM ANNOUNCEMENTS WHERE TITLE LIKE ?;";
+            String foundAnnouncements = "SELECT * FROM ANNOUNCEMENTS WHERE TITLE LIKE ? OR (SELECT USERNAME FROM USERS WHERE ID = WRITER_ID) LIKE ?;";
             PreparedStatement statement = connect.prepareStatement(foundAnnouncements);
-            statement.setString(1, "%"+searchTitle+"%");
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                int id = result.getInt("ID");
-                String title = result.getString("TITLE");
-                String body = result.getString("BODY");
-                int writerId = result.getInt("WRITER_ID");
-                Date writeTime = result.getDate("WRITE_TIME");
-                Announcement announcement = new Announcement(id, title, body, writerId, writeTime);
-                announcements.add(announcement);
-            }
-            return announcements;
+            statement.setString(1, "%"+searchString+"%");
+            statement.setString(2, "%"+searchString+"%");
+            return getAnnouncements(announcements, statement);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -103,5 +84,19 @@ public class AnnouncementsDAO {
             }
         }
         return null;
+    }
+
+    private ArrayList<Announcement> getAnnouncements(ArrayList<Announcement> announcements, PreparedStatement statement) throws SQLException {
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            int id = result.getInt("ID");
+            String title = result.getString("TITLE");
+            String body = result.getString("BODY");
+            int writerId = result.getInt("WRITER_ID");
+            Date writeTime = result.getDate("WRITE_TIME");
+            Announcement announcement = new Announcement(id, title, body, writerId, writeTime);
+            announcements.add(announcement);
+        }
+        return announcements;
     }
 }

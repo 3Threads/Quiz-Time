@@ -182,7 +182,6 @@ public class UsersDAO {
             String getUserRow = "SELECT * FROM USERS WHERE USERNAME LIKE ?;";
             PreparedStatement statement = connect.prepareStatement(getUserRow);
             statement.setString(1, "%"+userName+"%");
-            System.out.println(statement);
             ResultSet result = statement.executeQuery();
             ArrayList<User> arr = new ArrayList<>();
             while(result.next()) {
