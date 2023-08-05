@@ -43,7 +43,7 @@
                 msg = msg.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
                 msg = msg.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
-                $('#chat').append("<div class='row justify-content-end'style='margin-right: 8px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
+                $('#chat').append("<div class='row justify-content-end'style='margin-right: 1px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
