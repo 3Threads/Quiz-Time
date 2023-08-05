@@ -99,6 +99,10 @@
 
     function getNotifications() {
         $.get('notifications', (responseText) => {
+            if (responseText.trim() === 'login') {
+                $(location).attr('href', '/login');
+                return;
+            }
             let realStr = responseText.trim();
             let notifi;
             notifi = realStr.split('$');
@@ -162,7 +166,7 @@
     }
 
     $(document).ready(function () {
-        setInterval(getNotifications, 5000);
+        setInterval(getNotifications, 2000);
     });
 </script>
 <body class="bg-dark text-light">

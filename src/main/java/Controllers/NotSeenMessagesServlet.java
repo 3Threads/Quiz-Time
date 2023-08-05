@@ -19,7 +19,7 @@ public class NotSeenMessagesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.getWriter().println("login");
             return;
         }
         PrintWriter out = httpServletResponse.getWriter();

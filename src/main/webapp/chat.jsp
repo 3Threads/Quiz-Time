@@ -29,7 +29,7 @@
             message: document.getElementById("message").value
         }, (responseText) => {
             if (responseText.trim() === 'login') {
-                window.location.replace("/login");
+                $(location).attr('href', '/login');
                 return;
             }
             if (document.getElementById("message").value !== "") {
@@ -75,6 +75,10 @@
     function getMessages() {
         $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>, action: "currentChat"}, (responseText) => {
             if (responseText !== '') {
+                if(responseText.trim() === 'login') {
+                    $(location).attr('href', '/login');
+                    return;
+                }
                 const chatBox = $(".chatBox");
                 const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
                 responseText = responseText.replaceAll("<3", "<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
@@ -97,6 +101,10 @@
             chatWith: <%=request.getParameter("chatWith")%>,
             action: "notCurrentChat"
         }, (responseText) => {
+            if(responseText.trim() === 'login') {
+                $(location).attr('href', '/login');
+                return;
+            }
             let realStr = responseText.trim();
             let fr;
             fr = realStr.split('/');
@@ -132,6 +140,10 @@
     function getChats() {
         $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
             if (responseText.trim() !== '') {
+                if(responseText.trim() === 'login') {
+                    $(location).attr('href', '/login');
+                    return;
+                }
                 if (curChats.length === 0) $('#chatList').html('');
                 let fr = responseText.trim().split('$');
                 fr.forEach(chatFunc);
