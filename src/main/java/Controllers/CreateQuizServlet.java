@@ -271,6 +271,7 @@ public class CreateQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("description");
             httpServletRequest.getSession().removeAttribute("questions");
             httpServletRequest.getSession().removeAttribute("timeLimit");
+            httpServletRequest.getSession().removeAttribute("timeFormatChecker");
             httpServletResponse.sendRedirect("/quiz?quizId=" + quizID);
         }
     }

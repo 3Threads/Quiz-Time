@@ -43,7 +43,7 @@
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
             if($('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
                 if(document.querySelector('input[name=answers]:checked') == null) {
-                    window.alert("You need to choose an option!");
+                    $('#errors').html(errorMessageConstructor("You need to choose a minimum 1 correct answer"));
                     return false;
                 }
             }
@@ -62,7 +62,9 @@
             $('#timeFormatCheckLabel').val("on");
         } else $('#timeFormatCheckLabel').val("off");
     }
-
+    function errorMessageConstructor(message) {
+        return '<br><div class="alert alert-danger alert-dismissible d-flex align-items-center fade show"> <i class="bi-exclamation-octagon-fill"></i> <strong class="mx-2">Error!</strong> '+ message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button> </div>';
+    }
     function addNewQuestion() {
         const questionType = $('#newQuestionType').val();
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
@@ -226,8 +228,8 @@
             default:
                 break;
         }
-
-        childToAppend += "<br><button type='submit' class='btn btn-success mt-3'>Create question</button>";
+        childToAppend += "<div id='errors'></div>";
+        childToAppend += "<button type='submit' class='btn btn-success mt-3'>Create question</button>";
 
         $('#formForThisType').html(childToAppend);
     }
@@ -377,7 +379,11 @@
                 <%
                     if(request.getAttribute("QuizTitleExist") != null) {
                 %>
-                <h7>This quiz name is already exist</h7><br>
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong>Error!</strong> Quiz with same title is already exist.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
                 <%
                     }
                 %>
@@ -523,8 +529,6 @@
                             %>
                         </div>
                         <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                                 }
                                 if(request.getParameter("type").equals("fillInTheBlank")) {
@@ -567,8 +571,6 @@
                             %>
                         </div>
                         <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                             }
                             if(request.getParameter("type").equals("multipleChoices")) {
@@ -617,8 +619,6 @@
                             %>
                         </div>
                         <input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                             } if(request.getParameter("type").equals("multipleChoicesWithMultipleAnswers")) {
                         %>
@@ -670,8 +670,6 @@
                         </div>
                         <input type='button' class='btn btn-success' onclick='addAnswerCheckbox()'
                                value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                             }  if(request.getParameter("type").equals("pictureResponse")) {
                             %>
@@ -719,8 +717,6 @@
                             %>
                         </div>
                         <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                                 }
                             if(request.getParameter("type").equals("matching")) {
@@ -788,8 +784,6 @@
                         </div>
                         <input type='button' class='btn btn-success' onclick='addAnswerMatching()'
                                value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                                 } if(request.getParameter("type").equals("multiAnswers")) {
                             %>
@@ -829,7 +823,10 @@
                                 <%
                                     }
                                 }
-                            }
+                            }%>
+                        <div id="errors"></div>
+                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                    <%
                         }
                     %>
                 </form>
