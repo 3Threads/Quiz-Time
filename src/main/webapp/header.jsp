@@ -96,7 +96,7 @@
             }
         });
     }
-
+    let x = 0;
     function getNotifications() {
         $.get('notifications', (responseText) => {
             if (responseText.trim() === 'login') {
@@ -118,8 +118,8 @@
                         if (searchForArray(haveChallengeFrom, [parseInt(components[0]), parseInt(components[2])]) === -1) {
                             haveChallengeFrom.push([parseInt(components[0]), parseInt(components[2])]);
                             $('#challengesList').append(challengeConstructor(components[0], components[1], components[2], components[3]));
-                            $('#toastCont').append(toastContructor(1, 12, 'You Have Challenged on quiz '+ components[3] + ' From ' + components[1] + '!'));
-                            var toast = new bootstrap.Toast($('#1'));
+                            $('#toastCont').append(toastContructor(++x, 'You Have Challenged on quiz '+ components[3] + ' From ' + components[1] + '!'));
+                            var toast = new bootstrap.Toast($('#'+x));
                             toast.show();
                         }
                     }
@@ -135,8 +135,8 @@
                         if (!haveChatsNotificationFrom.includes(parseInt(components[0]))) {
                             haveChatsNotificationFrom.push(parseInt(components[0]));
                             $('#chatNotifications').append(chatConstructor(components[0], components[1]));
-                            $('#toastCont').append(toastContructor(1, 12, 'You Have New Message From ' + components[1]));
-                            var toast = new bootstrap.Toast($('#1'));
+                            $('#toastCont').append(toastContructor(++x, 'You Have New Message From ' + components[1]));
+                            var toast = new bootstrap.Toast($('#'+x));
                             toast.show();
                         }
                     }
@@ -152,8 +152,8 @@
                         if (!haveRequestsFrom.includes(parseInt(components[0]))) {
                             haveRequestsFrom.push(parseInt(components[0]));
                             $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
-                            $('#toastCont').append(toastContructor(1, 12, 'You Have New Friend Request From ' + components[1]));
-                            var toast = new bootstrap.Toast($('#1'));
+                            $('#toastCont').append(toastContructor(++x, 'You Have New Friend Request From ' + components[1]));
+                            var toast = new bootstrap.Toast($('#'+x));
                             toast.show();
                         }
                     }
@@ -172,11 +172,10 @@
                 $animate.removeClass('uk-animation-shake');
             });
     }
-    function toastContructor(id, time, msg) {
-        return '<div id='+id+' class="toast GFG1 bg-primary" role="alert" aria-live="assertive" aria-atomic="true">\n' +
+    function toastContructor(id, msg) {
+        return '<div id='+id+' class="toast GFG1 bg-primary fade show" role="alert" aria-live="assertive" aria-atomic="true">\n' +
             '            <div class="toast-header">\n' +
             '                <strong class="me-auto">Notification</strong>\n' +
-            '                <small class="text-muted">'+time+' seconds ago</small>\n' +
             '                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>\n' +
             '            </div>\n' +
             '            <div class="toast-body">\n' +
@@ -337,12 +336,6 @@
                                                                 </button>
                                                             </a>
 
-                                                            <%--                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"--%>
-                                                            <%--                                                                    class="notification-buttons btn btn-success">Accept--%>
-                                                            <%--                                                            </button>--%>
-                                                            <%--                                                            <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"--%>
-                                                            <%--                                                                    class="notification-buttons btn btn-danger">Reject--%>
-                                                            <%--                                                            </button>--%>
                                                         </div>
                                                     </div>
                                                 </li>

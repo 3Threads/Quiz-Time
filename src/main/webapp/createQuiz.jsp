@@ -43,7 +43,7 @@
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
             if($('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
                 if(document.querySelector('input[name=answers]:checked') == null) {
-                    $('#errors').html(errorMessageConstructor("You need to choose a minimum 1 correct answer"));
+                    $('#errors').html(errorMessageConstructor("You must choose at least 1 correct answer"));
                     return false;
                 }
             }
