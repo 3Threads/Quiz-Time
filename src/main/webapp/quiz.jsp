@@ -67,6 +67,7 @@
             }
         %>
     })
+
     function addRate() {
         let num = 0;
         if (document.getElementById('rate-5').checked) {
@@ -103,9 +104,14 @@
             $('#commentsNum').text(curNum - 1);
         });
     }
+
     function changeList() {
-        $.get('quiz', {order: $('#selectOrder').val(), quizId: <%=currQuiz.getQuizId()%>, action: "changeList"}, (text) => {
-            if(text !== '') {
+        $.get('quiz', {
+            order: $('#selectOrder').val(),
+            quizId: <%=currQuiz.getQuizId()%>,
+            action: "changeList"
+        }, (text) => {
+            if (text !== '') {
                 $('#rates').html(text);
             }
         });
@@ -170,7 +176,7 @@
                     <%=currQuiz.getQuizName()%>
                 </h1>
                 <% int avgRating = ratingsDAO.getAvgRatingOfQuiz(currQuiz.getQuizId()); %>
-                <h1 id="avgRating"style="display: inline-block; white-space: nowrap">
+                <h1 id="avgRating" style="display: inline-block; white-space: nowrap">
                     <% for (int i = 0; i < avgRating; i++) {%>
                     <span class="fa fa-star checked"></span>
                     <%
@@ -184,18 +190,31 @@
                 </h1>
             </div>
             <div class="col-auto d-flex align-items-center">
-                <a href="/writeQuiz?quizId=<%=currQuiz.getQuizId()%>">
-                    <input type="button" class="btn btn-success" value="Start Quiz" style="margin-right: 6px">
+                <a href="/writeQuiz?quizId=<%= currQuiz.getQuizId() %>" class="quiz-button">
+                    <button type="button" class="btn btn-outline-success" style="margin-right: 6px">
+                        <i class="bi bi-play-circle-fill"></i>
+                        Start Quiz
+                    </button>
                 </a>
-                <a href="#modalSendChallenges" uk-toggle>
-                    <input type="button" class="btn btn-primary" value="Send Challenge">
+
+                <a href="#modalSendChallenges" class="quiz-button" uk-toggle>
+                    <button type="button" class="btn btn-outline-primary" style="margin-right: 6px">
+                        <i class="bi bi-share"></i>
+                        Send Challenge
+                    </button>
                 </a>
+
                 <%
                     if (myUser.isAdmin() || currQuiz.getCreatorID() == myUser.getId()) {
                 %>
-                <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete">
-                    <input type="button" class="btn btn-danger" value="Delete Quiz" style="margin-left: 6px">
+
+                <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete" class="quiz-button">
+                    <button type="button" class="btn btn-outline-danger" style="margin-right: 6px">
+                        <i class="bi bi-exclamation-octagon-fill"></i>
+                        Delete quiz
+                    </button>
                 </a>
+
                 <%
                     }
                 %>
@@ -471,53 +490,53 @@
             </div>
             <hr>
             <div id="rates">
-            <%
-                for (Rating rate : rates) {
-                    User user = usersDAO.getUserById(rate.getUserId());
-            %>
-            <div id="<%=user.getId()%>">
+                <%
+                    for (Rating rate : rates) {
+                        User user = usersDAO.getUserById(rate.getUserId());
+                %>
+                <div id="<%=user.getId()%>">
 
-                <div style="display: inline-block;">
-                    <a href="/profile?user=<%=user.getId()%>">
-                        <div style="font-size:17px; display: inline-block;">
-                            @<%=user.getUsername()%>
+                    <div style="display: inline-block;">
+                        <a href="/profile?user=<%=user.getId()%>">
+                            <div style="font-size:17px; display: inline-block;">
+                                @<%=user.getUsername()%>
+                            </div>
+                        </a>
+                        <% int rating = rate.getRating(); %>
+                        <div style="font-size:17px; display: inline-block; ">
+                            <% for (int i = 0; i < rating; i++) {%>
+                            <span class="fa fa-star checked"></span>
+                            <%
+                                }
+                                for (int i = 0; i < 5 - rating; i++) {
+                            %>
+                            <span class="fa fa-star"></span>
+                            <%
+                                }
+                            %>
                         </div>
-                    </a>
-                    <% int rating = rate.getRating(); %>
-                    <div style="font-size:17px; display: inline-block; ">
-                        <% for (int i = 0; i < rating; i++) {%>
-                        <span class="fa fa-star checked"></span>
-                        <%
-                            }
-                            for (int i = 0; i < 5 - rating; i++) {
-                        %>
-                        <span class="fa fa-star"></span>
-                        <%
-                            }
-                        %>
+                        <div style="font-size:15px; display: inline-block; color: #aaa">
+                            | <%=rate.getRatingsDate()%>
+                        </div>
                     </div>
-                    <div style="font-size:15px; display: inline-block; color: #aaa">
-                        | <%=rate.getRatingsDate()%>
+
+                    <%
+                        if (myUser.isAdmin() || user.getId() == myUser.getId()) {
+                    %>
+                    <a class="btn-danger" style="float:right; color: #aaa" onclick="deleteComment(<%=user.getId()%>)">Delete
+                        comment</a>
+                    <%
+                        }
+                    %>
+
+                    <div style=" margin-bottom: 25px">
+                        <%=rate.getComment()%>
                     </div>
                 </div>
-
-                <%
-                    if (myUser.isAdmin() || user.getId() == myUser.getId()) {
-                %>
-                <a class="btn-danger" style="float:right; color: #aaa" onclick="deleteComment(<%=user.getId()%>)">Delete
-                    comment</a>
                 <%
                     }
                 %>
-
-                <div style=" margin-bottom: 25px">
-                    <%=rate.getComment()%>
-                </div>
             </div>
-            <%
-                }
-            %>
-        </div>
         </div>
     </div>
 </div>
