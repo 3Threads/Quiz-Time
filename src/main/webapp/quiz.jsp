@@ -103,6 +103,13 @@
             $('#commentsNum').text(curNum - 1);
         });
     }
+    function changeList() {
+        $.get('quiz', {order: $('#selectOrder').val(), quizId: <%=currQuiz.getQuizId()%>, action: "changeList"}, (text) => {
+            if(text !== '') {
+                $('#rates').html(text);
+            }
+        });
+    }
 </script>
 <div id="resultsModal" uk-modal>
     <div class="uk-modal-dialog bg-dark">
@@ -433,7 +440,7 @@
             </div>
         </div>
         <%
-            ArrayList<Types.Rating> rates = ratingsDAO.getQuizRatings(currQuiz.getQuizId());
+            ArrayList<Types.Rating> rates = ratingsDAO.getQuizRatings(currQuiz.getQuizId(), "newest");
             if (ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {
                 for (int i = 0; i < rates.size(); i++) {
                     if (rates.get(i).getUserId() == myUser.getId()) {
@@ -455,7 +462,7 @@
                 </div>
                 <div class="col-auto "
                      style="overflow: auto; margin-bottom: 10px; font-size: 220px; display: inline-block; float: right">
-                    <select aria-label="Custom controls" id="newQuestionType"
+                    <select id="selectOrder" onchange="changeList()" aria-label="Custom controls" id="newQuestionType"
                             class="form-select form-select-md bg-dark text-light">
                         <option value="newest">Newest first</option>
                         <option value="oldest">Oldest first</option>
@@ -463,6 +470,7 @@
                 </div>
             </div>
             <hr>
+            <div id="rates">
             <%
                 for (Rating rate : rates) {
                     User user = usersDAO.getUserById(rate.getUserId());
@@ -510,7 +518,7 @@
                 }
             %>
         </div>
-
+        </div>
     </div>
 </div>
 </body>

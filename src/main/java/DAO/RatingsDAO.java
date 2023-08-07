@@ -52,11 +52,14 @@ public class RatingsDAO {
         return 0;
     }
 
-    public ArrayList<Rating> getQuizRatings(int quizId) {
+    public ArrayList<Rating> getQuizRatings(int quizId, String lst) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "SELECT * FROM RATINGS WHERE QUIZ_ID=? ORDER BY RATED_DATE DESC";
+            String str;
+            if(lst.equals("newest")) {
+                str = "SELECT * FROM RATINGS WHERE QUIZ_ID=? ORDER BY RATED_DATE DESC";
+            } else str = "SELECT * FROM RATINGS WHERE QUIZ_ID=? ORDER BY RATED_DATE";
             PreparedStatement statement = connect.prepareStatement(str);
             statement.setInt(1, quizId);
             ResultSet resultSet = statement.executeQuery();
