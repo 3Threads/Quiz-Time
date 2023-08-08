@@ -86,24 +86,24 @@ public class QuizServlet extends HttpServlet {
     }
     private String rateConstructor(User myUser, User user, Rating rate) {
         StringBuilder str = new StringBuilder();
-        str.append("<div id='" + user.getId() + "'>");
+        str.append("<div id='" + user.getId() + "'>\n");
 
-        str.append("<div style=\"display: inline-block;\"> <a href=\"/profile?user=" + user.getId() + "\"> <div style=\"font-size:17px; display: inline-block;\">");
+        str.append("<div style=\"display: inline-block;\"> <a href=\"/profile?user=" + user.getId() + "\">\n<div style=\"font-size:17px; display: inline-block;\">\n");
         str.append("@" + user.getUsername() + " </div>\n </a>");
-        str.append("<div style=\"font-size:17px; display: inline-block; \">");
+        str.append("<div style=\"font-size:17px; display: inline-block; \">\n");
         for (int i = 0; i < rate.getRating(); i++) {
-            str.append("<span class=\"fa fa-star checked\"></span>");
+            str.append("<span class=\"fa fa-star checked\"></span>\n");
         }
         for (int i = 0; i < 5 - rate.getRating(); i++) {
-            str.append("<span class=\"fa fa-star\"></span>");
+            str.append("<span class=\"fa fa-star\"></span>\n");
         }
-        str.append("</div>");
-        str.append("<div style=\"font-size:15px; display: inline-block; color: #aaa\">| " + rate.getRatingsDate() + "</div> </div>");
+        str.append("</div>\n");
+        str.append("<div style=\"font-size:15px; display: inline-block; color: #aaa\">| " + rate.getRatingsDate() + "</div>\n </div>\n");
 
         if (myUser.isAdmin() || user.getId() == myUser.getId()) {
-            str.append("<a class=\"btn-danger\" style=\"float:right; color: #aaa\" onclick=\"deleteComment(" + user.getId() + ")\"> Delete comment</a>");
+            str.append("<a class=\"btn-danger\" style=\"float:right; color: #aaa\" onclick=\"deleteComment(" + user.getId() + ")\"> Delete comment</a>\n");
         }
-        str.append("<div style=\"margin-bottom: 25px\">" + rate.getComment() + "</div> </div>");
+        str.append("<div style=\"margin-bottom: 25px\">" + rate.getComment() + "</div>\n </div>\n");
         return str.toString();
     }
     @Override
