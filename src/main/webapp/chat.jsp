@@ -29,7 +29,7 @@
             message: document.getElementById("message").value
         }, (responseText) => {
             if (responseText.trim() === 'login') {
-                window.location.replace("/login");
+                $(location).attr('href', '/login');
                 return;
             }
             if (document.getElementById("message").value !== "") {
@@ -43,7 +43,7 @@
                 msg = msg.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
                 msg = msg.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
-                $('#chat').append("<div class='row justify-content-end'style='margin-right: 8px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
+                $('#chat').append("<div class='row justify-content-end'style='margin-right: 1px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
@@ -75,6 +75,10 @@
     function getMessages() {
         $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>, action: "currentChat"}, (responseText) => {
             if (responseText !== '') {
+                if(responseText.trim() === 'login') {
+                    $(location).attr('href', '/login');
+                    return;
+                }
                 const chatBox = $(".chatBox");
                 const shouldScroll = chatBox[0].scrollHeight - chatBox.scrollTop() - chatBox.outerHeight() < 1;
                 responseText = responseText.replaceAll("<3", "<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
@@ -97,6 +101,10 @@
             chatWith: <%=request.getParameter("chatWith")%>,
             action: "notCurrentChat"
         }, (responseText) => {
+            if(responseText.trim() === 'login') {
+                $(location).attr('href', '/login');
+                return;
+            }
             let realStr = responseText.trim();
             let fr;
             fr = realStr.split('/');
@@ -132,6 +140,10 @@
     function getChats() {
         $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
             if (responseText.trim() !== '') {
+                if(responseText.trim() === 'login') {
+                    $(location).attr('href', '/login');
+                    return;
+                }
                 if (curChats.length === 0) $('#chatList').html('');
                 let fr = responseText.trim().split('$');
                 fr.forEach(chatFunc);
@@ -270,10 +282,11 @@
                                placeholder="Input message"
                                name="message"/>
                         <div class="uk-inline col-auto d-flex align-items-center"
-                             style="margin-left: 5px; margin-right: 5px; padding: 0; ">
-                            <button class="btn btn-dark" type="button">
+                             style="margin-left: 10px; margin-right: 10px; padding: 0; ">
+                            <a class="btn-primary" style="display: inline-block;">
                                 <i class='bi bi-emoji-smile-fill' style='color: #FFD400;'></i>
-                            </button>
+                            </a>
+
                             <div class="uk-card uk-card-body bg-dark text-light"
                                  uk-drop="pos: top-center; mode:click"
                                  style="padding: 10px;">

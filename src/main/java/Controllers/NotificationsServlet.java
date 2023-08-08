@@ -20,7 +20,7 @@ public class NotificationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.getWriter().println("login");
             return;
         }
         PrintWriter out = httpServletResponse.getWriter();
@@ -63,6 +63,10 @@ public class NotificationsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        if (httpServletRequest.getSession().getAttribute("userInfo") == null) {
+            httpServletResponse.getWriter().println("login");
+            return;
+        }
         if (httpServletRequest.getParameter("notification").equals("challenge")) {
             User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
             int userID = Integer.parseInt(httpServletRequest.getParameter("userID"));

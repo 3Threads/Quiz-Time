@@ -43,7 +43,7 @@
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
             if($('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
                 if(document.querySelector('input[name=answers]:checked') == null) {
-                    window.alert("You need to choose an option!");
+                    $('#errors').html(errorMessageConstructor("You must choose at least 1 correct answer"));
                     return false;
                 }
             }
@@ -58,8 +58,13 @@
         $('#hourLabel').val($('#Hour').val());
         $('#minuteLabel').val($('#Minute').val());
         $('#secondLabel').val($('#Second').val());
+        if($('#timeFormatCheckBox').is(':checked')){
+            $('#timeFormatCheckLabel').val("on");
+        } else $('#timeFormatCheckLabel').val("off");
     }
-
+    function errorMessageConstructor(message) {
+        return '<br><div class="alert alert-danger alert-dismissible d-flex align-items-center fade show"> <i class="bi-exclamation-octagon-fill"></i> <strong class="mx-2">Error!</strong> '+ message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button> </div>';
+    }
     function addNewQuestion() {
         const questionType = $('#newQuestionType').val();
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
@@ -68,6 +73,7 @@
         childToAppend += "<input type='hidden' name='hour' value='' id='hourLabel'>";
         childToAppend += "<input type='hidden' name='minute'  value='' id='minuteLabel'>";
         childToAppend += "<input type='hidden' name='second'  value='' id='secondLabel'>";
+        childToAppend += "<input type='hidden' name='timeFormatChecker'  value='' id='timeFormatCheckLabel'>";
         switch (questionType) {
             case "textResponse":
                 childToAppend +=
@@ -80,7 +86,7 @@
                     "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required>" +
                     "    </div>" +
                     "</div>" +
-                    "<input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>";
+                    "<input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>";
                 break;
 
             case "fillInTheBlank":
@@ -97,7 +103,7 @@
                     "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Question part 2' aria-label='Input' name='questionText2' required>" +
                     "    </div> </div> <div id='answerFields'> " +
                     "</div>" +
-                    "<input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>";
+                    "<input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>";
                 break;
 
             case "multipleChoices":
@@ -125,7 +131,7 @@
                     "        </div>" +
                     "    </div>" +
                     "</div>" +
-                    "<input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>";
+                    "<input type='button' class='btn btn-outline-success' onclick='addAnswerRadio()' value='Add new answer'>";
                 break;
 
             case "multipleChoicesWithMultipleAnswers":
@@ -154,7 +160,7 @@
                     "        </div>" +
                     "    </div>" +
                     "</div>" +
-                    "<input type='button' class='btn btn-success' onclick='addAnswerCheckbox()' value='Add new answer'>";
+                    "<input type='button' class='btn btn-outline-success' onclick='addAnswerCheckbox()' value='Add new answer'>";
                 break;
 
             case "pictureResponse":
@@ -171,7 +177,7 @@
                     "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required>" +
                     "    </div>" +
                     "</div>" +
-                    "<input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'> ";
+                    "<input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'> ";
                 break;
 
             case "multiAnswers":
@@ -185,7 +191,7 @@
                     "        <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required>" +
                     "    </div>" +
                     "</div>" +
-                    "<input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>";
+                    "<input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>";
                 break;
 
             case "matching":
@@ -216,14 +222,14 @@
                     "</div>" +
                     "<div id='answerFields'>" +
                     "</div>" +
-                    "<input type='button' class='btn btn-success' onclick='addAnswerMatching()' value='Add new answer'>";
+                    "<input type='button' class='btn btn-outline-success' onclick='addAnswerMatching()' value='Add new answer'>";
                 break;
 
             default:
                 break;
         }
-
-        childToAppend += "<br><button type='submit' class='btn btn-success mt-3'>Create question</button>";
+        childToAppend += "<div id='errors'></div>";
+        childToAppend += "<button type='submit' class='btn btn-outline-success mt-3'>Create question</button>";
 
         $('#formForThisType').html(childToAppend);
     }
@@ -240,7 +246,7 @@
             "            <input class='form-control bg-dark whitePlaceholder text-light' type='text' placeholder='Answer' aria-label='Input' name='answer' required>" +
             "       </div>" +
             "        <div class='col-auto'>" +
-            "            <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>" +
+            "            <input type='button' class='btn btn-outline-danger' value='Delete' onclick='removeAnswer(this)'>" +
             "       </div>" +
             "   </div>" +
             "</div>");
@@ -257,7 +263,7 @@
             "   </div>" +
             "   <div class='col-auto'>" +
             "       <div>" +
-            "           <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>" +
+            "           <input type='button' class='btn btn-outline-danger' value='Delete' onclick='removeAnswer(this)'>" +
             "       </div>" +
             "   </div>" +
             "</div>");
@@ -274,7 +280,7 @@
             "   </div>" +
             "   <div class='col-auto'>" +
             "       <div>" +
-            "           <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>" +
+            "           <input type='button' class='btn btn-outline-danger' value='Delete' onclick='removeAnswer(this)'>" +
             "       </div>" +
             "   </div>" +
             "</div>");
@@ -293,7 +299,7 @@
             "   </div>" +
             "   <div class='col-auto'>" +
             "       <div>" +
-            "           <input type='button' class='btn btn-danger' value='Delete' onclick='removeAnswer(this)'>" +
+            "           <input type='button' class='btn btn-outline-danger' value='Delete' onclick='removeAnswer(this)'>" +
             "       </div>" +
             "   </div>" +
             "</div>");
@@ -341,6 +347,18 @@
             $('#Second').prop('required', false);
         }
     }
+    $(document).ready(
+        function() {
+            if(<%=session.getAttribute("timeFormatChecker") != null
+                && session.getAttribute("timeFormatChecker").equals("off")%>) {
+                $('#timeFormat').toggle();
+                $('#Hour').prop('required', false);
+                $('#Minute').prop('required', false);
+                $('#Second').prop('required', false);
+                $('#timeFormatCheckBox').prop('checked', false);
+            }
+        }
+    )
 </script>
 <body>
 <%@include file="header.jsp" %>
@@ -361,7 +379,11 @@
                 <%
                     if(request.getAttribute("QuizTitleExist") != null) {
                 %>
-                <h7>This quiz name is already exist</h7><br>
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong>Error!</strong> Quiz with same title is already exist.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
                 <%
                     }
                 %>
@@ -373,9 +395,7 @@
                           style="height: 150px" required><%
                     if (session.getAttribute("description") != null) out.print(session.getAttribute("description"));
                 %></textarea>
-
-                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheckBox" checked onchange="toggleTimeFormat()"> Set
-                    timer</label>
+                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheck" checked onchange="toggleTimeFormat()"> Set timer</label>
                 <%
                     Time time = null;
                     if (session.getAttribute("timeLimit") != null) time = (Time) session.getAttribute("timeLimit");
@@ -409,7 +429,7 @@
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input type="button" class="btn btn-success" id="addNewQuestionBtn" onclick="addNewQuestion()"
+                        <input type="button" class="btn btn-outline-success" id="addNewQuestionBtn" onclick="addNewQuestion()"
                                value="Add new question">
                     </div>
                 </div>
@@ -431,8 +451,8 @@
                                 %>
                             </div>
                             <div class="col-auto">
-                                <input onclick="editOrDelete('edit',<%=i%>)" type="button" class="btn btn-primary" value="Edit">
-                                <input onclick="editOrDelete('delete',<%=i%>)" type="button" class="btn btn-danger" value="Delete">
+                                <input onclick="editOrDelete('edit',<%=i%>)" type="button" class="btn btn-outline-primary" value="Edit">
+                                <input onclick="editOrDelete('delete',<%=i%>)" type="button" class="btn btn-outline-danger" value="Delete">
                             </div>
                         </div>
                     </li>
@@ -444,7 +464,7 @@
                     if (request.getSession().getAttribute("questions") != null) {
                         if (((ArrayList<Question>) request.getSession().getAttribute("questions")).size() != 0) {
                 %>
-                <button type="submit" class="btn btn-success">Create Quiz</button>
+                <button type="submit" class="btn btn-outline-success">Create Quiz</button>
                 <%
                         }
                     }
@@ -466,6 +486,7 @@
                         <input type='hidden' name='hour' value='' id='hourLabel'>
                         <input type='hidden' name='minute'  value='' id='minuteLabel'>
                         <input type='hidden' name='second'  value='' id='secondLabel'>
+                        <input type='hidden' name='timeFormatCheck'  value='' id='timeFormatCheckLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>
@@ -497,7 +518,7 @@
                                                value="<%=answers[i]%>" required>
                                     </div>
                                     <div class='col-auto'>
-                                        <input type='button' class='btn btn-danger' value='Delete'
+                                        <input type='button' class='btn btn-outline-danger' value='Delete'
                                                onclick='removeAnswer(this)'>
                                     </div>
                                 </div>
@@ -507,9 +528,7 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>
                             <%
                                 }
                                 if(request.getParameter("type").equals("fillInTheBlank")) {
@@ -542,7 +561,7 @@
                                                value="<%=answers[i]%>" required>
                                     </div>
                                     <div class='col-auto'>
-                                        <input type='button' class='btn btn-danger' value='Delete'
+                                        <input type='button' class='btn btn-outline-danger' value='Delete'
                                                onclick='removeAnswer(this)'>
                                     </div>
                                 </div>
@@ -551,9 +570,7 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>
                             <%
                             }
                             if(request.getParameter("type").equals("multipleChoices")) {
@@ -601,9 +618,7 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-success' onclick='addAnswerRadio()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerRadio()' value='Add new answer'>
                             <%
                             } if(request.getParameter("type").equals("multipleChoicesWithMultipleAnswers")) {
                         %>
@@ -653,10 +668,8 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-success' onclick='addAnswerCheckbox()'
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerCheckbox()'
                                value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                             }  if(request.getParameter("type").equals("pictureResponse")) {
                             %>
@@ -693,7 +706,7 @@
                                                value="<%=answers[i]%>" required>
                                     </div>
                                     <div class='col-auto'>
-                                        <input type='button' class='btn btn-danger' value='Delete'
+                                        <input type='button' class='btn btn-outline-danger' value='Delete'
                                                onclick='removeAnswer(this)'>
                                     </div>
                                 </div>
@@ -703,9 +716,7 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-success' onclick='addAnswerField()' value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>
                             <%
                                 }
                             if(request.getParameter("type").equals("matching")) {
@@ -763,7 +774,7 @@
                                            value="<%=values[i]%>" required>
                                 </div>
                                 <div class='col-auto'>
-                                    <input type='button' class='btn btn-danger' value='Delete'
+                                    <input type='button' class='btn btn-outline-danger' value='Delete'
                                            onclick='removeAnswer(this)'>
                                 </div>
                             </div>
@@ -771,10 +782,8 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-success' onclick='addAnswerMatching()'
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerMatching()'
                                value='Add new answer'>
-                        <br>
-                        <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                             <%
                                 } if(request.getParameter("type").equals("multiAnswers")) {
                             %>
@@ -806,7 +815,7 @@
                                                value="<%=answers[i]%>" required>
                                     </div>
                                     <div class='col-auto'>
-                                        <input type='button' class='btn btn-danger' value='Delete'
+                                        <input type='button' class='btn btn-outline-danger' value='Delete'
                                                onclick='removeAnswer(this)'>
                                     </div>
                                 </div>
@@ -814,7 +823,10 @@
                                 <%
                                     }
                                 }
-                            }
+                            }%>
+                        <div id="errors"></div>
+                        <button type='submit' class='btn btn-outline-primary mt-3'>Edit question</button>
+                    <%
                         }
                     %>
                 </form>

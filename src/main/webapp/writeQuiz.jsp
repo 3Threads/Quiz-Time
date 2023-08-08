@@ -53,11 +53,11 @@
 </script>
 <div class="container">
     <div class="row mt-3">
-        <div class="col-3 uk-box-shadow-large uk-padding-small">
-            <h1 style="margin: 0"><%=currQuiz.getQuizName()%>
+        <div class="col-3 uk-box-shadow-large uk-padding-small" style="height: 100%">
+            <h1 style="margin: 5px"><%=currQuiz.getQuizName()%>
             </h1>
 
-            <div class="row justify-content-center">
+            <div class="row justify-content-left" style="margin-left: 5px; margin-right: 2px; margin-top: 5px">
                 <%
                     for (int i = 0; i < questions.size(); i++) {
                 %>
@@ -75,10 +75,10 @@
                     }
                 %>
             </div>
-            <form method="post" action="/writeQuiz" id="finishQuiz">
+            <form method="post" action="/writeQuiz" id="finishQuiz" style="float: right;">
                 <input type="hidden" name="action" value="finish">
                 <input type="hidden" name="quizId" value="<%=request.getParameter("quizId")%>">
-                <input type="submit" class="btn btn-success mt-3" value="Finish">
+                <input type="submit" class="btn btn-outline-success mt-3" value="Finish">
             </form>
         </div>
         <div class="col-1"></div>
@@ -125,7 +125,7 @@
                 <%
                     out.print(currQuestion.getWriteQuizHTML(answers, questionInd));
                 %>
-                <input type="submit" class="btn btn-success mt-3" value="Approve Answer And Next Question">
+                <input type="submit" class="btn btn-outline-success mt-3" value="Next Question">
             </form>
         </div>
     </div>

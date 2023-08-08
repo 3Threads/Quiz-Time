@@ -2,6 +2,7 @@ package DAO;
 
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import BusinessLogic.HashPassword;
 import Types.User;
@@ -173,5 +174,31 @@ public class UsersDAO {
                 }
             }
         }
+    }
+    public ArrayList<User> searchUsers(String userName) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getUserRow = "SELECT * FROM USERS WHERE USERNAME LIKE ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setString(1, "%"+userName+"%");
+            ResultSet result = statement.executeQuery();
+            ArrayList<User> arr = new ArrayList<>();
+            while(result.next()) {
+                arr.add(new User(result.getInt("ID"), result.getString("USERNAME"), result.getInt("STATUS")));
+            }
+            return arr;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }

@@ -213,7 +213,7 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getQuiz = "SELECT * FROM QUIZZES WHERE QUIZ_NAME = ?;";
+            String getQuiz = "SELECT * FROM QUIZZES  WHERE QUIZ_NAME = ?";
             PreparedStatement statement = connect.prepareStatement(getQuiz);
             statement.setString(1, quizName);
             ArrayList<Quiz> quizzes = getQuizzes(statement);
@@ -231,5 +231,27 @@ public class QuizzesDAO {
             }
         }
         return false;
+    }
+    public ArrayList<Quiz> searchQuizzes(String searchString) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getQuiz = "SELECT * FROM QUIZZES WHERE QUIZ_NAME LIKE ? OR (SELECT USERNAME FROM USERS WHERE ID = CREATOR_ID) LIKE ?;";
+            PreparedStatement statement = connect.prepareStatement(getQuiz);
+            statement.setString(1, "%"+searchString+"%");
+            statement.setString(2, "%"+searchString+"%");
+            return getQuizzes(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }
