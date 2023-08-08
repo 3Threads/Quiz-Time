@@ -61,6 +61,15 @@
         if ($('#timeFormatCheckBox').is(':checked')) {
             $('#timeFormatCheckLabel').val("on");
         } else $('#timeFormatCheckLabel').val("off");
+        let selectedCategories = '';
+        $("input[name=category]").each(function (i, o) {
+            if ($(this).is(":checked")) {
+                selectedCategories += (this).val();
+                selectedCategories += ",";
+            }
+        });
+        $('#categoriesLabel').val(selectedCategories);
+        return false;
     }
 
     function errorMessageConstructor(message) {
@@ -76,6 +85,7 @@
         childToAppend += "<input type='hidden' name='minute'  value='' id='minuteLabel'>";
         childToAppend += "<input type='hidden' name='second'  value='' id='secondLabel'>";
         childToAppend += "<input type='hidden' name='timeFormatChecker'  value='' id='timeFormatCheckLabel'>";
+        childToAppend += "<input type='hidden' name='categories'  value='' id='categoriesLabel'>";
         switch (questionType) {
             case "textResponse":
                 childToAppend +=
@@ -334,6 +344,12 @@
             url += "&second=";
             url += $('#Second').val();
         }
+        if ($('#timeFormatCheckBox').val() !== '') {
+            url += "&timeFormatChecker=";
+            if ($('#timeFormatCheckBox').is(':checked')) {
+                url += "on";
+            } else url += "off";
+        }
         console.log(url);
         $(location).attr('href', url);
     }
@@ -361,7 +377,7 @@
                 $('#Minute').prop('required', false);
                 $('#Second').prop('required', false);
                 $('#timeFormatCheckBox').prop('checked', false);
-            }
+            } else $('#timeFormatCheckBox').prop('checked', true);
         }
     )
 </script>
@@ -423,7 +439,7 @@
                         </ul>
                     </div>
                 </div>
-                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheck" checked
+                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheck"
                               onchange="toggleTimeFormat()"> Set timer</label>
                 <%
                     Time time = null;
@@ -521,7 +537,7 @@
                         <input type='hidden' name='hour' value='' id='hourLabel'>
                         <input type='hidden' name='minute' value='' id='minuteLabel'>
                         <input type='hidden' name='second' value='' id='secondLabel'>
-                        <input type='hidden' name='timeFormatCheck' value='' id='timeFormatCheckLabel'>
+                        <input type='hidden' name='timeFormatChecker' value='' id='timeFormatCheckLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>

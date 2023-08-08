@@ -1,7 +1,9 @@
 package Types;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Quiz {
 
@@ -13,8 +15,11 @@ public class Quiz {
     private final int creatorID;
 
     private final int quizId;
+    private final ArrayList<String> categories;
 
-    public Quiz(Time timeLimit, int quizId, String quizName, String quizDescription, Date creationTime, int creatorID, int completed) {
+    public Quiz(Time timeLimit, int quizId, String quizName,
+                String quizDescription, Date creationTime, int creatorID, int completed, String categories) {
+        this.categories = new ArrayList<>(List.of(categories.split(",")));
         this.timeLimit = timeLimit;
         this.quizId = quizId;
         this.quizName = quizName;
@@ -23,6 +28,10 @@ public class Quiz {
         this.creatorID = creatorID;
         this.completed = completed;
 
+    }
+
+    public ArrayList<String> getCategories() {
+        return categories;
     }
 
     public int getCompleted() {

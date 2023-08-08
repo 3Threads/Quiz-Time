@@ -38,6 +38,9 @@ public class CreateQuizServlet extends HttpServlet {
                     Integer.parseInt(httpServletRequest.getParameter("second")));
             httpServletRequest.getSession().setAttribute("timeLimit", time);
         }
+        if(httpServletRequest.getParameter("timeFormatChecker") != null && !httpServletRequest.getParameter("timeFormatChecker").equals("")) {
+            httpServletRequest.getSession().setAttribute("timeFormatChecker", httpServletRequest.getParameter("timeFormatChecker"));
+        }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
             ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
             try {
@@ -131,6 +134,7 @@ public class CreateQuizServlet extends HttpServlet {
         }
         ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
         Question question = null;
+        System.out.println(httpServletRequest.getParameter("categories"));
         if (httpServletRequest.getParameter("title") != null) {
             httpServletRequest.getSession().setAttribute("title", httpServletRequest.getParameter("title"));
         }
@@ -145,6 +149,7 @@ public class CreateQuizServlet extends HttpServlet {
                             Integer.parseInt(httpServletRequest.getParameter("second")));
             httpServletRequest.getSession().setAttribute("timeLimit", time);
         }
+        System.out.println(httpServletRequest.getParameter("timeFormatChecker"));
         if(httpServletRequest.getParameter("timeFormatChecker") != null && !httpServletRequest.getParameter("timeFormatChecker").equals("")) {
             httpServletRequest.getSession().setAttribute("timeFormatChecker", httpServletRequest.getParameter("timeFormatChecker"));
         }
@@ -239,6 +244,9 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
+            String categories = List.of(httpServletRequest.getParameterValues("category")).toString();
+            categories = categories.substring(1, categories.length()-1);
+            System.out.println(categories);
             QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
             if(!quizzesDAO.checkQuizName(title)) {
                 httpServletRequest.setAttribute("QuizTitleExist", "true");
@@ -259,7 +267,7 @@ public class CreateQuizServlet extends HttpServlet {
             }
             User user = (User) httpServletRequest.getSession().getAttribute("userInfo");
             QuizzesDAO qzDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
-            qzDAO.addQuiz(title, description, user.getId(), time);
+            qzDAO.addQuiz(title, description, user.getId(), time, categories);
             Quiz quiz = qzDAO.getQuizByName(title);
             int quizID = quiz.getQuizId();
 
