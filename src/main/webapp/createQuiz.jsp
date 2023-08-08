@@ -41,8 +41,8 @@
 <script type="text/javascript">
     function beforeSubmit() {
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
-            if($('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
-                if(document.querySelector('input[name=answers]:checked') == null) {
+            if ($('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
+                if (document.querySelector('input[name=answers]:checked') == null) {
                     $('#errors').html(errorMessageConstructor("You must choose at least 1 correct answer"));
                     return false;
                 }
@@ -58,13 +58,15 @@
         $('#hourLabel').val($('#Hour').val());
         $('#minuteLabel').val($('#Minute').val());
         $('#secondLabel').val($('#Second').val());
-        if($('#timeFormatCheckBox').is(':checked')){
+        if ($('#timeFormatCheckBox').is(':checked')) {
             $('#timeFormatCheckLabel').val("on");
         } else $('#timeFormatCheckLabel').val("off");
     }
+
     function errorMessageConstructor(message) {
-        return '<br><div class="alert alert-danger alert-dismissible d-flex align-items-center fade show"> <i class="bi-exclamation-octagon-fill"></i> <strong class="mx-2">Error!</strong> '+ message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button> </div>';
+        return '<br><div class="alert alert-danger alert-dismissible d-flex align-items-center fade show"> <i class="bi-exclamation-octagon-fill"></i> <strong class="mx-2">Error!</strong> ' + message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button> </div>';
     }
+
     function addNewQuestion() {
         const questionType = $('#newQuestionType').val();
         let childToAppend = "<input type='hidden' name='action' value='addQuestion'>";
@@ -304,36 +306,38 @@
             "   </div>" +
             "</div>");
     }
+
     function editOrDelete(action, index) {
-        let url = "/createQuiz?action="+action+"&index="+index;
-        if($('#titleField').val() !== '') {
+        let url = "/createQuiz?action=" + action + "&index=" + index;
+        if ($('#titleField').val() !== '') {
             console.log($('#titleField').val());
             url += "&title=";
             url += $('#titleField').val();
         }
-        if($('#descriptionField').val() !== '') {
+        if ($('#descriptionField').val() !== '') {
             console.log($('#descriptionField').val());
             url += "&description=";
             url += $('#descriptionField').val();
         }
-        if($('#Hour').val() !== '') {
+        if ($('#Hour').val() !== '') {
             console.log($('#Hour').val());
             url += "&hour=";
             url += $('#Hour').val();
         }
-        if($('#Minute').val() !== '') {
+        if ($('#Minute').val() !== '') {
             console.log($('#Minute').val());
             url += "&minute=";
             url += $('#Minute').val();
         }
-        if($('#Second').val() !== '') {
+        if ($('#Second').val() !== '') {
             console.log($('#Second').val());
             url += "&second=";
             url += $('#Second').val();
         }
         console.log(url);
-        $(location).attr('href',url);
+        $(location).attr('href', url);
     }
+
     function toggleTimeFormat() {
         $('#timeFormat').toggle();
         const checkbox = $("#timeFormatCheckBox");
@@ -347,9 +351,10 @@
             $('#Second').prop('required', false);
         }
     }
+
     $(document).ready(
-        function() {
-            if(<%=session.getAttribute("timeFormatChecker") != null
+        function () {
+            if (<%=session.getAttribute("timeFormatChecker") != null
                 && session.getAttribute("timeFormatChecker").equals("off")%>) {
                 $('#timeFormat').toggle();
                 $('#Hour').prop('required', false);
@@ -377,7 +382,7 @@
                        value="<%if(session.getAttribute("title")!=null) out.print(session.getAttribute("title"));%>"
                        style="width: 50%;" required>
                 <%
-                    if(request.getAttribute("QuizTitleExist") != null) {
+                    if (request.getAttribute("QuizTitleExist") != null) {
                 %>
                 <div class="alert alert-danger alert-dismissible fade show">
                     <i class="bi-exclamation-octagon-fill"></i>
@@ -395,7 +400,31 @@
                           style="height: 150px" required><%
                     if (session.getAttribute("description") != null) out.print(session.getAttribute("description"));
                 %></textarea>
-                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheck" checked onchange="toggleTimeFormat()"> Set timer</label>
+                <div class="mb-2">
+                    <button class="btn btn-dark" type="button">Select categories</button>
+                    <div uk-dropdown="mode: click; pos: bottom-center; animation: slide-top; animate-out: true"
+                         class="bg-dark text-light" style="max-height: 100px; overflow: auto; border: white 1px solid">
+                        <ul class="uk-nav uk-dropdown-nav">
+                            <li>
+                                <label>
+                                    <input class='uk-checkbox' type='checkbox' name='category' value="Sport"> Sport
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input class='uk-checkbox' type='checkbox' name='category' value="Math"> Math
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input class='uk-checkbox' type='checkbox' name='category' value="Car"> Car
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <label><input id="timeFormatCheckBox" class="uk-checkbox" type="checkbox" name="timeFormatCheck" checked
+                              onchange="toggleTimeFormat()"> Set timer</label>
                 <%
                     Time time = null;
                     if (session.getAttribute("timeLimit") != null) time = (Time) session.getAttribute("timeLimit");
@@ -403,15 +432,18 @@
                 <div class="row mt-2" id="timeFormat">
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
-                               placeholder='Hour' id="Hour" aria-label='Input' name='hour' value="<%if(time != null) out.print(time.getHours());%>"  required min="0" max="3">
+                               placeholder='Hour' id="Hour" aria-label='Input' name='hour'
+                               value="<%if(time != null) out.print(time.getHours());%>" required min="0" max="3">
                     </div>
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
-                               placeholder='Minute' id="Minute"  aria-label='Input' name='minute' value="<%if(time != null) out.print(time.getMinutes());%>" required min="0" max="59">
+                               placeholder='Minute' id="Minute" aria-label='Input' name='minute'
+                               value="<%if(time != null) out.print(time.getMinutes());%>" required min="0" max="59">
                     </div>
                     <div class="col-4">
                         <input class='form-control bg-dark whitePlaceholder text-light' type='number'
-                               placeholder='Second' id="Second" aria-label='Input' name='second' value="<%if(time != null) out.print(time.getSeconds());%>" required min="0" max="59">
+                               placeholder='Second' id="Second" aria-label='Input' name='second'
+                               value="<%if(time != null) out.print(time.getSeconds());%>" required min="0" max="59">
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -429,7 +461,8 @@
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input type="button" class="btn btn-outline-success" id="addNewQuestionBtn" onclick="addNewQuestion()"
+                        <input type="button" class="btn btn-outline-success" id="addNewQuestionBtn"
+                               onclick="addNewQuestion()"
                                value="Add new question">
                     </div>
                 </div>
@@ -451,8 +484,10 @@
                                 %>
                             </div>
                             <div class="col-auto">
-                                <input onclick="editOrDelete('edit',<%=i%>)" type="button" class="btn btn-outline-primary" value="Edit">
-                                <input onclick="editOrDelete('delete',<%=i%>)" type="button" class="btn btn-outline-danger" value="Delete">
+                                <input onclick="editOrDelete('edit',<%=i%>)" type="button"
+                                       class="btn btn-outline-primary" value="Edit">
+                                <input onclick="editOrDelete('delete',<%=i%>)" type="button"
+                                       class="btn btn-outline-danger" value="Delete">
                             </div>
                         </div>
                     </li>
@@ -484,9 +519,9 @@
                         <input type='hidden' name='title' value='' id='titleLabel'>
                         <input type='hidden' name='description' value='' id='descriptionLabel'>
                         <input type='hidden' name='hour' value='' id='hourLabel'>
-                        <input type='hidden' name='minute'  value='' id='minuteLabel'>
-                        <input type='hidden' name='second'  value='' id='secondLabel'>
-                        <input type='hidden' name='timeFormatCheck'  value='' id='timeFormatCheckLabel'>
+                        <input type='hidden' name='minute' value='' id='minuteLabel'>
+                        <input type='hidden' name='second' value='' id='secondLabel'>
+                        <input type='hidden' name='timeFormatCheck' value='' id='timeFormatCheckLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>
@@ -528,7 +563,8 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()'
+                               value='Add new answer'>
                             <%
                                 }
                                 if(request.getParameter("type").equals("fillInTheBlank")) {
@@ -570,7 +606,8 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()'
+                               value='Add new answer'>
                             <%
                             }
                             if(request.getParameter("type").equals("multipleChoices")) {
@@ -618,7 +655,8 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-outline-success' onclick='addAnswerRadio()' value='Add new answer'>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerRadio()'
+                               value='Add new answer'>
                             <%
                             } if(request.getParameter("type").equals("multipleChoicesWithMultipleAnswers")) {
                         %>
@@ -649,7 +687,7 @@
                             </div>
                             <%
                                 }
-                                if(incorrectAnswers != null) {
+                                if (incorrectAnswers != null) {
                                     for (int i = 0; i < incorrectAnswers.length; i++) {
 
                             %>
@@ -716,7 +754,8 @@
                                 }
                             %>
                         </div>
-                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()' value='Add new answer'>
+                        <input type='button' class='btn btn-outline-success' onclick='addAnswerField()'
+                               value='Add new answer'>
                             <%
                                 }
                             if(request.getParameter("type").equals("matching")) {
@@ -824,9 +863,9 @@
                                     }
                                 }
                             }%>
-                        <div id="errors"></div>
-                        <button type='submit' class='btn btn-outline-primary mt-3'>Edit question</button>
-                    <%
+                            <div id="errors"></div>
+                            <button type='submit' class='btn btn-outline-primary mt-3'>Edit question</button>
+                                <%
                         }
                     %>
                 </form>
