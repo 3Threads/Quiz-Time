@@ -62,14 +62,13 @@
             $('#timeFormatCheckLabel').val("on");
         } else $('#timeFormatCheckLabel').val("off");
         let selectedCategories = '';
-        $("input[name=category]").each(function (i, o) {
+        $("input[name=category]").each(function () {
             if ($(this).is(":checked")) {
-                selectedCategories += (this).val();
-                selectedCategories += ",";
+                selectedCategories += $(this).val();
+                selectedCategories += ',';
             }
         });
         $('#categoriesLabel').val(selectedCategories);
-        return false;
     }
 
     function errorMessageConstructor(message) {
@@ -330,27 +329,28 @@
             url += $('#descriptionField').val();
         }
         if ($('#Hour').val() !== '') {
-            console.log($('#Hour').val());
             url += "&hour=";
             url += $('#Hour').val();
         }
         if ($('#Minute').val() !== '') {
-            console.log($('#Minute').val());
             url += "&minute=";
             url += $('#Minute').val();
         }
         if ($('#Second').val() !== '') {
-            console.log($('#Second').val());
             url += "&second=";
             url += $('#Second').val();
         }
-        if ($('#timeFormatCheckBox').val() !== '') {
-            url += "&timeFormatChecker=";
-            if ($('#timeFormatCheckBox').is(':checked')) {
-                url += "on";
-            } else url += "off";
-        }
-        console.log(url);
+        url += "&timeFormatChecker=";
+        if ($('#timeFormatCheckBox').is(':checked')) {
+            url += "on";
+        } else url += "off";
+        url += "&categories=";
+        $("input[name=category]").each(function () {
+            if ($(this).is(":checked")) {
+                url += $(this).val();
+                url += ',';
+            }
+        });
         $(location).attr('href', url);
     }
 
@@ -367,7 +367,6 @@
             $('#Second').prop('required', false);
         }
     }
-
     $(document).ready(
         function () {
             if (<%=session.getAttribute("timeFormatChecker") != null
@@ -420,20 +419,27 @@
                     <button class="btn btn-dark" type="button">Select categories</button>
                     <div uk-dropdown="mode: click; pos: bottom-center; animation: slide-top; animate-out: true"
                          class="bg-dark text-light" style="max-height: 100px; overflow: auto; border: white 1px solid">
+                        <%
+                            ArrayList<String> selected = null;
+                            if(session.getAttribute("categories") != null) selected = (ArrayList<String>) session.getAttribute("categories");
+                        %>
                         <ul class="uk-nav uk-dropdown-nav">
                             <li>
                                 <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Sport"> Sport
+                                    <input class='uk-checkbox' type='checkbox' name='category' value="Sport"
+                                    <%if(selected != null && selected.contains("Sport")) {%> checked <% }%>> Sport
                                 </label>
                             </li>
                             <li>
                                 <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Math"> Math
+                                    <input class='uk-checkbox' type='checkbox' name='category' value="Math"
+                                        <%if(selected != null && selected.contains("Math")){%> checked <% }%>> Math
                                 </label>
                             </li>
                             <li>
                                 <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Car"> Car
+                                    <input class='uk-checkbox' type='checkbox' name='category' value="Car"
+                                        <%if(selected != null && selected.contains("Car")){%> checked <% }%>> Car
                                 </label>
                             </li>
                         </ul>
@@ -538,6 +544,7 @@
                         <input type='hidden' name='minute' value='' id='minuteLabel'>
                         <input type='hidden' name='second' value='' id='secondLabel'>
                         <input type='hidden' name='timeFormatChecker' value='' id='timeFormatCheckLabel'>
+                        <input type='hidden' name='categories'  value='' id='categoriesLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>
