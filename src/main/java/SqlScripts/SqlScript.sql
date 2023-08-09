@@ -25,19 +25,20 @@ CREATE TABLE QUIZZES
     ID            int primary key NOT NULL AUTO_INCREMENT,
     QUIZ_NAME     CHAR(64) UNIQUE not null,
     DESCRIPTION   TEXT,
-    COMPLETED     INT      default 0,
-    CREATION_TIME DATETIME default current_timestamp,
+    COMPLETED     INT       default 0,
+    CREATION_TIME DATETIME  default current_timestamp,
     CREATOR_ID    INT             not null,
-    TIME_LIMIT    TIME default 0,
-    CATEGORIES    char(64) default '',
+    TIME_LIMIT    TIME      default 0,
+    CATEGORIES    char(255) default '',
     FOREIGN KEY (CREATOR_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
-CREATE TABLE RATINGS (
-    ID int primary key NOT NULL AUTO_INCREMENT,
-    USER_ID  INT NOT NULL,
-    QUIZ_ID INT NOT NULL,
-    RATING INT NOT NULL,
-    COMMENT TEXT,
+CREATE TABLE RATINGS
+(
+    ID         int primary key NOT NULL AUTO_INCREMENT,
+    USER_ID    INT             NOT NULL,
+    QUIZ_ID    INT             NOT NULL,
+    RATING     INT             NOT NULL,
+    COMMENT    TEXT,
     RATED_DATE DATETIME default current_timestamp,
     FOREIGN KEY (USER_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
@@ -117,13 +118,13 @@ VALUES (1, 2, 1),
        (4, 5, 1),
        (5, 3, 0);
 
-INSERT INTO QUIZZES (QUIZ_NAME, DESCRIPTION, COMPLETED, CREATION_TIME, CREATOR_ID)
-VALUES ('quiz1', 'QUIZ', 0, default, 1),
-       ('quiz2', 'QUIZ', 2, default, 1),
-       ('quiz3', 'QUIZ', 2, default, 2),
-       ('quiz4', 'QUIZ', 0, default, 3),
-       ('quiz5', 'QUIZ', 1, default, 4),
-       ('quiz6', 'QUIZ', 1, default, 5);
+INSERT INTO QUIZZES (QUIZ_NAME, DESCRIPTION, COMPLETED, CREATION_TIME, CREATOR_ID, CATEGORIES)
+VALUES ('quiz1', 'QUIZ', 0, default, 1, 'Sports'),
+       ('quiz2', 'QUIZ', 2, default, 1, 'Sports'),
+       ('quiz3', 'QUIZ', 2, default, 2, 'Music'),
+       ('quiz4', 'QUIZ', 0, default, 3, 'History,Sports'),
+       ('quiz5', 'QUIZ', 1, default, 4, default),
+       ('quiz6', 'QUIZ', 1, default, 5, 'Science,Music');
 
 INSERT INTO COMPLETED_QUIZZES (USER_ID, QUIZ_ID, SCORE, SPENT_TIME, WRITE_TIME)
 VALUES (1, 3, 10, 17, default),

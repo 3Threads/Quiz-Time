@@ -420,6 +420,9 @@
                 <a href="/chat">
                     <button class="buttons btn btn-dark text-light">Chats</button>
                 </a>
+                <a href="/quizzesList">
+                    <button class="buttons btn btn-dark text-light">Quizzes</button>
+                </a>
             </div>
             <form class="nav-bar col" role="search" method="get" action="/search">
                 <div class="input-group input-group-sm mb-1 mt-1">

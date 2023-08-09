@@ -260,12 +260,11 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getQuiz = "SELECT * FROM QUIZZES Q WHERE Q.QUIZ_NAME LIKE ? AND (SELECT FLOOR(AVG(RATING)) FROM RATINGS R WHERE R.QUIZ_ID = Q.ID) >= ? AND category LIKE ?";
+            String getQuiz = "SELECT * FROM QUIZZES Q WHERE Q.QUIZ_NAME LIKE ? AND (SELECT IFNULL(FLOOR(AVG(RATING)),0) FROM RATINGS R WHERE R.QUIZ_ID = Q.ID) >= ? AND CATEGORIES LIKE ?";
             PreparedStatement statement = connect.prepareStatement(getQuiz);
             statement.setString(1, "%"+name+"%");
             statement.setInt(2, minRate);
             statement.setString(3, "%"+category+"%");
-            System.out.println(statement);
             return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();
