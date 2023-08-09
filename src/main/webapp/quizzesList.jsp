@@ -130,6 +130,7 @@
                     <label for="rate-1" class="fas fa-star" style="font-size:20px; padding: 5px"></label>
                 </div>
             </div>
+            <div class="col"></div>
             <div class="col-auto">
                 <button class="btn btn-primary">Search</button>
             </div>
