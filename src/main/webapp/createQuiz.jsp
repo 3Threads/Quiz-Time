@@ -392,7 +392,7 @@
                             ArrayList<String> selected = null;
                             if (session.getAttribute("categories") != null)
                                 selected = (ArrayList<String>) session.getAttribute("categories");
-                            Set<String> categories = new HashSet<String>(Arrays.asList("Sports", "Entertainment", "Geography", "Science", "History", "Art", "Literature", "Music", "Technology", "Animals", "Economy", "Politics"));
+                            Set<String> categories = new HashSet<String>(Arrays.asList("Sports", "Entertainment", "Geography", "Science", "History", "Art", "Literature", "Music", "Technology", "Animals", "Economy", "Politics", "Other"));
                         %>
                         <ul class="uk-nav uk-dropdown-nav">
                             <%

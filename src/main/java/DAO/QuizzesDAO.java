@@ -104,7 +104,7 @@ public class QuizzesDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getQuizzes = "SELECT * FROM QUIZZES WHERE CREATOR_ID = ?";
+            String getQuizzes = "SELECT * FROM QUIZZES WHERE CREATOR_ID = ? order by CREATION_TIME desc";
             PreparedStatement statement = connect.prepareStatement(getQuizzes);
             statement.setInt(1, id);
             return getQuizzes(statement);

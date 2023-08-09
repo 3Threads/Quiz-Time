@@ -252,9 +252,14 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
-            String categories = List.of(httpServletRequest.getParameterValues("category")).toString();
-            categories = categories.substring(1, categories.length()-1);
-            System.out.println(categories);
+            String categories = "";
+            if(httpServletRequest.getParameterValues("category") != null){
+                categories = List.of(httpServletRequest.getParameterValues("category")).toString();
+                categories = categories.substring(1, categories.length()-1);
+                System.out.println(categories);
+            }else{
+            categories = "Other";
+            }
             QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
             if(!quizzesDAO.checkQuizName(title)) {
                 httpServletRequest.setAttribute("QuizTitleExist", "true");

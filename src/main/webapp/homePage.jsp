@@ -42,7 +42,6 @@
                         <%
                             }
                             ArrayList<Types.Announcement> announcements = announcementsDAO.getAnnouncements();
-
                             for (Announcement announcement : announcements) {
                                 int userId = announcement.getWriterId();
                                 User user = usersDAO.getUserById(userId);
@@ -68,7 +67,7 @@
                                 </div>
                             </div>
                             <%-- max 20 wordsssssssssss--%>
-                            <p class="card-announcement-middle ">
+                            <p class="card-announcement-middle " style="word-wrap: break-word">
                                 <%=
                                 announcement.getBody()
                                 %>
@@ -110,15 +109,13 @@
                 </div>
 
                 <%-- max 20 wordsssssssssss--%>
-                <p class="card-middle" style="margin-right: 7px">
+                <p class="card-middle" style="margin-right: 7px; word-wrap: break-word">
                     <%
                         String body = announcement.getBody();
-                        String[] arrBody = body.split(" ");
-                        int sz = Math.min(10, arrBody.length);
-                        for (int j = 0; j < sz; j++) {
-                            out.print(arrBody[j]);
-                            out.print(" ");
+                        if(body.length() > 100){
+                            body = body.substring(0, 100) + "...";
                         }
+                        out.print(body);
                     %>
                 </p>
                 <div class="card-bottom uk-card-footer">

@@ -2,6 +2,7 @@
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
 <%@ page import="Types.*" %>
+<%@ page import="jdk.jfr.Category" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -235,11 +236,27 @@
             <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px; max-height: 530px" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
                 <h3>Description:</h3>
                 <hr>
-                <div class="mt-2">
+                <div class="mt-2" style="word-wrap: break-word">
+                    <div>
+                        Categories:
+                        <ul>
+                            <%
+
+                                ArrayList<String> list = currQuiz.getCategories();
+                                for (String s : list) {
+                            %>
+
+
+                            <li><%=s%>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
                     <%=currQuiz.getQuizDescription()%>
                 </div>
             </div>
             <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">
+
                 <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
                     <li><a style="color: white" href="">
                         <div class="table_name">Global</div>
