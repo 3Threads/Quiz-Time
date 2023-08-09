@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-<%@include file="header.jsp" %>
+    <%@include file="header.jsp" %>
 </head>
 <script>
     function fc() {
@@ -57,7 +57,7 @@
     function getMessages() {
         $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>, action: "currentChat"}, (responseText) => {
             if (responseText !== '') {
-                if(responseText.trim() === 'login') {
+                if (responseText.trim() === 'login') {
                     $(location).attr('href', '/login');
                     return;
                 }
@@ -83,7 +83,7 @@
             chatWith: <%=request.getParameter("chatWith")%>,
             action: "notCurrentChat"
         }, (responseText) => {
-            if(responseText.trim() === 'login') {
+            if (responseText.trim() === 'login') {
                 $(location).attr('href', '/login');
                 return;
             }
@@ -122,7 +122,7 @@
     function getChats() {
         $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
             if (responseText.trim() !== '') {
-                if(responseText.trim() === 'login') {
+                if (responseText.trim() === 'login') {
                     $(location).attr('href', '/login');
                     return;
                 }
@@ -157,9 +157,8 @@
 </script>
 <body>
 <% Integer chatId;%>
-<div class="container" style="min-height: 460px">
-
-    <div class="row mt-3" style="height: 65%; min-height: 450px">
+<div class="container-fluid bg-dark main" style="min-height: 460px">
+    <div class="row mt-1" style="height: 100%; min-height: 450px">
         <div class="col-4" style="height: 90%;">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
@@ -311,6 +310,7 @@
             %>
         </div>
     </div>
+
 </div>
 </body>
 </html>

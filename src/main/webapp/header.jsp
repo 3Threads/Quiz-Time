@@ -25,14 +25,9 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous">
-    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.0.js"
@@ -208,10 +203,10 @@
         }, 3000);
     });
 </script>
-<body class="bg-dark text-light">
+<body class="text-light bg-dark">
 <div id="toastCont" class="toast-container position-absolute bottom-0 end-0 p-3">
 </div>
-<div class="container">
+<div class="container-fluid top-head fixed-top">
     <div class="row">
         <div class="col">
             <a href="/homePage"><img src="images/logo.png" class="img-fluid logo" alt="..."></a>
@@ -225,10 +220,10 @@
                         Log Out
                     </a>
                     <div class="table_name">|</div>
-                    <a href="#modal-notifications" class="mt-1" uk-toggle>
+                    <a href="#modal-notifications"  uk-toggle>
                         <div class="animate table_name">
-                            <i class="bi bi-bell-fill mt-1"
-                               style="margin-right: 5px"></i>
+                            <i class="bi bi-bell-fill"
+                               style="margin-right: 1px"></i>
                         </div>
                     </a>
                     <div id="modal-notifications" uk-modal>
@@ -239,10 +234,13 @@
                             </div>
                             <div class="uk-modal-body">
                                 <ul class="uk-flex-left" data-uk-tab="{connect:'#notification tab'}">
-                                    <li><a class="notification-titles" style="color: white" href="">Friend Requests</a>
+                                    <li><a class="notification-titles" style="color: white" href="">Friend
+                                        Requests</a>
                                     </li>
-                                    <li><a class="notification-titles" style="color: white" href="">Challenges</a></li>
-                                    <li><a class="notification-titles" style="color: white" href="">Messages</a></li>
+                                    <li><a class="notification-titles" style="color: white" href="">Challenges</a>
+                                    </li>
+                                    <li><a class="notification-titles" style="color: white" href="">Messages</a>
+                                    </li>
                                 </ul>
 
                                 <ul id="notification tab" class="uk-switcher uk-margin">
@@ -412,50 +410,60 @@
             </div>
         </div>
     </div>
-    <div class="menuBar text-light ">
-        <div class="container row d-flex align-items-center" style="width: 100%">
-            <div class="col-9">
-                <a href="/createQuiz">
-                    <button class="buttons btn btn-dark text-light">Create Quiz</button>
-                </a>
-                <%
-                    ArrayList<Quiz> allQuizzesList = quizzesDAO.getPopularQuizzes();
-                    Random rand = new Random(new Date().getTime());
-                    int randInd = rand.nextInt(allQuizzesList.size());
-                    int randQuizId = allQuizzesList.get(randInd).getQuizId();
-                %>
-                <a href="/quiz?quizId=<%=randQuizId%>">
-                    <button class="buttons btn btn-dark text-light">Random Quiz</button>
-                </a>
-                <a href="/chat">
-                    <button class="buttons btn btn-dark text-light">Chats</button>
-                </a>
-                <a href="/quizzesList">
-                    <button class="buttons btn btn-dark text-light">Quizzes</button>
-                </a>
-            </div>
-            <form class="nav-bar col" role="search" method="get" action="/search">
-                <div class="input-group input-group-sm mb-1 mt-1">
-                    <input class="rounded search-nav-bar form-control me-2 bg-dark whitePlaceholder text-light"
-                           type="search"
-                           placeholder="Search"
-                           aria-label="Search"
-                           name="search"
-                           id="search"
-                           aria-describedby="inputGroup-sizing-sm" required>
-                    <button class="uk-search-icon-flip" uk-search-icon></button>
-                </div>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li>
-                        <hr class="dropdown-divider"/>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark text-light" style="background-color: #181818">
+        <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="col navbar-nav">
+                    <%
+                        ArrayList<Quiz> allQuizzesList = quizzesDAO.getPopularQuizzes();
+                        Random rand = new Random(new Date().getTime());
+                        int randInd = rand.nextInt(allQuizzesList.size());
+                        int randQuizId = allQuizzesList.get(randInd).getQuizId();
+                    %>
+
+                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                        <a href="/createQuiz" class="buttons btn text-light" style="background-color: #181818">
+                            Create Quiz
+                        </a>
                     </li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                        <a href="/quiz?quizId=<%=randQuizId%>" class="buttons btn text-light"
+                           style="background-color: #181818">
+                            Random Quiz
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                        <a href="/chat" class="buttons btn text-light" style="background-color: #181818">
+                            Chats
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                        <a href="/quizzesList" class="buttons btn text-light" style="background-color: #181818">
+                            Quizzes
+                        </a>
+                    </li>
                 </ul>
+            </div>
+            <form class="d-flex" role="search" method="get" action="/search">
+                <input class=" form-control me-2 whitePlaceholder text-light"
+                       style="background-color: #181818"
+                       type="search"
+                       placeholder="Search"
+                       aria-label="Search"
+                       name="search"
+                       id="search"
+                       aria-describedby="inputGroup-sizing-sm" required>
             </form>
         </div>
-    </div>
+    </nav>
 </div>
+
 </body>
 </html>

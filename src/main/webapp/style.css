@@ -10,10 +10,30 @@ a {
 }
 
 .menuBar {
-    border-style: solid;
-    border-width: 2px;
-    border-color: white;
-    border-radius: 10px;
+    /*border-style: solid;*/
+    /*border-width: 2px;*/
+    /*border-color: white;*/
+}
+
+.top-head {
+    /*width: 100%;*/
+    /*position: fixed; !* Fixed Sidebar (stay in place on scroll) *!*/
+    /*z-index: 1; !* Stay on top *!*/
+    /*top: 0; !* Stay at the top *!*/
+    /*left: 0;*/
+    /*overflow-x: hidden; !* Disable horizontal scroll *!*/
+    padding-top: 20px;
+    background-color: #181818;
+    border-bottom: 1px solid #666666;
+    padding-bottom: 10px;
+    padding-left:0;
+    padding-right:0;
+}
+
+.main {
+    margin-top: 189.21px;
+    left: 0;
+    padding-top: 10px ;
 }
 
 .fullWidthList {
@@ -260,14 +280,14 @@ a {
 }
 
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-.container1{
+.container1 {
     position: relative;
     width: 400px;
     padding: 20px 30px;
@@ -278,15 +298,18 @@ a {
     justify-content: center;
     flex-direction: column;
 }
-.container .post1{
+
+.container .post1 {
     display: none;
 }
-.container .text1{
+
+.container .text1 {
     font-size: 25px;
     color: #666;
     font-weight: 500;
 }
-.container .edit{
+
+.container .edit {
     position: absolute;
     right: 10px;
     top: 5px;
@@ -295,52 +318,66 @@ a {
     font-weight: 500;
     cursor: pointer;
 }
-.container .edit:hover{
+
+.container .edit:hover {
     text-decoration: underline;
 }
-.container .star-widget input{
+
+.container .star-widget input {
     display: none;
 }
-.star-widget label{
+
+.star-widget label {
     font-size: 40px;
     color: #444;
     padding: 10px;
     float: right;
     transition: all 0.2s ease;
 }
+
 input:not(:checked) ~ label:hover,
-input:not(:checked) ~ label:hover ~ label{
+input:not(:checked) ~ label:hover ~ label {
     color: #fd4;
 }
-input:checked ~ label{
+
+input:checked ~ label {
     color: #fd4;
 }
-input#rate-5:checked ~ label{
+
+input#rate-5:checked ~ label {
     color: #fe7;
     text-shadow: 0 0 20px #952;
 }
-#rate-1:checked ~ form header:before{
+
+#rate-1:checked ~ form header:before {
     content: "I just hate it";
 }
-#rate-2:checked ~ form header:before{
+
+#rate-2:checked ~ form header:before {
     content: "I don't like it";
 }
-#rate-3:checked ~ form header:before{
+
+#rate-3:checked ~ form header:before {
     content: "It is awesome";
 }
-#rate-4:checked ~ form header:before{
+
+#rate-4:checked ~ form header:before {
     content: "I just like it";
 }
-#rate-5:checked ~ form header:before{
+
+#rate-5:checked ~ form header:before {
     content: "I just love it";
 }
-.container1 form{
+
+.container1 form {
     display: none;
 }
-input:checked ~ form{
+
+input:checked ~ form {
     display: block;
 }
-form header{
+
+form header {
     width: 100%;
     font-size: 25px;
     color: #fe7;
@@ -349,12 +386,14 @@ form header{
     text-align: center;
     transition: all 0.2s ease;
 }
-form .textarea{
+
+form .textarea {
     height: 100px;
     width: 100%;
     overflow: hidden;
 }
-form .textarea textarea{
+
+form .textarea textarea {
     height: 100%;
     width: 100%;
     outline: none;
@@ -365,15 +404,18 @@ form .textarea textarea{
     font-size: 17px;
     resize: none;
 }
-.textarea textarea:focus{
+
+.textarea textarea:focus {
     border-color: #444;
 }
-form .btn1{
+
+form .btn1 {
     height: 45px;
     width: 100%;
     margin: 15px 0;
 }
-form .btn1 button{
+
+form .btn1 button {
     height: 100%;
     width: 100%;
     border: 1px solid #444;
@@ -386,34 +428,40 @@ form .btn1 button{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-form .btn1 button:hover{
+
+form .btn1 button:hover {
     background: #1b1b1b;
 }
+
 #rate-1 {
     display: none;
 }
+
 #rate-2 {
     display: none;
 }
+
 #rate-3 {
     display: none;
 }
+
 #rate-4 {
     display: none;
 }
+
 #rate-5 {
     display: none;
 }
 
 
-.search-body{
+.search-body {
     margin-left: 5px;
     margin-right: 1px;
     margin-top: 5px;
     margin-bottom: 20px;
 }
 
-.search-header{
+.search-header {
     font-size: 20px;
     margin-left: 5px;
     margin-right: 1px;
@@ -421,8 +469,8 @@ form .btn1 button:hover{
     margin-bottom: 5px;
 }
 
-.profile-button{
-    font-size:20px;
+.profile-button {
+    font-size: 20px;
     margin-bottom: 10px;
     width: 100%;
 }
