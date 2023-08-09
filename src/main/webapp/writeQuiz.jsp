@@ -78,7 +78,7 @@
             <form method="post" action="/writeQuiz" id="finishQuiz" style="float: right;">
                 <input type="hidden" name="action" value="finish">
                 <input type="hidden" name="quizId" value="<%=request.getParameter("quizId")%>">
-                <input type="submit" class="btn btn-outline-success mt-3" value="Finish">
+                <input type="submit" class="btn btn-success mt-3" value="Finish">
             </form>
         </div>
         <div class="col-1"></div>
@@ -125,7 +125,7 @@
                 <%
                     out.print(currQuestion.getWriteQuizHTML(answers, questionInd));
                 %>
-                <input type="submit" class="btn btn-outline-success mt-3" value="Next Question">
+                <input type="submit" class="btn btn-success mt-3" value="Next Question">
             </form>
         </div>
     </div>

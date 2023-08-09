@@ -111,7 +111,7 @@ public class TypesTest {
         int qz1CreatorID = 12345;
         int qz1Completed = 21;
 
-        Quiz qz1 = new Quiz(null, qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Completed);
+        Quiz qz1 = new Quiz(null, qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Completed,"");
 
         assertEquals(qz1ID, qz1.getQuizId());
         assertEquals(qz1Name, qz1.getQuizName());

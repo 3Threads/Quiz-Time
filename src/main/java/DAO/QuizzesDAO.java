@@ -14,16 +14,17 @@ public class QuizzesDAO {
         this.dataSource = dataSource;
     }
 
-    public void addQuiz(String quizName, String description, int creatorID, Time timeLimit) {
+    public void addQuiz(String quizName, String description, int creatorID, Time timeLimit, String categories) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String str = "INSERT INTO QUIZZES VALUES(default,?,?,0,default,?,?)";
+            String str = "INSERT INTO QUIZZES VALUES(default,?,?,0,default,?,?,?)";
             PreparedStatement statement = connect.prepareStatement(str);
             statement.setString(1, quizName);
             statement.setString(2, description);
             statement.setInt(3, creatorID);
             statement.setTime(4, timeLimit);
+            statement.setString(5, categories);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,7 +71,8 @@ public class QuizzesDAO {
             Date creatingDate = result.getDate("CREATION_TIME");
             int completed = result.getInt("COMPLETED");
             Time timeLimit = result.getTime("TIME_LIMIT");
-            Quiz quiz = new Quiz(timeLimit, quizId, quizName, description, creatingDate, creatorID, completed);
+            String categories = result.getString("CATEGORIES");
+            Quiz quiz = new Quiz(timeLimit, quizId, quizName, description, creatingDate, creatorID, completed, categories);
             quizzes.add(quiz);
         }
         return quizzes;
@@ -240,6 +242,29 @@ public class QuizzesDAO {
             PreparedStatement statement = connect.prepareStatement(getQuiz);
             statement.setString(1, "%"+searchString+"%");
             statement.setString(2, "%"+searchString+"%");
+            return getQuizzes(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    public ArrayList<Quiz> deepSearchQuizzes(String name, int minRate, String category) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getQuiz = "SELECT * FROM QUIZZES Q WHERE Q.QUIZ_NAME LIKE ? AND (SELECT IFNULL(FLOOR(AVG(RATING)),0) FROM RATINGS R WHERE R.QUIZ_ID = Q.ID) >= ? AND CATEGORIES LIKE ?";
+            PreparedStatement statement = connect.prepareStatement(getQuiz);
+            statement.setString(1, "%"+name+"%");
+            statement.setInt(2, minRate);
+            statement.setString(3, "%"+category+"%");
             return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -191,14 +191,14 @@
             </div>
             <div class="col-auto d-flex align-items-center">
                 <a href="/writeQuiz?quizId=<%= currQuiz.getQuizId() %>" class="quiz-button">
-                    <button type="button" class="btn btn-outline-success" style="margin-right: 6px">
+                    <button type="button" class="btn btn-success" style="margin-right: 6px">
                         <i class="bi bi-play-circle-fill"></i>
                         Start Quiz
                     </button>
                 </a>
 
                 <a href="#modalSendChallenges" class="quiz-button" uk-toggle>
-                    <button type="button" class="btn btn-outline-primary" style="margin-right: 6px">
+                    <button type="button" class="btn btn-primary" style="margin-right: 6px">
                         <i class="bi bi-share"></i>
                         Send Challenge
                     </button>
@@ -209,7 +209,7 @@
                 %>
 
                 <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete" class="quiz-button">
-                    <button type="button" class="btn btn-outline-danger" style="margin-right: 6px">
+                    <button type="button" class="btn btn-danger" style="margin-right: 6px">
                         <i class="bi bi-exclamation-octagon-fill"></i>
                         Delete quiz
                     </button>
