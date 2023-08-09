@@ -256,4 +256,40 @@ public class QuizzesDAO {
         }
         return null;
     }
+    public ArrayList<Quiz> deepSearchQuizzes(String name, int minRate, int minCompleted, ArrayList<String> selectedCategories) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getQuiz = "SELECT * FROM QUIZZES Q WHERE Q.QUIZ_NAME LIKE ? AND (SELECT FLOOR(AVG(RATING)) FROM RATINGS R WHERE R.QUIZ_ID = Q.ID) >= ? AND Q.COMPLETED >= ?";
+            if(!selectedCategories.isEmpty()) {
+                getQuiz+=" AND ( ";
+                for(int i = 0; i < selectedCategories.size(); i++) {
+                    getQuiz += "Q.CATEGORIES LIKE '%";
+                    getQuiz += selectedCategories.get(i);
+                    getQuiz += "%'";
+                    if(i != selectedCategories.size()-1) {
+                        getQuiz += " OR ";
+                    }
+                }
+                getQuiz+=" )";
+            }
+            PreparedStatement statement = connect.prepareStatement(getQuiz);
+            statement.setString(1, "%"+name+"%");
+            statement.setInt(2, minRate);
+            statement.setInt(3, minCompleted);
+            System.out.println(statement);
+            return getQuizzes(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }
