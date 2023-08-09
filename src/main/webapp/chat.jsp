@@ -2,25 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css"/>
-
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Quiz Time</title>
+    <%@include file="header.jsp" %>
 </head>
 <script>
     function fc() {
@@ -43,7 +25,7 @@
                 msg = msg.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
                 msg = msg.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
-                $('#chat').append("<div class='row justify-content-end'style='margin-right: 1px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
+                $('#chat').append("<div class='row justify-content-end' style='margin-right: 1px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
@@ -75,7 +57,7 @@
     function getMessages() {
         $.get('notSeen', {chatWith: <%=request.getParameter("chatWith")%>, action: "currentChat"}, (responseText) => {
             if (responseText !== '') {
-                if(responseText.trim() === 'login') {
+                if (responseText.trim() === 'login') {
                     $(location).attr('href', '/login');
                     return;
                 }
@@ -101,7 +83,7 @@
             chatWith: <%=request.getParameter("chatWith")%>,
             action: "notCurrentChat"
         }, (responseText) => {
-            if(responseText.trim() === 'login') {
+            if (responseText.trim() === 'login') {
                 $(location).attr('href', '/login');
                 return;
             }
@@ -140,7 +122,7 @@
     function getChats() {
         $.get('getChats', {chatWith: <%=request.getParameter("chatWith")%>}, (responseText) => {
             if (responseText.trim() !== '') {
-                if(responseText.trim() === 'login') {
+                if (responseText.trim() === 'login') {
                     $(location).attr('href', '/login');
                     return;
                 }
@@ -174,14 +156,17 @@
     });
 </script>
 <body>
-<%@include file="header.jsp" %>
 <% Integer chatId;%>
-<div class="container" style="min-height: 460px">
-
-    <div class="row mt-3" style="height: 65%; min-height: 450px">
-        <div class="col-4" style="height: 90%;">
+<div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0; height: calc(100vh - 95px);">
+    <div class="row mt-1" style="height: 100%">
+        <div class="col-3 back-color"
+             style="height: 100%; padding-left: 0; padding-right: 0; position: fixed">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
-                style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
+                style="height:100%; border-right: 1px solid #666666;">
+                <h3>
+                    Friends:
+                </h3>
+                    <hr>
                 <%
                     HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
@@ -234,9 +219,9 @@
         </div>
         <% if (chatWith != null && !chatWith.trim().equals("")) {
             chatId = Integer.parseInt(chatWith);%>
-        <div class="col"></div>
-        <div class="col-7 " style="max-height: 100%;">
-            <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
+        <div class="col-4"></div>
+        <div class="col-8" style="padding-top: 10px" >
+            <div class="overflow-auto chatBox" style="height: calc(100% - 55px); border: darkgrey 1px solid; border-radius: 4px;">
                 <div id="chat" class="container-fluid uk-padding-small">
                     <%
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
@@ -270,7 +255,7 @@
                     %>
                 </div>
             </div>
-            <div class="mt-2" style="height: 10%;">
+            <div class="mt-2">
                 <form class="d-flex row" onsubmit="fc(); return false;">
                     <div class="col input-group input-group-md row">
                         <input type="hidden" name="sendTo" id="sendInp" value=<%=chatId%>>
@@ -330,6 +315,7 @@
             %>
         </div>
     </div>
+
 </div>
 </body>
 </html>
