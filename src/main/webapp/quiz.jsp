@@ -5,55 +5,24 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"
-            integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css"/>
-
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous">
-    </script>
-
-    <link rel="stylesheet" type="text/css" href="style.css">
-
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-
-    <script>
-        const btn = document.querySelector("button");
-        const post = document.querySelector(".post1");
-        const widget = document.querySelector(".star-widget");
-        btn.onclick = () => {
-            widget.style.display = "none";
-            post.style.display = "block";
-            return false;
-        }
-    </script>
-
-    <title>Quiz Time</title>
+    <%@include file="header.jsp" %>
 </head>
 <body>
-<%@include file="header.jsp" %>
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
     DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-
 %>
 <script>
+    const btn = document.querySelector("button");
+    const post = document.querySelector(".post1");
+    const widget = document.querySelector(".star-widget");
+    btn.onclick = () => {
+        widget.style.display = "none";
+        post.style.display = "block";
+        return false;
+    }
+
     function deleteScore() {
         location.href = "/quiz?quizId=<%=request.getParameter("quizId")%>"
     }

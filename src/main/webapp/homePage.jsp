@@ -2,32 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css"/>
-
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-            crossorigin="anonymous">
-    </script>
-
-    <link rel="stylesheet" type="text/css" href="style.css">
-
-    <title>Quiz Time</title>
+    <%@include file="header.jsp" %>
 </head>
 <body class="bg-dark text-light" style="overflow-x: clip">
-<%@include file="header.jsp" %>
-<%
-
-%>
 <div class="container">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
@@ -84,7 +61,7 @@
                                         </h5>
                                         <p class="uk-text-meta uk-margin-remove-top announcement-admin-date">
                                             <%=userName%>
-                                            <time  datetime="2016-04-01T19:00">
+                                            <time datetime="2016-04-01T19:00">
                                                 <%=announcement.getWriteTime()%>
                                             </time>
                                         </p>
@@ -118,7 +95,7 @@
             %>
             <div class="uk-card uk-card-default bg-dark text-light">
                 <div class="uk-card-header header">
-                <div class="uk-grid-small uk-flex-middle">
+                    <div class="uk-grid-small uk-flex-middle">
                         <div class="uk-width-expand">
                             <h5 class="uk-card-title uk-margin-remove-bottom text-light">
                                 <div class="admins"><%=announcement.getTitle()%>
