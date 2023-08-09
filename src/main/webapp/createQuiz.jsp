@@ -1,6 +1,7 @@
 <%@ page import="Controllers.CreateQuizServlet" %>
 <%@ page import="Types.*" %>
 <%@ page import="java.sql.Time" %>
+<%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -367,6 +368,7 @@
             $('#Second').prop('required', false);
         }
     }
+
     $(document).ready(
         function () {
             if (<%=session.getAttribute("timeFormatChecker") != null
@@ -421,135 +423,24 @@
                          class="bg-dark text-light" style="max-height: 100px; overflow: auto; border: white 1px solid">
                         <%
                             ArrayList<String> selected = null;
-                            if(session.getAttribute("categories") != null) selected = (ArrayList<String>) session.getAttribute("categories");
+                            if (session.getAttribute("categories") != null)
+                                selected = (ArrayList<String>) session.getAttribute("categories");
+                            Set<String> categories = new HashSet<String>(Arrays.asList("Sports", "Entertainment", "Geography", "Science", "History", "Art", "Literature", "Music", "Technology", "Animals", "Economy", "Politics"));
                         %>
                         <ul class="uk-nav uk-dropdown-nav">
+                            <%
+                                for (String category : categories) {
+                            %>
                             <li>
                                 <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Sport"
-                                    <%if(selected != null && selected.contains("Sport")) {%> checked <% }%>> Sport
+                                    <input class='uk-checkbox' type='checkbox' name='category' value="<%=category%>"
+                                        <%if (selected != null && selected.contains(category)) {%>
+                                           checked <% }%>> <%=category%>
                                 </label>
                             </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Music"
-                                        <%if(selected != null && selected.contains("Music")){%> checked <% }%>> Music
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Car"
-                                        <%if(selected != null && selected.contains("Car")){%> checked <% }%>> Car
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Math"
-                                        <%if(selected != null && selected.contains("Math")){%> checked <% }%>> Math
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="People"
-                                        <%if(selected != null && selected.contains("People")){%> checked <% }%>> People
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Entertainment"
-                                        <%if(selected != null && selected.contains("Entertainment")){%> checked <% }%>> Entertainment
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Geography"
-                                        <%if(selected != null && selected.contains("Geography")){%> checked <% }%>> Geography
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Travel"
-                                        <%if(selected != null && selected.contains("Travel")){%> checked <% }%>> Travel
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Science"
-                                        <%if(selected != null && selected.contains("Science")){%> checked <% }%>> Science
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="History"
-                                        <%if(selected != null && selected.contains("History")){%> checked <% }%>> History
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Religion"
-                                        <%if(selected != null && selected.contains("Religion")){%> checked <% }%>> Religion
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Animals"
-                                        <%if(selected != null && selected.contains("Animals")){%> checked <% }%>> Animals
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Politics"
-                                        <%if(selected != null && selected.contains("Politics")){%> checked <% }%>> Politics
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Technology"
-                                        <%if(selected != null && selected.contains("Technology")){%> checked <% }%>> Technology
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Economy"
-                                        <%if(selected != null && selected.contains("Economy")){%> checked <% }%>> Economy
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Landmarks"
-                                        <%if(selected != null && selected.contains("Landmarks")){%> checked <% }%>> Landmarks
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Technology"
-                                        <%if(selected != null && selected.contains("Technology")){%> checked <% }%>> Technology
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Botanical"
-                                        <%if(selected != null && selected.contains("Botanical")){%> checked <% }%>> Botanical
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Art"
-                                        <%if(selected != null && selected.contains("Art")){%> checked <% }%>> Art
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Literature"
-                                        <%if(selected != null && selected.contains("Literature")){%> checked <% }%>> Literature
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input class='uk-checkbox' type='checkbox' name='category' value="Food"
-                                        <%if(selected != null && selected.contains("Food")){%> checked <% }%>> Food
-                                </label>
-                            </li>
+                            <%
+                                }
+                            %>
                         </ul>
                     </div>
                 </div>
@@ -652,7 +543,7 @@
                         <input type='hidden' name='minute' value='' id='minuteLabel'>
                         <input type='hidden' name='second' value='' id='secondLabel'>
                         <input type='hidden' name='timeFormatChecker' value='' id='timeFormatCheckLabel'>
-                        <input type='hidden' name='categories'  value='' id='categoriesLabel'>
+                        <input type='hidden' name='categories' value='' id='categoriesLabel'>
                             <%
                                 if(request.getParameter("type").equals("textResponse")) {
                             %>
