@@ -208,7 +208,7 @@
 <body class="text-light bg-dark">
 <div id="toastCont" class="toast-container position-absolute bottom-0 end-0 p-3">
 </div>
-<div class="container-fluid top-head fixed-top">
+<div class="container-fluid top-head fixed-top back-color">
     <div class="row">
         <div class="col-auto">
             <a href="/homePage"><img src="/images/icon.png" alt="logo"></a>
@@ -223,7 +223,7 @@
                             </a>
                             <div class="table_name">|</div>
                             <a href="#modal-notifications" uk-toggle>
-                                <div class="animate table_name">
+                                <div class="animate table_name" style="margin-right: 3px">
                                     <i class="bi bi-bell-fill"
                                        style="margin-right: 1px"></i>
                                 </div>
@@ -417,7 +417,7 @@
 
             <hr style="margin: 0">
 
-            <nav class="navbar navbar-expand-lg navbar-dark text-light" style="background-color: #242526">
+            <nav class="navbar navbar-expand-lg navbar-dark text-light back-color" >
                 <div class="container-fluid" style="padding-left: 0; padding-right: 0">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -434,31 +434,29 @@
                             %>
 
                             <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                                <a href="/createQuiz" class="buttons btn text-light" style="background-color: #242526">
+                                <a href="/createQuiz" class="buttons btn text-light back-color">
                                     Create Quiz
                                 </a>
                             </li>
                             <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                                <a href="/quiz?quizId=<%=randQuizId%>" class="buttons btn text-light"
-                                   style="background-color: #242526">
+                                <a href="/quiz?quizId=<%=randQuizId%>" class="buttons btn text-light back-color">
                                     Random Quiz
                                 </a>
                             </li>
                             <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                                <a href="/chat" class="buttons btn text-light" style="background-color: #242526">
+                                <a href="/chat" class="buttons btn text-light back-color">
                                     Chats
                                 </a>
                             </li>
                             <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                                <a href="/quizzesList" class="buttons btn text-light" style="background-color: #242526">
+                                <a href="/quizzesList" class="buttons btn text-light back-color" >
                                     Quizzes
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <form class="d-flex" role="search" method="get" action="/search">
-                        <input class=" form-control me-2 whitePlaceholder text-light"
-                               style="background-color: #242526"
+                        <input class=" form-control me-2 whitePlaceholder text-light back-color"
                                type="search"
                                placeholder="Search"
                                aria-label="Search"

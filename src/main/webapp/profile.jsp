@@ -18,7 +18,7 @@
 %>
 <body class="bg-dark text-light">
 <br><br>
-<div class="container">
+<div class="container-fluid main">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
             <div style="font-size: 25px">

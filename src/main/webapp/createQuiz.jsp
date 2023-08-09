@@ -351,7 +351,7 @@
     )
 </script>
 <body>
-<div class="container">
+<div class="container-fluid main">
     <div class="row mt-3">
         <div class="col-6">
             <form name="quiz-form" action="/createQuiz" method="post">

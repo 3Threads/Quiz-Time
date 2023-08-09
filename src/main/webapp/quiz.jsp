@@ -137,8 +137,8 @@
         <br>
     </div>
 </div>
-<div class="container">
-    <div class="row">
+<div class="container-fluid main">
+    <div class="row" style="margin:0">
         <div class="row mt-3 uk-box-shadow-large uk-padding-small">
             <div style="display: inline-block" class="col">
                 <h1 style="margin: 0; display: inline-block;">

@@ -112,8 +112,9 @@
         </div>
     </form>
 </div>
-<div class="container">
+<div class="container-fluid">
     <table class="uk-table uk-table-divider">
+        <hr>
         <thead>
         <tr>
             <th>
@@ -162,6 +163,7 @@
         <%
             }
         %>
+        <tr></tr>
         </tbody>
     </table>
 </div>

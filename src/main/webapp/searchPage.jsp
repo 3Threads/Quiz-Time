@@ -10,7 +10,7 @@
     ArrayList<Quiz> quizzes = quizzesDAO.searchQuizzes(request.getParameter("search"));
     ArrayList<Announcement> announcements = announcementsDAO.searchAnnouncement(request.getParameter("search"));
 %>
-<div class="container">
+<div class="container-fluid main">
 
     <div class="row" style="height: 80%; min-height: 700px;">
         <div class="col-4 mt-3 uk-box-shadow-large uk-padding-small" style="margin-bottom: 20px; height: 95%">
