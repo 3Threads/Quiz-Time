@@ -25,7 +25,7 @@
                 msg = msg.replaceAll(":|", "<i class='bi bi-emoji-neutral-fill' style='color: #FFD400;'> </i>");
                 msg = msg.replaceAll(":(", "<i class='bi bi-emoji-frown-fill' style='color: #FFD400;'> </i>");
                 $('#message').val('')
-                $('#chat').append("<div class='row justify-content-end'style='margin-right: 1px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
+                $('#chat').append("<div class='row justify-content-end' style='margin-right: 1px;'> <div class='bg-primary messageBox'> <p class='messageParagraph'>" + msg + " </p> </div> </div>")
                 $('.chatBox').scrollTop(function () {
                     return this.scrollHeight;
                 });
@@ -157,11 +157,11 @@
 </script>
 <body>
 <% Integer chatId;%>
-<div class="container-fluid bg-dark main" style="min-height: 460px">
+<div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0">
     <div class="row mt-1" style="height: 100%; min-height: 450px">
-        <div class="col-4" style="height: 90%;">
+        <div class="col-3 " style="height: 90%; padding-left: 0; padding-right: 0; background-color: #181818; position: fixed">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
-                style="height:100%; border: darkgrey 1px solid; border-radius: 10px;">
+                style="height:100%;">
                 <%
                     HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
@@ -214,8 +214,8 @@
         </div>
         <% if (chatWith != null && !chatWith.trim().equals("")) {
             chatId = Integer.parseInt(chatWith);%>
-        <div class="col"></div>
-        <div class="col-7 " style="max-height: 100%;">
+        <div class="col-1"></div>
+        <div class="col-8" style="max-height: 100%; padding-top: 10px">
             <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
                 <div id="chat" class="container-fluid uk-padding-small">
                     <%

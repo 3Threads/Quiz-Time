@@ -9,25 +9,10 @@ a {
     color: white;
 }
 
-.menuBar {
-    /*border-style: solid;*/
-    /*border-width: 2px;*/
-    /*border-color: white;*/
-}
-
 .top-head {
-    /*width: 100%;*/
-    /*position: fixed; !* Fixed Sidebar (stay in place on scroll) *!*/
-    /*z-index: 1; !* Stay on top *!*/
-    /*top: 0; !* Stay at the top *!*/
-    /*left: 0;*/
-    /*overflow-x: hidden; !* Disable horizontal scroll *!*/
-    padding-top: 20px;
     background-color: #181818;
     border-bottom: 1px solid #666666;
-    padding-bottom: 10px;
-    padding-left:0;
-    padding-right:0;
+    padding: 20px 0 10px;
 }
 
 .main {
@@ -455,18 +440,12 @@ form .btn1 button:hover {
 
 
 .search-body {
-    margin-left: 5px;
-    margin-right: 1px;
-    margin-top: 5px;
-    margin-bottom: 20px;
+    margin: 5px 1px 20px 5px;
 }
 
 .search-header {
     font-size: 20px;
-    margin-left: 5px;
-    margin-right: 1px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 5px 1px 5px 5px;
 }
 
 .profile-button {
