@@ -158,8 +158,9 @@
 <body>
 <% Integer chatId;%>
 <div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0">
-    <div class="row mt-1" style="height: 100%; min-height: 450px">
-        <div class="col-3 " style="height: 90%; padding-left: 0; padding-right: 0; background-color: #242526; position: fixed">
+    <div class="row mt-1" style="height: 100%">
+        <div class="col-3 "
+             style="height: 100%; padding-left: 0; padding-right: 0; background-color: #242526; position: fixed">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%;">
                 <%
@@ -214,9 +215,9 @@
         </div>
         <% if (chatWith != null && !chatWith.trim().equals("")) {
             chatId = Integer.parseInt(chatWith);%>
-        <div class="col-1"></div>
+        <div class="col-4"></div>
         <div class="col-8" style="max-height: 100%; padding-top: 10px">
-            <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
+            <div class="overflow-auto chatBox" style="height: calc(100% - 55px); border: darkgrey 1px solid; border-radius: 4px;">
                 <div id="chat" class="container-fluid uk-padding-small">
                     <%
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
@@ -250,7 +251,7 @@
                     %>
                 </div>
             </div>
-            <div class="mt-2" style="height: 10%;">
+            <div class="mt-2">
                 <form class="d-flex row" onsubmit="fc(); return false;">
                     <div class="col input-group input-group-md row">
                         <input type="hidden" name="sendTo" id="sendInp" value=<%=chatId%>>
