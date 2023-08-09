@@ -352,7 +352,7 @@
 </script>
 <body>
 <div class="container-fluid main">
-    <div class="row mt-3" >
+    <div class="row">
         <div class="col-6" uk-scrollspy="cls: uk-animation-fade; repeat: true;">
             <form name="quiz-form" action="/createQuiz" method="post">
                 <input type="hidden" value="createQuiz" name="action">
@@ -364,7 +364,7 @@
                        pattern="[^$\|\/]+"
                        title="Your quiz name must not exist '$','|' or '/'"
                        value="<%if(session.getAttribute("title")!=null) out.print(session.getAttribute("title"));%>"
-                       style="width: 50%;" required>
+                       style="width: 50%; margin-top: 0!important;" required>
                 <%
                     if (request.getAttribute("QuizTitleExist") != null) {
                 %>

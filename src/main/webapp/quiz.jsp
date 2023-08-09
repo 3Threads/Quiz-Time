@@ -139,7 +139,7 @@
 </div>
 <div class="container-fluid main">
     <div>
-        <div class="row mt-3 uk-box-shadow-large uk-padding-small" uk-scrollspy="cls: uk-animation-slide-top; repeat: true">
+        <div class="row  uk-box-shadow-large uk-padding-small" uk-scrollspy="cls: uk-animation-slide-top; repeat: true">
             <div style="display: inline-block" class="col">
                 <h1 style="margin: 0; display: inline-block;">
                     <%=currQuiz.getQuizName()%>

@@ -8,7 +8,6 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
-            <br>
             <a href="#modalAnnouncements" class="mt-1" uk-toggle>
                 <h4 class="headers">Announcements</h4>
             </a>
@@ -137,7 +136,6 @@
 
 
         <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">
-            <br>
             <h4 class="headers text-center">Quizzes</h4>
             <div>
                 <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">

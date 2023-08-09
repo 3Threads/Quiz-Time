@@ -30,7 +30,7 @@
 
 </script>
 <div class="container-fluid main">
-    <div class="row mt-3" uk-scrollspy="cls: uk-animation-fade; repeat: true">
+    <div class="row" uk-scrollspy="cls: uk-animation-fade; repeat: true">
         <div class="col-3 uk-box-shadow-large uk-padding-small" style="height: 100%" >
             <h1 style="margin: 5px"><%=currQuiz.getQuizName()%>
             </h1>
