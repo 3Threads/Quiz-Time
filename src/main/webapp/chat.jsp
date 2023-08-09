@@ -159,7 +159,7 @@
 <% Integer chatId;%>
 <div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0">
     <div class="row mt-1" style="height: 100%; min-height: 450px">
-        <div class="col-3 " style="height: 90%; padding-left: 0; padding-right: 0; background-color: #181818; position: fixed">
+        <div class="col-3 " style="height: 90%; padding-left: 0; padding-right: 0; background-color: #242526; position: fixed">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
                 style="height:100%;">
                 <%

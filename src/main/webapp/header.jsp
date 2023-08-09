@@ -43,6 +43,8 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Quiz Time</title>
+
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
 </head>
 <%
     User myUser = (User) session.getAttribute("userInfo");
@@ -208,261 +210,266 @@
 </div>
 <div class="container-fluid top-head fixed-top">
     <div class="row">
+        <div class="col-auto">
+            <a href="/homePage"><img src="/images/icon.png" alt="logo"></a>
+        </div>
         <div class="col">
-            <a href="/homePage"><img src="images/logo.png" class="img-fluid logo" alt="..."></a>
-        </div>
-        <div class="col-2">
-        </div>
-        <div class="col d-flex align-items-end">
-            <div class="container">
-                <div class="d-flex flex-row-reverse align-items-center mb-2">
-                    <a class="table_name" style="margin-left: 5px" href="/logout">
-                        Log Out
-                    </a>
-                    <div class="table_name">|</div>
-                    <a href="#modal-notifications"  uk-toggle>
-                        <div class="animate table_name">
-                            <i class="bi bi-bell-fill"
-                               style="margin-right: 1px"></i>
-                        </div>
-                    </a>
-                    <div id="modal-notifications" uk-modal>
-                        <div class="uk-modal-dialog bg-dark">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <div class="uk-modal-header bg-dark">
-                                <h2 class="notification-title uk-modal-title">Notifications</h2>
-                            </div>
-                            <div class="uk-modal-body">
-                                <ul class="uk-flex-left" data-uk-tab="{connect:'#notification tab'}">
-                                    <li><a class="notification-titles" style="color: white" href="">Friend
-                                        Requests</a>
-                                    </li>
-                                    <li><a class="notification-titles" style="color: white" href="">Challenges</a>
-                                    </li>
-                                    <li><a class="notification-titles" style="color: white" href="">Messages</a>
-                                    </li>
-                                </ul>
+            <div class="row">
+                <div class="col d-flex align-items-end">
+                    <div class="container-fluid">
+                        <div class="d-flex flex-row-reverse align-items-center mb-1">
+                            <a class="table_name" style="margin-left: 5px" href="/logout">
+                                Log Out
+                            </a>
+                            <div class="table_name">|</div>
+                            <a href="#modal-notifications" uk-toggle>
+                                <div class="animate table_name">
+                                    <i class="bi bi-bell-fill"
+                                       style="margin-right: 1px"></i>
+                                </div>
+                            </a>
+                            <div id="modal-notifications" uk-modal>
+                                <div class="uk-modal-dialog bg-dark">
+                                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                                    <div class="uk-modal-header bg-dark">
+                                        <h2 class="notification-title uk-modal-title">Notifications</h2>
+                                    </div>
+                                    <div class="uk-modal-body">
+                                        <ul class="uk-flex-left" data-uk-tab="{connect:'#notification tab'}">
+                                            <li><a class="notification-titles" style="color: white" href="">Friend
+                                                Requests</a>
+                                            </li>
+                                            <li><a class="notification-titles" style="color: white"
+                                                   href="">Challenges</a>
+                                            </li>
+                                            <li><a class="notification-titles" style="color: white" href="">Messages</a>
+                                            </li>
+                                        </ul>
 
-                                <ul id="notification tab" class="uk-switcher uk-margin">
+                                        <ul id="notification tab" class="uk-switcher uk-margin">
 
-                                    <%--Friend requests--%>
-                                    <li>
-                                        <div class="notification-name uk-padding-small">
-                                            <ul id="requestsList" class="uk-list container-fluid"
-                                                style="max-height: 200px; overflow: auto">
-                                                <%
-                                                    ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());
-                                                    int requestId = 1;
-                                                    for (Integer reqId : requests) {
-                                                        User reqUserInfo = usersDAO.getUserById(reqId);
-                                                %>
-                                                <li>
-                                                    <div class="row" id=<%="request" + requestId%>>
-                                                        <div class="col d-flex align-items-center">
-                                                            <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
-                                                                <%=reqUserInfo.getUsername()%>
-                                                            </a>
+                                            <%--Friend requests--%>
+                                            <li>
+                                                <div class="notification-name uk-padding-small">
+                                                    <ul id="requestsList" class="uk-list container-fluid"
+                                                        style="max-height: 200px; overflow: auto">
+                                                        <%
+                                                            ArrayList<Integer> requests = friendsDAO.getFriendsRequests(myUser.getId());
+                                                            int requestId = 1;
+                                                            for (Integer reqId : requests) {
+                                                                User reqUserInfo = usersDAO.getUserById(reqId);
+                                                        %>
+                                                        <li>
+                                                            <div class="row" id=<%="request" + requestId%>>
+                                                                <div class="col d-flex align-items-center">
+                                                                    <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
+                                                                        <%=reqUserInfo.getUsername()%>
+                                                                    </a>
+                                                                    <script>
+                                                                        haveRequestsFrom.push(<%=reqUserInfo.getId()%>);
+                                                                    </script>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <a title="Accept friend request">
+                                                                        <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"
+                                                                                style="display: inline-block;"
+                                                                                type="button"
+                                                                                class="btn btn-success notification-buttons">
+                                                                            <i class="bi bi-person-plus-fill"></i>
+                                                                            Accept
+                                                                        </button>
+                                                                    </a>
+
+                                                                    <a title="Reject friend request">
+                                                                        <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"
+                                                                                style="display: inline-block;"
+                                                                                type="button"
+                                                                                class="btn btn-danger notification-buttons">
+                                                                            <i class="bi bi-person-x-fill"></i> Reject
+                                                                        </button>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <%
+                                                                requestId++;
+                                                            }
+                                                        %>
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+                                            <%--Challenges--%>
+                                            <li>
+                                                <div class="notification-name uk-padding-small">
+                                                    <ul id="challengesList" class="uk-list container-fluid "
+                                                        style="max-height: 200px; overflow: auto">
+
+                                                        <%
+                                                            ArrayList<Challenge> challenges = challengesDAO.getChallenges(myUser.getId());
+                                                            int challId = 1;
+                                                            for (Challenge challenge : challenges) {
+                                                                User challUserInfo = usersDAO.getUserById(challenge.getUserId());
+
+                                                        %>
+                                                        <li>
                                                             <script>
-                                                                haveRequestsFrom.push(<%=reqUserInfo.getId()%>);
+                                                                haveChallengeFrom.push([<%=challUserInfo.getId()%>, <%=challenge.getQuizId()%>]);
                                                             </script>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <a title="Accept friend request">
-                                                                <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'acceptRequest', <%=requestId%>)"
-                                                                        style="display: inline-block;"
-                                                                        type="button"
-                                                                        class="btn btn-success notification-buttons">
-                                                                    <i class="bi bi-person-plus-fill"></i> Accept
-                                                                </button>
-                                                            </a>
+                                                            <div class="row" id="<%="challenge" + challId%>">
+                                                                <div class="col d-flex align-items-center">
+                                                                    <a href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
+                                                                    </a>
+                                                                    <div style="margin-left: 3px"> challenged you:</div>
+                                                                    <a style="margin-left: 3px"
+                                                                       href=<%= "/quiz?quizId=" + challenge.getQuizId()%>><%=quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName()%>
+                                                                    </a>
+                                                                </div>
 
-                                                            <a title="Reject friend request">
-                                                                <button onclick="requestAction(<%=myUser.getId()%>,<%=reqUserInfo.getId()%>, 'rejectRequest', <%=requestId%>)"
-                                                                        style="display: inline-block;"
-                                                                        type="button"
-                                                                        class="btn btn-danger notification-buttons">
-                                                                    <i class="bi bi-person-x-fill"></i> Reject
-                                                                </button>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <%
-                                                        requestId++;
-                                                    }
-                                                %>
-                                            </ul>
-                                        </div>
-                                    </li>
+                                                                <div class="col-auto">
+                                                                    <a title="Accept challenge">
+                                                                        <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
+                                                                                style="display: inline-block;"
+                                                                                type="button"
+                                                                                class="btn btn-success notification-buttons">
+                                                                            <i class="bi bi-check-lg"></i>
+                                                                            Accept
+                                                                        </button>
+                                                                    </a>
 
-                                    <%--Challenges--%>
-                                    <li>
-                                        <div class="notification-name uk-padding-small">
-                                            <ul id="challengesList" class="uk-list container-fluid "
-                                                style="max-height: 200px; overflow: auto">
+                                                                    <a title="Reject challenge">
+                                                                        <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
+                                                                                style="display: inline-block;"
+                                                                                type="button"
+                                                                                class="btn btn-danger notification-buttons">
+                                                                            <i class="bi bi-x-lg"></i>
+                                                                            Reject
+                                                                        </button>
+                                                                    </a>
 
-                                                <%
-                                                    ArrayList<Challenge> challenges = challengesDAO.getChallenges(myUser.getId());
-                                                    int challId = 1;
-                                                    for (Challenge challenge : challenges) {
-                                                        User challUserInfo = usersDAO.getUserById(challenge.getUserId());
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <%
+                                                                challId++;
+                                                            }
+                                                        %>
 
-                                                %>
-                                                <li>
-                                                    <script>
-                                                        haveChallengeFrom.push([<%=challUserInfo.getId()%>, <%=challenge.getQuizId()%>]);
-                                                    </script>
-                                                    <div class="row" id="<%="challenge" + challId%>">
-                                                        <div class="col d-flex align-items-center">
-                                                            <a href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
-                                                            </a>
-                                                            <div style="margin-left: 3px"> challenged you:</div>
-                                                            <a style="margin-left: 3px"
-                                                               href=<%= "/quiz?quizId=" + challenge.getQuizId()%>><%=quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName()%>
-                                                            </a>
-                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </li>
 
-                                                        <div class="col-auto">
-                                                            <a title="Accept challenge">
-                                                                <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'acceptChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
-                                                                        style="display: inline-block;"
-                                                                        type="button"
-                                                                        class="btn btn-success notification-buttons">
-                                                                    <i class="bi bi-check-lg"></i>
-                                                                    Accept
-                                                                </button>
-                                                            </a>
+                                            <%--Chat--%>
+                                            <li>
+                                                <div class="uk-padding-small">
+                                                    <ul id="chatNotifications" class="uk-list container-fluid"
+                                                        style="max-height: 200px; overflow: auto">
+                                                        <%
+                                                            HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
+                                                            for (int id : notSeen.keySet()) {
+                                                                User chatUser = usersDAO.getUserById(id);
+                                                        %>
+                                                        <li>
+                                                            <script>
+                                                                haveChatsNotificationFrom.push(<%=chatUser.getId()%>);
+                                                            </script>
+                                                            <div class="notification-name row">
+                                                                <div class="col d-flex align-items-center">
+                                                                    <div>New message from</div>
+                                                                    <a style="margin-left: 3px"
+                                                                       href=<%="/profile?user=" + chatUser.getId()%>><%=chatUser.getUsername()%>
+                                                                    </a>
 
-                                                            <a title="Reject challenge">
-                                                                <button onclick="challengeAction(<%=challUserInfo.getId()%>, 'rejectChallenge', <%=challId%>, <%=challenge.getQuizId()%>)"
-                                                                        style="display: inline-block;"
-                                                                        type="button"
-                                                                        class="btn btn-danger notification-buttons">
-                                                                    <i class="bi bi-x-lg"></i>
-                                                                    Reject
-                                                                </button>
-                                                            </a>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <a title="Open chat"
+                                                                       href=<%="/chat?chatWith=" + chatUser.getId()%>>
+                                                                        <button style="display: inline-block;"
+                                                                                type="button"
+                                                                                class="btn btn-primary notification-buttons">
+                                                                            <i class="bi bi-envelope"></i> Open
+                                                                        </button>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <%
+                                                            }
+                                                        %>
+                                                    </ul>
+                                                </div>
+                                            </li>
 
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <%
-                                                        challId++;
-                                                    }
-                                                %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table_name">
 
-                                            </ul>
-                                        </div>
-                                    </li>
-
-                                    <%--Chat--%>
-                                    <li>
-                                        <div class="uk-padding-small">
-                                            <ul id="chatNotifications" class="uk-list container-fluid"
-                                                style="max-height: 200px; overflow: auto">
-                                                <%
-                                                    HashMap<Integer, ArrayList<String>> notSeen = messagesDAO.getNotSeenMessage(myUser.getId());
-                                                    for (int id : notSeen.keySet()) {
-                                                        User chatUser = usersDAO.getUserById(id);
-                                                %>
-                                                <li>
-                                                    <script>
-                                                        haveChatsNotificationFrom.push(<%=chatUser.getId()%>);
-                                                    </script>
-                                                    <div class="notification-name row">
-                                                        <div class="col d-flex align-items-center">
-                                                            <div>New message from</div>
-                                                            <a style="margin-left: 3px"
-                                                               href=<%="/profile?user=" + chatUser.getId()%>><%=chatUser.getUsername()%>
-                                                            </a>
-
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <a title="Open chat"
-                                                               href=<%="/chat?chatWith=" + chatUser.getId()%>>
-                                                                <button style="display: inline-block;"
-                                                                        type="button"
-                                                                        class="btn btn-primary notification-buttons">
-                                                                    <i class="bi bi-envelope"></i> Open
-                                                                </button>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <%
-                                                    }
-                                                %>
-                                            </ul>
-                                        </div>
-                                    </li>
-
-                                </ul>
+                                <a style="margin-right: 3px"
+                                   href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="table_name">
-
-                        <a style="margin-right: 3px"
-                           href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
-                        </a>
                     </div>
                 </div>
             </div>
+
+            <hr style="margin: 0">
+
+            <nav class="navbar navbar-expand-lg navbar-dark text-light" style="background-color: #242526">
+                <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="col navbar-nav">
+                            <%
+                                ArrayList<Quiz> allQuizzesList = quizzesDAO.getPopularQuizzes();
+                                Random rand = new Random(new Date().getTime());
+                                int randInd = rand.nextInt(allQuizzesList.size());
+                                int randQuizId = allQuizzesList.get(randInd).getQuizId();
+                            %>
+
+                            <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                                <a href="/createQuiz" class="buttons btn text-light" style="background-color: #242526">
+                                    Create Quiz
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                                <a href="/quiz?quizId=<%=randQuizId%>" class="buttons btn text-light"
+                                   style="background-color: #242526">
+                                    Random Quiz
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                                <a href="/chat" class="buttons btn text-light" style="background-color: #242526">
+                                    Chats
+                                </a>
+                            </li>
+                            <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
+                                <a href="/quizzesList" class="buttons btn text-light" style="background-color: #242526">
+                                    Quizzes
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <form class="d-flex" role="search" method="get" action="/search">
+                        <input class=" form-control me-2 whitePlaceholder text-light"
+                               style="background-color: #242526"
+                               type="search"
+                               placeholder="Search"
+                               aria-label="Search"
+                               name="search"
+                               id="search"
+                               aria-describedby="inputGroup-sizing-sm" required>
+                    </form>
+                </div>
+            </nav>
         </div>
     </div>
-
-
-    <nav class="navbar navbar-expand-lg navbar-dark text-light" style="background-color: #181818">
-        <div class="container-fluid" style="padding-left: 0; padding-right: 0">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="col navbar-nav">
-                    <%
-                        ArrayList<Quiz> allQuizzesList = quizzesDAO.getPopularQuizzes();
-                        Random rand = new Random(new Date().getTime());
-                        int randInd = rand.nextInt(allQuizzesList.size());
-                        int randQuizId = allQuizzesList.get(randInd).getQuizId();
-                    %>
-
-                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                        <a href="/createQuiz" class="buttons btn text-light" style="background-color: #181818">
-                            Create Quiz
-                        </a>
-                    </li>
-                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                        <a href="/quiz?quizId=<%=randQuizId%>" class="buttons btn text-light"
-                           style="background-color: #181818">
-                            Random Quiz
-                        </a>
-                    </li>
-                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                        <a href="/chat" class="buttons btn text-light" style="background-color: #181818">
-                            Chats
-                        </a>
-                    </li>
-                    <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                        <a href="/quizzesList" class="buttons btn text-light" style="background-color: #181818">
-                            Quizzes
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <form class="d-flex" role="search" method="get" action="/search">
-                <input class=" form-control me-2 whitePlaceholder text-light"
-                       style="background-color: #181818"
-                       type="search"
-                       placeholder="Search"
-                       aria-label="Search"
-                       name="search"
-                       id="search"
-                       aria-describedby="inputGroup-sizing-sm" required>
-            </form>
-        </div>
-    </nav>
 </div>
 
 </body>

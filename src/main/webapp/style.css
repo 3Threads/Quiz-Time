@@ -10,13 +10,13 @@ a {
 }
 
 .top-head {
-    background-color: #181818;
+    background-color: #242526;
     border-bottom: 1px solid #666666;
-    padding: 20px 0 10px;
+    padding: 7px 0 2px;
 }
 
 .main {
-    margin-top: 189.21px;
+    margin-top: 95px;
     left: 0;
     padding-top: 10px ;
 }
@@ -205,8 +205,6 @@ a {
     }
 
     .logo {
-        height: 100px;
-        width: 400px;
         transition: width 0.5s ease, height 0.5s ease;
     }
 }
