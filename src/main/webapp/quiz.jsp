@@ -2,6 +2,7 @@
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
 <%@ page import="Types.*" %>
+<%@ page import="jdk.jfr.Category" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -267,9 +268,25 @@
                 <h3>Description:</h3>
                 <hr>
                 <div class="mt-2" style="word-wrap: break-word">
+                    <div>
+                        Categories:
+                        <ul>
+                            <%
+
+                                ArrayList<String> list = currQuiz.getCategories();
+                                for (String s : list) {
+                            %>
+
+
+                            <li><%=s%>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
                     <%=currQuiz.getQuizDescription()%>
                 </div>
             </div>
+
             <div class="col-8">
                 <ul class="uk-child-width-expand text-center  d-flex align-items-end" data-uk-tab="{connect:'#tables'}">
                     <li><a style="color: white" href="">
