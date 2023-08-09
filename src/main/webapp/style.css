@@ -10,9 +10,12 @@ a {
 }
 
 .top-head {
-    background-color: #242526;
     border-bottom: 1px solid #666666;
     padding: 7px 0 2px;
+}
+
+.back-color{
+    background-color: #1d1f24;
 }
 
 .main {

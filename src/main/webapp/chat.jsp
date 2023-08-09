@@ -215,9 +215,9 @@
         </div>
         <% if (chatWith != null && !chatWith.trim().equals("")) {
             chatId = Integer.parseInt(chatWith);%>
-        <div class="col-4"></div>
+        <div class="col-1"></div>
         <div class="col-8" style="max-height: 100%; padding-top: 10px">
-            <div class="overflow-auto chatBox" style="height: calc(100% - 55px); border: darkgrey 1px solid; border-radius: 4px;">
+            <div class="overflow-auto chatBox" style="height: 90%; border: darkgrey 1px solid; border-radius: 10px;">
                 <div id="chat" class="container-fluid uk-padding-small">
                     <%
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
