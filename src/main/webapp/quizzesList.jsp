@@ -36,7 +36,7 @@
 <body class="bg-dark text-light" style="overflow-x: clip">
 <%@include file="header.jsp" %>
 <%
-    Set<String> categories = new HashSet<String>(Arrays.asList("Sports", "Entertainment", "Geography", "Science", "History", "Art", "Literature", "Music", "Technology", "Animals", "Economy", "Politics"));
+    Set<String> categories = new HashSet<String>(Arrays.asList("Sports", "Entertainment", "Geography", "Science", "History", "Art", "Literature", "Music", "Technology", "Animals", "Economy", "Politics", "Other"));
     String title = request.getParameter("title");
     if (title == null) title = "";
     String category = request.getParameter("category");
