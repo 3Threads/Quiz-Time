@@ -159,10 +159,14 @@
 <% Integer chatId;%>
 <div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0">
     <div class="row mt-1" style="height: 100%">
-        <div class="col-3 "
-             style="height: 100%; padding-left: 0; padding-right: 0; background-color: #242526; position: fixed">
+        <div class="col-3 back-color"
+             style="height: 100%; padding-left: 0; padding-right: 0; position: fixed">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
-                style="height:100%;">
+                style="height:100%; border-right: 1px solid #666666;">
+                <h3>
+                    Friends:
+                </h3>
+                    <hr>
                 <%
                     HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
