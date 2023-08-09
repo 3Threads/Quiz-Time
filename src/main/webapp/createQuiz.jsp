@@ -352,8 +352,8 @@
 </script>
 <body>
 <div class="container-fluid main">
-    <div class="row mt-3">
-        <div class="col-6">
+    <div class="row mt-3" >
+        <div class="col-6" uk-scrollspy="cls: uk-animation-fade; repeat: true;">
             <form name="quiz-form" action="/createQuiz" method="post">
                 <input type="hidden" value="createQuiz" name="action">
                 <input class="uk-margin form-control bg-dark whitePlaceholder text-light" type="text"
@@ -493,9 +493,8 @@
                     }
                 %>
             </form>
-
         </div>
-        <div class="col-6">
+        <div class="col-6" >
             <div id="currQuestionBox">
                 <form action="/createQuiz" method="post" onsubmit="return beforeSubmit()">
                     <div id="formForThisType">

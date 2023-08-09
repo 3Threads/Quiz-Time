@@ -43,7 +43,8 @@
         $('#categoryHidden').val(quizCategory);
     }
 </script>
-<div class="container-fluid main">
+<div class="container-fluid main" uk-scrollspy="cls: uk-animation-fade; repeat: true">
+<div >
     <form action="/quizzesList" method="get" onsubmit="return search()">
         <input type="hidden" name="starNum" value="0" id="starHidden">
         <input type="hidden" name="category" value="" id="categoryHidden">
@@ -112,8 +113,8 @@
         </div>
     </form>
 </div>
-<div class="container-fluid">
-    <table class="uk-table uk-table-divider">
+<div >
+    <table class="uk-table uk-table-divider" style="margin:0">
         <hr>
         <thead>
         <tr>
@@ -131,6 +132,8 @@
             </th>
         </tr>
         </thead>
+        <thead>
+
         <tbody>
         <%
             for (int i = 0; i < searchedQuizzes.size(); i++) {
@@ -167,4 +170,6 @@
         </tbody>
     </table>
 </div>
+</div>
+
 </body>

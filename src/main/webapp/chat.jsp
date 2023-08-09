@@ -157,7 +157,7 @@
 </script>
 <body>
 <% Integer chatId;%>
-<div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0">
+<div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0; height: calc(100vh - 95px);">
     <div class="row mt-1" style="height: 100%">
         <div class="col-3 back-color"
              style="height: 100%; padding-left: 0; padding-right: 0; position: fixed">
@@ -220,7 +220,7 @@
         <% if (chatWith != null && !chatWith.trim().equals("")) {
             chatId = Integer.parseInt(chatWith);%>
         <div class="col-4"></div>
-        <div class="col-8" style="max-height: 100%; padding-top: 10px">
+        <div class="col-8" style="padding-top: 10px" >
             <div class="overflow-auto chatBox" style="height: calc(100% - 55px); border: darkgrey 1px solid; border-radius: 4px;">
                 <div id="chat" class="container-fluid uk-padding-small">
                     <%

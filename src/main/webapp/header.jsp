@@ -228,7 +228,7 @@
                                        style="margin-right: 1px"></i>
                                 </div>
                             </a>
-                            <div id="modal-notifications" uk-modal>
+                            <div id="modal-notifications" class="main" uk-modal>
                                 <div class="uk-modal-dialog bg-dark">
                                     <button class="uk-modal-close-default" type="button" uk-close></button>
                                     <div class="uk-modal-header bg-dark">
@@ -456,7 +456,8 @@
                         </ul>
                     </div>
                     <form class="d-flex" role="search" method="get" action="/search">
-                        <input class=" form-control me-2 whitePlaceholder text-light back-color"
+                        <input class="form-control me-2 whitePlaceholder text-light header-search"
+                               style="background-color: #1d1f24"
                                type="search"
                                placeholder="Search"
                                aria-label="Search"

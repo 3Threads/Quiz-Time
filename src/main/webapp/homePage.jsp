@@ -5,14 +5,14 @@
     <%@include file="header.jsp" %>
 </head>
 <body class="bg-dark text-light" style="overflow-x: clip">
-<div class="container">
+<div class="container-fluid main">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
             <br>
             <a href="#modalAnnouncements" class="mt-1" uk-toggle>
                 <h4 class="headers">Announcements</h4>
             </a>
-            <div id="modalAnnouncements" uk-modal>
+            <div id="modalAnnouncements" uk-modal class="main">
                 <div class="uk-modal-dialog bg-dark">
                     <button class="uk-modal-close-default" type="button" uk-close></button>
                     <div class="uk-modal-header bg-dark">

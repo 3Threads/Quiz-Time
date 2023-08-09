@@ -12,17 +12,20 @@ a {
 .top-head {
     border-bottom: 1px solid #666666;
     padding: 7px 0 2px;
+    height: 95px;
 }
 
-.back-color{
+.back-color {
     background-color: #1d1f24;
 }
 
 .main {
     margin-top: 95px;
     left: 0;
-    padding-top: 10px ;
-    height: calc(100vh - 95px);
+    padding-top: 10px;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+    min-height: calc(100vh - 95px);
 }
 
 .fullWidthList {
@@ -173,6 +176,18 @@ a {
     font-size: 12px;
 }
 
+@media screen and (max-width: 700px) {
+    .header-search {
+        width: 200px;
+    }
+}
+
+@media screen and (min-width: 701px) {
+    .header-search {
+        width: 330px;
+    }
+}
+
 @media screen and (min-width: 992px) {
     .header {
         height: 80px;
@@ -208,9 +223,6 @@ a {
         transition: font-size 0.5s ease;
     }
 
-    .logo {
-        transition: width 0.5s ease, height 0.5s ease;
-    }
 }
 
 @media screen and (max-width: 991px) {
@@ -454,4 +466,8 @@ form .btn1 button:hover {
     font-size: 20px;
     margin-bottom: 10px;
     width: 100%;
+}
+
+body{
+    overflow-x: hidden;
 }
