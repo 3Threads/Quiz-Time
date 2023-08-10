@@ -7,9 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class DataSource {
     private static final String DATABASE = "QUIZ_WEBSITE";
     private static final String TEST_DATABASE = "QUIZ_WEBSITE_TEST";
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String username = dotenv.get("SQL_USERNAME");
+    private static final String password = dotenv.get("SQL_PASSWORD");
 
     public static BasicDataSource getDataSource(boolean isForTesting) {
         String dbName = DATABASE;
@@ -22,8 +27,8 @@ public class DataSource {
         dataSource.setRemoveAbandonedTimeout(5);
 
         dataSource.setUrl("jdbc:mysql://localhost:3306/" + dbName + "?allowMultiQueries=true");
-        dataSource.setUsername("root");
-        dataSource.setPassword("passwordD1!");
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
 
         if (isForTesting) {
             createAgain(dataSource);
