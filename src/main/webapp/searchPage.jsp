@@ -13,42 +13,45 @@
 <div class="container-fluid main" style="padding-top:0; padding-bottom: 0">
 
     <div class="row">
-        <div class="col-3 back-color" style="position:fixed; height: calc(100vh - 95px); padding-top: 15px ">
-            <div class="headers">
+        <div class="col-3 back-color" style="position:fixed; height: calc(100vh - 95px); padding-top: 15px; border-right: 1px solid #666666;">
+            <h3 style="margin:0">
                 Search results for: <%=request.getParameter("search")%>
-            </div>
-            <hr>
+            </h3>
+            <hr style="margin-top: 10px">
 
             <div class="headers" style="margin-bottom: 20px">
                 Filters:
             </div>
             <div class="d-flex align-items-start">
-                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical"
+                <div class="col nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical"
                      style="width: 100%; text-align: left; font-size: 20px">
                     <button class="nav-link active" id="v-pills-all-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-all" type="button" role="tab" aria-controls="v-pills-home"
-                            aria-selected="true" style="text-align: left; margin-bottom: 10px">
-                        <i class="bi bi-files"></i>
-                        everything
+                            aria-selected="true" style="margin-bottom: 10px"
+                            title="Everything">
+                        <span class="icon-container"><i class="bi bi-files"></i></span>
+                        <span class="text-container">everything</span>
                     </button>
-                    <button class="nav-link " id="v-pills-users-tab" data-bs-toggle="pill"
+                    <button class="nav-link" id="v-pills-users-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-home"
-                            aria-selected="false" style="text-align: left; margin-bottom: 10px">
-                        <i class="bi bi-people"></i>
-                        Users
+                            aria-selected="true" style="margin-bottom: 10px"
+                            title="Users">
+                        <span class="icon-container"><i class="bi bi-people"></i></span>
+                        <span class="text-container">Users</span>
                     </button>
                     <button class="nav-link" id="v-pills-quizzes-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-quizzes" type="button" role="tab" aria-controls="v-pills-profile"
-                            aria-selected="false" style="text-align: left; margin-bottom: 10px">
-                        <i class="bi bi-file-text"></i>
-                        Quizzes
+                            data-bs-target="#v-pills-quizzes" type="button" role="tab" aria-controls="v-pills-home"
+                            aria-selected="true" style="margin-bottom: 10px"
+                            title="Quizzes">
+                        <span class="icon-container"><i class="bi bi-file-text"></i></span>
+                        <span class="text-container">Quizzes</span>
                     </button>
                     <button class="nav-link" id="v-pills-announcements-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-announcements" type="button" role="tab"
-                            aria-controls="v-pills-messages"
-                            aria-selected="false" style="text-align: left; margin-bottom: 10px">
-                        <i class="bi bi-megaphone"></i>
-                        Announcements
+                            data-bs-target="#v-pills-announcements" type="button" role="tab" aria-controls="v-pills-home"
+                            aria-selected="true" style="margin-bottom: 10px"
+                            title="Announcements">
+                        <span class="icon-container"><i class="bi bi-megaphone"></i></span>
+                        <span class="text-container">Announcements</span>
                     </button>
                 </div>
 
@@ -161,6 +164,7 @@
                                 <div class="uk-width-expand">
                                     <div class="uk-card-title uk-margin-remove-bottom text-light">
                                         <div style="font-size: 16px">
+                                            <hr>
                                             <%=announcement.getTitle()%>
                                         </div>
                                     </div>

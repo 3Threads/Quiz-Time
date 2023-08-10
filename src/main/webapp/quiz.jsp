@@ -233,23 +233,36 @@
             </div>
         </div>
         <div class="row uk-margin-small mt-5">
-            <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px; max-height: 530px" uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
+            <div class="col-4 uk-box-shadow-large" style="overflow: auto; margin-bottom: 20px; max-height: 530px"
+                 uk-scrollspy="cls: uk-animation-slide-left; repeat: true">
                 <h3>Description:</h3>
                 <hr>
                 <div class="mt-2" style="word-wrap: break-word">
                     <div>
                         Categories:
+
+                        <%
+                            ArrayList<String> list = currQuiz.getCategories();
+                            if (list.size() == 1 && list.get(0).isEmpty()) {
+
+
+                        %>
+                        Not Chosen
+                        <%
+                        } else {
+                        %>
                         <ul>
                             <%
-
-                                ArrayList<String> list = currQuiz.getCategories();
                                 for (String s : list) {
+
                             %>
-
-
-                            <li><%=s%>
+                            <li>
+                                <%=s%>
                             </li>
-                            <% } %>
+                            <%
+                                    }
+                                }
+                            %>
                         </ul>
                     </div>
                     <%=currQuiz.getQuizDescription()%>

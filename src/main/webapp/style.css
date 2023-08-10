@@ -468,6 +468,62 @@ form .btn1 button:hover {
     width: 100%;
 }
 
-body{
+body {
     overflow-x: hidden;
+}
+
+/* SearchPage buttons */
+.icon-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.text-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#v-pills-all-tab {
+    text-align: left;
+}
+
+#v-pills-users-tab {
+    text-align: left;
+}
+
+#v-pills-quizzes-tab {
+    text-align: left;
+}
+
+#v-pills-announcements-tab {
+    text-align: left;
+}
+
+/* Hide the text when the screen width is less than a certain value */
+@media (max-width: 1100px) {
+    .text-container {
+        display: none;
+    }
+
+    .icon-container {
+        text-align: center;
+    }
+
+    #v-pills-all-tab {
+        text-align: center;
+    }
+
+    #v-pills-users-tab {
+        text-align: center;
+    }
+
+    #v-pills-quizzes-tab {
+        text-align: center;
+    }
+
+    #v-pills-announcements-tab {
+        text-align: center;
+    }
+
+
 }
