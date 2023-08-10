@@ -43,7 +43,7 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String found = "SELECT * FROM USERS WHERE USERNAME = ?;";
+            String found = "SELECT * FROM USERS WHERE BINARY USERNAME = ?;";
             PreparedStatement statement = connect.prepareStatement(found);
             statement.setString(1, username);
             ResultSet result = statement.executeQuery();
@@ -115,6 +115,7 @@ public class UsersDAO {
         }
         return null;
     }
+
     public void getAdminToUser(int userId) {
         Connection connect = null;
         try {
