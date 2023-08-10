@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Quiz Time</title>
+    <link rel="icon" href="images/icon.png" type="image/x-icon"/>
 </head>
 <body class="bg-dark text-light">
 <div class="container text-center" style="height: 100%">
@@ -34,7 +35,8 @@
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="text" class="form-control bg-dark text-light whitePlaceholder"
-                                       placeholder="Username" name="username" maxlength="20" minlength="4" pattern="[^$\|\/]+" title="Your username must not exist '$','|' or '/'" required>
+                                       placeholder="Username" name="username" maxlength="20" minlength="4"
+                                       pattern="[^$\|\/]+" title="Your username must not exist '$','|' or '/'" required>
                             </div>
                         </div>
                         <div class="row mb-3">

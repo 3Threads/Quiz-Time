@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <title>Quiz Time</title>
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
 </head>
 <%
     if (session.getAttribute("userInfo") != null) {
