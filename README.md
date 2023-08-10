@@ -19,7 +19,7 @@ mysql -u 'Database username' -p
 3. Copy the script from SqlScript.sql and run it in the terminal.
 
 4. Create `.env` file with `SQL_USERNAME` set your sql username and
-   `SQL_PASSWORD` set you sql password University. For example:
+   `SQL_PASSWORD` set you sql password. For example:
 
 ```dotenv
 SQL_USERNAME="root"
@@ -54,7 +54,7 @@ mysql -u 'Database username' -p
 3. Copy the script from SqlScriptTest.sql and run it in the terminal.
 
 4. Create `.env` file with `SQL_USERNAME` set your sql username and
-   `SQL_PASSWORD` set you sql password University. For example:
+   `SQL_PASSWORD` set you sql password. For example:
 
 ```dotenv
 SQL_USERNAME="root"
