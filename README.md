@@ -11,7 +11,7 @@
 1. Run the command in the terminal:
 
 ```shell
-mysql -u root -p
+mysql -u 'Database username' -p
 ```
 
 2. Enter your mySQL password.
@@ -46,7 +46,7 @@ mvn tomcat7:run
 1. Run the command in the terminal:
 
 ```shell
-mysql -u root -p
+mysql -u 'Database username' -p
 ```
 
 2. Enter your mySQL password.
