@@ -7,7 +7,7 @@ CREATE TABLE USERS
     ID       int primary key NOT NULL AUTO_INCREMENT,
     USERNAME CHAR(64) UNIQUE not null,
     STATUS   TINYINT DEFAULT 0,
-    RANK    int default 0,
+    SCORE     int     DEFAULT 0,
     PASSWORD CHAR(64)        not null
 );
 CREATE TABLE FRIENDS

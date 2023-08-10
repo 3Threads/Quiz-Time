@@ -99,7 +99,7 @@ public class UsersDAO {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new User(resultSet.getInt("ID"), resultSet.getInt("USER_RANK"), resultSet.getString("USERNAME"), resultSet.getInt("STATUS"));
+                return new User(resultSet.getInt("ID"), resultSet.getInt("SCORE"), resultSet.getString("USERNAME"), resultSet.getInt("STATUS"));
             }
             return null;
         } catch (SQLException e) {
@@ -135,13 +135,13 @@ public class UsersDAO {
             }
         }
     }
-    public void updateRank(int userId, int newRank) {
+    public void updateScore(int userId, int newScore) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getUserRow = "UPDATE USERS SET RANK = ? WHERE ID = ?;";
+            String getUserRow = "UPDATE USERS SET SCORE = ? WHERE ID = ?;";
             PreparedStatement statement = connect.prepareStatement(getUserRow);
-            statement.setInt(1, newRank);
+            statement.setInt(1, newScore);
             statement.setInt(2, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -156,17 +156,17 @@ public class UsersDAO {
             }
         }
     }
-    public ArrayList<User> getHighestRankUsers(int limit) {
+    public ArrayList<User> getHighestScoreUsers(int limit) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getUserRow = "SELECT * FROM USERS ORDER BY USER_RANK DESC LIMIT ?";
+            String getUserRow = "SELECT * FROM USERS ORDER BY SCORE DESC LIMIT ?";
             PreparedStatement statement = connect.prepareStatement(getUserRow);
             statement.setInt(1,limit);
             ResultSet result = statement.executeQuery();
             ArrayList<User> arr = new ArrayList<>();
             while(result.next()) {
-                arr.add(new User(result.getInt("ID"), result.getInt("USER_RANK"), result.getString("USERNAME"), result.getInt("STATUS")));
+                arr.add(new User(result.getInt("ID"), result.getInt("SCORE"), result.getString("USERNAME"), result.getInt("STATUS")));
             }
             return arr;
         } catch (SQLException e) {
@@ -232,7 +232,7 @@ public class UsersDAO {
             ResultSet result = statement.executeQuery();
             ArrayList<User> arr = new ArrayList<>();
             while(result.next()) {
-                arr.add(new User(result.getInt("ID"), result.getInt("USER_RANK"), result.getString("USERNAME"), result.getInt("STATUS")));
+                arr.add(new User(result.getInt("ID"), result.getInt("SCORE"), result.getString("USERNAME"), result.getInt("STATUS")));
             }
             return arr;
         } catch (SQLException e) {
