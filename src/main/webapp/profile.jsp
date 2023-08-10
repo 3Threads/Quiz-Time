@@ -40,9 +40,38 @@
                 </div>
                 <hr>
             </div>
-            <div style="font-size: 20px" class="mb-2">
-                Score: <%=pageUser.getRank()%>
+            <%if(pageUser.getId() == myUser.getId() && myUser.getRank() != 1000) {%>
+            <div class="mb-2">
+            <img class="rank-test" style="display: inline-block; max-width: 5%; height: auto; float:left;margin-top: 4px;" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
+                 alt="rank-test">
+                <img class="rank-test" style="display: inline-block; max-width: 5%; height: auto; float:right; margin-top: 4px;" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())+1%>.png"
+                     alt="rank-test">
             </div>
+            <div class="progress" role="progressbar" style="margin-bottom: 10px" aria-label="Animated striped example"  aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style=" width:
+                    <%
+                        int rank = RankingSystem.countRank(myUser.getRank());
+                        int score = myUser.getRank();
+                        int percent=0;
+                        if(rank == 0) {
+                            percent = score/2;
+                        }
+                        if(rank == 1) {
+                             percent = (score-200)/2;
+                        }
+                        if(rank == 2) {
+                             percent = (score-400)/2;
+                        }
+                        if(rank == 3) {
+                             percent = (score-600)/2;
+                        }
+                        if(rank == 4) {
+                             percent = (score-800)/2;
+                        }
+                        out.println(percent+"%");
+                    %>"><%="Score:"+score%></div>
+            </div>
+            <%}%>
             <% if (profileId != myUser.getId()) {
                 FriendInfo info = friendsDAO.getBetweenUsersInfo(profileId, myUser.getId());
                 if (info.getAccepted() == -1) {
