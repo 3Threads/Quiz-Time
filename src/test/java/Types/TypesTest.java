@@ -1,6 +1,5 @@
-package Tests;
+package Types;
 
-import Types.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;

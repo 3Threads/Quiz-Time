@@ -1,4 +1,4 @@
-//package Tests;
+package DAO;//package Tests;
 //
 //import DAO.DataSource;
 //import DAO.QuizzesDAO;

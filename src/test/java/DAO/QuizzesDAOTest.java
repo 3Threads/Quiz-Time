@@ -1,9 +1,5 @@
-package Tests;
+package DAO;
 
-import DAO.DataSource;
-import DAO.QuizzesDAO;
-import DAO.RatingsDAO;
-import DAO.UsersDAO;
 import Types.Quiz;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class QuizzesDAOTest {
     private static QuizzesDAO quizzes;

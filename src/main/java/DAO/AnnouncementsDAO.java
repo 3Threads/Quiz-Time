@@ -1,7 +1,6 @@
 package DAO;
 
 import Types.Announcement;
-import Types.Challenge;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -62,6 +61,7 @@ public class AnnouncementsDAO {
             }
         }
     }
+
     public ArrayList<Announcement> searchAnnouncement(String searchString) {
         Connection connect = null;
         try {
@@ -69,8 +69,8 @@ public class AnnouncementsDAO {
             ArrayList<Announcement> announcements = new ArrayList<>();
             String foundAnnouncements = "SELECT * FROM ANNOUNCEMENTS WHERE TITLE LIKE ? OR (SELECT USERNAME FROM USERS WHERE ID = WRITER_ID) LIKE ?;";
             PreparedStatement statement = connect.prepareStatement(foundAnnouncements);
-            statement.setString(1, "%"+searchString+"%");
-            statement.setString(2, "%"+searchString+"%");
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
             return getAnnouncements(announcements, statement);
         } catch (SQLException e) {
             e.printStackTrace();
