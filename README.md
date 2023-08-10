@@ -70,7 +70,7 @@ This web application was developed as a project for CS108 at Free University of 
 offering users the opportunity to challenge their friends, compare quiz scores, and even create their own quizzes for
 others to take.
 
-### Roles
+## Roles
 
 - **Users** <br/>
   Authorized users have the following privileges:
@@ -87,7 +87,7 @@ others to take.
     - Making important announcements.
     - Granting/taking admin privileges to/from other users/admins.
 
-### Pages
+## Pages
 
 - **Log in page** <br/>
     - User should log in with existing account or create one.
