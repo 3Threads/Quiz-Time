@@ -263,7 +263,7 @@
                                value=<%=usersDAO.getUserById(chatId).getUsername()%>>
                         <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md col"
                                type="text"
-                               style="margin-left: 12px; border-radius:10px"
+                               style="margin-left: 12px; border-radius:6px"
                                placeholder="Input message"
                                name="message"/>
                         <div class="uk-inline col-auto d-flex align-items-center"
