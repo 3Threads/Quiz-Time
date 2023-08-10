@@ -43,7 +43,7 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String found = "SELECT * FROM USERS WHERE USERNAME = ?;";
+            String found = "SELECT * FROM USERS WHERE BINARY USERNAME = ?;";
             PreparedStatement statement = connect.prepareStatement(found);
             statement.setString(1, username);
             ResultSet result = statement.executeQuery();
@@ -99,7 +99,7 @@ public class UsersDAO {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new User(resultSet.getInt("ID"), resultSet.getString("USERNAME"), resultSet.getInt("STATUS"));
+                return new User(resultSet.getInt("ID"), resultSet.getInt("SCORE"), resultSet.getString("USERNAME"), resultSet.getInt("STATUS"));
             }
             return null;
         } catch (SQLException e) {
@@ -115,6 +115,7 @@ public class UsersDAO {
         }
         return null;
     }
+
     public void getAdminToUser(int userId) {
         Connection connect = null;
         try {
@@ -134,6 +135,53 @@ public class UsersDAO {
                 }
             }
         }
+    }
+    public void updateScore(int userId, int newScore) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getUserRow = "UPDATE USERS SET SCORE = ? WHERE ID = ?;";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setInt(1, newScore);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public ArrayList<User> getHighestScoreUsers(int limit) {
+        Connection connect = null;
+        try {
+            connect = dataSource.getConnection();
+            String getUserRow = "SELECT * FROM USERS ORDER BY SCORE DESC LIMIT ?";
+            PreparedStatement statement = connect.prepareStatement(getUserRow);
+            statement.setInt(1,limit);
+            ResultSet result = statement.executeQuery();
+            ArrayList<User> arr = new ArrayList<>();
+            while(result.next()) {
+                arr.add(new User(result.getInt("ID"), result.getInt("SCORE"), result.getString("USERNAME"), result.getInt("STATUS")));
+            }
+            return arr;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connect != null) {
+                try {
+                    connect.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
     public void deleteAdminToUser(int userId) {
         Connection connect = null;
@@ -185,7 +233,7 @@ public class UsersDAO {
             ResultSet result = statement.executeQuery();
             ArrayList<User> arr = new ArrayList<>();
             while(result.next()) {
-                arr.add(new User(result.getInt("ID"), result.getString("USERNAME"), result.getInt("STATUS")));
+                arr.add(new User(result.getInt("ID"), result.getInt("SCORE"), result.getString("USERNAME"), result.getInt("STATUS")));
             }
             return arr;
         } catch (SQLException e) {

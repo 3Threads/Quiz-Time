@@ -5,6 +5,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
+<%@ page import="BusinessLogic.RankingSystem" %>
 <html>
 <head>
     <%@include file="header.jsp" %>
@@ -20,9 +21,10 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <div style="font-size: 25px">
-                Username:
-                <div style="white-space: nowrap; display: inline-block">
+            <div style="font-size: 25px; padding-bottom: 10px; display: flex; align-items: center">
+                <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
+                     alt="rank-test">
+                <div style="white-space: nowrap; display: inline-block; padding-left: 10px">
                     <%=pageUser.getUsername() %>
                     <%
                         if (pageUser.getId() != myUser.getId()) {
@@ -37,6 +39,38 @@
                     %>
                 </div>
                 <hr>
+            </div>
+            <div class="row d-flex align-items-center mb-2">
+                <div class="col-auto">
+                    <img style="display: inline-block; width: 30px; height: auto;"
+                         src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
+                         alt="rank-test">
+                </div>
+                <%
+
+                    int rank = RankingSystem.countRank(pageUser.getRank());
+                    int score = pageUser.getRank();
+                    int percent = (score - 200 * rank) / 2;
+                %>
+                <div class="progress bg-dark col" role="progressbar" style="border: solid 0.5px white; padding: 0;">
+                    <div class="progress-bar" style="width: <%= percent %>%;">
+                        <div class="progress-text">
+                            <%
+                                int nextRank = Math.min(5, RankingSystem.countRank(pageUser.getRank()) + 1);
+                                String scoreText = score + "/" + (rank + 1) * 200;
+                                if (nextRank == 5) {
+                                    scoreText = String.valueOf(score);
+                                }
+                            %>
+                            <%= scoreText %>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <img style="display: inline-block; width: 30px; height: auto; "
+                         src="/images/rank<%=nextRank%>.png"
+                         alt="rank-test">
+                </div>
             </div>
             <% if (profileId != myUser.getId()) {
                 FriendInfo info = friendsDAO.getBetweenUsersInfo(profileId, myUser.getId());

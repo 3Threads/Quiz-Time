@@ -2,7 +2,6 @@
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
 <%@ page import="Types.*" %>
-<%@ page import="jdk.jfr.Category" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -103,6 +102,18 @@
                 <div>Time: <%=formatter.format(new Date((Long.parseLong(request.getParameter("time")))))%>
                 </div>
                 <%
+                    int plusScore = Integer.parseInt(request.getParameter("plusScore"));
+                    if (plusScore > 0) {
+                %>
+                <div style="color: green">Rank: <%=myUser.getRank()%>(+<%=plusScore%>)
+                </div>
+                <%
+                } else {
+                %>
+                <div style="color: red">Rank: <%=myUser.getRank()%>(<%=plusScore%>)
+                </div>
+                <%
+                        }
                     }
                 %>
             </div>
@@ -528,7 +539,7 @@
                         }
                     %>
 
-                    <div style=" margin-bottom: 25px">
+                    <div style=" margin-bottom: 25px;">
                         <%=rate.getComment()%>
                     </div>
                 </div>
