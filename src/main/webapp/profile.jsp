@@ -21,8 +21,9 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <div  style="font-size: 25px; padding-bottom: 10px; display: flex; align-items: center">
-                <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png" alt="rank-test">
+            <div style="font-size: 25px; padding-bottom: 10px; display: flex; align-items: center">
+                <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
+                     alt="rank-test">
                 <div style="white-space: nowrap; display: inline-block; padding-left: 10px">
                     <%=pageUser.getUsername() %>
                     <%
@@ -38,6 +39,9 @@
                     %>
                 </div>
                 <hr>
+            </div>
+            <div style="font-size: 20px" class="mb-2">
+                Score: <%=pageUser.getRank()%>
             </div>
             <% if (profileId != myUser.getId()) {
                 FriendInfo info = friendsDAO.getBetweenUsersInfo(profileId, myUser.getId());
