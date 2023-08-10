@@ -11,6 +11,9 @@ public class DataSource {
     private static final String DATABASE = "QUIZ_WEBSITE";
     private static final String TEST_DATABASE = "QUIZ_WEBSITE_TEST";
 
+    private static final String userName = "root";
+    private static final String password = "passwordD1!";
+
     public static BasicDataSource getDataSource(boolean isForTesting) {
         String dbName = DATABASE;
         if (isForTesting) {
@@ -22,8 +25,8 @@ public class DataSource {
         dataSource.setRemoveAbandonedTimeout(5);
 
         dataSource.setUrl("jdbc:mysql://localhost:3306/" + dbName + "?allowMultiQueries=true");
-        dataSource.setUsername("root");
-        dataSource.setPassword("passwordD1!");
+        dataSource.setUsername(userName);
+        dataSource.setPassword(password);
 
         if (isForTesting) {
             createAgain(dataSource);
