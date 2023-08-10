@@ -2,8 +2,6 @@
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
 <%@ page import="Types.*" %>
-<%@ page import="jdk.jfr.Category" %>
-<%@ page import="BusinessLogic.RankingSystem" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -509,7 +507,6 @@
                 <div id="<%=user.getId()%>">
 
                     <div style="display: inline-block;">
-                        <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(user.getRank())%>.png" alt="rank-test" style="width: 30px; height: 30px; border: 1px solid #333333; border-radius: 20px  ">
                         <a href="/profile?user=<%=user.getId()%>">
                             <div style="font-size:17px; display: inline-block;">
                                 @<%=user.getUsername()%>
@@ -542,7 +539,7 @@
                         }
                     %>
 
-                    <div style=" margin-bottom: 25px; margin-left:50px; margin-top: 1px">
+                    <div style=" margin-bottom: 25px;">
                         <%=rate.getComment()%>
                     </div>
                 </div>
