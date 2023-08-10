@@ -5,6 +5,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.*" %>
+<%@ page import="BusinessLogic.RankingSystem" %>
 <html>
 <head>
     <%@include file="header.jsp" %>
@@ -20,9 +21,9 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
-            <div style="font-size: 25px">
-                Username:
-                <div style="white-space: nowrap; display: inline-block">
+            <div  style="font-size: 25px; padding-bottom: 10px; display: flex; align-items: center">
+                <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png" alt="rank-test">
+                <div style="white-space: nowrap; display: inline-block; padding-left: 10px">
                     <%=pageUser.getUsername() %>
                     <%
                         if (pageUser.getId() != myUser.getId()) {

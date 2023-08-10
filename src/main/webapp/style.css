@@ -527,3 +527,17 @@ body {
 
 
 }
+/* Hide the text when the screen width is less than a certain value */
+@media (max-width: 1100px) {
+    .rank-test {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (min-width: 1099px) {
+    .rank-test {
+        width: 80px;
+        height: 80px;
+    }
+}
