@@ -40,38 +40,38 @@
                 </div>
                 <hr>
             </div>
-            <%if(pageUser.getId() == myUser.getId() && myUser.getRank() != 1000) {%>
-            <div class="mb-2">
-            <img class="rank-test" style="display: inline-block; max-width: 5%; height: auto; float:left;margin-top: 4px;" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
-                 alt="rank-test">
-                <img class="rank-test" style="display: inline-block; max-width: 5%; height: auto; float:right; margin-top: 4px;" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())+1%>.png"
-                     alt="rank-test">
+            <div class="row d-flex align-items-center mb-2">
+                <div class="col-auto">
+                    <img style="display: inline-block; width: 30px; height: auto;"
+                         src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
+                         alt="rank-test">
+                </div>
+                <%
+
+                    int rank = RankingSystem.countRank(pageUser.getRank());
+                    int score = pageUser.getRank();
+                    int percent = (score - 200 * rank) / 2;
+                %>
+                <div class="progress bg-dark col" role="progressbar" style="border: solid 0.5px white; padding: 0;">
+                    <div class="progress-bar" style="width: <%= percent %>%;">
+                        <div class="progress-text">
+                            <%
+                                int nextRank = Math.min(5, RankingSystem.countRank(pageUser.getRank()) + 1);
+                                String scoreText = score + "/" + (rank + 1) * 200;
+                                if (nextRank == 5) {
+                                    scoreText = String.valueOf(score);
+                                }
+                            %>
+                            <%= scoreText %>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <img style="display: inline-block; width: 30px; height: auto; "
+                         src="/images/rank<%=nextRank%>.png"
+                         alt="rank-test">
+                </div>
             </div>
-            <div class="progress" role="progressbar" style="margin-bottom: 10px" aria-label="Animated striped example"  aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" style=" width:
-                    <%
-                        int rank = RankingSystem.countRank(myUser.getRank());
-                        int score = myUser.getRank();
-                        int percent=0;
-                        if(rank == 0) {
-                            percent = score/2;
-                        }
-                        if(rank == 1) {
-                             percent = (score-200)/2;
-                        }
-                        if(rank == 2) {
-                             percent = (score-400)/2;
-                        }
-                        if(rank == 3) {
-                             percent = (score-600)/2;
-                        }
-                        if(rank == 4) {
-                             percent = (score-800)/2;
-                        }
-                        out.println(percent+"%");
-                    %>"><%="Score:"+score%></div>
-            </div>
-            <%}%>
             <% if (profileId != myUser.getId()) {
                 FriendInfo info = friendsDAO.getBetweenUsersInfo(profileId, myUser.getId());
                 if (info.getAccepted() == -1) {

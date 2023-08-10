@@ -103,7 +103,8 @@ VALUES ('USER1', 1, '2def06fb91eb2d1bcd9e22dd131c6999113b552b', 100),
        ('USER2', 0, '2def06fb91eb2d1bcd9e22dd131c6999113b552b', 300),
        ('USER3', 0, '2def06fb91eb2d1bcd9e22dd131c6999113b552b', 500),
        ('USER4', 0, '2def06fb91eb2d1bcd9e22dd131c6999113b552b', 700),
-       ('USER5', 1, '2def06fb91eb2d1bcd9e22dd131c6999113b552b', 900);
+       ('USER5', 1, '2def06fb91eb2d1bcd9e22dd131c6999113b552b', 900),
+       ('USER6', 0, '2def06fb91eb2d1bcd9e22dd131c6999113b552b', 1100);
 
 INSERT INTO MESSAGES (USER1_ID, USER2_ID, MESSAGE)
 VALUES (1, 2, 'hey'),
