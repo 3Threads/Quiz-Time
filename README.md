@@ -1,12 +1,5 @@
 # Quiz Website
 
-| Statements                                                                            | Branches                                                                       | Functions                                                                           | Lines                                                                       |
-|---------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| ![Statements](https://img.shields.io/badge/statements-88.47%25-yellow.svg?style=flat) | ![Branches](https://img.shields.io/badge/branches-76.92%25-red.svg?style=flat) | ![Functions](https://img.shields.io/badge/functions-81.81%25-yellow.svg?style=flat) | ![Lines](https://img.shields.io/badge/lines-88.17%25-yellow.svg?style=flat) |
-
-Service which provides exam schedules for _Free University of Tbilisi_ and _Agrarian University of Tbilisi_.
-API has multiple endpoints for filtering exams by subject, lecturer, group and University.
-
 ## Requirements
 
 - JDK
