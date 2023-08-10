@@ -19,7 +19,7 @@ public class UsersDAO {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String query = "INSERT INTO USERS VALUES(default, ?, default,  ?)";
+            String query = "INSERT INTO USERS VALUES(default, ?, default, default,?)";
             PreparedStatement statement = connect.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, HashPassword.stringToHash(password));
