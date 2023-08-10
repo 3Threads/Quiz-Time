@@ -103,6 +103,18 @@
                 <div>Time: <%=formatter.format(new Date((Long.parseLong(request.getParameter("time")))))%>
                 </div>
                 <%
+                    int plusScore = Integer.parseInt(request.getParameter("plusScore"));
+                    if (plusScore > 0) {
+                %>
+                <div style="color: green">Rank: <%=myUser.getRank()%>(+<%=plusScore%>)
+                </div>
+                <%
+                } else {
+                %>
+                <div style="color: red">Rank: <%=myUser.getRank()%>(<%=plusScore%>)
+                </div>
+                <%
+                        }
                     }
                 %>
             </div>

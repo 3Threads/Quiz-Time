@@ -1,9 +1,11 @@
 package Controllers;
 
+import BusinessLogic.RankingSystem;
 import BusinessLogic.SessionRemove;
 import DAO.QuestionsDAO;
 import DAO.QuizzesDAO;
 import DAO.ResultsDAO;
+import DAO.UsersDAO;
 import Types.Question;
 import Types.Quiz;
 import Types.User;
@@ -66,8 +68,8 @@ public class WriteQuizServlet extends HttpServlet {
         }
         if (httpServletRequest.getSession().getAttribute("startTime") == null) {
             httpServletRequest.getSession().setAttribute("startTime", System.currentTimeMillis());
-            long time = quiz.getTimeLimit().getHours() * 3600000 +  quiz.getTimeLimit().getMinutes()*60000+ quiz.getTimeLimit().getSeconds()*1000;
-            if(time != 0) {
+            long time = quiz.getTimeLimit().getHours() * 3600000 + quiz.getTimeLimit().getMinutes() * 60000 + quiz.getTimeLimit().getSeconds() * 1000;
+            if (time != 0) {
                 httpServletRequest.getSession().setAttribute("endTime", System.currentTimeMillis() + time);
             }
         }
@@ -132,7 +134,10 @@ public class WriteQuizServlet extends HttpServlet {
             int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
 
             resultsDAO.addResult(userId, quizId, score, time);
-            httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time);
+            int oldScore = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getRank();
+            int newScore = RankingSystem.countNewScore(oldScore, 100 * score / questions.size());
+            ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).updateScore(userId, newScore);
+            httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time + "&plusScore=" + (newScore - oldScore));
         }
     }
 }
