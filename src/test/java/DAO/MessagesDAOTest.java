@@ -1,14 +1,10 @@
-package Tests;
+package DAO;
 
-import DAO.DataSource;
-import DAO.MessagesDAO;
-import DAO.UsersDAO;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
