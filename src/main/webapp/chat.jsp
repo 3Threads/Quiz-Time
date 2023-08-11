@@ -161,13 +161,13 @@
 <div class="container-fluid bg-dark main" style="min-height: 460px; padding-top: 0; height: calc(100vh - 95px);">
     <div class="row mt-1" style="height: 100%">
         <div class="col-3 back-color"
-             style="height: 100%; padding-left: 0; padding-right: 0; position: fixed">
-                <h3>
-                    Friends:
-                </h3>
-                    <hr>
+             style="height: 100%; padding-left: 0; padding-right: 0; position: fixed; border-right: 1px solid #666666;">
+            <h3 style="padding-left:10px; padding-top:10px">
+                Friends:
+            </h3>
+            <hr style="margin-top:0; margin-bottom: 0; margin-left:10px; margin-right:10px">
             <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
-                style="height:100%; border-right: 1px solid #666666;">
+                style="height: calc(100% - 148px);">
                 <%
                     HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
@@ -213,6 +213,7 @@
                         </a>
                     </div>
                 </li>
+
                 <%
                     }
                 %>
@@ -221,8 +222,9 @@
         <% if (chatWith != null && !chatWith.trim().equals("")) {
             chatId = Integer.parseInt(chatWith);%>
         <div class="col-4"></div>
-        <div class="col-8" style="padding-top: 10px" >
-            <div class="overflow-auto chatBox" style="height: calc(100% - 55px); border: darkgrey 1px solid; border-radius: 4px;">
+        <div class="col-8" style="padding-top: 10px">
+            <div class="overflow-auto chatBox"
+                 style="height: calc(100% - 55px); border: darkgrey 1px solid; border-radius: 4px;">
                 <div id="chat" class="container-fluid uk-padding-small">
                     <%
                         ArrayList<Message> messages = messagesDAO.getMessagesWith(myUser.getId(), chatId);
