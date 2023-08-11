@@ -1,4 +1,4 @@
-package BussinessLogic;
+package BusinessLogic;
 
 import BusinessLogic.ListToString;
 import org.junit.jupiter.api.Test;

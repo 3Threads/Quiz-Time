@@ -1,4 +1,4 @@
-package BussinessLogic;
+package BusinessLogic;
 
 import BusinessLogic.HashPassword;
 import org.junit.jupiter.api.Test;
