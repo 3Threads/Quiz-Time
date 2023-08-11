@@ -13,7 +13,8 @@
 <div class="container-fluid main" style="padding-top:0; padding-bottom: 0">
 
     <div class="row">
-        <div class="col-3 back-color" style="position:fixed; height: calc(100vh - 95px); padding-top: 15px; border-right: 1px solid #666666;">
+        <div class="col-3 back-color"
+             style="position:fixed; height: calc(100vh - 95px); padding-top: 15px; border-right: 1px solid #666666;">
             <h3 style="margin:0">
                 Search results for: <%=request.getParameter("search")%>
             </h3>
@@ -23,7 +24,8 @@
                 Filters:
             </div>
             <div class="d-flex align-items-start">
-                <div class="col nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical"
+                <div class="col nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical"
                      style="width: 100%; text-align: left; font-size: 20px">
                     <button class="nav-link active" id="v-pills-all-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-all" type="button" role="tab" aria-controls="v-pills-home"
@@ -47,7 +49,8 @@
                         <span class="text-container">Quizzes</span>
                     </button>
                     <button class="nav-link" id="v-pills-announcements-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-announcements" type="button" role="tab" aria-controls="v-pills-home"
+                            data-bs-target="#v-pills-announcements" type="button" role="tab"
+                            aria-controls="v-pills-home"
                             aria-selected="true" style="margin-bottom: 10px"
                             title="Announcements">
                         <span class="icon-container"><i class="bi bi-megaphone"></i></span>
@@ -81,7 +84,8 @@
                             for (User user : users) {
                         %>
                         <div class="search-body">
-                            <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block" href=<%="/profile?user=" + user.getId()%>>
+                            <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block"
+                               href=<%="/profile?user=" + user.getId()%>>
                                 <%=user.getUsername()%>
                             </a>
                             <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
@@ -131,7 +135,8 @@
                             <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                                 created by
                             </div>
-                            <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>" style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
+                            <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>"
+                               style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
                                 <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
                             </a>
                         </div>
@@ -142,7 +147,7 @@
                     <br>
 
                     <%--Announcements--%>
-                    <div class="uk-box-shadow-large uk-padding-small">
+                    <div class="uk-box-shadow-large uk-padding-small" style="padding-bottom: 0">
                         <div class="search-header">
                             Announcements
                         </div>
@@ -160,22 +165,21 @@
                                     String userName = user.getUsername();
                             %>
 
-                            <div class="uk-grid-small uk-flex-middle">
-                                <div class="uk-width-expand">
-                                    <div class="uk-card-title uk-margin-remove-bottom text-light">
-                                        <div style="font-size: 16px">
-                                            <hr>
+                            <div class="uk-grid-small uk-flex-middle" >
+                                <div class="uk-width-expand" style="padding-bottom:35px">
+                                    <div class="uk-card-title uk-margin-remove-bottom text-light" style="display: inline-block; font-size: 18px;font-weight:bold; ">
+                                        <div style="display: inline-block; ">
                                             <%=announcement.getTitle()%>
                                         </div>
+                                        <div class="uk-text-meta uk-margin-remove-top"
+                                             style="padding-left:5px; display: inline-block ">
+                                            <%=userName%>
+                                            <time datetime="2016-04-01T19:00">
+                                                <%=announcement.getWriteTime()%>
+                                            </time>
+                                        </div>
                                     </div>
-                                    <div class="rank-<%=RankingSystem.countRank(user.getRank())%> uk-text-meta uk-margin-remove-top"
-                                         style="font-size:10px; margin-bottom: 5px">
-                                        <%=userName%>
-                                        <time datetime="2016-04-01T19:00">
-                                            <%=announcement.getWriteTime()%>
-                                        </time>
-                                    </div>
-                                    <p style="font-size: 15px">
+                                    <p style="font-size: 15px; margin:0">
                                         <%=
                                         announcement.getBody()
                                         %>
@@ -208,7 +212,8 @@
                         for (User user : users) {
                     %>
                     <div class="search-body">
-                        <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block" href=<%="/profile?user=" + user.getId()%>>
+                        <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block"
+                           href=<%="/profile?user=" + user.getId()%>>
                             <%=user.getUsername()%>
                         </a>
                         <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
@@ -257,7 +262,8 @@
                         <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                             created by
                         </div>
-                        <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>" style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
+                        <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>"
+                           style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
                             <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
                         </a>
                     </div>
