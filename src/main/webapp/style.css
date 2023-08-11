@@ -188,46 +188,55 @@ a {
     }
 }
 
+.admins {
+    font-size: 20px;
+    transition: font-size 0.5s ease;
+}
+
+.admin_date {
+    font-size: 12px;
+    white-space: nowrap;
+    transition: font-size 0.5s ease;
+}
+
+.read_more {
+    font-size: 15px;
+    white-space: nowrap;
+}
 @media screen and (min-width: 992px) {
     .header {
         height: 80px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
-    .admins {
-        font-size: 20px;
-        transition: font-size 0.5s ease;
-    }
-
-    .admin_date {
-        font-size: 12px;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
 
     .card-middle {
         font-size: 15px;
-        height: 75px;
-        margin-left: 20px;
-        margin-top: 20px;
+        height: 111.5px;
+        margin:0;
+        padding-left: 16px;
+        padding-right: 9px;
+        padding-top: 18px;
+        padding-bottom: 18px;
         transition: font-size 0.5s ease;
     }
 
-    .card-bottom {
-        height: 60px;
-        transition: font-size 0.5s ease;
-    }
-
-    .read_more {
-        font-size: 15px;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
 
 }
+    .card-bottom {
+        height: 60px;
+    }
 
 @media screen and (max-width: 991px) {
     .header {
         height: 84px;
+        padding-top: 12px;
+        padding-bottom: 8px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .card-top {
@@ -238,34 +247,18 @@ a {
         transition: font-size 0.5s ease;
     }
 
+
     .card-middle {
         font-size: 10px;
-        height: 80px;
-        margin-left: 10px;
-        margin-top: 18px;
+        height: 103.5px;
+        margin:0;
+        padding-left: 9px;
+        padding-right: 9px;
+        padding-top: 18px;
+        padding-bottom: 18px;
         transition: font-size 0.5s ease;
     }
 
-    .card-bottom {
-        height: 54px;
-    }
-
-    .read_more {
-        font-size: 10.8px !important;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
-
-    .admins {
-        font-size: 13.5px;
-        transition: font-size 0.5s ease;
-    }
-
-    .admin_date {
-        font-size: 8px;
-        white-space: nowrap;
-        transition: font-size 0.5s ease;
-    }
 
     .logo {
         height: 50px;
@@ -557,7 +550,7 @@ body {
 
 
 /* Font Colors */
-.rank-0{
+.rank-0 {
     font-weight: bold;
     color: #c47044;
     background: linear-gradient(to bottom, #c47044, #6b3216);
@@ -575,7 +568,7 @@ body {
     }
 }
 
-.rank-1{
+.rank-1 {
     font-weight: bold;
     color: #e1e1e0;
     background: linear-gradient(to bottom, #e1e1e0, #9c9c98);
@@ -583,6 +576,7 @@ body {
     background-clip: text;
     /*animation: fireAnimation1 1s ease-in-out infinite alternate;*/
 }
+
 @keyframes fireAnimation1 {
     0% {
         text-shadow: 0 0 10px #e1e1e0, 0 0 20px #e1e1e0, 0 0 30px #e1e1e0;
@@ -592,7 +586,7 @@ body {
     }
 }
 
-.rank-2{
+.rank-2 {
     font-weight: bold;
     color: #f3c045;
     background: linear-gradient(to bottom, #f3c045, #ca8c0a);
@@ -600,6 +594,7 @@ body {
     background-clip: text;
     /*animation: fireAnimation2 1s ease-in-out infinite alternate;*/
 }
+
 @keyframes fireAnimation2 {
     0% {
         text-shadow: 0 0 10px #f3c045, 0 0 20px #f3c045, 0 0 30px #f3c045;
@@ -609,7 +604,7 @@ body {
     }
 }
 
-.rank-3{
+.rank-3 {
     font-weight: bold;
     color: #afd6ff;
     background: linear-gradient(to bottom, #afd6ff, #447aed);
@@ -617,6 +612,7 @@ body {
     background-clip: text;
     animation: fireAnimation3 1s ease-in-out infinite alternate;
 }
+
 @keyframes fireAnimation3 {
     0% {
         text-shadow: 0 0 10px #afd6ff, 0 0 20px #afd6ff, 0 0 30px #afd6ff;
@@ -626,7 +622,7 @@ body {
     }
 }
 
-.rank-4{
+.rank-4 {
     font-weight: bold;
     color: #e8e9fa;
     background: linear-gradient(to bottom, #e8e9fa, #9daaf8);
@@ -634,6 +630,7 @@ body {
     background-clip: text;
     animation: fireAnimation4 1s ease-in-out infinite alternate;
 }
+
 @keyframes fireAnimation4 {
     0% {
         text-shadow: 0 0 10px #e8e9fa, 0 0 20px #e8e9fa, 0 0 30px #e8e9fa;
@@ -661,4 +658,5 @@ body {
         text-shadow: 0 0 10px #ecb847, 0 0 20px #ecb847, 0 0 30px #ecb847;
     }
 }
+
 /* */

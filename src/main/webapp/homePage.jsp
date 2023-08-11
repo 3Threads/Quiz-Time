@@ -109,7 +109,7 @@
                 </div>
 
                 <%-- max 20 wordsssssssssss--%>
-                <p class="card-middle" style="margin-right: 7px; word-wrap: break-word">
+                <p class="card-middle" style="word-wrap: break-word">
                     <%
                         String body = announcement.getBody();
                         if(body.length() > 100){
@@ -203,7 +203,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr></tr>
                             <%
                                 }
                             %>
@@ -261,7 +260,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr></tr>
                             <%
                                 }
                             %>
@@ -322,7 +320,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr></tr>
                             <%
                                 }
                             %>
@@ -380,7 +377,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr></tr>
                             <%
                                 }
                             %>
