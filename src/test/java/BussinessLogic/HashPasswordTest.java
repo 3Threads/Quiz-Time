@@ -1,9 +1,10 @@
-package Tests;
+package BussinessLogic;
 
 import BusinessLogic.HashPassword;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class HashPasswordTest {
     @Test

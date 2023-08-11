@@ -1,7 +1,5 @@
-package Tests;
+package DAO;
 
-import DAO.DataSource;
-import DAO.UsersDAO;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

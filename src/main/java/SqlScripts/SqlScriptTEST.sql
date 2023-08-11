@@ -20,19 +20,29 @@ CREATE TABLE FRIENDS
     FOREIGN KEY (USER1_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
-
-
 CREATE TABLE QUIZZES
 (
     ID            int primary key NOT NULL AUTO_INCREMENT,
     QUIZ_NAME     CHAR(64) UNIQUE not null,
     DESCRIPTION   TEXT,
-    COMPLETED     INT      default 0,
-    CREATION_TIME DATETIME default current_timestamp,
+    COMPLETED     INT       default 0,
+    CREATION_TIME DATETIME  default current_timestamp,
     CREATOR_ID    INT             not null,
+    TIME_LIMIT    TIME      default 0,
+    CATEGORIES    char(255) default '',
     FOREIGN KEY (CREATOR_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
-
+CREATE TABLE RATINGS
+(
+    ID         int primary key NOT NULL AUTO_INCREMENT,
+    USER_ID    INT             NOT NULL,
+    QUIZ_ID    INT             NOT NULL,
+    RATING     INT             NOT NULL,
+    COMMENT    TEXT,
+    RATED_DATE DATETIME default current_timestamp,
+    FOREIGN KEY (USER_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
+    FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
+);
 CREATE TABLE COMPLETED_QUIZZES
 (
     ID         int primary key NOT NULL AUTO_INCREMENT,
