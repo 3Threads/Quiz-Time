@@ -554,3 +554,111 @@ body {
         height: 80px;
     }
 }
+
+
+/* Font Colors */
+.rank-0{
+    font-weight: bold;
+    color: #c47044;
+    background: linear-gradient(to bottom, #c47044, #6b3216);
+    -webkit-background-clip: text;
+    background-clip: text;
+    /*animation: fireAnimation0 1s ease-in-out infinite alternate;*/
+}
+
+@keyframes fireAnimation0 {
+    0% {
+        text-shadow: 0 0 10px #c47044, 0 0 20px #c47044, 0 0 30px #c47044;
+    }
+    100% {
+        text-shadow: 0 0 10px #6b3216, 0 0 20px #6b3216, 0 0 30px #6b3216;
+    }
+}
+
+.rank-1{
+    font-weight: bold;
+    color: #e1e1e0;
+    background: linear-gradient(to bottom, #e1e1e0, #9c9c98);
+    -webkit-background-clip: text;
+    background-clip: text;
+    /*animation: fireAnimation1 1s ease-in-out infinite alternate;*/
+}
+@keyframes fireAnimation1 {
+    0% {
+        text-shadow: 0 0 10px #e1e1e0, 0 0 20px #e1e1e0, 0 0 30px #e1e1e0;
+    }
+    100% {
+        text-shadow: 0 0 10px #9c9c98, 0 0 20px #9c9c98, 0 0 30px #9c9c98;
+    }
+}
+
+.rank-2{
+    font-weight: bold;
+    color: #f3c045;
+    background: linear-gradient(to bottom, #f3c045, #ca8c0a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    /*animation: fireAnimation2 1s ease-in-out infinite alternate;*/
+}
+@keyframes fireAnimation2 {
+    0% {
+        text-shadow: 0 0 10px #f3c045, 0 0 20px #f3c045, 0 0 30px #f3c045;
+    }
+    100% {
+        text-shadow: 0 0 10px #ca8c0a, 0 0 20px #ca8c0a, 0 0 30px #ca8c0a;
+    }
+}
+
+.rank-3{
+    font-weight: bold;
+    color: #afd6ff;
+    background: linear-gradient(to bottom, #afd6ff, #447aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: fireAnimation3 1s ease-in-out infinite alternate;
+}
+@keyframes fireAnimation3 {
+    0% {
+        text-shadow: 0 0 10px #afd6ff, 0 0 20px #afd6ff, 0 0 30px #afd6ff;
+    }
+    100% {
+        text-shadow: 0 0 10px #447aed, 0 0 20px #447aed, 0 0 30px #447aed;
+    }
+}
+
+.rank-4{
+    font-weight: bold;
+    color: #e8e9fa;
+    background: linear-gradient(to bottom, #e8e9fa, #9daaf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: fireAnimation4 1s ease-in-out infinite alternate;
+}
+@keyframes fireAnimation4 {
+    0% {
+        text-shadow: 0 0 10px #e8e9fa, 0 0 20px #e8e9fa, 0 0 30px #e8e9fa;
+    }
+    100% {
+        text-shadow: 0 0 10px #9daaf8, 0 0 20px #9daaf8, 0 0 30px #9daaf8;
+    }
+}
+
+.rank-5 {
+    /*font-size: 15px;*/
+    font-weight: bold;
+    color: #ffea84;
+    background: linear-gradient(to bottom, #ffea84, #ecb847);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: fireAnimation 1s ease-in-out infinite alternate;
+}
+
+@keyframes fireAnimation {
+    0% {
+        text-shadow: 0 0 10px #ffea84, 0 0 20px #ffea84, 0 0 30px #ffea84;
+    }
+    100% {
+        text-shadow: 0 0 10px #ecb847, 0 0 20px #ecb847, 0 0 30px #ecb847;
+    }
+}
+/* */
