@@ -81,7 +81,7 @@
                             for (User user : users) {
                         %>
                         <div class="search-body">
-                            <a style="display: inline-block" href=<%="/profile?user=" + user.getId()%>>
+                            <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block" href=<%="/profile?user=" + user.getId()%>>
                                 <%=user.getUsername()%>
                             </a>
                             <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
@@ -131,7 +131,7 @@
                             <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                                 created by
                             </div>
-                            <a style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
+                            <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>" style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
                                 <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
                             </a>
                         </div>
@@ -168,7 +168,7 @@
                                             <%=announcement.getTitle()%>
                                         </div>
                                     </div>
-                                    <div class="uk-text-meta uk-margin-remove-top"
+                                    <div class="rank-<%=RankingSystem.countRank(user.getRank())%> uk-text-meta uk-margin-remove-top"
                                          style="font-size:10px; margin-bottom: 5px">
                                         <%=userName%>
                                         <time datetime="2016-04-01T19:00">
@@ -208,7 +208,7 @@
                         for (User user : users) {
                     %>
                     <div class="search-body">
-                        <a style="display: inline-block" href=<%="/profile?user=" + user.getId()%>>
+                        <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block" href=<%="/profile?user=" + user.getId()%>>
                             <%=user.getUsername()%>
                         </a>
                         <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
@@ -257,7 +257,7 @@
                         <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                             created by
                         </div>
-                        <a style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
+                        <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>" style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
                             <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
                         </a>
                     </div>
@@ -294,7 +294,7 @@
                                         <%=announcement.getTitle()%>
                                     </div>
                                 </div>
-                                <div class="uk-text-meta uk-margin-remove-top"
+                                <div class="rank-<%=RankingSystem.countRank(user.getRank())%> uk-text-meta uk-margin-remove-top"
                                      style="font-size:10px; margin-bottom: 5px">
                                     <%=userName%>
                                     <time datetime="2016-04-01T19:00">

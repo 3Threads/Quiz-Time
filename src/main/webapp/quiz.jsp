@@ -219,7 +219,8 @@
                                     <li>
                                         <div class="row">
                                             <div class="col d-flex align-items-center">
-                                                <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
+                                                <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getRank())%>"
+                                                        href=<%="/profile?user=" + reqUserInfo.getId()%>>
                                                     <%=reqUserInfo.getUsername()%>
                                                 </a>
                                             </div>
@@ -328,7 +329,7 @@
                                 </td>
                                 <td>
                                     <a href="/profile?user=<%=res.getUserId()%>">
-                                        <div class="table_name">
+                                        <div class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(res.getUserId()).getRank())%> table_name">
                                             <%= usersDAO.getUserById(res.getUserId()).getUsername()%>
                                         </div>
                                     </a>
@@ -385,7 +386,7 @@
                                 </td>
                                 <td>
                                     <a href="/profile?user=<%=res.getUserId()%>">
-                                        <div class="table_name">
+                                        <div class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(res.getUserId()).getRank())%> table_name">
                                             <%=usersDAO.getUserById(res.getUserId()).getUsername()%>
                                         </div>
                                     </a>
@@ -442,7 +443,7 @@
                                 </td>
                                 <td>
                                     <a href="/profile?user=<%=res.getUserId()%>">
-                                        <div class="table_name">
+                                        <div class="rank-<%=RankingSystem.countRank(myUser.getRank())%>table_name">
                                             <%=myUser.getUsername()%>
                                         </div>
                                     </a>
@@ -508,7 +509,8 @@
 
                     <div style="display: inline-block;">
                         <a href="/profile?user=<%=user.getId()%>">
-                            <div style="font-size:17px; display: inline-block;">
+                            <div class="rank-<%=RankingSystem.countRank(user.getRank())%>"
+                                 style="font-size:17px; display: inline-block;">
                                 @<%=user.getUsername()%>
                             </div>
                         </a>

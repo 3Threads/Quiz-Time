@@ -24,8 +24,11 @@
             <div style="font-size: 25px; padding-bottom: 10px; display: flex; align-items: center">
                 <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
                      alt="rank-test">
-                <div style="white-space: nowrap; display: inline-block; padding-left: 10px">
-                    <%=pageUser.getUsername() %>
+                <div style="white-space: nowrap; display: inline-block; padding-left: 10px; font-size:25px">
+                    <div class="rank-<%=RankingSystem.countRank(pageUser.getRank())%>"
+                         style="display: inline-block;">
+                        <%=pageUser.getUsername() %>
+                    </div>
                     <%
                         if (pageUser.getId() != myUser.getId()) {
                     %>
@@ -186,18 +189,22 @@
             %>
             <br>
             <div class="uk-padding-small " uk-scrollspy="cls: uk-animation-slide-left; repeat: true"
-                 style="border: solid 1px gray; border-radius: 10px;">
+                 style="border: solid 1px gray; border-radius: 6px; max-height: 300px; overflow: auto">
                 <h4>Friends:</h4>
-                <ul class="uk-list uk-list-divider" style="max-height: 275px; overflow: auto">
-                    <% ArrayList<Integer> friends = friendsDAO.getFriendsList(profileId);
-                        for (Integer friend : friends) {
-                            User myFriend = usersDAO.getUserById(friend); %>
-                    <li><a href=<%="/profile?user=" + myFriend.getId()%>><%=myFriend.getUsername()%>
-                    </a></li>
-                    <%
-                        }
-                    %>
-                </ul>
+                <hr style="margin-bottom:4px">
+                <% ArrayList<Integer> friends = friendsDAO.getFriendsList(profileId);
+                    for (Integer friend : friends) {
+                        User myFriend = usersDAO.getUserById(friend);
+                %>
+                <div style="font-size: 20px; padding-left: 8px; padding-top:8px">
+                    <a class="rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
+                       href=<%="/profile?user=" + myFriend.getId()%>>
+                        <%=myFriend.getUsername()%>
+                    </a>
+                </div>
+                <%
+                    }
+                %>
             </div>
         </div>
         <div class="col-8" uk-scrollspy="cls: uk-animation-slide-right; repeat: true">

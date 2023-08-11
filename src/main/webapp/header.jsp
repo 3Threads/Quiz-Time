@@ -14,6 +14,7 @@
 <%@ page import="Types.Quiz" %>
 <%@ page import="java.util.Random" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="BusinessLogic.RankingSystem" %>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -44,7 +45,7 @@
 
     <title>Quiz Time</title>
 
-    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon"/>
 </head>
 <%
     User myUser = (User) session.getAttribute("userInfo");
@@ -262,7 +263,8 @@
                                                         <li>
                                                             <div class="row" id=<%="request" + requestId%>>
                                                                 <div class="col d-flex align-items-center">
-                                                                    <a href=<%="/profile?user=" + reqUserInfo.getId()%>>
+                                                                    <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getRank())%>"
+                                                                       href=<%="/profile?user=" + reqUserInfo.getId()%>>
                                                                         <%=reqUserInfo.getUsername()%>
                                                                     </a>
                                                                     <script>
@@ -318,7 +320,8 @@
                                                             </script>
                                                             <div class="row" id="<%="challenge" + challId%>">
                                                                 <div class="col d-flex align-items-center">
-                                                                    <a href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
+                                                                    <a class="rank-<%=RankingSystem.countRank(challUserInfo.getRank())%>"
+                                                                       href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
                                                                     </a>
                                                                     <div style="margin-left: 3px"> challenged you:</div>
                                                                     <a style="margin-left: 3px"
@@ -376,7 +379,8 @@
                                                             <div class="notification-name row">
                                                                 <div class="col d-flex align-items-center">
                                                                     <div>New message from</div>
-                                                                    <a style="margin-left: 3px"
+                                                                    <a class="rank-<%=RankingSystem.countRank(chatUser.getRank())%>"
+                                                                       style="margin-left: 3px;"
                                                                        href=<%="/profile?user=" + chatUser.getId()%>><%=chatUser.getUsername()%>
                                                                     </a>
 
@@ -406,7 +410,8 @@
                             </div>
                             <div class="table_name">
 
-                                <a style="margin-right: 3px"
+                                <a class="rank-<%=RankingSystem.countRank(myUser.getRank())%>"
+                                        style="margin-right: 3px"
                                    href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
                                 </a>
                             </div>
@@ -417,7 +422,7 @@
 
             <hr style="margin: 0">
 
-            <nav class="navbar navbar-expand-lg navbar-dark text-light back-color" >
+            <nav class="navbar navbar-expand-lg navbar-dark text-light back-color">
                 <div class="container-fluid" style="padding-left: 0; padding-right: 0">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -449,7 +454,7 @@
                                 </a>
                             </li>
                             <li class="nav-item" style="margin-left:3px; margin-top: 3px; margin-bottom: 3px">
-                                <a href="/quizzesList" class="buttons btn text-light back-color" >
+                                <a href="/quizzesList" class="buttons btn text-light back-color">
                                     Quizzes
                                 </a>
                             </li>

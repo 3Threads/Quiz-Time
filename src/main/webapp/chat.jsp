@@ -1,4 +1,5 @@
 <%@ page import="Types.Message" %>
+<%@ page import="BusinessLogic.RankingSystem" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -161,12 +162,12 @@
     <div class="row mt-1" style="height: 100%">
         <div class="col-3 back-color"
              style="height: 100%; padding-left: 0; padding-right: 0; position: fixed">
-            <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
-                style="height:100%; border-right: 1px solid #666666;">
                 <h3>
                     Friends:
                 </h3>
                     <hr>
+            <ul id="chatList" class="uk-list container-fluid uk-padding-small overflow-auto"
+                style="height:100%; border-right: 1px solid #666666;">
                 <%
                     HashMap<Integer, ArrayList<String>> notSeenMessages = messagesDAO.getNotSeenMessage(myUser.getId());
                     ArrayList<Integer> interactors = messagesDAO.getInteractorsList(myUser.getId());
@@ -181,7 +182,7 @@
                         curChats.push(<%=myFriend.getId()%>)
                     </script>
                     <div class="d-flex align-items-center" style="background-color: #3e4042;">
-                        <a class="fullWidthList"
+                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                         </a>
                         <div id=<%="friend" + myFriend.getId()%>></div>
@@ -200,7 +201,7 @@
                     <div class="d-flex align-items-center" <%
                         if (chatWith != null && !chatWith.trim().equals("") && myFriend.getId() == Integer.parseInt(chatWith)) {
                     %> style="background-color: #3e4042;" <%}%>>
-                        <a class="fullWidthList"
+                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                             <div id=<%="friend" + myFriend.getId()%>>
                                 <%
