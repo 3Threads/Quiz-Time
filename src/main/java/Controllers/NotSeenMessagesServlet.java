@@ -1,6 +1,7 @@
 package Controllers;
 
 
+import BusinessLogic.RankingSystem;
 import DAO.MessagesDAO;
 import DAO.UsersDAO;
 import Types.User;
@@ -49,7 +50,9 @@ public class NotSeenMessagesServlet extends HttpServlet {
                 if (chatWith.equals("") ||
                         us != Integer.parseInt(chatWith)) {
                     ArrayList<String> messages = notSeen.get(us);
-                    out.println(us + "$" + messages.size() + "$" + ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(us).getUsername() + "/");
+                    User user = ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(us);
+                    out.println(us + "$" + messages.size() + "$" + user.getUsername() +
+                            "$" + RankingSystem.countRank(user.getRank()) + "/");
                 }
             }
         }
