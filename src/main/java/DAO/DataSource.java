@@ -1,6 +1,7 @@
 package DAO;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.*;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -29,18 +30,16 @@ public class DataSource {
         return dataSource;
     }
 
-    public static void clearTables(BasicDataSource dataSource, String[] tableNames){
+    public static void clearTables(BasicDataSource dataSource, String[] tableNames) {
         Connection connection = null;
         try {
             StringBuilder query = new StringBuilder();
             connection = dataSource.getConnection();
-            query.append("DELETE FROM ?; ".repeat(tableNames.length));
-            PreparedStatement statement = connection.prepareStatement(String.valueOf(query));
-            for (int i = 0; i < tableNames.length; i++) {
-                statement.setString(i + 1, tableNames[i]);
+            Statement statement = connection.createStatement();
+            for (String tableName : tableNames) {
+                query.append("DELETE FROM ").append(tableName).append("; ");
             }
-            statement.executeQuery();
-
+            statement.execute(String.valueOf(query));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
