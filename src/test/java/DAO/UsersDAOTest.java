@@ -2,6 +2,7 @@ package DAO;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,10 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UsersDAOTest {
 
     private static UsersDAO connect;
-
+    private static BasicDataSource dataSource;
+    private static final String[] TABLE_NAMES = new String[]{"USERS"};
     @BeforeAll
     public static void setup() {
-        BasicDataSource dataSource = DataSource.getDataSource(true);
+        dataSource = DataSource.getDataSource(true);
 
         connect = new UsersDAO(dataSource);
     }
@@ -53,5 +55,13 @@ public class UsersDAOTest {
         assertTrue(connect.checkUser("31", "31"));
         assertTrue(connect.checkUser("32", "32"));
     }
+    @AfterEach
+    public void finishUnitTest() {
+        DataSource.clearTables(dataSource, new String[]{TABLE_NAMES[0]});
+    }
 
+    @AfterAll
+    public static void finish() {
+        DataSource.clearTables(dataSource, TABLE_NAMES);
+    }
 }
