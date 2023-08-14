@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 
 
@@ -89,7 +88,7 @@ public class QuizServlet extends HttpServlet {
         StringBuilder str = new StringBuilder();
         str.append("<div id='" + user.getId() + "'>\n");
 
-        str.append("<div style=\"display: inline-block;\"> <a href=\"/profile?user=" + user.getId() + "\">\n<div  class=\"rank-"+ RankingSystem.countRank(user.getRank())+"\" style=\"font-size:17px; display: inline-block;\">\n");
+        str.append("<div style=\"display: inline-block;\"> <a href=\"/profile?user=" + user.getId() + "\">\n<div  class=\"rank-"+ RankingSystem.countRank(user.getScore())+"\" style=\"font-size:17px; display: inline-block;\">\n");
         str.append("@" + user.getUsername() + " </div>\n </a>");
         str.append("<div style=\"font-size:17px; display: inline-block; \">\n");
         for (int i = 0; i < rate.getRating(); i++) {

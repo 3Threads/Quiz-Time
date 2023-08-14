@@ -263,7 +263,7 @@
                                                         <li>
                                                             <div class="row" id=<%="request" + requestId%>>
                                                                 <div class="col d-flex align-items-center">
-                                                                    <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getRank())%>"
+                                                                    <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getScore())%>"
                                                                        href=<%="/profile?user=" + reqUserInfo.getId()%>>
                                                                         <%=reqUserInfo.getUsername()%>
                                                                     </a>
@@ -320,7 +320,7 @@
                                                             </script>
                                                             <div class="row" id="<%="challenge" + challId%>">
                                                                 <div class="col d-flex align-items-center">
-                                                                    <a class="rank-<%=RankingSystem.countRank(challUserInfo.getRank())%>"
+                                                                    <a class="rank-<%=RankingSystem.countRank(challUserInfo.getScore())%>"
                                                                        href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
                                                                     </a>
                                                                     <div style="margin-left: 3px"> challenged you:</div>
@@ -379,7 +379,7 @@
                                                             <div class="notification-name row">
                                                                 <div class="col d-flex align-items-center">
                                                                     <div>New message from</div>
-                                                                    <a class="rank-<%=RankingSystem.countRank(chatUser.getRank())%>"
+                                                                    <a class="rank-<%=RankingSystem.countRank(chatUser.getScore())%>"
                                                                        style="margin-left: 3px;"
                                                                        href=<%="/profile?user=" + chatUser.getId()%>><%=chatUser.getUsername()%>
                                                                     </a>
@@ -410,7 +410,7 @@
                             </div>
                             <div class="table_name">
 
-                                <a class="rank-<%=RankingSystem.countRank(myUser.getRank())%>"
+                                <a class="rank-<%=RankingSystem.countRank(myUser.getScore())%>"
                                         style="margin-right: 3px"
                                    href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
                                 </a>

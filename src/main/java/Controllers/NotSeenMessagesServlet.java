@@ -52,7 +52,7 @@ public class NotSeenMessagesServlet extends HttpServlet {
                     ArrayList<String> messages = notSeen.get(us);
                     User user = ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).getUserById(us);
                     out.println(us + "$" + messages.size() + "$" + user.getUsername() +
-                            "$" + RankingSystem.countRank(user.getRank()) + "/");
+                            "$" + RankingSystem.countRank(user.getScore()) + "/");
                 }
             }
         }

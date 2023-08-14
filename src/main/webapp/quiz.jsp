@@ -27,18 +27,41 @@
             transform: scale(1);
         }
     }
+
     @keyframes shake {
-        0% { transform: translate(1px, 1px) rotate(0deg); }
-        10% { transform: translate(-1px, -2px) rotate(-1deg); }
-        20% { transform: translate(-3px, 0px) rotate(1deg); }
-        30% { transform: translate(3px, 2px) rotate(0deg); }
-        40% { transform: translate(1px, -1px) rotate(1deg); }
-        50% { transform: translate(-1px, 2px) rotate(-1deg); }
-        60% { transform: translate(-3px, 1px) rotate(0deg); }
-        70% { transform: translate(3px, 1px) rotate(-1deg); }
-        80% { transform: translate(-1px, -1px) rotate(1deg); }
-        90% { transform: translate(1px, 2px) rotate(0deg); }
-        100% { transform: translate(1px, -2px) rotate(-1deg); }
+        0% {
+            transform: translate(1px, 1px) rotate(0deg);
+        }
+        10% {
+            transform: translate(-1px, -2px) rotate(-1deg);
+        }
+        20% {
+            transform: translate(-3px, 0px) rotate(1deg);
+        }
+        30% {
+            transform: translate(3px, 2px) rotate(0deg);
+        }
+        40% {
+            transform: translate(1px, -1px) rotate(1deg);
+        }
+        50% {
+            transform: translate(-1px, 2px) rotate(-1deg);
+        }
+        60% {
+            transform: translate(-3px, 1px) rotate(0deg);
+        }
+        70% {
+            transform: translate(3px, 1px) rotate(-1deg);
+        }
+        80% {
+            transform: translate(-1px, -1px) rotate(1deg);
+        }
+        90% {
+            transform: translate(1px, 2px) rotate(0deg);
+        }
+        100% {
+            transform: translate(1px, -2px) rotate(-1deg);
+        }
     }
 </style>
 <body>
@@ -139,12 +162,12 @@
                     int plusScore = Integer.parseInt(request.getParameter("plusScore"));
                     if (plusScore > 0) {
                 %>
-                <div style="color: green">Rank: <%=myUser.getRank()%>(+<%=plusScore%>)
+                <div style="color: green">Rank: <%=myUser.getScore()%>(+<%=plusScore%>)
                 </div>
                 <%
                 } else {
                 %>
-                <div style="color: red">Rank: <%=myUser.getRank()%>(<%=plusScore%>)
+                <div style="color: red">Rank: <%=myUser.getScore()%>(<%=plusScore%>)
                 </div>
                 <%
                         }
@@ -152,51 +175,73 @@
                 %>
             </div>
             <%
-                if(request.getParameter("oldScore") != null) {
-                    int oldScore= Integer.parseInt(request.getParameter("oldScore"));
+                if (request.getParameter("oldScore") != null) {
+                    int oldScore = Integer.parseInt(request.getParameter("oldScore"));
                     int oldRank = RankingSystem.countRank(oldScore);
-                    int curRank = RankingSystem.countRank(myUser.getRank());
-                    if(oldRank != curRank) {
+                    int curRank = RankingSystem.countRank(myUser.getScore());
+                    if (oldRank != curRank) {
             %>
-            <img id="image" style="display: block; margin-left: auto;margin-right: auto;" class="a" src="/images/rank<%=RankingSystem.countRank(myUser.getRank())%>.png">
+            <img id="image" style="display: block; margin-left: auto;margin-right: auto;" class="a"
+                 src="/images/rank<%=RankingSystem.countRank(myUser.getScore())%>.png" alt="">
             <%
-                if(oldRank < curRank) {
-            %>
-                <style>
-                    .progress-bar {
-                        width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;
-                        animation: progressAnimation 2s, 2s AfterProgressAnimation 2s linear;
-                    }
-                    @keyframes progressAnimation {
-                        0%   { width: <%=(oldScore - 200 * oldRank) / 2%>%;}
-                        100% { width: 100%;}
-                    }
-                    @keyframes AfterProgressAnimation {
-                        0%   { width: 0%;}
-                        100% { width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;}
-                    }
-                </style>
-            <%
-                } else {
+                if (oldRank < curRank) {
             %>
             <style>
                 .progress-bar {
-                    width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;
+                    width: <%=(myUser.getScore() - 200 * curRank) / 2%>%;
                     animation: progressAnimation 2s, 2s AfterProgressAnimation 2s linear;
                 }
+
                 @keyframes progressAnimation {
-                    0%   { width: <%=(oldScore - 200 * oldRank) / 2%>%;}
-                    100% { width: 0%;}
+                    0% {
+                        width: <%=(oldScore - 200 * oldRank) / 2%>%;
+                    }
+                    100% {
+                        width: 100%;
+                    }
                 }
+
                 @keyframes AfterProgressAnimation {
-                    0%   { width: 100%;}
-                    100% { width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;}
+                    0% {
+                        width: 0%;
+                    }
+                    100% {
+                        width: <%=(myUser.getScore() - 200 * curRank) / 2%>%;
+                    }
+                }
+            </style>
+            <%
+            } else {
+            %>
+            <style>
+                .progress-bar {
+                    width: <%=(myUser.getScore() - 200 * curRank) / 2%>%;
+                    animation: progressAnimation 2s, 2s AfterProgressAnimation 2s linear;
+                }
+
+                @keyframes progressAnimation {
+                    0% {
+                        width: <%=(oldScore - 200 * oldRank) / 2%>%;
+                    }
+                    100% {
+                        width: 0%;
+                    }
+                }
+
+                @keyframes AfterProgressAnimation {
+                    0% {
+                        width: 100%;
+                    }
+                    100% {
+                        width: <%=(myUser.getScore() - 200 * curRank) / 2%>%;
+                    }
                 }
             </style>
             <%
                 }
             %>
-            <div class="rounded progress bg-dark col" role="progressbar" style=" border: solid 0.5px white; padding: 0; width: 50%; margin-left: auto; margin-right: auto">
+            <div class="rounded progress bg-dark col" role="progressbar"
+                 style=" border: solid 0.5px white; padding: 0; width: 50%; margin-left: auto; margin-right: auto">
                 <div class="progress-bar">
                     <div class="progress-text">
                     </div>
@@ -205,36 +250,42 @@
             <br>
             <h5 style="text-align: center;font-size: 20px;" class="uk-modal-title">
                 <%
-                    if(oldRank < curRank) {
+                    if (oldRank < curRank) {
                         out.println("CONGRATULATION! <br> YOU GOT A NEW RANK!");
                     } else out.println("YOUR RANK IS DOWNGRADED :(");
                 %>
             </h5>
             <%
-                    } else {
+            } else if (curRank != 5) {
             %>
             <style>
                 .progress-bar {
-                    width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;
+                    width: <%=(myUser.getScore() - 200 * curRank) / 2%>%;
                     animation: progressAnimation 2s;
                 }
+
                 @keyframes progressAnimation {
-                    0%   { width: <%=(oldScore - 200 * curRank) / 2%>%;}
-                    100% { width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;}
+                    0% {
+                        width: <%=(oldScore - 200 * curRank) / 2%>%;
+                    }
+                    100% {
+                        width: <%=(myUser.getScore() - 200 * curRank) / 2%>%;
+                    }
                 }
             </style>
-                <img style="display: inline-flex; width: 30px; height: auto; margin-left: 100px;"
-                     src="/images/rank<%=curRank%>.png"
-                     alt="rank-test">
-                <div class="rounded progress bg-dark col" role="progressbar" style="border: solid 0.5px white; padding: 0; width: 50%; margin-left: auto; margin-right: auto; display: inline-flex;">
-                    <div class="progress-bar">
-                        <div class="progress-text">
-                        </div>
+            <img style="display: inline-flex; width: 30px; height: auto; margin-left: 100px;"
+                 src="/images/rank<%=curRank%>.png"
+                 alt="rank-test">
+            <div class="rounded progress bg-dark col" role="progressbar"
+                 style="border: solid 0.5px white; padding: 0; width: 50%; margin-left: auto; margin-right: auto; display: inline-flex;">
+                <div class="progress-bar">
+                    <div class="progress-text">
                     </div>
                 </div>
-                <img style="display: inline-flex; width: 30px; height: auto;"
-                     src="/images/rank<%=curRank+1%>.png"
-                     alt="rank-test">
+            </div>
+            <img style="display: inline-flex; width: 30px; height: auto;"
+                 src="/images/rank<%=curRank+1%>.png"
+                 alt="rank-test">
             <%
                     }
                 }
@@ -293,7 +344,7 @@
             </div>
             <div class="col-auto d-flex align-items-center">
                 <%
-                    if(currQuiz.getCreatorID() != myUser.getId()) {
+                    if (currQuiz.getCreatorID() != myUser.getId()) {
                 %>
                 <a href="/writeQuiz?quizId=<%= currQuiz.getQuizId() %>" class="quiz-button">
                     <button type="button" class="btn btn-success" style="margin-right: 6px">
@@ -343,8 +394,8 @@
                                     <li>
                                         <div class="row">
                                             <div class="col d-flex align-items-center">
-                                                <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getRank())%>"
-                                                        href=<%="/profile?user=" + reqUserInfo.getId()%>>
+                                                <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getScore())%>"
+                                                   href=<%="/profile?user=" + reqUserInfo.getId()%>>
                                                     <%=reqUserInfo.getUsername()%>
                                                 </a>
                                             </div>
@@ -453,7 +504,7 @@
                                 </td>
                                 <td>
                                     <a href="/profile?user=<%=res.getUserId()%>">
-                                        <div class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(res.getUserId()).getRank())%> table_name">
+                                        <div class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(res.getUserId()).getScore())%> table_name">
                                             <%= usersDAO.getUserById(res.getUserId()).getUsername()%>
                                         </div>
                                     </a>
@@ -509,7 +560,7 @@
                                 </td>
                                 <td>
                                     <a href="/profile?user=<%=res.getUserId()%>">
-                                        <div class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(res.getUserId()).getRank())%> table_name">
+                                        <div class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(res.getUserId()).getScore())%> table_name">
                                             <%=usersDAO.getUserById(res.getUserId()).getUsername()%>
                                         </div>
                                     </a>
@@ -565,7 +616,7 @@
                                 </td>
                                 <td>
                                     <a href="/profile?user=<%=res.getUserId()%>">
-                                        <div class="rank-<%=RankingSystem.countRank(myUser.getRank())%>table_name">
+                                        <div class="rank-<%=RankingSystem.countRank(myUser.getScore())%>table_name">
                                             <%=myUser.getUsername()%>
                                         </div>
                                     </a>
@@ -630,7 +681,7 @@
 
                     <div style="display: inline-block;">
                         <a href="/profile?user=<%=user.getId()%>">
-                            <div class="rank-<%=RankingSystem.countRank(user.getRank())%>"
+                            <div class="rank-<%=RankingSystem.countRank(user.getScore())%>"
                                  style="font-size:17px; display: inline-block;">
                                 @<%=user.getUsername()%>
                             </div>

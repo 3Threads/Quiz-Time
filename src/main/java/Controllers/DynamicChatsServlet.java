@@ -31,15 +31,15 @@ public class DynamicChatsServlet extends HttpServlet {
             int chatId = Integer.parseInt(chatWith);
             User myFriend = usersDAO.getUserById(chatId);
             if (!interactors.contains(myFriend.getId())) {
-                out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getRank()) + "/" + myFriend.getUsername());
+                out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getScore()) + "/" + myFriend.getUsername());
                 if (interactors.size() != 1) out.println("$");
             }
         }
         for (int i = 0; i < interactors.size(); i++) {
             User myFriend = usersDAO.getUserById(interactors.get(i));
             if (i != interactors.size() - 1) {
-                out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getRank()) + "/" + myFriend.getUsername() + "$");
-            } else out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getRank()) + "/" + myFriend.getUsername());
+                out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getScore()) + "/" + myFriend.getUsername() + "$");
+            } else out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getScore()) + "/" + myFriend.getUsername());
         }
     }
 }

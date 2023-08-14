@@ -182,7 +182,7 @@
                         curChats.push(<%=myFriend.getId()%>)
                     </script>
                     <div class="d-flex align-items-center" style="background-color: #3e4042;">
-                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
+                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getScore())%>"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                         </a>
                         <div id=<%="friend" + myFriend.getId()%>></div>
@@ -201,7 +201,7 @@
                     <div class="d-flex align-items-center" <%
                         if (chatWith != null && !chatWith.trim().equals("") && myFriend.getId() == Integer.parseInt(chatWith)) {
                     %> style="background-color: #3e4042;" <%}%>>
-                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
+                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getScore())%>"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                             <div id=<%="friend" + myFriend.getId()%>>
                                 <%
@@ -264,7 +264,7 @@
                         <input type="hidden" name="sendTo" id="sendInp" value=<%=chatId%>>
                         <input type="hidden" name="sendTo" id="name"
                                value=<%=usersDAO.getUserById(chatId).getUsername()%>>
-                        <input type="hidden" name="sendTo" id="rank" value="<%=RankingSystem.countRank(usersDAO.getUserById(chatId).getRank())%>">
+                        <input type="hidden" name="sendTo" id="rank" value="<%=RankingSystem.countRank(usersDAO.getUserById(chatId).getScore())%>">
                         <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md col"
                                type="text"
                                style="margin-left: 12px; border-radius:6px"

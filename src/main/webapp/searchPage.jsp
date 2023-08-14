@@ -84,7 +84,7 @@
                             for (User user : users) {
                         %>
                         <div class="search-body">
-                            <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block"
+                            <a class="rank-<%=RankingSystem.countRank(user.getScore())%>" style="display: inline-block"
                                href=<%="/profile?user=" + user.getId()%>>
                                 <%=user.getUsername()%>
                             </a>
@@ -135,7 +135,7 @@
                             <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                                 created by
                             </div>
-                            <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>"
+                            <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getScore())%>"
                                style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
                                 <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
                             </a>
@@ -212,7 +212,7 @@
                         for (User user : users) {
                     %>
                     <div class="search-body">
-                        <a class="rank-<%=RankingSystem.countRank(user.getRank())%>" style="display: inline-block"
+                        <a class="rank-<%=RankingSystem.countRank(user.getScore())%>" style="display: inline-block"
                            href=<%="/profile?user=" + user.getId()%>>
                             <%=user.getUsername()%>
                         </a>
@@ -262,7 +262,7 @@
                         <div style="margin-left: 5px; margin-right: 5px; display: inline-block">
                             created by
                         </div>
-                        <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getRank())%>"
+                        <a class="rank-<%=RankingSystem.countRank(usersDAO.getUserById(quiz.getCreatorID()).getScore())%>"
                            style="display: inline-block" href=<%="/profile?user=" + quiz.getCreatorID()%>>
                             <%=usersDAO.getUserById(quiz.getCreatorID()).getUsername()%>
                         </a>
@@ -300,7 +300,7 @@
                                         <%=announcement.getTitle()%>
                                     </div>
                                 </div>
-                                <div class="rank-<%=RankingSystem.countRank(user.getRank())%> uk-text-meta uk-margin-remove-top"
+                                <div class="rank-<%=RankingSystem.countRank(user.getScore())%> uk-text-meta uk-margin-remove-top"
                                      style="font-size:10px; margin-bottom: 5px">
                                     <%=userName%>
                                     <time datetime="2016-04-01T19:00">
