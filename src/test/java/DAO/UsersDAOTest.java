@@ -32,6 +32,7 @@ public class UsersDAOTest {
 
     @Test
     public void testAddUser() {
+        assertFalse(connect.checkUser("1", "1"));
         assertTrue(connect.addUser("1", "1"));
         assertTrue(connect.checkUser("1", "1"));
     }
