@@ -64,16 +64,16 @@
     let haveChallengeFrom = [];
     let haveChatsNotificationFrom = [];
 
-    function requestConstructor(reqId, reqUsername, myId) {
-        return "<li>\n <div class='row' id='request" + reqId + "'>\n <div class='col d-flex align-items-center'>\n<a href='/profile?user=" + reqId + "'>" + reqUsername + "</a>\n </div>\n<div class='col-auto'>\n<a title='Accept friend request'> <button onclick=\"requestAction(" + myId + "," + reqId + ", 'acceptRequest', " + reqId + ")\"  style='display: inline-block;'type='button'class='btn btn-success notification-buttons'> <i class='bi bi-person-plus-fill'></i> Accept </button></a>\n<a title='Reject friend request'> <button onclick=\"requestAction(" + myId + "," + reqId + ", 'rejectRequest', " + reqId + ")\" style='display: inline-block;'type='button'class='btn btn-danger notification-buttons'> <i class='bi bi-person-x-fill'></i> Reject </button> </a></div>\n</div>\n</li>\n";
+    function requestConstructor(reqId, reqUsername, reqRank, myId) {
+        return "<li>\n <div class='row' id='request" + reqId + "'>\n <div class='col d-flex align-items-center'>\n<a class='rank-"+reqRank+"' href='/profile?user=" + reqId + "'>" + reqUsername + "</a>\n </div>\n<div class='col-auto'>\n<a title='Accept friend request'> <button onclick=\"requestAction(" + myId + "," + reqId + ", 'acceptRequest', " + reqId + ")\"  style='display: inline-block;'type='button'class='btn btn-success notification-buttons'> <i class='bi bi-person-plus-fill'></i> Accept </button></a>\n<a title='Reject friend request'> <button onclick=\"requestAction(" + myId + "," + reqId + ", 'rejectRequest', " + reqId + ")\" style='display: inline-block;'type='button'class='btn btn-danger notification-buttons'> <i class='bi bi-person-x-fill'></i> Reject </button> </a></div>\n</div>\n</li>\n";
     }
 
-    function challengeConstructor(userId, userName, quizId, quizName) {
-        return "<li>\n <div class=\"row\" id=\"challenge" + userId + "\">\n <div class=\"col d-flex align-items-center\">\n <a href=\"/profile?user=" + userId + "\">" + userName + "\n </a>\n <div style=\"margin-left: 3px\"> challenged you:</div>\n <a style=\"margin-left: 3px\"\n href=\"/quiz?quizId=" + quizId + "\">" + quizName + "\n </a>\n </div>\n <div class=\"col-auto\">\n <a title=\"Accept challenge\"> <button onclick=\"challengeAction(" + userId + ", 'acceptChallenge'," + userId + "," + quizId + ")\"\n  style=\"display: inline-block;\" type=\"button\" class=\"btn btn-success notification-buttons\"><i class=\"bi bi-check-lg\"></i> Accept\n </button> <\a>\n <a title=\"Reject challenge\"> <button onclick=\"challengeAction(" + userId + ", 'rejectChallenge', " + userId + ", " + quizId + ")\"\n style=\"display: inline-block;\" type=\"button\" class=\"btn btn-danger notification-buttons\"><i class=\"bi bi-x-lg\"></i> Reject\n </button> </a>\n </div>\n </div>\n </li>";
+    function challengeConstructor(userId, userName, userRank, quizId, quizName) {
+        return "<li>\n <div class=\"row\" id=\"challenge" + userId + "\">\n <div class=\"col d-flex align-items-center\">\n <a class='rank-"+userRank+"' href=\"/profile?user=" + userId + "\">" + userName + "\n </a>\n <div style=\"margin-left: 3px\"> challenged you:</div>\n <a style=\"margin-left: 3px\"\n href=\"/quiz?quizId=" + quizId + "\">" + quizName + "\n </a>\n </div>\n <div class=\"col-auto\">\n <a title=\"Accept challenge\"> <button onclick=\"challengeAction(" + userId + ", 'acceptChallenge'," + userId + "," + quizId + ")\"\n  style=\"display: inline-block;\" type=\"button\" class=\"btn btn-success notification-buttons\"><i class=\"bi bi-check-lg\"></i> Accept\n </button> <\a>\n <a title=\"Reject challenge\"> <button onclick=\"challengeAction(" + userId + ", 'rejectChallenge', " + userId + ", " + quizId + ")\"\n style=\"display: inline-block;\" type=\"button\" class=\"btn btn-danger notification-buttons\"><i class=\"bi bi-x-lg\"></i> Reject\n </button> </a>\n </div>\n </div>\n </li>";
     }
 
-    function chatConstructor(chatUserId, chatUserUsername) {
-        return "<li>\n <div class=\"notification-name row\">\n <div class=\"col d-flex align-items-center\">\n<div>New message from</div>\n <a style=\"margin-left: 3px\" href=\"/profile?user=" + chatUserId + "\">" + chatUserUsername + "</a>\n </div>\n <div class=\"col-auto\">\n <a href=\"/chat?chatWith=" + chatUserId + "\"> <button style=\"display: inline-block;\" type=\"button\" class=\"btn btn-primary notification-buttons\"> <i class=\"bi bi-envelope\"></i> Open </button> </a>\n </div>\n </div>\n </li>";
+    function chatConstructor(chatUserId, chatUserRank, chatUserUsername) {
+        return "<li>\n <div class=\"notification-name row\">\n <div class=\"col d-flex align-items-center\">\n<div>New message from</div>\n <a class='rank-"+chatUserRank+"' style=\"margin-left: 3px\" href=\"/profile?user=" + chatUserId + "\">" + chatUserUsername + "</a>\n </div>\n <div class=\"col-auto\">\n <a href=\"/chat?chatWith=" + chatUserId + "\"> <button style=\"display: inline-block;\" type=\"button\" class=\"btn btn-primary notification-buttons\"> <i class=\"bi bi-envelope\"></i> Open </button> </a>\n </div>\n </div>\n </li>";
     }
 
     function requestAction(user1, user2, action, requestId) {
@@ -130,7 +130,7 @@
                         components = chall.split("|");
                         if (searchForArray(haveChallengeFrom, [parseInt(components[0]), parseInt(components[2])]) === -1) {
                             haveChallengeFrom.push([parseInt(components[0]), parseInt(components[2])]);
-                            $('#challengesList').append(challengeConstructor(components[0], components[1], components[2], components[3]));
+                            $('#challengesList').append(challengeConstructor(components[0], components[1], components[4], components[2], components[3]));
                             $('#toastCont').append(toastContructor(++x, 'You Have Challenged on quiz ' + components[3] + ' From ' + components[1] + '!'));
                             var toast = new bootstrap.Toast($('#' + x));
                             toast.show();
@@ -147,7 +147,7 @@
                         let components = ch.split("|");
                         if (!haveChatsNotificationFrom.includes(parseInt(components[0]))) {
                             haveChatsNotificationFrom.push(parseInt(components[0]));
-                            $('#chatNotifications').append(chatConstructor(components[0], components[1]));
+                            $('#chatNotifications').append(chatConstructor(components[0], components[2], components[1]));
                             $('#toastCont').append(toastContructor(++x, 'You Have New Message From ' + components[1]));
                             var toast = new bootstrap.Toast($('#' + x));
                             toast.show();
@@ -164,7 +164,7 @@
                         let components = req.split("|");
                         if (!haveRequestsFrom.includes(parseInt(components[0]))) {
                             haveRequestsFrom.push(parseInt(components[0]));
-                            $('#requestsList').append(requestConstructor(components[0], components[1], <%=myUser.getId()%>));
+                            $('#requestsList').append(requestConstructor(components[0], components[1], components[2], <%=myUser.getId()%>));
                             $('#toastCont').append(toastContructor(++x, 'You Have New Friend Request From ' + components[1]));
                             var toast = new bootstrap.Toast($('#' + x));
                             toast.show();
@@ -263,7 +263,7 @@
                                                         <li>
                                                             <div class="row" id=<%="request" + requestId%>>
                                                                 <div class="col d-flex align-items-center">
-                                                                    <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getRank())%>"
+                                                                    <a class="rank-<%=RankingSystem.countRank(reqUserInfo.getScore())%>"
                                                                        href=<%="/profile?user=" + reqUserInfo.getId()%>>
                                                                         <%=reqUserInfo.getUsername()%>
                                                                     </a>
@@ -320,7 +320,7 @@
                                                             </script>
                                                             <div class="row" id="<%="challenge" + challId%>">
                                                                 <div class="col d-flex align-items-center">
-                                                                    <a class="rank-<%=RankingSystem.countRank(challUserInfo.getRank())%>"
+                                                                    <a class="rank-<%=RankingSystem.countRank(challUserInfo.getScore())%>"
                                                                        href=<%= "/profile?user=" + challUserInfo.getId()%>><%=challUserInfo.getUsername()%>
                                                                     </a>
                                                                     <div style="margin-left: 3px"> challenged you:</div>
@@ -379,7 +379,7 @@
                                                             <div class="notification-name row">
                                                                 <div class="col d-flex align-items-center">
                                                                     <div>New message from</div>
-                                                                    <a class="rank-<%=RankingSystem.countRank(chatUser.getRank())%>"
+                                                                    <a class="rank-<%=RankingSystem.countRank(chatUser.getScore())%>"
                                                                        style="margin-left: 3px;"
                                                                        href=<%="/profile?user=" + chatUser.getId()%>><%=chatUser.getUsername()%>
                                                                     </a>
@@ -410,7 +410,7 @@
                             </div>
                             <div class="table_name">
 
-                                <a class="rank-<%=RankingSystem.countRank(myUser.getRank())%>"
+                                <a class="rank-<%=RankingSystem.countRank(myUser.getScore())%>"
                                         style="margin-right: 3px"
                                    href="/profile?user=<%= myUser.getId()%>"><%=  myUser.getUsername()%>
                                 </a>

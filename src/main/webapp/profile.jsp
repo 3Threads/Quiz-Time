@@ -22,10 +22,10 @@
     <div class="row">
         <div class="col-4" uk-scrollspy="cls:uk-animation-fade delay: 500">
             <div style="font-size: 25px; padding-bottom: 10px; display: flex; align-items: center">
-                <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
+                <img class="rank-test" src="/images/rank<%=RankingSystem.countRank(pageUser.getScore())%>.png"
                      alt="rank-test">
                 <div style="white-space: nowrap; display: inline-block; padding-left: 10px; font-size:25px">
-                    <div class="rank-<%=RankingSystem.countRank(pageUser.getRank())%>"
+                    <div class="rank-<%=RankingSystem.countRank(pageUser.getScore())%>"
                          style="display: inline-block;">
                         <%=pageUser.getUsername() %>
                     </div>
@@ -46,20 +46,21 @@
             <div class="row d-flex align-items-center mb-2">
                 <div class="col-auto">
                     <img style="display: inline-block; width: 30px; height: auto;"
-                         src="/images/rank<%=RankingSystem.countRank(pageUser.getRank())%>.png"
+                         src="/images/rank<%=RankingSystem.countRank(pageUser.getScore())%>.png"
                          alt="rank-test">
                 </div>
                 <%
 
-                    int rank = RankingSystem.countRank(pageUser.getRank());
-                    int score = pageUser.getRank();
+                    int rank = RankingSystem.countRank(pageUser.getScore());
+                    int score = pageUser.getScore();
                     int percent = (score - 200 * rank) / 2;
+                    int nextRank = Math.min(5, RankingSystem.countRank(pageUser.getScore()) + 1);
                 %>
                 <div class="progress bg-dark col" role="progressbar" style="border: solid 0.5px white; padding: 0;">
-                    <div class="progress-bar" style="width: <%= percent %>%;">
+                    <div class="progress-bar"
+                         style="width: <% if(nextRank==5) out.print(100);else out.print(percent); %>%;">
                         <div class="progress-text">
                             <%
-                                int nextRank = Math.min(5, RankingSystem.countRank(pageUser.getRank()) + 1);
                                 String scoreText = score + "/" + (rank + 1) * 200;
                                 if (nextRank == 5) {
                                     scoreText = String.valueOf(score);
@@ -197,7 +198,7 @@
                         User myFriend = usersDAO.getUserById(friend);
                 %>
                 <div style="font-size: 20px; padding-left: 8px; padding-top:8px">
-                    <a class="rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
+                    <a class="rank-<%=RankingSystem.countRank(myFriend.getScore())%>"
                        href=<%="/profile?user=" + myFriend.getId()%>>
                         <%=myFriend.getUsername()%>
                     </a>

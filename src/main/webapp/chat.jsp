@@ -18,7 +18,7 @@
             if (document.getElementById("message").value !== "") {
                 let fr = "chat" + document.getElementById("sendInp").value;
                 $('#' + fr).remove();
-                $('#chatList').prepend(chatWithConstructor(document.getElementById("sendInp").value, document.getElementById("name").value));
+                $('#chatList').prepend(chatWithConstructor(document.getElementById("sendInp").value,document.getElementById("rank").value, document.getElementById("name").value));
                 let msg = document.getElementById("message").value;
                 msg = msg.replaceAll("<3", "<i class='bi bi-heart-fill' style='color: #C30000;'> </i>");
                 msg = msg.replaceAll(":)", "<i class='bi bi-emoji-smile-fill' style='color: #FFD400;'> </i>");
@@ -102,7 +102,7 @@
                     if (cur !== parseInt(params[1])) {
                         let kk = "chat" + params[0];
                         $('#' + kk).remove();
-                        $('#chatList').prepend(chatsConstructor(params[0], params[2]));
+                        $('#chatList').prepend(chatsConstructor(params[0], params[2], params[3]));
                         $('#' + fr).text(params[1]);
                     }
                 }
@@ -112,12 +112,12 @@
 
     let curChats = [];
 
-    function chatWithConstructor(myFriendId, myFriendUsername) {
-        return "<li id=\"chat" + myFriendId + "\"><div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriendId + "\">" + myFriendUsername + "\n<div id=\"friend" + myFriendId + "\"> </div>\n </a>\n </div></li>"
+    function chatWithConstructor(myFriendId, myFriendRank, myFriendUsername) {
+        return "<li id=\"chat" + myFriendId + "\"><div class=\"d-flex align-items-center\" style=\"background-color: #3e4042;\">\n <a class=\"fullWidthList rank-"+ myFriendRank+"\" href=\"/chat?chatWith=" + myFriendId + "\">" + myFriendUsername + "\n<div id=\"friend" + myFriendId + "\"> </div>\n </a>\n </div></li>"
     }
 
-    function chatsConstructor(myFriendId, myFriendUsername) {
-        return "<li id=\"chat" + myFriendId + "\"><div class=\"d-flex align-items-center\">\n <a class=\"fullWidthList\" href=\"/chat?chatWith=" + myFriendId + "\">" + myFriendUsername + "\n<div id=\"friend" + myFriendId + "\"> </div>\n </a>\n </div></li>"
+    function chatsConstructor(myFriendId,myFriendUsername,myFriendRank) {
+        return "<li id=\"chat" + myFriendId + "\"><div class=\"d-flex align-items-center\">\n <a class=\"fullWidthList rank-"+ myFriendRank+"\" href=\"/chat?chatWith=" + myFriendId + "\">" + myFriendUsername + "\n<div id=\"friend" + myFriendId + "\"> </div>\n </a>\n </div></li>"
     }
 
     function getChats() {
@@ -137,8 +137,8 @@
                         if (!curChats.includes(parseInt(param[0]))) {
                             curChats.push(parseInt(param[0]));
                             if (parseInt(param[0]) === <%=request.getParameter("chatWith")%>) {
-                                $('#chatList').append(chatWithConstructor(param[0], param[1]));
-                            } else $('#chatList').append(chatsConstructor(param[0], param[1]))
+                                $('#chatList').append(chatWithConstructor(param[0], param[1], param[2]));
+                            } else $('#chatList').append(chatsConstructor(param[0], param[1], param[2]));
                         }
                     }
                 }
@@ -182,7 +182,7 @@
                         curChats.push(<%=myFriend.getId()%>)
                     </script>
                     <div class="d-flex align-items-center" style="background-color: #3e4042;">
-                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
+                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getScore())%>"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                         </a>
                         <div id=<%="friend" + myFriend.getId()%>></div>
@@ -201,7 +201,7 @@
                     <div class="d-flex align-items-center" <%
                         if (chatWith != null && !chatWith.trim().equals("") && myFriend.getId() == Integer.parseInt(chatWith)) {
                     %> style="background-color: #3e4042;" <%}%>>
-                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getRank())%>"
+                        <a class="fullWidthList rank-<%=RankingSystem.countRank(myFriend.getScore())%>"
                            href=<%="/chat?chatWith=" + myFriend.getId()%>><%=myFriend.getUsername()%>
                             <div id=<%="friend" + myFriend.getId()%>>
                                 <%
@@ -264,6 +264,7 @@
                         <input type="hidden" name="sendTo" id="sendInp" value=<%=chatId%>>
                         <input type="hidden" name="sendTo" id="name"
                                value=<%=usersDAO.getUserById(chatId).getUsername()%>>
+                        <input type="hidden" name="sendTo" id="rank" value="<%=RankingSystem.countRank(usersDAO.getUserById(chatId).getScore())%>">
                         <input id="message" class="form-control bg-dark whitePlaceholder text-light input-md col"
                                type="text"
                                style="margin-left: 12px; border-radius:6px"
