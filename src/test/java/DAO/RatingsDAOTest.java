@@ -46,7 +46,7 @@ public class RatingsDAOTest {
 
     @Test
     public void testGetQuizRatings() {
-        ArrayList<Rating> ratesNew = ratings.getQuizRatings(quizzes.getQuizByName("quiz1").getQuizId(), "newest");
+        ArrayList<Rating> ratesNew = ratings.getQuizRatings(quizzes.getQuizByName("quiz1").getQuizId(), "oldest");
         assertEquals(ratesNew.size(), 3);
         assertEquals(ratesNew.get(0).getRating(), 2);
         assertEquals(ratesNew.get(0).getComment(), "notBad");
@@ -55,14 +55,14 @@ public class RatingsDAOTest {
         assertEquals(ratesNew.get(2).getRating(), 2);
         assertEquals(ratesNew.get(2).getComment(), "bad");
 
-        ArrayList<Rating> ratesOld = ratings.getQuizRatings(quizzes.getQuizByName("quiz1").getQuizId(), "oldest");
+        ArrayList<Rating> ratesOld = ratings.getQuizRatings(quizzes.getQuizByName("quiz1").getQuizId(), "newest");
         assertEquals(ratesOld.size(), 3);
-        assertEquals(ratesOld.get(2).getRating(), 2);
-        assertEquals(ratesOld.get(2).getComment(), "bad");
+        assertEquals(ratesOld.get(0).getRating(), 2);
+        assertEquals(ratesOld.get(0).getComment(), "bad");
         assertEquals(ratesOld.get(1).getRating(), 4);
         assertEquals(ratesOld.get(1).getComment(), "well");
-        assertEquals(ratesOld.get(0).getRating(), 2);
-        assertEquals(ratesOld.get(0).getComment(), "notBad");
+        assertEquals(ratesOld.get(2).getRating(), 2);
+        assertEquals(ratesOld.get(2).getComment(), "notBad");
 
         ArrayList<Rating> rates1 = ratings.getQuizRatings(quizzes.getQuizByName("quiz5").getQuizId(), "oldest");
         assertEquals(rates1.size(), 1);
