@@ -387,7 +387,8 @@
                 <div class="mb-2">
                     <button class="btn btn-dark" type="button">Select categories</button>
                     <div uk-dropdown="mode: click; pos: bottom-center; animation: slide-top; animate-out: true"
-                         class="bg-dark text-light" style="max-height: 100px; overflow: auto; border: white 1px solid; padding:5px">
+                         class="bg-dark text-light"
+                         style="max-height: 100px; overflow: auto; border: white 1px solid; padding:5px">
                         <%
                             ArrayList<String> selected = null;
                             if (session.getAttribute("categories") != null)
@@ -494,7 +495,7 @@
                 %>
             </form>
         </div>
-        <div class="col-6" >
+        <div class="col-6">
             <div id="currQuestionBox">
                 <form action="/createQuiz" method="post" onsubmit="return beforeSubmit()">
                     <div id="formForThisType">

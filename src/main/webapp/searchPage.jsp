@@ -165,9 +165,10 @@
                                     String userName = user.getUsername();
                             %>
 
-                            <div class="uk-grid-small uk-flex-middle" >
+                            <div class="uk-grid-small uk-flex-middle">
                                 <div class="uk-width-expand" style="padding-bottom:35px">
-                                    <div class="uk-card-title uk-margin-remove-bottom text-light" style="display: inline-block; font-size: 18px;font-weight:bold; ">
+                                    <div class="uk-card-title uk-margin-remove-bottom text-light"
+                                         style="display: inline-block; font-size: 18px;font-weight:bold; ">
                                         <div style="display: inline-block; ">
                                             <%=announcement.getTitle()%>
                                         </div>

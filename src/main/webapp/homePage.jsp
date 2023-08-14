@@ -112,7 +112,7 @@
                 <p class="card-middle" style="word-wrap: break-word">
                     <%
                         String body = announcement.getBody();
-                        if(body.length() > 100){
+                        if (body.length() > 100) {
                             body = body.substring(0, 100) + "...";
                         }
                         out.print(body);
