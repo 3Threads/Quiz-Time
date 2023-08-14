@@ -29,8 +29,6 @@ class AnnouncementsDAOTest {
         for (int i = 1; i <= USERS_NUM; i++) {
             usersDAO.addUser("ADMIN" + i, "ADMIN");
             ADMINS_ID[i - 1] = usersDAO.getUserId("ADMIN" + i);
-            int x= usersDAO.getUserId("ADMIN" + i);
-            System.out.println(x);
             usersDAO.getAdminToUser(ADMINS_ID[i - 1]);
         }
     }
@@ -62,7 +60,48 @@ class AnnouncementsDAOTest {
     }
 
     @Test
-    void searchAnnouncement() {
+    void testSearchAnnouncementByUsername() {
+        ArrayList<Announcement> announcements = announcementsDAO.searchAnnouncement("admin");
+        assertEquals(0, announcements.size());
+        announcementsDAO.addAnnouncement("title", "body", ADMINS_ID[0]);
+        announcementsDAO.addAnnouncement("title", "body", ADMINS_ID[1]);
+
+        announcements = announcementsDAO.searchAnnouncement("admin");
+        assertEquals(2, announcements.size());
+
+        announcements = announcementsDAO.searchAnnouncement("wrongUsername");
+        assertEquals(0, announcements.size());
+    }
+
+    @Test
+    void testSearchAnnouncementByTitle() {
+        ArrayList<Announcement> announcements = announcementsDAO.searchAnnouncement("itl");
+        assertEquals(0, announcements.size());
+        announcementsDAO.addAnnouncement("title1", "body", ADMINS_ID[0]);
+        announcementsDAO.addAnnouncement("title2", "body", ADMINS_ID[1]);
+        announcementsDAO.addAnnouncement("head", "body", ADMINS_ID[1]);
+
+        announcements = announcementsDAO.searchAnnouncement("itl");
+        assertEquals(2, announcements.size());
+        assertEquals(3, announcementsDAO.getAnnouncements().size());
+
+        announcements = announcementsDAO.searchAnnouncement("sat");
+        assertEquals(0, announcements.size());
+    }
+
+    @Test
+    void testSearchAnnouncementByBothMatching() {
+        ArrayList<Announcement> announcements = announcementsDAO.searchAnnouncement("MIN");
+        assertEquals(0, announcements.size());
+        announcementsDAO.addAnnouncement("minimal announcement", "body", ADMINS_ID[0]);
+
+        announcements = announcementsDAO.searchAnnouncement("MIN");
+        assertEquals(1, announcements.size());
+
+        announcementsDAO.addAnnouncement("head", "body", ADMINS_ID[1]);
+        announcements = announcementsDAO.searchAnnouncement("MIN");
+        assertEquals(2, announcements.size());
+        assertEquals(2, announcementsDAO.getAnnouncements().size());
     }
 
     @AfterEach
