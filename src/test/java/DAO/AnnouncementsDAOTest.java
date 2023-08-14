@@ -36,14 +36,14 @@ class AnnouncementsDAOTest {
     @Test
     void testGetAnnouncements() {
         announcementsDAO.addAnnouncement("title0", "body0", ADMINS_ID[0]);
-        announcementsDAO.addAnnouncement("title1", "body1", ADMINS_ID[0]);
-        announcementsDAO.addAnnouncement("title2", "body2", ADMINS_ID[0]);
+        announcementsDAO.addAnnouncement("title1", "body1", ADMINS_ID[1]);
+        announcementsDAO.addAnnouncement("title2", "body2", ADMINS_ID[2]);
 
         ArrayList<Announcement> announcements = announcementsDAO.getAnnouncements();
         for (int i = 0; i < announcements.size(); i++) {
-            assertEquals("title" + i, announcements.get(i).getTitle());
-            assertEquals("body" + i, announcements.get(i).getBody());
-            assertEquals(ADMINS_ID[0], announcements.get(i).getWriterId());
+            assertEquals("title" + (2 - i), announcements.get(i).getTitle());
+            assertEquals("body" + (2 - i), announcements.get(i).getBody());
+            assertEquals(ADMINS_ID[2 - i], announcements.get(i).getWriterId());
         }
 
     }
