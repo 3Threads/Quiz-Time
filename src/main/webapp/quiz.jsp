@@ -7,6 +7,40 @@
 <head>
     <%@include file="header.jsp" %>
 </head>
+<style>
+    .a {
+
+        animation: pulse 1s linear, 2.5s shake 1s linear;
+    }
+
+    @-webkit-keyframes "pulse" {
+        0% {
+            -webkit-transform: scale(1.4);
+            transform: scale(1.1);
+        }
+        50% {
+            -webkit-transform: scale(1);
+            transform: scale(1.4);
+        }
+        100% {
+            -webkit-transform: scale(2);
+            transform: scale(1);
+        }
+    }
+    @keyframes shake {
+        0% { transform: translate(1px, 1px) rotate(0deg); }
+        10% { transform: translate(-1px, -2px) rotate(-1deg); }
+        20% { transform: translate(-3px, 0px) rotate(1deg); }
+        30% { transform: translate(3px, 2px) rotate(0deg); }
+        40% { transform: translate(1px, -1px) rotate(1deg); }
+        50% { transform: translate(-1px, 2px) rotate(-1deg); }
+        60% { transform: translate(-3px, 1px) rotate(0deg); }
+        70% { transform: translate(3px, 1px) rotate(-1deg); }
+        80% { transform: translate(-1px, -1px) rotate(1deg); }
+        90% { transform: translate(1px, 2px) rotate(0deg); }
+        100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+</style>
 <body>
 <%
     Quiz currQuiz = quizzesDAO.getQuizInfo(Integer.parseInt(request.getParameter("quizId")));
@@ -117,7 +151,94 @@
                     }
                 %>
             </div>
-
+            <%
+                if(request.getParameter("oldScore") != null) {
+                    int oldScore= Integer.parseInt(request.getParameter("oldScore"));
+                    int oldRank = RankingSystem.countRank(oldScore);
+                    int curRank = RankingSystem.countRank(myUser.getRank());
+                    if(oldRank != curRank) {
+            %>
+            <img id="image" style="display: block; margin-left: auto;margin-right: auto;" class="a" src="/images/rank<%=RankingSystem.countRank(myUser.getRank())%>.png">
+            <%
+                if(oldRank < curRank) {
+            %>
+                <style>
+                    .progress-bar {
+                        width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;
+                        animation: progressAnimation 2s, 2s AfterProgressAnimation 2s linear;
+                    }
+                    @keyframes progressAnimation {
+                        0%   { width: <%=(oldScore - 200 * oldRank) / 2%>%;}
+                        100% { width: 100%;}
+                    }
+                    @keyframes AfterProgressAnimation {
+                        0%   { width: 0%;}
+                        100% { width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;}
+                    }
+                </style>
+            <%
+                } else {
+            %>
+            <style>
+                .progress-bar {
+                    width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;
+                    animation: progressAnimation 2s, 2s AfterProgressAnimation 2s linear;
+                }
+                @keyframes progressAnimation {
+                    0%   { width: <%=(oldScore - 200 * oldRank) / 2%>%;}
+                    100% { width: 0%;}
+                }
+                @keyframes AfterProgressAnimation {
+                    0%   { width: 100%;}
+                    100% { width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;}
+                }
+            </style>
+            <%
+                }
+            %>
+            <div class="rounded progress bg-dark col" role="progressbar" style=" border: solid 0.5px white; padding: 0; width: 50%; margin-left: auto; margin-right: auto">
+                <div class="progress-bar">
+                    <div class="progress-text">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h5 style="text-align: center;font-size: 20px;" class="uk-modal-title">
+                <%
+                    if(oldRank < curRank) {
+                        out.println("CONGRATULATION! <br> YOU GOT A NEW RANK!");
+                    } else out.println("YOUR RANK IS DOWNGRADED :(");
+                %>
+            </h5>
+            <%
+                    } else {
+            %>
+            <style>
+                .progress-bar {
+                    width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;
+                    animation: progressAnimation 2s;
+                }
+                @keyframes progressAnimation {
+                    0%   { width: <%=(oldScore - 200 * curRank) / 2%>%;}
+                    100% { width: <%=(myUser.getRank() - 200 * curRank) / 2%>%;}
+                }
+            </style>
+                <img style="display: inline-flex; width: 30px; height: auto; margin-left: 100px;"
+                     src="/images/rank<%=curRank%>.png"
+                     alt="rank-test">
+                <div class="rounded progress bg-dark col" role="progressbar" style="border: solid 0.5px white; padding: 0; width: 50%; margin-left: auto; margin-right: auto; display: inline-flex;">
+                    <div class="progress-bar">
+                        <div class="progress-text">
+                        </div>
+                    </div>
+                </div>
+                <img style="display: inline-flex; width: 30px; height: auto;"
+                     src="/images/rank<%=curRank+1%>.png"
+                     alt="rank-test">
+            <%
+                    }
+                }
+            %>
         </div>
         <%if (!ratingsDAO.haveAlreadyRated(myUser.getId(), currQuiz.getQuizId())) {%>
         <div class="container1" style="margin-left: 100px;">
@@ -171,24 +292,27 @@
                 </h1>
             </div>
             <div class="col-auto d-flex align-items-center">
+                <%
+                    if(currQuiz.getCreatorID() != myUser.getId()) {
+                %>
                 <a href="/writeQuiz?quizId=<%= currQuiz.getQuizId() %>" class="quiz-button">
                     <button type="button" class="btn btn-success" style="margin-right: 6px">
                         <i class="bi bi-play-circle-fill"></i>
                         Start Quiz
                     </button>
                 </a>
-
+                <%
+                    }
+                %>
                 <a href="#modalSendChallenges" class="quiz-button" uk-toggle>
                     <button type="button" class="btn btn-primary" style="margin-right: 6px">
                         <i class="bi bi-share"></i>
                         Send Challenge
                     </button>
                 </a>
-
                 <%
                     if (myUser.isAdmin() || currQuiz.getCreatorID() == myUser.getId()) {
                 %>
-
                 <a href="/quiz?quizId=<%=currQuiz.getQuizId()%>&action=delete" class="quiz-button">
                     <button type="button" class="btn btn-danger" style="margin-right: 6px">
                         <i class="bi bi-exclamation-octagon-fill"></i>

@@ -8,6 +8,7 @@ import DAO.ResultsDAO;
 import DAO.UsersDAO;
 import Types.Question;
 import Types.Quiz;
+import Types.Result;
 import Types.User;
 
 import javax.servlet.ServletException;
@@ -132,12 +133,16 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("endTime");
             ResultsDAO resultsDAO = (ResultsDAO) httpServletRequest.getServletContext().getAttribute("resultsDB");
             int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
-
-            resultsDAO.addResult(userId, quizId, score, time);
             int oldScore = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getRank();
             int newScore = RankingSystem.countNewScore(oldScore, 100 * score / questions.size());
+            for(Result res :resultsDAO.getUserResultsOnQuiz(userId, quizId)) {
+                if(res.getScore() == questions.size()) {
+                    newScore = oldScore;
+                }
+            }
+            resultsDAO.addResult(userId, quizId, score, time);
             ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).updateScore(userId, newScore);
-            httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time + "&plusScore=" + (newScore - oldScore));
+            httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time + "&plusScore=" + (newScore - oldScore)+ "&oldScore="+oldScore);
         }
     }
 }
