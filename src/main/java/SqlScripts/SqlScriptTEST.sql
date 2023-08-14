@@ -26,7 +26,7 @@ CREATE TABLE QUIZZES
     QUIZ_NAME     CHAR(64) UNIQUE not null,
     DESCRIPTION   TEXT,
     COMPLETED     INT       default 0,
-    CREATION_TIME DATETIME  default current_timestamp,
+    CREATION_TIME DATETIME(3)  default current_timestamp(3),
     CREATOR_ID    INT             not null,
     TIME_LIMIT    TIME      default 0,
     CATEGORIES    char(255) default '',
@@ -39,7 +39,7 @@ CREATE TABLE RATINGS
     QUIZ_ID    INT             NOT NULL,
     RATING     INT             NOT NULL,
     COMMENT    TEXT,
-    RATED_DATE DATETIME default current_timestamp,
+    RATED_DATE DATETIME(3) default current_timestamp(3),
     FOREIGN KEY (USER_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) REFERENCES QUIZZES (ID) ON DELETE CASCADE
 );
@@ -50,7 +50,7 @@ CREATE TABLE COMPLETED_QUIZZES
     QUIZ_ID    INT             not null,
     SCORE      INT      default 0,
     SPENT_TIME LONG            not null,
-    WRITE_TIME DATETIME default current_timestamp,
+    WRITE_TIME DATETIME(3) default current_timestamp(3),
     FOREIGN KEY (USER_ID) references USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (QUIZ_ID) references QUIZZES (ID) ON DELETE CASCADE
 );
@@ -72,7 +72,7 @@ CREATE TABLE MESSAGES
     USER1_ID  int             not null,
     USER2_ID  int             not null,
     MESSAGE   TEXT,
-    SEND_DATE DATETIME default current_timestamp,
+    SEND_DATE DATETIME(3) default current_timestamp(3),
     SEEN      tinyint  default 0,
     FOREIGN KEY (USER1_ID) REFERENCES USERS (ID) ON DELETE CASCADE,
     FOREIGN KEY (USER2_ID) REFERENCES USERS (ID) ON DELETE CASCADE
@@ -94,6 +94,6 @@ CREATE TABLE ANNOUNCEMENTS
     TITLE      TEXT            not null,
     BODY       TEXT            not null,
     WRITER_ID  INT             not null,
-    WRITE_TIME DATETIME default current_timestamp,
+    WRITE_TIME DATETIME(3) default current_timestamp(3),
     FOREIGN KEY (WRITER_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
