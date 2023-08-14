@@ -1,7 +1,6 @@
 package Controllers;
 
 import BusinessLogic.SessionRemove;
-import DAO.UsersDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

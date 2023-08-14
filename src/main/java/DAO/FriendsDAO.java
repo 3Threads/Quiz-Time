@@ -177,7 +177,7 @@ public class FriendsDAO {
             String acceptFriend = "DELETE FROM FRIENDS WHERE (USER1_ID = ? AND USER2_ID = ?) OR (USER1_ID = ? AND USER2_ID = ?);";
             PreparedStatement statement = connect.prepareStatement(acceptFriend);
             statement.setInt(1, notFriend);
-            statement.setInt(2,curUserId);
+            statement.setInt(2, curUserId);
             statement.setInt(3, curUserId);
             statement.setInt(4, notFriend);
             statement.execute();

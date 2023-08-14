@@ -136,6 +136,7 @@ public class UsersDAO {
             }
         }
     }
+
     public void updateScore(int userId, int newScore) {
         Connection connect = null;
         try {
@@ -157,32 +158,7 @@ public class UsersDAO {
             }
         }
     }
-    public ArrayList<User> getHighestScoreUsers(int limit) {
-        Connection connect = null;
-        try {
-            connect = dataSource.getConnection();
-            String getUserRow = "SELECT * FROM USERS ORDER BY SCORE DESC LIMIT ?";
-            PreparedStatement statement = connect.prepareStatement(getUserRow);
-            statement.setInt(1,limit);
-            ResultSet result = statement.executeQuery();
-            ArrayList<User> arr = new ArrayList<>();
-            while(result.next()) {
-                arr.add(new User(result.getInt("ID"), result.getInt("SCORE"), result.getString("USERNAME"), result.getInt("STATUS")));
-            }
-            return arr;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connect != null) {
-                try {
-                    connect.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
+
     public void deleteAdminToUser(int userId) {
         Connection connect = null;
         try {
@@ -203,6 +179,7 @@ public class UsersDAO {
             }
         }
     }
+
     public void deleteUser(int userId) {
         Connection connect = null;
         try {
@@ -223,16 +200,17 @@ public class UsersDAO {
             }
         }
     }
+
     public ArrayList<User> searchUsers(String userName) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
             String getUserRow = "SELECT * FROM USERS WHERE USERNAME LIKE ?;";
             PreparedStatement statement = connect.prepareStatement(getUserRow);
-            statement.setString(1, "%"+userName+"%");
+            statement.setString(1, "%" + userName + "%");
             ResultSet result = statement.executeQuery();
             ArrayList<User> arr = new ArrayList<>();
-            while(result.next()) {
+            while (result.next()) {
                 arr.add(new User(result.getInt("ID"), result.getInt("SCORE"), result.getString("USERNAME"), result.getInt("STATUS")));
             }
             return arr;

@@ -1,8 +1,8 @@
 package Types;
 
 public class Challenge {
-    private int userId;
-    private int quizId;
+    private final int userId;
+    private final int quizId;
 
     public Challenge(int userId, int quizId) {
         this.userId = userId;

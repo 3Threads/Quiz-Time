@@ -57,7 +57,7 @@ public class RatingsDAO {
         try {
             connect = dataSource.getConnection();
             String str;
-            if(lst.equals("newest")) {
+            if (lst.equals("newest")) {
                 str = "SELECT * FROM RATINGS WHERE QUIZ_ID=? ORDER BY RATED_DATE DESC";
             } else str = "SELECT * FROM RATINGS WHERE QUIZ_ID=? ORDER BY RATED_DATE";
             PreparedStatement statement = connect.prepareStatement(str);
@@ -138,8 +138,7 @@ public class RatingsDAO {
             statement.setInt(1, userId);
             statement.setInt(2, quizId);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) return true;
-            return false;
+            return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

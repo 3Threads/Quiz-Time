@@ -38,10 +38,12 @@ public class Quiz {
         return completed;
     }
 
-    public int getQuizId() { return quizId; }
+    public int getQuizId() {
+        return quizId;
+    }
 
     public String getQuizName() {
-        return  quizName;
+        return quizName;
     }
 
     public String getQuizDescription() {

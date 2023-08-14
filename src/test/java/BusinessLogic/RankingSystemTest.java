@@ -12,6 +12,7 @@ class RankingSystemTest {
         Assert.assertEquals(263, RankingSystem.countNewScore(270, 20));
         Assert.assertEquals(100, RankingSystem.countNewScore(0, 100));
         Assert.assertEquals(1002, RankingSystem.countNewScore(1000, 97));
+        Assert.assertEquals(858, RankingSystem.countNewScore(850, 100));
     }
 
     @Test

@@ -71,7 +71,7 @@ public class MessagesDAO {
         }
     }
 
-    public HashMap<Integer, ArrayList<String>> getNotSeenMessage(int userId){
+    public HashMap<Integer, ArrayList<String>> getNotSeenMessage(int userId) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
@@ -83,7 +83,7 @@ public class MessagesDAO {
             while (resultSet.next()) {
                 int id = resultSet.getInt("USER1_ID");
                 String message = resultSet.getString("MESSAGE");
-                if(notSeenMessages.containsKey(id)) {
+                if (notSeenMessages.containsKey(id)) {
                     notSeenMessages.get(id).add(message);
                 } else {
                     ArrayList<String> newArr = new ArrayList<>();
@@ -105,7 +105,8 @@ public class MessagesDAO {
         }
         return null;
     }
-    public void setMessagesSeen(int curUserId, int friendId){
+
+    public void setMessagesSeen(int curUserId, int friendId) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
@@ -127,7 +128,7 @@ public class MessagesDAO {
         }
     }
 
-    public ArrayList<Integer> getInteractorsList(int userID){
+    public ArrayList<Integer> getInteractorsList(int userID) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
@@ -140,7 +141,7 @@ public class MessagesDAO {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 int usID = result.getInt("USER1_ID");
-                if(!interactors.contains(usID)) interactors.add(usID);
+                if (!interactors.contains(usID)) interactors.add(usID);
             }
             return interactors;
         } catch (SQLException e) {

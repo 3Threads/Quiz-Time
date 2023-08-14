@@ -33,11 +33,4 @@ public class ListToString {
         }
         return sb.toString();
     }
-
-    public String iThString(String s, int i) {
-        char delim = s.charAt(s.length() - 1);
-        String[] pieces = s.split(String.valueOf(delim));
-        return pieces[i];
-    }
-
 }

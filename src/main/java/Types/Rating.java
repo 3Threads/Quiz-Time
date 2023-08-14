@@ -1,7 +1,6 @@
 package Types;
 
 import java.sql.Date;
-import java.util.Comparator;
 
 public class Rating implements Comparable<Rating> {
     private final int userId;
@@ -37,11 +36,4 @@ public class Rating implements Comparable<Rating> {
         return this.ratingsDate.compareTo(other.ratingsDate);
     }
 
-    // If you also want a separate Comparator, you can create it like this:
-    public static final Comparator<Rating> DateComparator = new Comparator<Rating>() {
-        @Override
-        public int compare(Rating r1, Rating r2) {
-            return r1.getRatingsDate().compareTo(r2.getRatingsDate());
-        }
-    };
 }

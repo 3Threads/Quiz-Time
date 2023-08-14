@@ -5,6 +5,7 @@ import Types.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
 public class SessionRemove {
     public static void removeQuizAttributes(HttpServletRequest request) {
         request.getSession().removeAttribute("writingQuestions");
@@ -16,10 +17,11 @@ public class SessionRemove {
         request.getSession().removeAttribute("timeFormatChecker");
         request.getSession().removeAttribute("categories");
     }
+
     public static boolean checkUser(HttpServletRequest request) throws IOException {
         UsersDAO usersDAO = (UsersDAO) request.getServletContext().getAttribute("usersDB");
         User myUser = (User) request.getSession().getAttribute("userInfo");
-        if(myUser == null) return false;
+        if (myUser == null) return false;
         int id = usersDAO.getUserId(myUser.getUsername());
         if (id == -1) {
             request.getSession().removeAttribute("userInfo");
