@@ -1,183 +1,175 @@
-//package DAO;//package Tests;
-//
-//import DAO.DataSource;
-//import DAO.QuestionsDAO;
-//import DAO.QuizzesDAO;
-//import DAO.UsersDAO;
-//import Types.Question;
-//import Types.QuestionTextResponse;
-//import org.apache.commons.dbcp2.BasicDataSource;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.jupiter.api.Test;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.testng.AssertJUnit.assertEquals;
-//
-//public class QuestionsDAOTest {
-//
-//    private static QuestionsDAO questions;
-//    private static QuizzesDAO quizzes;
-//    private static UsersDAO uConnect;
-//
-//
-//    @BeforeAll
-//    public static void setup() {
-//        BasicDataSource dataSource = DataSource.getDataSource(true);
-//
-//        uConnect = new UsersDAO(dataSource);
-//        quizzes = new QuizzesDAO(dataSource);
-//        questions = new QuestionsDAO(dataSource);
-//
-//        for (int i = 1; i <= 10; i++) {
-//            // user ID is value of i
-//            String user = String.valueOf(i);
-//            uConnect.addUser(user, "1");
-//
-//            // quiz ID is value of i
-//            String quizName = "quiz" + i;
-//            quizzes.addQuiz(quizName, "new quiz", i, null);
-//
-//            // question ID:  1    ,  2    ,  3    ....
-//            //              "100" , "200" , "300" ....
-//            String questionText = String.valueOf(100 * i);
-//
-//            // {(10)}, {(20)}, {(30)}, .....
-//            ArrayList<String> answers = new ArrayList<>();
-//            answers.add(String.valueOf(10 * i));
-//
-//            Question question = new QuestionTextResponse(questionText, answers);
-//
-//            questions.addQuestion(question, i);
-//        }
-//
-//        quiz11();
-//        quiz12();
-//        quiz13();
-//    }
-//
-//
-//    @Test
-//    public void testAddQuestion() {
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{1})), questions.getQuestionsIdByQuizId(1));
-//        assertEquals("100", questions.getQuestion(1));
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{2})), questions.getQuestionsIdByQuizId(2));
-//        assertEquals("200", questions.getQuestion(2));
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{3})), questions.getQuestionsIdByQuizId(3));
-//        assertEquals("300", questions.getQuestion(3));
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{4})), questions.getQuestionsIdByQuizId(4));
-//        assertEquals("400", questions.getQuestion(4));
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{5})), questions.getQuestionsIdByQuizId(5));
-//        assertEquals("500", questions.getQuestion(5));
-//    }
-//
-//
-//    private static void quiz11() {
-//        uConnect.addUser("11", "1");
-//        quizzes.addQuiz("quiz11", "new quiz", 11, null);
-//
-//        // Question #11
-//        String questionText1 = "are you ok??";
-//        ArrayList<String> answers1 = new ArrayList<>();
-//        answers1.add("yes");
-//        answers1.add("no");
-//        answers1.add("I am trying");
-//        Question question1 = new QuestionTextResponse(questionText1, answers1);
-//
-//        // Question #12
-//        String questionText2 = "r u sure?";
-//        ArrayList<String> answers2 = new ArrayList<>();
-//        answers2.add("I am not sure");
-//        answers2.add("yes I am sure");
-//        Question question2 = new QuestionTextResponse(questionText2, answers2);
-//
-//        questions.addQuestion(question1, 11);
-//        questions.addQuestion(question2, 11);
-//    }
-//
-//    @Test
-//    // QUIZ #11
-//    public void testAddQuestionsToQuizz() {
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{11, 12})), questions.getQuestionsIdByQuizId(11));
-//        assertEquals("are you ok??", questions.getQuestion(11));
-//        assertEquals("r u sure?", questions.getQuestion(12));
-//    }
-//
-//
-//    private static void quiz12() {
-//        uConnect.addUser("12", "1");
-//        quizzes.addQuiz("quiz12", "new quiz", 12, null);
-//
-//        // Question #13
-//        String questionText1 = "are you ok?";
-//        ArrayList<String> answers1 = new ArrayList<>();
-//        answers1.add("yes");
-//        answers1.add("no");
-//        answers1.add("I am trying");
-//
-//        Question question1 = new QuestionTextResponse(questionText1, answers1);
-//
-//        questions.addQuestion(question1, 12);
-//    }
-//
-//    @Test
-//    // QUIZ #12
-//    public void testRemoveQuestion() {
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{13})), questions.getQuestionsIdByQuizId(12));
-//
-//        questions.removeQuestion(13);
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{})), questions.getQuestionsIdByQuizId(12));
-//    }
-//
-//
-//    private static void quiz13() {
-//        uConnect.addUser("13", "1");
-//        quizzes.addQuiz("quiz13", "new quiz", 13, null);
-//
-//        // Question #14
-//        String questionText1 = "are you okk?";
-//        ArrayList<String> answers1 = new ArrayList<>();
-//        answers1.add("yes");
-//        answers1.add("no");
-//        answers1.add("I am trying");
-//        Question question1 = new QuestionTextResponse(questionText1, answers1);
-//
-//        // Question #15
-//        String questionText2 = "for real?";
-//        ArrayList<String> answers2 = new ArrayList<>();
-//        answers2.add("I am not sure");
-//        answers2.add("yes I am sure");
-//        Question question2 = new QuestionTextResponse(questionText2, answers2);
-//
-//        // Question #16
-//        String questionText3 = "how good?";
-//        ArrayList<String> answers3 = new ArrayList<>();
-//        answers2.add("very");
-//        answers2.add("not at all");
-//        Question question3 = new QuestionTextResponse(questionText3, answers3);
-//
-//        questions.addQuestion(question1, 13);
-//        questions.addQuestion(question2, 13);
-//        questions.addQuestion(question3, 13);
-//    }
-//
-//    @Test
-//    // QUIZ #13
-//    public void testRemoveQuestions() {
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{14, 15, 16})), questions.getQuestionsIdByQuizId(13));
-//        assertEquals("are you okk?", questions.getQuestion(14));
-//        assertEquals("for real?", questions.getQuestion(15));
-//        assertEquals("how good?", questions.getQuestion(16));
-//
-//        questions.removeQuestion(15);
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{14, 16})), questions.getQuestionsIdByQuizId(13));
-//        assertEquals("are you okk?", questions.getQuestion(14));
-//        assertEquals("how good?", questions.getQuestion(16));
-//
-//        questions.removeQuestion(14);
-//        questions.removeQuestion(16);
-//        assertEquals(new ArrayList<>(List.of(new Integer[]{})), questions.getQuestionsIdByQuizId(13));
-//    }
-//
-//}
+package DAO;
+
+import Types.*;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.util.*;
+
+import static org.testng.AssertJUnit.assertEquals;
+
+public class QuestionsDAOTest {
+
+    private static QuestionsDAO questionsDAO;
+    private static BasicDataSource dataSource;
+    private static final String[] TABLE_NAMES = new String[]{"QUESTIONS", "QUIZZES", "USERS"};
+    private static final int QUIZZES_NUM = 3;
+    private static final int[] QUIZZES_ID = new int[QUIZZES_NUM];
+
+    @BeforeAll
+    public static void setup() {
+        dataSource = DataSource.getDataSource(true);
+
+        UsersDAO usersDAO = new UsersDAO(dataSource);
+        QuizzesDAO quizzesDAO = new QuizzesDAO(dataSource);
+        questionsDAO = new QuestionsDAO(dataSource);
+
+        String user = "user0";
+        usersDAO.addUser(user, "password");
+        int creatorId = usersDAO.getUserId(user);
+        for (int i = 1; i <= QUIZZES_NUM; i++) {
+            String quizName = "quiz" + i;
+            quizzesDAO.addQuiz(quizName, "new quiz", creatorId, null, "Sports");
+            QUIZZES_ID[i - 1] = quizzesDAO.getQuizByName(quizName).getQuizId();
+        }
+    }
+
+
+    @Test
+    public void testAddQuestion() {
+        assertEquals(0, questionsDAO.getQuestions(QUIZZES_ID[0]).size());
+        assertEquals(0, questionsDAO.getQuestions(QUIZZES_ID[1]).size());
+        assertEquals(0, questionsDAO.getQuestions(QUIZZES_ID[2]).size());
+
+        for (int i = 0; i < 6; i++) {
+            Question question = new QuestionTextResponse("Which is the best country?", new ArrayList<>(Arrays.asList("Georgia", "geo")));
+            questionsDAO.addQuestion(question, QUIZZES_ID[0]);
+        }
+        Question question = new QuestionTextResponse("Is other quiz?", new ArrayList<>(Arrays.asList("Yes", "yes")));
+        questionsDAO.addQuestion(question, QUIZZES_ID[1]);
+
+        assertEquals(6, questionsDAO.getQuestions(QUIZZES_ID[0]).size());
+        assertEquals(1, questionsDAO.getQuestions(QUIZZES_ID[1]).size());
+        assertEquals(0, questionsDAO.getQuestions(QUIZZES_ID[2]).size());
+    }
+
+    @Test
+    public void testGetQuestions() {
+        assertEquals(0, questionsDAO.getQuestions(QUIZZES_ID[0]).size());
+
+        //text response
+        String questionText1 = "Which is the best country?";
+        ArrayList<String> answers1 = new ArrayList<>(Arrays.asList("Georgia", "geo"));
+        Question question1 = new QuestionTextResponse(questionText1, answers1);
+        questionsDAO.addQuestion(question1, QUIZZES_ID[0]);
+
+        //fill in the blank
+        String questionText2 = "This is the";
+        String questionTextSecond2 = "project";
+        ArrayList<String> answers2 = new ArrayList<>(Arrays.asList("best", "geo"));
+        Question question2 = new QuestionFillInTheBlank(questionText2, questionTextSecond2, answers2);
+        questionsDAO.addQuestion(question2, QUIZZES_ID[0]);
+
+        //matching
+        String questionText3 = "Which is the best country?";
+        HashMap<String, String> answers3 = new HashMap<>();
+        answers3.put("Akaki", "Gurgenidze");
+        answers3.put("Niko", "Khetsuriani");
+        answers3.put("Dachi", "Goshadze");
+        answers3.put("Lasha", "Kuprashvili");
+        Question question3 = new QuestionMatching(questionText3, answers3);
+        questionsDAO.addQuestion(question3, QUIZZES_ID[0]);
+
+        //multi answers
+        String questionText4 = "Count from 1 to 3";
+        ArrayList<String> answers4 = new ArrayList<>(Arrays.asList("1", "2", "3"));
+        Question question4 = new QuestionMultiAnswers(questionText4, answers4);
+        questionsDAO.addQuestion(question4, QUIZZES_ID[0]);
+
+        //multiple choices
+        String questionText5 = "First letter?";
+        ArrayList<String> answers5 = new ArrayList<>(Arrays.asList("B", "A"));
+        ArrayList<String> correctAnswers5 = new ArrayList<>(List.of("A"));
+        Question question5 = new QuestionMultipleChoices(questionText5, correctAnswers5, answers5);
+        questionsDAO.addQuestion(question5, QUIZZES_ID[0]);
+
+        //multiple choices with multiple answers
+        String questionText6 = "First two letter?";
+        ArrayList<String> answers6 = new ArrayList<>(Arrays.asList("B", "A", "C"));
+        ArrayList<String> correctAnswers6 = new ArrayList<>(Arrays.asList("B", "A"));
+        Question question6 = new QuestionMultipleChoicesWithMultipleAnswers(questionText6, correctAnswers6, answers6);
+        questionsDAO.addQuestion(question6, QUIZZES_ID[0]);
+
+        //picture response
+        String questionText7 = "Flag belongs to";
+        String pictureURL = "https://cdn.britannica.com/17/4717-004-6F48198E/Flag-Republic-of-Georgia.jpg";
+        ArrayList<String> answers7 = new ArrayList<>(Arrays.asList("Georgia", "geo"));
+        Question question7 = new QuestionPictureResponse(questionText7, pictureURL, answers7);
+        questionsDAO.addQuestion(question7, QUIZZES_ID[0]);
+
+        ArrayList<Question> questions = questionsDAO.getQuestions(QUIZZES_ID[0]);
+        assertEquals(7, questions.size());
+
+        QuestionTextResponse resultQuestion1 = (QuestionTextResponse) questions.get(0);
+        assertEquals(QuestionTypes.textResponse, resultQuestion1.getType());
+        assertEquals(questionText1, resultQuestion1.getQuestionText());
+        assertEquals(answers1, resultQuestion1.getAnswers());
+
+        QuestionFillInTheBlank resultQuestion2 = (QuestionFillInTheBlank) questions.get(1);
+        assertEquals(QuestionTypes.fillInTheBlank, resultQuestion2.getType());
+        assertEquals(questionText2, resultQuestion2.getQuestionText());
+        assertEquals(questionTextSecond2, resultQuestion2.getQuestionText2());
+        assertEquals(answers2, resultQuestion2.getAnswers());
+
+        QuestionMatching resultQuestion3 = (QuestionMatching) questions.get(2);
+        assertEquals(QuestionTypes.matching, resultQuestion3.getType());
+        assertEquals(questionText3, resultQuestion3.getQuestionText());
+        assertEquals(answers3, resultQuestion3.getMatches());
+
+        QuestionMultiAnswers resultQuestion4 = (QuestionMultiAnswers) questions.get(3);
+        assertEquals(QuestionTypes.multiAnswers, resultQuestion4.getType());
+        assertEquals(questionText4, resultQuestion4.getQuestionText());
+        assertEquals(answers4, resultQuestion4.getAnswers());
+
+        QuestionMultipleChoices resultQuestion5 = (QuestionMultipleChoices) questions.get(4);
+        assertEquals(QuestionTypes.multipleChoices, resultQuestion5.getType());
+        assertEquals(questionText5, resultQuestion5.getQuestionText());
+        assertEquals(correctAnswers5, resultQuestion5.getAnswers());
+        Collections.sort(answers5);
+        ArrayList<String> resultAllAnswers5 = resultQuestion5.getAllAnswers();
+        Collections.sort(resultAllAnswers5);
+        assertEquals(answers5, resultAllAnswers5);
+
+        QuestionMultipleChoicesWithMultipleAnswers resultQuestion6 = (QuestionMultipleChoicesWithMultipleAnswers) questions.get(5);
+        assertEquals(QuestionTypes.multipleChoicesWithMultipleAnswers, resultQuestion6.getType());
+        assertEquals(questionText6, resultQuestion6.getQuestionText());
+        Collections.sort(correctAnswers6);
+        ArrayList<String> resulCorrectAnswers6 = resultQuestion6.getAnswers();
+        Collections.sort(resulCorrectAnswers6);
+        assertEquals(correctAnswers6, resulCorrectAnswers6);
+        Collections.sort(answers6);
+        ArrayList<String> resultAllAnswers6 = resultQuestion6.getAllAnswers();
+        Collections.sort(resultAllAnswers6);
+        assertEquals(answers6, resultAllAnswers6);
+
+        QuestionPictureResponse resultQuestion7 = (QuestionPictureResponse) questions.get(6);
+        assertEquals(QuestionTypes.pictureResponse, resultQuestion7.getType());
+        assertEquals(questionText7, resultQuestion7.getQuestionText());
+        assertEquals(pictureURL, resultQuestion7.getPictureUrl());
+        assertEquals(answers7, resultQuestion7.getAnswers());
+
+    }
+
+    @AfterEach
+    public void finishUnitTest() {
+        DataSource.clearTables(dataSource, new String[]{TABLE_NAMES[0]});
+    }
+
+    @AfterAll
+    public static void finish() {
+        DataSource.clearTables(dataSource, TABLE_NAMES);
+    }
+}
