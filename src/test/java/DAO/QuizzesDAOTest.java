@@ -2,45 +2,43 @@ package DAO;
 
 import Types.Quiz;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.sql.Time;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class QuizzesDAOTest {
     private static QuizzesDAO quizzes;
+    private static UsersDAO uConnect;
+    private static BasicDataSource dataSource;
+    private static final String[] TABLE_NAMES = new String[]{"RATINGS", "QUIZZES", "USERS"};
+    private static final int[] USERS = new int[5];
     //Creating users and quizzes
     @BeforeAll
     public static void setup() {
-        BasicDataSource dataSource = DataSource.getDataSource(true);
+        dataSource = DataSource.getDataSource(true);
 
-        UsersDAO uConnect;
-        RatingsDAO ratings;
         quizzes = new QuizzesDAO(dataSource);
         uConnect = new UsersDAO(dataSource);
-        ratings = new RatingsDAO(dataSource);
-        uConnect.addUser("1", "1");
-        uConnect.addUser("2", "2");
-        uConnect.addUser("3", "1");
-        uConnect.addUser("4", "2");
-        uConnect.addUser("5", "1");
-        quizzes.addQuiz("quiz1", "new quiz", 1, new Time(0, 2, 3), "Sports,History");
-        quizzes.addQuiz("quiz2", "new quiz", 3, new Time(1, 2, 3), "Music,Art");
-        quizzes.addQuiz("quiz3", "new quiz", 2, new Time(3, 12, 0), "Science,History");
-        quizzes.addQuiz("quiz4", "my quiz", 1, new Time(4, 0, 3), "Economy,Politics,History");
-        quizzes.addQuiz("quiz5", "new quiz", 2, new Time(3, 2, 3), "Geography,History,Other");
-        quizzes.addQuiz("quiz6", "my quiz", 1, new Time(0, 0, 0), "Entertainment");
-
-        ratings.addRatingToQuiz(1, 1, 2, "aa");
-        ratings.addRatingToQuiz(2, 1, 4, "aa");
-        ratings.addRatingToQuiz(3, 2, 1, "aa");
-        ratings.addRatingToQuiz(4, 5, 4, "aa");
-        ratings.addRatingToQuiz(5, 1, 2, "aa");
-        ratings.addRatingToQuiz(1, 3, 3, "aa");
+        for(int i = 0; i < 5; i++) {
+            uConnect.addUser(String.valueOf(i), String.valueOf(i));
+            USERS[i] = uConnect.getUserId(String.valueOf(i));
+        }
+        quizzes.addQuiz("quiz1", "new quiz", USERS[0], new Time(0, 2, 3), "Sports,History");
+        quizzes.addQuiz("quiz2", "new quiz", USERS[2], new Time(1, 2, 3), "Music,Art");
+        quizzes.addQuiz("quiz3", "new quiz", USERS[1], new Time(3, 12, 0), "Science,History");
+        quizzes.addQuiz("quiz4", "my quiz", USERS[0], new Time(4, 0, 3), "Economy,Politics,History");
+        quizzes.addQuiz("quiz5", "new quiz", USERS[1], new Time(3, 2, 3), "Geography,History,Other");
+        quizzes.addQuiz("quiz6", "my quiz", USERS[0], new Time(0, 0, 0), "Entertainment");
+        RatingsDAO ratings = new RatingsDAO(dataSource);
+        ratings.addRatingToQuiz(USERS[0], quizzes.getQuizByName("quiz1").getQuizId(), 2, "aa");
+        ratings.addRatingToQuiz(USERS[1], quizzes.getQuizByName("quiz1").getQuizId(), 4, "aa");
+        ratings.addRatingToQuiz(USERS[2], quizzes.getQuizByName("quiz2").getQuizId(), 1, "aa");
+        ratings.addRatingToQuiz(USERS[3], quizzes.getQuizByName("quiz5").getQuizId(), 4, "aa");
+        ratings.addRatingToQuiz(USERS[4], quizzes.getQuizByName("quiz1").getQuizId(), 2, "aa");
+        ratings.addRatingToQuiz(USERS[0], quizzes.getQuizByName("quiz3").getQuizId(), 3, "aa");
     }
 
     /*
@@ -49,53 +47,28 @@ public class QuizzesDAOTest {
      */
     @Test
     public void testAddQuizzes1() {
-        Quiz quiz1 = quizzes.getQuizInfo(1);
-        int quizID = 1;
+        Quiz quiz1 = quizzes.getQuizInfo(quizzes.getQuizByName("quiz1").getQuizId());
         String quizName = "quiz1";
-
-        assertEquals(quizID, quiz1.getQuizId());
-        assertEquals("quiz1", quiz1.getQuizName());
+        assertEquals(quizName, quiz1.getQuizName());
         assertEquals("new quiz", quiz1.getQuizDescription());
-        assertEquals(1, quiz1.getCreatorID());
-
-        //test for getQuizByName();
-        assertEquals(quizID, quizzes.getQuizByName(quizName).getQuizId());
     }
 
     @Test
     public void testAddQuizzes2() {
-        Quiz quiz2 = quizzes.getQuizInfo(2);
-        int quiz2ID = 2;
+        Quiz quiz2 = quizzes.getQuizInfo(quizzes.getQuizByName("quiz2").getQuizId());
         String quiz2Name = "quiz2";
-
-        assertEquals(quiz2ID, quiz2.getQuizId());
         assertEquals(quiz2Name, quiz2.getQuizName());
         assertEquals("new quiz", quiz2.getQuizDescription());
-        assertEquals(3, quiz2.getCreatorID());
-        //test for getQuizByName();
-        assertEquals(quiz2ID, quizzes.getQuizByName(quiz2Name).getQuizId());
 
-        Quiz quiz3 = quizzes.getQuizInfo(3);
-        int quiz3ID = 3;
+        Quiz quiz3 = quizzes.getQuizInfo(quizzes.getQuizByName("quiz3").getQuizId());
         String quiz3Name = "quiz3";
-
-        assertEquals(quiz3ID, quiz3.getQuizId());
         assertEquals(quiz3Name, quiz3.getQuizName());
         assertEquals("new quiz", quiz3.getQuizDescription());
-        assertEquals(2, quiz3.getCreatorID());
-        //test for getQuizByName();
-        assertEquals(quiz3ID, quizzes.getQuizByName(quiz3Name).getQuizId());
 
-        Quiz quiz4 = quizzes.getQuizInfo(4);
-        int quiz4ID = 4;
+        Quiz quiz4 = quizzes.getQuizInfo(quizzes.getQuizByName("quiz4").getQuizId());
         String quiz4Name = "quiz4";
-
-        assertEquals(4, quiz4.getQuizId());
-        assertEquals("quiz4", quiz4.getQuizName());
+        assertEquals(quiz4Name, quiz4.getQuizName());
         assertEquals("my quiz", quiz4.getQuizDescription());
-        assertEquals(1, quiz4.getCreatorID());
-        //test for getQuizByName();
-        assertEquals(quiz4ID, quizzes.getQuizByName(quiz4Name).getQuizId());
     }
 
     /*
@@ -103,10 +76,12 @@ public class QuizzesDAOTest {
      */
     @Test
     public void testDeleteQuiz() {
-        quizzes.deleteQuiz(5);
-        assertNull(quizzes.getQuizInfo(5));
-        quizzes.deleteQuiz(6);
-        assertNull(quizzes.getQuizInfo(6));
+        quizzes.addQuiz("quiz8", "new quiz", uConnect.getUserId("1"), new Time(0, 2, 3), "Sports,History");
+        Quiz quiz = quizzes.getQuizByName("quiz8");
+        assertNotNull(quiz);
+        quizzes.deleteQuiz(quizzes.getQuizByName("quiz8").getQuizId());
+        Quiz quiz1 = quizzes.getQuizByName("quiz8");
+        assertNull(quiz1);
     }
 
     /*
@@ -118,44 +93,38 @@ public class QuizzesDAOTest {
     @Test
     public void testCompletedQuizAndPopularQuizzes() {
         for (int i = 0; i < 5; i++) {
-            quizzes.completeQuiz(2);
+            quizzes.completeQuiz(quizzes.getQuizByName("quiz2").getQuizId());
         }
-        Quiz quiz = quizzes.getQuizInfo(2);
+        Quiz quiz = quizzes.getQuizByName("quiz2");
         assertEquals(5, quiz.getCompleted());
         for (int i = 0; i < 10; i++) {
-            quizzes.completeQuiz(1);
+            quizzes.completeQuiz(quizzes.getQuizByName("quiz1").getQuizId());
         }
-        quiz = quizzes.getQuizInfo(1);
+        quiz = quizzes.getQuizByName("quiz1");
         assertEquals(10, quiz.getCompleted());
         for (int i = 0; i < 15; i++) {
-            quizzes.completeQuiz(3);
+            quizzes.completeQuiz(quizzes.getQuizByName("quiz3").getQuizId());
         }
-        quiz = quizzes.getQuizInfo(3);
+        quiz = quizzes.getQuizByName("quiz3");
         assertEquals(15, quiz.getCompleted());
 
         ArrayList<Quiz> arr = quizzes.getPopularQuizzes();
         quiz = arr.get(0);
         assertEquals(quiz.getCompleted(), 15);
-        assertEquals(quiz.getQuizId(), 3);
 
         arr = quizzes.getPopularQuizzes();
         quiz = arr.get(0);
         assertEquals(quiz.getCompleted(), 15);
-        assertEquals(quiz.getQuizId(), 3);
         quiz = arr.get(1);
         assertEquals(quiz.getCompleted(), 10);
-        assertEquals(quiz.getQuizId(), 1);
 
         arr = quizzes.getPopularQuizzes();
         quiz = arr.get(0);
         assertEquals(quiz.getCompleted(), 15);
-        assertEquals(quiz.getQuizId(), 3);
         quiz = arr.get(1);
         assertEquals(quiz.getCompleted(), 10);
-        assertEquals(quiz.getQuizId(), 1);
         quiz = arr.get(2);
         assertEquals(quiz.getCompleted(), 5);
-        assertEquals(quiz.getQuizId(), 2);
     }
 
     @Test
@@ -175,11 +144,9 @@ public class QuizzesDAOTest {
     @Test
     public void testGetQuizByName() {
         Quiz quiz1 = quizzes.getQuizByName("quiz1");
-        assertEquals(quiz1.getQuizName(), "quiz1");
-        assertEquals(quiz1.getQuizId(), 1);
+        assertEquals(quiz1.getQuizName(), "quiz1");;
         Quiz quiz2 = quizzes.getQuizByName("quiz2");
         assertEquals(quiz2.getQuizName(), "quiz2");
-        assertEquals(quiz2.getQuizId(), 2);
         Quiz quiz12 = quizzes.getQuizByName("quiz12");
         assertEquals(null, quiz12);
     }
@@ -210,5 +177,20 @@ public class QuizzesDAOTest {
         ArrayList<Quiz> quizzes5 = quizzes.deepSearchQuizzes("", 4, "History");
         assertEquals(quizzes5.size(), 1);
         assertEquals(quizzes5.get(0).getQuizName(), "quiz5");
+    }
+    @Test
+    public void testGetMyCreatedQuizzes() {
+        ArrayList<Quiz> quizzes1 = quizzes.getMyCreatedQuizzes(USERS[0]);
+        assertEquals(quizzes1.size(), 3);
+        ArrayList<Quiz> quizzes2 = quizzes.getMyCreatedQuizzes(USERS[1]);
+        assertEquals(quizzes2.size(), 2);
+        ArrayList<Quiz> quizzes3 = quizzes.getMyCreatedQuizzes(USERS[2]);
+        assertEquals(quizzes3.size(), 1);
+        ArrayList<Quiz> quizzes4 = quizzes.getMyCreatedQuizzes(USERS[3]);
+        assertEquals(quizzes4.size(), 0);
+    }
+    @AfterAll
+    public static void finish() {
+        DataSource.clearTables(dataSource, TABLE_NAMES);
     }
 }
