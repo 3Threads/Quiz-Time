@@ -1,10 +1,6 @@
 package DAO;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.*;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -30,21 +26,31 @@ public class DataSource {
         dataSource.setUsername(username);
         dataSource.setPassword(password);
 
-        if (isForTesting) {
-            createAgain(dataSource);
-        }
         return dataSource;
     }
 
-    private static void createAgain(BasicDataSource dataSource) {
+    public static void clearTables(BasicDataSource dataSource, String[] tableNames){
+        Connection connection = null;
         try {
-            String s = System.getProperty("user.dir") + "/src/main/java/SqlScripts/SqlScriptTEST.sql";
-            String query = Files.readString(Path.of(s));
-            Connection connect = dataSource.getConnection();
-            Statement stmt = connect.createStatement();
-            stmt.execute(query);
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+            StringBuilder query = new StringBuilder();
+            connection = dataSource.getConnection();
+            query.append("DELETE FROM ?; ".repeat(tableNames.length));
+            PreparedStatement statement = connection.prepareStatement(String.valueOf(query));
+            for (int i = 0; i < tableNames.length; i++) {
+                statement.setString(i + 1, tableNames[i]);
+            }
+            statement.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

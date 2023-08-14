@@ -1,6 +1,7 @@
 package DAO;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -52,4 +53,5 @@ public class UsersDAOTest {
         assertTrue(connect.checkUser("31", "31"));
         assertTrue(connect.checkUser("32", "32"));
     }
+
 }

@@ -2,9 +2,11 @@ package DAO;
 
 import Types.Announcement;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,21 +14,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class AnnouncementsDAOTest {
 
     private static AnnouncementsDAO announcementsDAO;
+    private static BasicDataSource dataSource;
+    private static final String[] tableNames = new String[]{"USERS", "ANNOUNCEMENTS"};
 
     @BeforeAll
     public static void setup() {
-        BasicDataSource dataSource = DataSource.getDataSource(true);
+        dataSource = DataSource.getDataSource(true);
 
-        UsersDAO uConnect;
         announcementsDAO = new AnnouncementsDAO(dataSource);
-        uConnect = new UsersDAO(dataSource);
+        UsersDAO usersDAO = new UsersDAO(dataSource);
 
-        uConnect.addUser("ADMIN1", "ADMIN");
-        uConnect.addUser("ADMIN2", "ADMIN");
-        uConnect.addUser("ADMIN3", "ADMIN");
-        uConnect.getAdminToUser(1);
-        uConnect.getAdminToUser(2);
-        uConnect.getAdminToUser(3);
+        usersDAO.addUser("ADMIN1", "ADMIN");
+        usersDAO.addUser("ADMIN2", "ADMIN");
+        usersDAO.addUser("ADMIN3", "ADMIN");
+        usersDAO.getAdminToUser(1);
+        usersDAO.getAdminToUser(2);
+        usersDAO.getAdminToUser(3);
     }
 
     @Test
@@ -41,6 +44,7 @@ class AnnouncementsDAOTest {
             assertEquals("body" + i, announcements.get(i).getBody());
             assertEquals(i + 1, announcements.get(i).getWriterId());
         }
+
     }
 
     @Test
@@ -56,5 +60,10 @@ class AnnouncementsDAOTest {
 
     @Test
     void searchAnnouncement() {
+    }
+
+    @AfterAll
+    public static void finish() throws SQLException {
+        DataSource.clearTables(dataSource, tableNames);
     }
 }
