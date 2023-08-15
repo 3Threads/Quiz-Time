@@ -19,8 +19,8 @@ public class ResultsDAOTest {
     private static final String[] TABLE_NAMES = new String[]{"COMPLETED_QUIZZES", "USERS", "QUIZZES", "FRIENDS"};
     private static final int USERS_NUM = 5;
     private static final int[] USERS_ID = new int[USERS_NUM];
-    private static final int QUIZ_NUM = 6;
-    private static final int[] QUIZ_ID = new int[QUIZ_NUM];
+    private static final int QUIZZES_NUM = 6;
+    private static final int[] QUIZ_ID = new int[QUIZZES_NUM];
 
     /*
         Creating users and quizzes
