@@ -37,14 +37,6 @@ public class ChallengesDAOTest {
             quizzesDAO.addQuiz("QUIZ" + i, "new quiz", USERS_ID[0], null, "Sports");
             QUIZZES_ID[i - 1] = quizzesDAO.getQuizByName("QUIZ" + i).getQuizId();
         }
-
-
-//        challengesDao.sendChallenge(1, 2, 4);
-//        challengesDao.sendChallenge(2, 3, 5);
-//        challengesDao.sendChallenge(3, 4, 6);
-//        challengesDao.sendChallenge(4, 1, 1);
-//        challengesDao.sendChallenge(3, 2, 2);
-//        challengesDao.sendChallenge(1, 3, 3);
     }
 
     /*
@@ -71,6 +63,9 @@ public class ChallengesDAOTest {
         assertEquals(QUIZZES_ID[2], challengesDao.getChallenges(USERS_ID[3]).get(2).getQuizId());
     }
 
+    /*
+        Checks alreadyChallenged function
+    */
     @Test
     public void testHaveChallenged() {
         challengesDao.sendChallenge(USERS_ID[4], USERS_ID[1], QUIZZES_ID[3]);
@@ -83,6 +78,9 @@ public class ChallengesDAOTest {
         assertTrue(challengesDao.alreadyChallenged(USERS_ID[0], USERS_ID[2], QUIZZES_ID[0]));
     }
 
+    /*
+        Checks Removing challenges
+    */
     @Test
     public void testRemoveChallenge() {
         challengesDao.sendChallenge(USERS_ID[4], USERS_ID[1], QUIZZES_ID[3]);
