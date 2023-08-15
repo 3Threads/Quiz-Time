@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.*;
 
 public class QuestionTypesTest {
 
@@ -24,12 +23,13 @@ public class QuestionTypesTest {
         assertQuestionResponse(q2Text, answers2, generatedAnswers2);
     }
 
-    private void assertQuestionResponse(String q1Text, ArrayList<String> answers1, String generatedAnswers1) {
-        Question q1 = new QuestionTextResponse(q1Text, answers1);
-        assertEquals(q1Text, q1.getQuestionText());
-        assertEquals(q1Text, q1.generateQuestionText());
-        assertEquals(generatedAnswers1, q1.generateAnswers());
-        assertEquals(answers1, q1.getAnswers());
+    private void assertQuestionResponse(String qText, ArrayList<String> answers, String generatedAnswers) {
+        Question q = new QuestionTextResponse(qText, answers);
+        assertTrue(q.checkAnswer(answers));
+        assertEquals(qText, q.getQuestionText());
+        assertEquals(qText, q.generateQuestionText());
+        assertEquals(generatedAnswers, q.generateAnswers());
+        assertEquals(answers, q.getAnswers());
     }
 
     @Test
@@ -59,10 +59,11 @@ public class QuestionTypesTest {
         assertEquals(generatedQuestions2, q2.generateQuestionText());
         assertEquals(generatedAnswers2, q2.generateAnswers());
         assertEquals(answers2, q2.getAnswers());
+        assertTrue(q2.checkAnswer(answers2));
     }
 
     @Test
-    public void testsMultipleChoice() {
+    public void testsQuestionPictureResponse() {
         String q1Text = "What is on the photo?";
         String url1 = "https://tinyurl.com/doggo123321";
         ArrayList<String> answers1 = new ArrayList<>(List.of(new String[]{"Dog", "dog", "dzagli", "ძაღლი"}));
@@ -75,6 +76,7 @@ public class QuestionTypesTest {
         assertEquals(generatedAnswers1, q1.generateAnswers());
         assertEquals(answers1, q1.getAnswers());
         assertEquals(url1, ((QuestionPictureResponse) q1).getPictureUrl());
+        assertTrue(q1.checkAnswer(answers1));
     }
 
     @Test
@@ -90,25 +92,26 @@ public class QuestionTypesTest {
         assertEquals(generatedAnswers1, q1.generateAnswers());
         assertEquals(answers1, q1.getAnswers());
         assertFalse(answersFalse1.equals(q1.getAnswers()));
+        assertTrue(q1.checkAnswer(answers1));
     }
 
-//    @Test
-//    public void testMultipleChoice() {
-//        String q1Text = "Is Lasha meloti?";
-//        ArrayList<String> allAnswers1 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "no"}));
-//        ArrayList<String> correctAnswers1 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately"}));
-//        String generatedAnswers1 = "yes" + (char) 0 + "unfortunately" + (char) 0 + (char) 0 + "no" + (char) 0;
-//
-//        assertMultipleChoice(q1Text, allAnswers1, correctAnswers1, generatedAnswers1);
-//
-//
-//        String q2Text = "Is Lasha meloti?";
-//        ArrayList<String> allAnswers2 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "no", "Yes", "YES", "Unfortunately", "NO"}));
-//        ArrayList<String> correctAnswers2 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "Yes", "YES", "Unfortunately"}));
-//        String generatedAnswers2 = "yes" + (char) 0 + "unfortunately" + (char) 0 + "Yes" + (char) 0 + "YES" + (char) 0 + "Unfortunately" + (char) 0 + (char) 0 + "no" + (char) 0 + "NO" + (char) 0;
-//
-//        assertMultipleChoice(q2Text, allAnswers2, correctAnswers2, generatedAnswers2);
-//    }
+    @Test
+    public void testMultipleChoice() {
+        String q1Text = "Is Lasha meloti?";
+        ArrayList<String> allAnswers1 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "no"}));
+        ArrayList<String> correctAnswers1 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately"}));
+        String generatedAnswers1 = "yes" + (char) 0 + "unfortunately" + (char) 0 + (char) 0 + "no" + (char) 0;
+
+        assertMultipleChoice(q1Text, allAnswers1, correctAnswers1, generatedAnswers1);
+
+
+        String q2Text = "Is Lasha meloti?";
+        ArrayList<String> allAnswers2 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "no", "Yes", "YES", "Unfortunately"}));
+        ArrayList<String> correctAnswers2 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "Yes", "YES", "Unfortunately"}));
+        String generatedAnswers2 = "yes" + (char) 0 + "unfortunately" + (char) 0 + "Yes" + (char) 0 + "YES" + (char) 0 + "Unfortunately" + (char) 0 + (char) 0 + "no"  + (char) 0;
+
+        assertMultipleChoice(q2Text, allAnswers2, correctAnswers2, generatedAnswers2);
+    }
 
     private void assertMultipleChoice(String q1Text, ArrayList<String> allAnswers1, ArrayList<String> correctAnswers1, String generatedAnswers1) {
         Question q1 = new QuestionMultipleChoices(q1Text, correctAnswers1, allAnswers1);
@@ -116,12 +119,14 @@ public class QuestionTypesTest {
         assertEquals(q1Text, q1.generateQuestionText());
         assertEquals(generatedAnswers1, q1.generateAnswers());
         assertEquals(correctAnswers1, q1.getAnswers());
+        assertTrue(q1.checkAnswer(correctAnswers1));
     }
 
     @Test
     public void testMatching() {
         String qText = "Connect names with correct last names:";
         Map<String, String> answers = new HashMap<>();
+        ArrayList<String> answers2 = new ArrayList<>();
         String q1 = "niko";
         String a1 = "khetsuriani";
         String q2 = "akaki";
