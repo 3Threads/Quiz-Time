@@ -126,7 +126,6 @@ public class QuestionTypesTest {
     public void testMatching() {
         String qText = "Connect names with correct last names:";
         Map<String, String> answers = new HashMap<>();
-        ArrayList<String> answers2 = new ArrayList<>();
         String q1 = "niko";
         String a1 = "khetsuriani";
         String q2 = "akaki";
