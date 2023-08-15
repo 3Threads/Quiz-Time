@@ -31,7 +31,6 @@ public abstract class QuestionAbstract implements Question, Serializable {
 
     @Override
     public String generateAnswers() {
-        ListToString lts = new ListToString();
-        return lts.generateString(answers);
+        return ListToString.generateString(answers);
     }
 }

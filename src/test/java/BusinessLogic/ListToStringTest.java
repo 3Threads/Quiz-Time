@@ -1,6 +1,5 @@
 package BusinessLogic;
 
-import BusinessLogic.ListToString;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -36,8 +35,7 @@ public class ListToStringTest {
     private void check(String[] questions) {
         ArrayList<String> qList = new ArrayList<>(Arrays.asList(questions));
 
-        ListToString lst = new ListToString();
-        String res = lst.generateString(qList);
+        String res = ListToString.generateString(qList);
 
         ArrayList<String> answ = new ArrayList<>();
         int num = 0;

@@ -41,8 +41,7 @@ public class QuestionMatching extends QuestionAbstract {
     @Override
     public String generateAnswers() {
         ArrayList<String> arr = getAnswers();
-        ListToString lts = new ListToString();
-        return lts.generateString(arr);
+        return ListToString.generateString(arr);
     }
 
     @Override
