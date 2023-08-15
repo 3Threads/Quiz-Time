@@ -7,8 +7,9 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("deprecation")
 public class TypesTest {
 
     @Test
@@ -37,23 +38,23 @@ public class TypesTest {
         assertEquals(1, user1.getId());
         assertEquals(50, user1.getScore());
         assertEquals("niko", user1.getUsername());
-        assertEquals(false, user1.isAdmin());
+        assertFalse(user1.isAdmin());
 
         User user2 = new User(2, 100, "akaki", 1);
 
         assertEquals(2, user2.getId());
         assertEquals(100, user2.getScore());
         assertEquals("akaki", user2.getUsername());
-        assertEquals(true, user2.isAdmin());
+        assertTrue(user2.isAdmin());
     }
 
     @Test
     public void testResultType() {
         Date date1 = new Date(2023, 7, 22);
-        Result res1 = new Result(1, 01, 10, 12L, date1);
+        Result res1 = new Result(1, 1, 10, 12L, date1);
 
         assertEquals(1, res1.getUserId());
-        assertEquals(01, res1.getQuizId());
+        assertEquals(1, res1.getQuizId());
         assertEquals(10, res1.getScore());
         assertEquals(12L, res1.getSpentTime());
         assertEquals(date1, res1.getWrittenDate());
