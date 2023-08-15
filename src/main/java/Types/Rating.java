@@ -2,7 +2,7 @@ package Types;
 
 import java.sql.Date;
 
-public class Rating implements Comparable<Rating> {
+public class Rating {
     private final int userId;
     private final int rating;
     private final String comment;
@@ -29,11 +29,6 @@ public class Rating implements Comparable<Rating> {
 
     public Date getRatingsDate() {
         return ratingsDate;
-    }
-
-    @Override
-    public int compareTo(Rating other) {
-        return this.ratingsDate.compareTo(other.ratingsDate);
     }
 
 }
