@@ -203,6 +203,7 @@ a {
     font-size: 15px;
     white-space: nowrap;
 }
+
 @media screen and (min-width: 992px) {
     .header {
         height: 80px;
@@ -216,7 +217,7 @@ a {
     .card-middle {
         font-size: 15px;
         height: 111.5px;
-        margin:0;
+        margin: 0;
         padding-left: 16px;
         padding-right: 9px;
         padding-top: 18px;
@@ -226,9 +227,10 @@ a {
 
 
 }
-    .card-bottom {
-        height: 60px;
-    }
+
+.card-bottom {
+    height: 60px;
+}
 
 @media screen and (max-width: 991px) {
     .header {
@@ -250,8 +252,8 @@ a {
 
     .card-middle {
         font-size: 10px;
-        height: 103.5px;
-        margin:0;
+        height: 107.5px;
+        margin: 0;
         padding-left: 9px;
         padding-right: 9px;
         padding-top: 18px;

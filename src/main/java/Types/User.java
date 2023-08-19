@@ -25,5 +25,8 @@ public class User {
     public boolean isAdmin() {
         return status != 0;
     }
-    public int getScore() {return score;}
+
+    public int getScore() {
+        return score;
+    }
 }

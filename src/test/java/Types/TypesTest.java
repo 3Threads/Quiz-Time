@@ -3,9 +3,13 @@ package Types;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("deprecation")
 public class TypesTest {
 
     @Test
@@ -32,21 +36,25 @@ public class TypesTest {
         User user1 = new User(1, 50, "niko", 0);
 
         assertEquals(1, user1.getId());
+        assertEquals(50, user1.getScore());
         assertEquals("niko", user1.getUsername());
+        assertFalse(user1.isAdmin());
 
-        User user2 = new User(2, 100, "akaki", 0);
+        User user2 = new User(2, 100, "akaki", 1);
 
         assertEquals(2, user2.getId());
+        assertEquals(100, user2.getScore());
         assertEquals("akaki", user2.getUsername());
+        assertTrue(user2.isAdmin());
     }
 
     @Test
     public void testResultType() {
         Date date1 = new Date(2023, 7, 22);
-        Result res1 = new Result(1, 01, 10, 12L, date1);
+        Result res1 = new Result(1, 1, 10, 12L, date1);
 
         assertEquals(1, res1.getUserId());
-        assertEquals(01, res1.getQuizId());
+        assertEquals(1, res1.getQuizId());
         assertEquals(10, res1.getScore());
         assertEquals(12L, res1.getSpentTime());
         assertEquals(date1, res1.getWrittenDate());
@@ -103,19 +111,55 @@ public class TypesTest {
 
     @Test
     public void testQuizType() {
+        Time qz1TimeLimit = new Time(1, 20, 20);
         int qz1ID = 1000;
         String qz1Name = "IQ TEST";
         String qz1Desc = "IT IS HARD ONE";
         Date qz1Date = new Date(2000, 10, 9);
         int qz1CreatorID = 12345;
         int qz1Completed = 21;
+        ArrayList<String> qz1Categories = new ArrayList<>(List.of(new String[]{"Sports"}));
 
-        Quiz qz1 = new Quiz(null, qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Completed,"");
+        Quiz qz1 = new Quiz(qz1TimeLimit, qz1ID, qz1Name, qz1Desc, qz1Date, qz1CreatorID, qz1Completed, "Sports");
 
+        assertEquals(qz1TimeLimit, qz1.getTimeLimit());
         assertEquals(qz1ID, qz1.getQuizId());
         assertEquals(qz1Name, qz1.getQuizName());
         assertEquals(qz1Desc, qz1.getQuizDescription());
         assertEquals(qz1Date, qz1.getCreationTime());
         assertEquals(qz1CreatorID, qz1.getCreatorID());
+        assertEquals(qz1Categories, qz1.getCategories());
+    }
+
+    @Test
+    public void testAnnouncementType(){
+        int id = 10;
+        String title = "NEW QUIZ ANNOUNCED";
+        String body = "Some description";
+        int writerId = 25;
+        Date writeTime = new Date(2023, 4, 17);
+
+        Announcement announcement = new Announcement(id, title, body, writerId, writeTime);
+
+        assertEquals(id, announcement.getId());
+        assertEquals(title, announcement.getTitle());
+        assertEquals(body, announcement.getBody());
+        assertEquals(writerId, announcement.getWriterId());
+        assertEquals(writeTime, announcement.getWriteTime());
+    }
+
+    @Test
+    public void testRating(){
+        int userId = 10;
+        int rate = 300;
+        String comment = "GOOD QUIZ";
+        Date ratingsDate = new Date(2023, 5,20);
+
+        Rating rating = new Rating(userId, rate, comment, ratingsDate);
+
+        assertEquals(userId, rating.getUserId());
+        assertEquals(rate, rating.getRating());
+        assertEquals(comment, rating.getComment());
+        assertEquals(ratingsDate, rating.getRatingsDate());
     }
 }

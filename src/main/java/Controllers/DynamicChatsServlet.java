@@ -39,7 +39,8 @@ public class DynamicChatsServlet extends HttpServlet {
             User myFriend = usersDAO.getUserById(interactors.get(i));
             if (i != interactors.size() - 1) {
                 out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getScore()) + "/" + myFriend.getUsername() + "$");
-            } else out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getScore()) + "/" + myFriend.getUsername());
+            } else
+                out.println(myFriend.getId() + "/" + RankingSystem.countRank(myFriend.getScore()) + "/" + myFriend.getUsername());
         }
     }
 }

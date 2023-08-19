@@ -100,7 +100,7 @@ public class QuizzesDAO {
         return null;
     }
 
-    public ArrayList<Quiz> getMyCreatedQuizzes(int id){
+    public ArrayList<Quiz> getMyCreatedQuizzes(int id) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
@@ -211,6 +211,7 @@ public class QuizzesDAO {
         }
         return null;
     }
+
     public boolean checkQuizName(String quizName) {
         Connection connect = null;
         try {
@@ -219,8 +220,7 @@ public class QuizzesDAO {
             PreparedStatement statement = connect.prepareStatement(getQuiz);
             statement.setString(1, quizName);
             ArrayList<Quiz> quizzes = getQuizzes(statement);
-            if (quizzes.isEmpty()) return true;
-            else return false;
+            return quizzes.isEmpty();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -234,14 +234,15 @@ public class QuizzesDAO {
         }
         return false;
     }
+
     public ArrayList<Quiz> searchQuizzes(String searchString) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
             String getQuiz = "SELECT * FROM QUIZZES WHERE QUIZ_NAME LIKE ? OR (SELECT USERNAME FROM USERS WHERE ID = CREATOR_ID) LIKE ?;";
             PreparedStatement statement = connect.prepareStatement(getQuiz);
-            statement.setString(1, "%"+searchString+"%");
-            statement.setString(2, "%"+searchString+"%");
+            statement.setString(1, "%" + searchString + "%");
+            statement.setString(2, "%" + searchString + "%");
             return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -256,15 +257,16 @@ public class QuizzesDAO {
         }
         return null;
     }
+
     public ArrayList<Quiz> deepSearchQuizzes(String name, int minRate, String category) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
             String getQuiz = "SELECT * FROM QUIZZES Q WHERE Q.QUIZ_NAME LIKE ? AND (SELECT IFNULL(FLOOR(AVG(RATING)),0) FROM RATINGS R WHERE R.QUIZ_ID = Q.ID) >= ? AND CATEGORIES LIKE ?";
             PreparedStatement statement = connect.prepareStatement(getQuiz);
-            statement.setString(1, "%"+name+"%");
+            statement.setString(1, "%" + name + "%");
             statement.setInt(2, minRate);
-            statement.setString(3, "%"+category+"%");
+            statement.setString(3, "%" + category + "%");
             return getQuizzes(statement);
         } catch (SQLException e) {
             e.printStackTrace();

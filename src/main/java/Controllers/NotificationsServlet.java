@@ -35,10 +35,10 @@ public class NotificationsServlet extends HttpServlet {
             User challUserInfo = usersDAO.getUserById(challenge.getUserId());
             if (i != challenges.size() - 1) {
                 out.println(challUserInfo.getId() + "|" + challUserInfo.getUsername() + "|" + challenge.getQuizId() + "|" + quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName()
-                        +"|"+ RankingSystem.countRank(challUserInfo.getScore()) + "/");
+                        + "|" + RankingSystem.countRank(challUserInfo.getScore()) + "/");
             } else
                 out.println(challUserInfo.getId() + "|" + challUserInfo.getUsername() + "|" + challenge.getQuizId() + "|" + quizzesDAO.getQuizInfo(challenge.getQuizId()).getQuizName() +
-                        "|"+ RankingSystem.countRank(challUserInfo.getScore()));
+                        "|" + RankingSystem.countRank(challUserInfo.getScore()));
         }
         out.println('$');
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
@@ -48,8 +48,9 @@ public class NotificationsServlet extends HttpServlet {
             for (int id : notSeen.keySet()) {
                 User chatUser = usersDAO.getUserById(id);
                 if (x != notSeen.keySet().size() - 1) {
-                    out.println(chatUser.getId() + "|" + chatUser.getUsername() + "|" + RankingSystem.countRank(chatUser.getScore())+"/");
-                } else out.println(chatUser.getId() + "|" + chatUser.getUsername() + "|" + RankingSystem.countRank(chatUser.getScore()));
+                    out.println(chatUser.getId() + "|" + chatUser.getUsername() + "|" + RankingSystem.countRank(chatUser.getScore()) + "/");
+                } else
+                    out.println(chatUser.getId() + "|" + chatUser.getUsername() + "|" + RankingSystem.countRank(chatUser.getScore()));
                 x++;
             }
         }
@@ -60,7 +61,8 @@ public class NotificationsServlet extends HttpServlet {
             User reqUserInfo = usersDAO.getUserById(requests.get(i));
             if (i != requests.size() - 1) {
                 out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "|" + RankingSystem.countRank(reqUserInfo.getScore()) + "/");
-            } else out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "|" + RankingSystem.countRank(reqUserInfo.getScore()));
+            } else
+                out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "|" + RankingSystem.countRank(reqUserInfo.getScore()));
         }
     }
 

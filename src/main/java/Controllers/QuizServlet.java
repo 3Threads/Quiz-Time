@@ -62,8 +62,7 @@ public class QuizServlet extends HttpServlet {
         }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("changeList")) {
             RatingsDAO ratingsDAO = (RatingsDAO) httpServletRequest.getServletContext().getAttribute("ratingsDB");
-            ArrayList<Rating> rates = ratingsDAO.getQuizRatings(Integer.parseInt(httpServletRequest.getParameter("quizId")),
-                                httpServletRequest.getParameter("order"));
+            ArrayList<Rating> rates = ratingsDAO.getQuizRatings(Integer.parseInt(httpServletRequest.getParameter("quizId")), httpServletRequest.getParameter("order"));
             UsersDAO usersDAO = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
 
             StringBuilder str = new StringBuilder();
@@ -76,36 +75,34 @@ public class QuizServlet extends HttpServlet {
                     }
                 }
             }
-            for(Rating rate : rates) {
+            for (Rating rate : rates) {
                 str.append(rateConstructor(myUser, usersDAO.getUserById(rate.getUserId()), rate));
             }
-            httpServletResponse.getWriter().println(str.toString());
+            httpServletResponse.getWriter().println(str);
             return;
         }
         httpServletRequest.getRequestDispatcher("quiz.jsp").forward(httpServletRequest, httpServletResponse);
     }
+
     private String rateConstructor(User myUser, User user, Rating rate) {
         StringBuilder str = new StringBuilder();
-        str.append("<div id='" + user.getId() + "'>\n");
+        str.append("<div id='").append(user.getId()).append("'>\n");
 
-        str.append("<div style=\"display: inline-block;\"> <a href=\"/profile?user=" + user.getId() + "\">\n<div  class=\"rank-"+ RankingSystem.countRank(user.getScore())+"\" style=\"font-size:17px; display: inline-block;\">\n");
-        str.append("@" + user.getUsername() + " </div>\n </a>");
+        str.append("<div style=\"display: inline-block;\"> <a href=\"/profile?user=").append(user.getId()).append("\">\n<div  class=\"rank-").append(RankingSystem.countRank(user.getScore())).append("\" style=\"font-size:17px; display: inline-block;\">\n");
+        str.append("@").append(user.getUsername()).append(" </div>\n </a>");
         str.append("<div style=\"font-size:17px; display: inline-block; \">\n");
-        for (int i = 0; i < rate.getRating(); i++) {
-            str.append("<span class=\"fa fa-star checked\"></span>\n");
-        }
-        for (int i = 0; i < 5 - rate.getRating(); i++) {
-            str.append("<span class=\"fa fa-star\"></span>\n");
-        }
+        str.append("<span class=\"fa fa-star checked\"></span>\n".repeat(Math.max(0, rate.getRating())));
+        str.append("<span class=\"fa fa-star\"></span>\n".repeat(Math.max(0, 5 - rate.getRating())));
         str.append("</div>\n");
-        str.append("<div style=\"font-size:15px; display: inline-block; color: #aaa\">| " + rate.getRatingsDate() + "</div>\n </div>\n");
+        str.append("<div style=\"font-size:15px; display: inline-block; color: #aaa\">| ").append(rate.getRatingsDate()).append("</div>\n </div>\n");
 
         if (myUser.isAdmin() || user.getId() == myUser.getId()) {
-            str.append("<a class=\"btn-danger\" style=\"float:right; color: #aaa\" onclick=\"deleteComment(" + user.getId() + ")\"> Delete comment</a>\n");
+            str.append("<a class=\"btn-danger\" style=\"float:right; color: #aaa\" onclick=\"deleteComment(").append(user.getId()).append(")\"> Delete comment</a>\n");
         }
-        str.append("<div style=\"margin-bottom: 25px\">" + rate.getComment() + "</div>\n </div>\n");
+        str.append("<div style=\"margin-bottom: 25px\">").append(rate.getComment()).append("</div>\n </div>\n");
         return str.toString();
     }
+
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         if (!SessionRemove.checkUser(httpServletRequest)) {
@@ -113,7 +110,7 @@ public class QuizServlet extends HttpServlet {
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
-        if(httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addRate")) {
+        if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addRate")) {
             int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
             int userId = Integer.parseInt(httpServletRequest.getParameter("userId"));
             int rate = Integer.parseInt(httpServletRequest.getParameter("rate"));
@@ -121,7 +118,7 @@ public class QuizServlet extends HttpServlet {
             RatingsDAO ratingsDAO = (RatingsDAO) httpServletRequest.getServletContext().getAttribute("ratingsDB");
             ratingsDAO.addRatingToQuiz(userId, quizId, rate, comment);
         }
-        if(httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("deleteRate")) {
+        if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("deleteRate")) {
             int quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
             int userId = Integer.parseInt(httpServletRequest.getParameter("userId"));
             RatingsDAO ratingsDAO = (RatingsDAO) httpServletRequest.getServletContext().getAttribute("ratingsDB");

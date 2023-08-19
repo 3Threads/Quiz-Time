@@ -23,14 +23,6 @@ public class QuestionMatching extends QuestionAbstract {
         return answers;
     }
 
-    public ArrayList<String> getFirstPart() {
-        return firstPart;
-    }
-
-    public ArrayList<String> getSecondPart() {
-        return secondPart;
-    }
-
     @Override
     public ArrayList<String> getAnswers() {
         ArrayList<String> arr = new ArrayList<>();
@@ -49,8 +41,7 @@ public class QuestionMatching extends QuestionAbstract {
     @Override
     public String generateAnswers() {
         ArrayList<String> arr = getAnswers();
-        ListToString lts = new ListToString();
-        return lts.generateString(arr);
+        return ListToString.generateString(arr);
     }
 
     @Override

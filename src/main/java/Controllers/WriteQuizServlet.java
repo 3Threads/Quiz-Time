@@ -52,7 +52,7 @@ public class WriteQuizServlet extends HttpServlet {
         QuestionsDAO questionsDAO = (QuestionsDAO) httpServletRequest.getServletContext().getAttribute("questionsDB");
         QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
         Quiz quiz = quizzesDAO.getQuizInfo(quizId);
-        if (questionsDAO.getQuestionsIdByQuizId(quizId).size() == 0) {
+        if (questionsDAO.getQuestions(quizId).size() == 0) {
             httpServletResponse.sendRedirect("/homePage");
             return;
         }
@@ -78,7 +78,7 @@ public class WriteQuizServlet extends HttpServlet {
 
     private boolean questionIndIsOutOfBound(int quizId, int questionInd, HttpServletRequest httpServletRequest) {
         QuestionsDAO questionsDAO = (QuestionsDAO) httpServletRequest.getServletContext().getAttribute("questionsDB");
-        return !(questionsDAO.getQuestionsIdByQuizId(quizId).size() > questionInd && questionInd >= 0);
+        return !(questionsDAO.getQuestions(quizId).size() > questionInd && questionInd >= 0);
     }
 
     @Override

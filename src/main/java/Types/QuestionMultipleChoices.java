@@ -39,10 +39,9 @@ public class QuestionMultipleChoices extends QuestionAbstract {
 
     @Override
     public String generateAnswers() {
-        ListToString lts = new ListToString();
-        String res = lts.generateString(getAnswers());
+        String res = ListToString.generateString(getAnswers());
         String res1 = res + (char) 0;
-        String res2 = lts.generateString(incorrectAnswers);
+        String res2 = ListToString.generateString(incorrectAnswers);
         return res1 + res2;
     }
 

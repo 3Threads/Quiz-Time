@@ -66,7 +66,7 @@ public class ChallengesDAO {
         }
     }
 
-    public void removeChallenge(int fromUserId, int toUserId, int quizId){
+    public void removeChallenge(int fromUserId, int toUserId, int quizId) {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
@@ -88,6 +88,7 @@ public class ChallengesDAO {
             }
         }
     }
+
     public boolean alreadyChallenged(int byUser, int challengedUser, int quizId) {
         Connection connect = null;
         try {

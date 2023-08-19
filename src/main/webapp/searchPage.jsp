@@ -75,7 +75,7 @@
                             Users
                         </div>
                         <hr>
-                        <%if (users.size() == 0) {%>
+                        <%if (users.isEmpty()) {%>
                         <div class="search-body">
                             Results Not Found
                         </div>
@@ -120,7 +120,7 @@
                             Quizzes
                         </div>
                         <hr>
-                        <%if (quizzes.size() == 0) {%>
+                        <%if (quizzes.isEmpty()) {%>
                         <div class="search-body">
                             Results Not Found
                         </div>
@@ -147,13 +147,13 @@
                     <br>
 
                     <%--Announcements--%>
-                    <div class="uk-box-shadow-large uk-padding-small" style="padding-bottom: 0">
+                    <div class="uk-box-shadow-large uk-padding-small" >
                         <div class="search-header">
                             Announcements
                         </div>
                         <hr>
                         <div class="search-body">
-                            <%if (announcements.size() == 0) {%>
+                            <%if (announcements.isEmpty()) {%>
                             <div class="search-body">
                                 Results Not Found
                             </div>
@@ -165,9 +165,10 @@
                                     String userName = user.getUsername();
                             %>
 
-                            <div class="uk-grid-small uk-flex-middle" >
+                            <div class="uk-grid-small uk-flex-middle">
                                 <div class="uk-width-expand" style="padding-bottom:35px">
-                                    <div class="uk-card-title uk-margin-remove-bottom text-light" style="display: inline-block; font-size: 18px;font-weight:bold; ">
+                                    <div class="uk-card-title uk-margin-remove-bottom text-light"
+                                         style="display: inline-block; font-size: 18px;font-weight:bold; ">
                                         <div style="display: inline-block; ">
                                             <%=announcement.getTitle()%>
                                         </div>
@@ -203,7 +204,7 @@
                         Users
                     </div>
                     <hr>
-                    <%if (users.size() == 0) {%>
+                    <%if (users.isEmpty()) {%>
                     <div class="search-body">
                         Results Not Found
                     </div>
@@ -247,7 +248,7 @@
                         Quizzes
                     </div>
                     <hr>
-                    <%if (quizzes.size() == 0) {%>
+                    <%if (quizzes.isEmpty()) {%>
                     <div class="search-body">
                         Results Not Found
                     </div>
@@ -281,7 +282,7 @@
                     <hr>
 
                     <div class="search-body">
-                        <%if (announcements.size() == 0) {%>
+                        <%if (announcements.isEmpty()) {%>
                         <div class="search-body">
                             Results Not Found
                         </div>
@@ -294,28 +295,28 @@
                         %>
 
                         <div class="uk-grid-small uk-flex-middle">
-                            <div class="uk-width-expand">
-                                <div class="uk-card-title uk-margin-remove-bottom text-light">
-                                    <div style="font-size: 16px">
+                            <div class="uk-width-expand" style="padding-bottom:35px">
+                                <div class="uk-card-title uk-margin-remove-bottom text-light"
+                                     style="display: inline-block; font-size: 18px;font-weight:bold; ">
+                                    <div style="display: inline-block; ">
                                         <%=announcement.getTitle()%>
                                     </div>
+                                    <div class="uk-text-meta uk-margin-remove-top"
+                                         style="padding-left:5px; display: inline-block ">
+                                        <%=userName%>
+                                        <time datetime="2016-04-01T19:00">
+                                            <%=announcement.getWriteTime()%>
+                                        </time>
+                                    </div>
                                 </div>
-                                <div class="rank-<%=RankingSystem.countRank(user.getScore())%> uk-text-meta uk-margin-remove-top"
-                                     style="font-size:10px; margin-bottom: 5px">
-                                    <%=userName%>
-                                    <time datetime="2016-04-01T19:00">
-                                        <%=announcement.getWriteTime()%>
-                                    </time>
-                                </div>
-                                <p style="font-size: 15px">
+                                <p style="font-size: 15px; margin:0">
                                     <%=
                                     announcement.getBody()
                                     %>
-                                    <br><br>
+                                    <br>
                                 </p>
                             </div>
                         </div>
-
                         <%
                             }
                         %>
