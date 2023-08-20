@@ -28,6 +28,8 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
             return;
         }
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletRequest.getSession().removeAttribute("title");
         httpServletRequest.getSession().removeAttribute("description");
         httpServletRequest.getSession().removeAttribute("questions");
@@ -87,6 +89,8 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
             return;
         }
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         int quizId;
         try {
             quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));

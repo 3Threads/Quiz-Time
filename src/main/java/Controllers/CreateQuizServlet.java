@@ -22,14 +22,16 @@ public class CreateQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
             return;
         }
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletRequest.getSession().removeAttribute("writingQuestions");
         httpServletRequest.getSession().removeAttribute("userAnswers");
         httpServletRequest.getSession().removeAttribute("startTime");
         if (httpServletRequest.getParameter("title") != null) {
-            httpServletRequest.getSession().setAttribute("title", httpServletRequest.getParameter("title"));
+            httpServletRequest.getSession().setAttribute("title", new String(httpServletRequest.getParameter("title").getBytes("ISO-8859-1"), "UTF-8"));
         }
         if (httpServletRequest.getParameter("description") != null) {
-            httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
+            httpServletRequest.getSession().setAttribute("description", new String(httpServletRequest.getParameter("description").getBytes("ISO-8859-1"), "UTF-8"));
         }
         if (httpServletRequest.getParameter("hour") != null && httpServletRequest.getParameter("minute") != null
                 && httpServletRequest.getParameter("second") != null) {
@@ -74,6 +76,7 @@ public class CreateQuizServlet extends HttpServlet {
                 return;
             }
             StringBuilder url = new StringBuilder("/createQuiz?index=" + index + "&editMode=true&type=" + q.getType());
+            System.out.println(q.getQuestionText());
             if (q.getType().equals(QuestionTypes.fillInTheBlank)) {
                 url.append("&questionText1=").append(q.getQuestionText()).append("&questionText2=").append(((QuestionFillInTheBlank) q).getQuestionText2());
             } else {
@@ -123,7 +126,7 @@ public class CreateQuizServlet extends HttpServlet {
                     }
                 }
             }
-            httpServletResponse.sendRedirect(String.valueOf(url));
+            httpServletResponse.sendRedirect(new String(String.valueOf(url).getBytes("ISO-8859-1"), "UTF-8"));
             return;
         }
         httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);
@@ -139,6 +142,8 @@ public class CreateQuizServlet extends HttpServlet {
         }
         ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
         Question question = null;
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         if (httpServletRequest.getParameter("title") != null) {
             httpServletRequest.getSession().setAttribute("title", httpServletRequest.getParameter("title"));
         }

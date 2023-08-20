@@ -24,6 +24,8 @@ public class CreateAccountServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        System.out.println(httpServletRequest.getParameter("username"));
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
         UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");

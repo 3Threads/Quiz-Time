@@ -29,6 +29,9 @@
 
 
 </script>
+<%
+    response.setCharacterEncoding("UTF-8");
+%>
 <div class="container-fluid main" style="padding-top: 0; padding-right: 30px">
     <div class="row" uk-scrollspy="cls: uk-animation-fade; repeat: true">
        <div class="col-3 back-color"

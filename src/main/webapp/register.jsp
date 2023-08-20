@@ -21,6 +21,9 @@
     <title>Quiz Time</title>
     <link rel="icon" href="images/icon.png" type="image/x-icon"/>
 </head>
+<%
+    response.setCharacterEncoding("UTF-8");
+%>
 <body class="bg-dark text-light">
 <div class="container text-center" style="height: 100%">
     <div class="row align-items-center" style="height: 100%">

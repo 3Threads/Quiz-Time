@@ -21,9 +21,4 @@ public class QuizzesList extends HttpServlet {
         SessionRemove.removeQuizAttributes(httpServletRequest);
         httpServletRequest.getRequestDispatcher("quizzesList.jsp").forward(httpServletRequest, httpServletResponse);
     }
-
-    @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-
-    }
 }

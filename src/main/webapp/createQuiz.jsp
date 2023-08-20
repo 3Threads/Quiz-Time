@@ -2,11 +2,13 @@
 <%@ page import="Types.*" %>
 <%@ page import="java.sql.Time" %>
 <%@ page import="java.util.*" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <%@include file="header.jsp" %>
 </head>
+<%request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+%>
 <script type="text/javascript">
     function beforeSubmit() {
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
@@ -518,7 +520,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerFields'>
                             <%
@@ -606,7 +608,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerRadios'>
                             <%
@@ -655,7 +657,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerCheckboxes'>
                             <%
@@ -704,7 +706,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
@@ -755,7 +757,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div class='row uk-margin'>
                             <div class='col' style='padding-right: 0'>
@@ -819,7 +821,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerFields'>
                                 <%

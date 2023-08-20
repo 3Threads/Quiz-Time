@@ -5,7 +5,6 @@
   Time: 8:53 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="Types.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="DAO.*" %>
@@ -15,6 +14,7 @@
 <%@ page import="java.util.Random" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="BusinessLogic.RankingSystem" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
     <!-- UIkit CSS -->
@@ -48,6 +48,7 @@
     <link rel="icon" href="images/icon.png" type="image/x-icon"/>
 </head>
 <%
+    response.setCharacterEncoding("UTF-8");
     User myUser = (User) session.getAttribute("userInfo");
     UsersDAO usersDAO = (UsersDAO) application.getAttribute("usersDB");
     FriendsDAO friendsDAO = (FriendsDAO) application.getAttribute("friendsDB");
@@ -178,6 +179,7 @@
         setInterval(getNotifications, 2000);
     });
 </script>
+<%request.setCharacterEncoding("UTF-8");%>
 <body class="text-light bg-dark">
 <div class="container-fluid top-head fixed-top back-color">
     <div class="row">
@@ -213,7 +215,7 @@
                                             <li><a class="notification-titles" style="color: white"
                                                    href="">Challenges</a>
                                             </li>
-                                            <li><a class="notification-titles" style="color: white" href="">Messages</a>
+                                            <li><a class="notification-titles" style="color: white" href="">მესიჯები</a>
                                             </li>
                                         </ul>
                                         <ul id="notification tab" class="uk-switcher uk-margin">

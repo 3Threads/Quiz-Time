@@ -10,12 +10,17 @@
     <%@include file="header.jsp" %>
 </head>
 <body class="bg-dark text-light" style="overflow-x: clip">
+<% request.setCharacterEncoding("UTF-8");%>
 <%
     Set<String> categories = new HashSet<String>(Arrays.asList("Sports", "Entertainment", "Geography", "Science", "History", "Art", "Literature", "Music", "Technology", "Animals", "Economy", "Politics", "Other"));
-    String title = request.getParameter("title");
-    if (title == null) title = "";
-    String category = request.getParameter("category");
-    if (category == null) category = "";
+    String title;
+    if (request.getParameter("title") == null){
+        title = "";
+    } else title = new String(request.getParameter("title").getBytes("ISO-8859-1"), "UTF-8");
+    String category;
+    if (request.getParameter("category") == null){
+        category = "";
+    } else category = new String(request.getParameter("category").getBytes("ISO-8859-1"), "UTF-8");
     int star = 0;
     try {
         star = Integer.parseInt(request.getParameter("starNum"));
