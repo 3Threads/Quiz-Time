@@ -131,12 +131,13 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("startTime");
             httpServletRequest.getSession().removeAttribute("endTime");
             ResultsDAO resultsDAO = (ResultsDAO) httpServletRequest.getServletContext().getAttribute("resultsDB");
+            QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
             int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
             int oldScore = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getScore();
             int newScore = RankingSystem.countNewScore(oldScore, 100 * score / questions.size());
             if (resultsDAO.getUserResultsOnQuiz(userId, quizId).size() != 0) {
                 newScore = oldScore;
-            }
+            } else quizzesDAO.completeQuiz(quizId);
 
             resultsDAO.addResult(userId, quizId, score, time);
             ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).updateScore(userId, newScore);
