@@ -128,12 +128,12 @@ VALUES ('quiz1', 'QUIZ', 0, default, 1, 'Sports'),
        ('quiz6', 'QUIZ', 1, default, 5, 'Science,Music');
 
 INSERT INTO COMPLETED_QUIZZES (USER_ID, QUIZ_ID, SCORE, SPENT_TIME, WRITE_TIME)
-VALUES (1, 3, 10, 17, default),
-       (2, 3, 10, 21, default),
-       (2, 5, 1, 100, default),
-       (2, 6, 0, 0, default),
-       (4, 2, 20, 10, default),
-       (4, 2, 22, 8, default);
+VALUES (1, 3, 10, 17000, default),
+       (2, 3, 10, 21000, default),
+       (2, 5, 1, 10000, default),
+       (2, 6, 0, 1000, default),
+       (4, 2, 20, 12000, default),
+       (4, 2, 22, 59000, default);
 
 INSERT INTO CHALLENGES (USER1_ID, USER2_ID, QUIZ_ID)
 VALUES (1, 2, 1),

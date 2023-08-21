@@ -79,6 +79,7 @@ others to take.
     - Adding friends and communicating with them through chat (Extension).
     - Challenging their friends by achieving higher scores.
     - get achievements by writing quizzes successfully (Extension).
+    - Users get font colors
 
 
 - **Admins (Extension)** <br/>
@@ -105,19 +106,21 @@ others to take.
     - "Quizzes" - guides users to a page where they can search for their desired quizzes (Extension).
     - Search Field - allows users to search for other users, quizzes, or announcements (Extension).
       <br/><br/>
-      
+
       Positioned above the search field:
     - Username - upon clicking, redirects users to their profile page.
-    - Notification Icon (Extension) - upon clicking, opens a new window displaying friend requests, challenges, or new messages.
+    - Notification Icon (Extension) - upon clicking, opens a new window displaying friend requests, challenges, or new
+      messages.
       Users can accept or reject friend requests and challenges, and initiate chats by clicking the respective buttons.
-      This icon indicates notifications through a shaking motion, persisting until attended to. 
+      This icon indicates notifications through a shaking motion, persisting until attended to.
     - Getting notifications does not need reloading the page (Extension).
     - "Log Out" - initiates the logout process when clicked, allowing users to sign out.
 
 
 - **Home page** <br/>
     - On the left side of the page, users are presented with announcements created by administrators (Extension).
-    - Clicking on "Announcements" or "Read more" provides users access to the complete content of each announcement (Extension).
+    - Clicking on "Announcements" or "Read more" provides users access to the complete content of each announcement (
+      Extension).
     - The right side of the page features four distinct quiz tables, offering users the option to explore and engage
       with their preferred quizzes .
 
@@ -138,7 +141,7 @@ others to take.
     - Selecting categories (Optional) (Extension).
     - Set timer (Optional) (Extension).
     - Inclusion of various question types from a pool of seven available options.
-    - Users can edit accidentally added questions instead of deleting and adding it again (Extension). 
+    - Users can edit accidentally added questions instead of deleting and adding it again (Extension).
 
 
 - **Random quiz** <br/>
@@ -151,13 +154,15 @@ others to take.
     - Upon completing the quiz, users are provided with their score and the opportunity to rate and comment (Extension).
     - Users have the potential to elevate their rank by creating quizzes and attaining scores, influenced by a specific
       algorithm. Incorrect answers may result in a rank reduction. (Extension).
+    - Comments and Ratings can be sorted from the oldest to the newest or from the newest to the oldest. First comment
+      is always User's one. (Extension).
 
 
 - **Chat page** <br/>
-    - Users can engage in real-time communication with their friends through the chat feature (Extension). 
+    - Users can engage in real-time communication with their friends through the chat feature (Extension).
     - The chat functionality ensures seamless interactions without the need for page refreshes (Extension).
     - New messages pop up to the top (Extension).
-    - Unseen messages are highlighted on the left side of the username and new messages quantity (Extension). 
+    - Unseen messages are highlighted on the left side of the username and new messages quantity (Extension).
     - Users can enhance their conversations with the availability of emoticons and emojis (Extension).
 
 
@@ -166,38 +171,51 @@ others to take.
     - Quizzes can be effortlessly located by conducting searches using their respective quiz names.
 
 ## Display
+
 ### Log in page
+
 ![slide](https://i.imgur.com/7vDbOkX.png)
 
 ### Home page
+
 ![slide](https://i.imgur.com/hz6MTjP.png)
 
 ### Creating announcements
+
 ![slide](https://i.imgur.com/MhStLDB.png)
 
 ### Getting notifications
+
 ![slide](https://i.imgur.com/G79Tk1c.png)
 
 ### Profile page
+
 ![slide](https://i.imgur.com/nA3MEzF.png)
 
 ### Chatting to a friend
+
 ![slide](https://i.imgur.com/TKP9bpY.png)
 
 ### Search page
+
 ![slide](https://i.imgur.com/9uEz4SM.png)
 
 ### Searching quiz by ratings / categories
+
 ![slide](https://i.imgur.com/5KH04qc.png)
 
 ### Random Quiz page
+
 ![slide](https://i.imgur.com/Asjh4tA.png)
 
 ### Writing Quiz
-![slide](https://i.imgur.com/6mqF2Lt.png)
+
+![slide](https://i.imgur.com/Ui7srsy.png)
 
 ### Rating and leaving comment on quiz
-![slide](https://i.imgur.com/vpCt1so.png)
+
+![slide](https://i.imgur.com/tz1aN3N.png)
 
 ### Website is size sensitive
+
 ![slide](https://i.imgur.com/OdeRUvu.png)
