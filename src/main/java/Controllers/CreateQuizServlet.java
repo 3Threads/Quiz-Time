@@ -261,7 +261,6 @@ public class CreateQuizServlet extends HttpServlet {
             if (httpServletRequest.getParameterValues("category") != null) {
                 categories = List.of(httpServletRequest.getParameterValues("category")).toString();
                 categories = categories.substring(1, categories.length() - 1);
-                System.out.println(categories);
             } else {
                 categories = "Other";
             }

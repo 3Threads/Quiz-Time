@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         httpServletRequest.setCharacterEncoding("UTF-8");
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
-        System.out.println(username + " " + password);
         UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
         if (sql.checkUser(username, password)) {
             int userId = sql.getUserId(username);

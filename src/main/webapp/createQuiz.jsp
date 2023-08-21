@@ -291,12 +291,10 @@
     function editOrDelete(action, index) {
         let url = "/createQuiz?action=" + action + "&index=" + index;
         if ($('#titleField').val() !== '') {
-            console.log($('#titleField').val());
             url += "&title=";
             url += $('#titleField').val();
         }
         if ($('#descriptionField').val() !== '') {
-            console.log($('#descriptionField').val());
             url += "&description=";
             url += $('#descriptionField').val();
         }
