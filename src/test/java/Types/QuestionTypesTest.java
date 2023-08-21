@@ -30,6 +30,7 @@ public class QuestionTypesTest {
         assertEquals(qText, q.generateQuestionText());
         assertEquals(generatedAnswers, q.generateAnswers());
         assertEquals(answers, q.getAnswers());
+        assertEquals(QuestionTypes.textResponse, q.getType());
     }
 
     @Test
@@ -60,6 +61,7 @@ public class QuestionTypesTest {
         assertEquals(generatedAnswers2, q2.generateAnswers());
         assertEquals(answers2, q2.getAnswers());
         assertTrue(q2.checkAnswer(answers2));
+        assertEquals(QuestionTypes.fillInTheBlank, q2.getType());
     }
 
     @Test
@@ -77,6 +79,7 @@ public class QuestionTypesTest {
         assertEquals(answers1, q1.getAnswers());
         assertEquals(url1, ((QuestionPictureResponse) q1).getPictureUrl());
         assertTrue(q1.checkAnswer(answers1));
+        assertEquals(QuestionTypes.pictureResponse, q1.getType());
     }
 
     @Test
@@ -93,6 +96,7 @@ public class QuestionTypesTest {
         assertEquals(answers1, q1.getAnswers());
         assertFalse(answersFalse1.equals(q1.getAnswers()));
         assertTrue(q1.checkAnswer(answers1));
+        assertEquals(QuestionTypes.multiAnswers, q1.getType());
     }
 
     @Test
@@ -103,7 +107,6 @@ public class QuestionTypesTest {
         String generatedAnswers1 = "yes" + (char) 0 + "unfortunately" + (char) 0 + (char) 0 + "no" + (char) 0;
 
         assertMultipleChoice(q1Text, allAnswers1, correctAnswers1, generatedAnswers1);
-
 
         String q2Text = "Is Lasha meloti?";
         ArrayList<String> allAnswers2 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "no", "Yes", "YES", "Unfortunately"}));
@@ -118,8 +121,11 @@ public class QuestionTypesTest {
         assertEquals(q1Text, q1.getQuestionText());
         assertEquals(q1Text, q1.generateQuestionText());
         assertEquals(generatedAnswers1, q1.generateAnswers());
+        assertEquals(((QuestionMultipleChoices) q1).getIncorrectAnswers(), ((QuestionMultipleChoices) q1).getIncorrectAnswers(((QuestionMultipleChoices) q1).getAllAnswers()));
         assertEquals(correctAnswers1, q1.getAnswers());
         assertTrue(q1.checkAnswer(correctAnswers1));
+
+        assertEquals(QuestionTypes.multipleChoices, q1.getType());
     }
 
     @Test
@@ -153,7 +159,7 @@ public class QuestionTypesTest {
         assertEquals(qText, q.generateQuestionText());
         assertEquals(answers, ((QuestionMatching) q).getMatches());
         assertEquals(resSplit, actualSplit);
+        assertEquals(QuestionTypes.matching, q.getType());
     }
-
 }
 
