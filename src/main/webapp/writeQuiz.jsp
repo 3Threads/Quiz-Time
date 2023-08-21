@@ -18,6 +18,7 @@
 %>
 <script>
     function goToQuestion(ind) {
+
         $('#nextQuestionInd').val(ind);
         $('#currQuestionForm').submit();
     }
@@ -27,21 +28,22 @@
         $('#finishQuiz').submit()
     }, <% if(session.getAttribute("endTime") != null) out.println(((Long)session.getAttribute("endTime")) - new Date().getTime());%>);
 
-
+    function finish() {
+        $('#finishedVal').val('true');
+        $('#currQuestionForm').submit();
+    }
 </script>
 <%
     response.setCharacterEncoding("UTF-8");
 %>
 <div class="container-fluid main" style="padding-top: 0; padding-right: 30px">
     <div class="row" uk-scrollspy="cls: uk-animation-fade; repeat: true">
-       <div class="col-3 back-color"
+        <div class="col-3 back-color"
              style="position:fixed; height: calc(100vh - 95px); padding-top: 15px; border-right: 1px solid #666666;">
             <h1 style="margin: 5px">
                 <%=currQuiz.getQuizName()%>
             </h1>
             <hr style="margin-top: 10px">
-
-
             <div class="row justify-content-left" style="padding-left:15px; padding-right:15px">
                 <%
                     for (int i = 0; i < questions.size(); i++) {
@@ -54,7 +56,7 @@
                            justify-content: center; /* Horizontally center content */
                            align-items: center; /* Vertically center content */
                            padding:0;
-                   <%
+                       <%
                         if(questionInd==i) out.print("background-color: #3e4042;");
                         else if(answers[i]!=null && !answers[i].isEmpty() && !answers[i].get(0).trim().isEmpty()) out.print("background-color: #363636;");
                    %> border: darkgrey 1px solid; margin:2px;">
@@ -64,18 +66,14 @@
                     }
                 %>
             </div>
-            <form method="post" action="/writeQuiz" id="finishQuiz" style="float: right;">
-                <input type="hidden" name="action" value="finish">
-                <input type="hidden" name="quizId" value="<%=request.getParameter("quizId")%>">
-                <input type="submit" class="btn btn-success mt-3" value="Finish">
-            </form>
+            <a href="#" style="float: right" onclick="finish()" class="btn btn-success mt-3" >Finish</a>
         </div>
 
 
         <div class="col-4"></div>
 
         <div class="col-8 uk-box-shadow-large uk-padding-small" style="margin-top:20px">
-            <div class="row" >
+            <div class="row">
                 <div class="col">
                     <h4>#<%=questionInd + 1%> Question</h4>
                 </div>
@@ -110,6 +108,7 @@
             </div>
 
             <form action="/writeQuiz" method="post" id="currQuestionForm">
+                <input type="hidden" id="finishedVal" name="finished" value="false">
                 <input type="hidden" name="quizId" value="<%=currQuiz.getQuizId()%>">
                 <input type="hidden" name="questionInd" value="<%=questionInd%>">
                 <input type="hidden" name="nextQuestionInd" value="<%=questionInd+1%>" id="nextQuestionInd">
@@ -117,7 +116,7 @@
                 <%
                     out.print(currQuestion.getWriteQuizHTML(answers, questionInd));
                 %>
-                <input type="submit" class="btn btn-success mt-3" value="Next Question">
+                <input type="submit" id="nextQuest" class="btn btn-success mt-3" value="Next Question">
             </form>
         </div>
     </div>
