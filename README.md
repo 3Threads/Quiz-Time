@@ -61,8 +61,14 @@ SQL_USERNAME="root"
 SQL_PASSWORD="password"
 ```
 
-5. If you are using Intellij IDEA for running the project you can run it by choosing 'Test
+5. If you are using Intellij IDEA for testing the project you can run it by choosing 'Test
    Website' for running configuration.
+
+6. You can start testing by calling this command from the root directory:
+
+```shell
+mvn test
+```
 
 ## Functionality
 
