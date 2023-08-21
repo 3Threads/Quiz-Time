@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Time;
 import java.util.*;
 
@@ -76,37 +77,36 @@ public class CreateQuizServlet extends HttpServlet {
                 return;
             }
             StringBuilder url = new StringBuilder("/createQuiz?index=" + index + "&editMode=true&type=" + q.getType());
-            System.out.println(q.getQuestionText());
             if (q.getType().equals(QuestionTypes.fillInTheBlank)) {
-                url.append("&questionText1=").append(q.getQuestionText()).append("&questionText2=").append(((QuestionFillInTheBlank) q).getQuestionText2());
+                url.append("&questionText1=").append(URLEncoder.encode(q.getQuestionText(), "UTF-8")).append("&questionText2=").append(URLEncoder.encode(((QuestionFillInTheBlank) q).getQuestionText2(), "UTF-8"));
             } else {
-                url.append("&questionText=").append(q.getQuestionText());
+                url.append("&questionText=").append(URLEncoder.encode(q.getQuestionText(), "UTF-8"));
             }
 
 
             if (q.getType().equals(QuestionTypes.pictureResponse)) {
-                url.append("&imageUrl=").append(((QuestionPictureResponse) q).getPictureUrl());
+                url.append("&imageUrl=").append(URLEncoder.encode(((QuestionPictureResponse) q).getPictureUrl(), "UTF-8"));
             }
             if (q.getType().equals(QuestionTypes.multipleChoices)) {
                 for (int i = 0; i < q.getAnswers().size(); i++) {
                     String ans = q.getAnswers().get(i);
-                    url.append("&correctAnswerText=").append(ans);
+                    url.append("&correctAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
                 }
                 assert q instanceof QuestionMultipleChoices;
                 for (int i = 0; i < ((QuestionMultipleChoices) q).getIncorrectAnswers().size(); i++) {
                     String ans = ((QuestionMultipleChoices) q).getIncorrectAnswers().get(i);
-                    url.append("&incorrectAnswerText=").append(ans);
+                    url.append("&incorrectAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
                 }
             } else {
                 if (q.getType().equals(QuestionTypes.multipleChoicesWithMultipleAnswers)) {
                     for (int i = 0; i < q.getAnswers().size(); i++) {
                         String ans = q.getAnswers().get(i);
-                        url.append("&correctAnswerText=").append(ans);
+                        url.append("&correctAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
                     }
                     assert q instanceof QuestionMultipleChoicesWithMultipleAnswers;
                     for (int i = 0; i < ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().size(); i++) {
                         String ans = ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().get(i);
-                        url.append("&incorrectAnswerText=").append(ans);
+                        url.append("&incorrectAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
                     }
                 } else {
                     if (q.getType().equals(QuestionTypes.matching)) {
@@ -114,19 +114,19 @@ public class CreateQuizServlet extends HttpServlet {
                         Map<String, String> pairs = ((QuestionMatching) q).getMatches();
                         for (String pr : pairs.keySet()) {
                             String ans = pairs.get(pr);
-                            url.append("&key=").append(pr);
-                            url.append("&value=").append(ans);
+                            url.append("&key=").append(URLEncoder.encode(pr, "UTF-8"));
+                            url.append("&value=").append(URLEncoder.encode(ans, "UTF-8"));
                         }
 
                     } else {
                         for (int i = 0; i < q.getAnswers().size(); i++) {
                             String ans = q.getAnswers().get(i);
-                            url.append("&answerText=").append(ans);
+                            url.append("&answerText=").append(URLEncoder.encode(ans, "UTF-8"));
                         }
                     }
                 }
             }
-            httpServletResponse.sendRedirect(new String(String.valueOf(url).getBytes("ISO-8859-1"), "UTF-8"));
+            httpServletResponse.sendRedirect(String.valueOf(url));
             return;
         }
         httpServletRequest.getRequestDispatcher("createQuiz.jsp").forward(httpServletRequest, httpServletResponse);

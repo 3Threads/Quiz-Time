@@ -26,6 +26,7 @@ public class HomePageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        httpServletRequest.setCharacterEncoding("UTF-8");
         String title = httpServletRequest.getParameter("title");
         String description = httpServletRequest.getParameter("description");
         User user = (User) httpServletRequest.getSession().getAttribute("userInfo");

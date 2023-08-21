@@ -215,7 +215,7 @@
                                             <li><a class="notification-titles" style="color: white"
                                                    href="">Challenges</a>
                                             </li>
-                                            <li><a class="notification-titles" style="color: white" href="">მესიჯები</a>
+                                            <li><a class="notification-titles" style="color: white" href="">Messages</a>
                                             </li>
                                         </ul>
                                         <ul id="notification tab" class="uk-switcher uk-margin">

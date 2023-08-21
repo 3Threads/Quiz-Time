@@ -26,10 +26,11 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        httpServletRequest.setCharacterEncoding("UTF-8");
         String username = httpServletRequest.getParameter("username");
         String password = httpServletRequest.getParameter("password");
+        System.out.println(username + " " + password);
         UsersDAO sql = (UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB");
-        httpServletRequest.setCharacterEncoding("UTF-8");
         if (sql.checkUser(username, password)) {
             int userId = sql.getUserId(username);
             User user = sql.getUserById(userId);
