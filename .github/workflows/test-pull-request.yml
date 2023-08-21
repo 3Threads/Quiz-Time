@@ -10,7 +10,7 @@ jobs:
       DB_DATABASE: QUIZ_WEBSITE_TEST
       DB_USER: root
       DB_PASSWORD: root
-      DB_NEW_PASSWORD: passwordD1!
+      DB_NEW_PASSWORD: ${{ secrets.SQL_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -27,6 +27,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y maven
+
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_SQL_USERNAME: ${{ env.DB_USER }}
+          envkey_SQL_PASSWORD: ${{ env.DB_NEW_PASSWORD }}
 
       - name: Set up MySQL
         run: |
