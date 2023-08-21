@@ -79,7 +79,7 @@ others to take.
     - Adding friends and communicating with them through chat (Extension).
     - Challenging their friends by achieving higher scores.
     - get achievements by writing quizzes successfully (Extension).
-    - Users get font colors
+    - Users get font colors appropriate to their ranks (Extension).
 
 
 - **Admins (Extension)** <br/>
@@ -170,6 +170,11 @@ others to take.
     - Users have the convenience of filtering quizzes based on categories and rating preferences.
     - Quizzes can be effortlessly located by conducting searches using their respective quiz names.
 
+
+- **URL sensitive (Extension)**<br/>
+  Users can navigate throughout the website without using buttons if they enter in a malformed URL or manually modifie a URL.
+
+  
 ## Display
 
 ### Log in page
@@ -206,7 +211,7 @@ others to take.
 
 ### Random Quiz page
 
-![slide](https://i.imgur.com/Asjh4tA.png)
+![slide](https://i.imgur.com/tz1aN3N.png)
 
 ### Writing Quiz
 
@@ -214,7 +219,7 @@ others to take.
 
 ### Rating and leaving comment on quiz
 
-![slide](https://i.imgur.com/tz1aN3N.png)
+![slide](https://i.imgur.com/vpCt1so.png)
 
 ### Website is size sensitive
 
