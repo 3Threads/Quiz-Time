@@ -118,34 +118,43 @@ public class WriteQuizServlet extends HttpServlet {
             if (answers != null && httpServletRequest.getSession().getAttribute("userAnswers") != null) {
                 ((ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers"))[questionInd] = new ArrayList<>(List.of(answers));
             }
-            httpServletResponse.sendRedirect("/writeQuiz?quizId=" + quizId + "&questionInd=" + nextQuestionInd);
+            if(httpServletRequest.getParameter("finished") != null
+                    && httpServletRequest.getParameter("finished").equals("false")) {
+                httpServletResponse.sendRedirect("/writeQuiz?quizId=" + quizId + "&questionInd=" + nextQuestionInd);
+            } else finish(httpServletRequest, httpServletResponse);
+        }
+    }
+    private void finish(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        int quizId;
+        try {
+            quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
+        } catch (NumberFormatException e) {
+            httpServletResponse.sendRedirect("/homePage");
             return;
         }
-        if (httpServletRequest.getParameter("action").equals("finish")) {
-            long time = System.currentTimeMillis() - (long) httpServletRequest.getSession().getAttribute("startTime");
-            int score = 0;
-            ArrayList<String>[] userAnswers = (ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers");
-            ArrayList<Question> questions = (ArrayList<Question>) httpServletRequest.getSession().getAttribute("writingQuestions");
-            for (int i = 0; i < questions.size(); i++) {
-                Question question = questions.get(i);
-                if (question.checkAnswer(userAnswers[i])) score++;
-            }
-            httpServletRequest.getSession().removeAttribute("writingQuestions");
-            httpServletRequest.getSession().removeAttribute("userAnswers");
-            httpServletRequest.getSession().removeAttribute("startTime");
-            httpServletRequest.getSession().removeAttribute("endTime");
-            ResultsDAO resultsDAO = (ResultsDAO) httpServletRequest.getServletContext().getAttribute("resultsDB");
-            QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
-            int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
-            int oldScore = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getScore();
-            int newScore = RankingSystem.countNewScore(oldScore, 100 * score / questions.size());
-            if (resultsDAO.getUserResultsOnQuiz(userId, quizId).size() != 0) {
-                newScore = oldScore;
-            } else quizzesDAO.completeQuiz(quizId);
-
-            resultsDAO.addResult(userId, quizId, score, time);
-            ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).updateScore(userId, newScore);
-            httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time + "&plusScore=" + (newScore - oldScore) + "&oldScore=" + oldScore);
+        long time = System.currentTimeMillis() - (long) httpServletRequest.getSession().getAttribute("startTime");
+        int score = 0;
+        ArrayList<String>[] userAnswers = (ArrayList<String>[]) httpServletRequest.getSession().getAttribute("userAnswers");
+        ArrayList<Question> questions = (ArrayList<Question>) httpServletRequest.getSession().getAttribute("writingQuestions");
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+            if (question.checkAnswer(userAnswers[i])) score++;
         }
+        httpServletRequest.getSession().removeAttribute("writingQuestions");
+        httpServletRequest.getSession().removeAttribute("userAnswers");
+        httpServletRequest.getSession().removeAttribute("startTime");
+        httpServletRequest.getSession().removeAttribute("endTime");
+        ResultsDAO resultsDAO = (ResultsDAO) httpServletRequest.getServletContext().getAttribute("resultsDB");
+        QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
+        int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
+        int oldScore = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getScore();
+        int newScore = RankingSystem.countNewScore(oldScore, 100 * score / questions.size());
+        if (resultsDAO.getUserResultsOnQuiz(userId, quizId).size() != 0) {
+            newScore = oldScore;
+        } else quizzesDAO.completeQuiz(quizId);
+
+        resultsDAO.addResult(userId, quizId, score, time);
+        ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).updateScore(userId, newScore);
+        httpServletResponse.sendRedirect("/quiz?quizId=" + quizId + "&score=" + score + "&time=" + time + "&plusScore=" + (newScore - oldScore) + "&oldScore=" + oldScore);
     }
 }
