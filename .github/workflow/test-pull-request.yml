@@ -1,0 +1,48 @@
+name: Run Tests
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DB_DATABASE: QUIZ_WEBSITE_TEST
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NEW_PASSWORD: passwordD1!
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 20
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Set up Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+      - name: Change password
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DB_NEW_PASSWORD }}';" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+      - name: Run sql file
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -u${{ env.DB_USER }} -p${{ env.DB_NEW_PASSWORD }} ${{ env.DB_DATABASE }} < src/main/java/SqlScripts/SqlScriptTEST.sql
+
+      - name: Run tests
+        run: |
+          mvn test
