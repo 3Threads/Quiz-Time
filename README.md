@@ -184,6 +184,9 @@ others to take.
 ### Chatting to a friend
 ![slide](https://i.imgur.com/TKP9bpY.png)
 
+### Search page
+![slide](https://i.imgur.com/9uEz4SM.png)
+
 ### Searching quiz by ratings / categories
 ![slide](https://i.imgur.com/5KH04qc.png)
 
