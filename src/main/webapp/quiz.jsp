@@ -615,7 +615,7 @@
                                 </td>
                                 <td>
                                     <a href="/profile?user=<%=res.getUserId()%>">
-                                        <div class="rank-<%=RankingSystem.countRank(myUser.getScore())%>table_name">
+                                        <div class="rank-<%=RankingSystem.countRank(myUser.getScore())%> table_name">
                                             <%=myUser.getUsername()%>
                                         </div>
                                     </a>

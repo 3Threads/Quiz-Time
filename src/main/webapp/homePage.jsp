@@ -161,7 +161,7 @@
                                     <div class="table_name">Name</div>
                                 </th>
                                 <th>
-                                    <div class="table_name">Users</div>
+                                    <div class="table_name">Completed</div>
                                 </th>
                                 <th>
                                     <div class="table_name">Creation</div>
@@ -219,7 +219,7 @@
                                     <div class="table_name">Name</div>
                                 </th>
                                 <th>
-                                    <div class="table_name">Users</div>
+                                    <div class="table_name">Completed</div>
                                 </th>
                                 <th>
                                     <div class="table_name">Creation</div>
@@ -276,7 +276,7 @@
                                     <div class="table_name">Name</div>
                                 </th>
                                 <th>
-                                    <div class="table_name">Users</div>
+                                    <div class="table_name">Completed</div>
                                 </th>
                                 <th>
                                     <div class="table_name">Creation</div>
@@ -336,7 +336,7 @@
                                     <div class="table_name">Name</div>
                                 </th>
                                 <th>
-                                    <div class="table_name">Users</div>
+                                    <div class="table_name">Completed</div>
                                 </th>
                                 <th>
                                     <div class="table_name">Creation</div>
