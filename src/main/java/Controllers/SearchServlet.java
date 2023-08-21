@@ -18,6 +18,7 @@ public class SearchServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
             return;
         }
+        SessionRemove.removeQuizAttributes(httpServletRequest);
         httpServletRequest.getRequestDispatcher("searchPage.jsp").forward(httpServletRequest, httpServletResponse);
     }
 }
