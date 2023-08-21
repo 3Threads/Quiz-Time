@@ -5,6 +5,10 @@
 <head>
     <%@include file="header.jsp" %>
 </head>
+<%
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+%>
 <script>
     function fc() {
         $.post('chat', {

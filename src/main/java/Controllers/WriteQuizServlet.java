@@ -28,6 +28,8 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
             return;
         }
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletRequest.getSession().removeAttribute("title");
         httpServletRequest.getSession().removeAttribute("description");
         httpServletRequest.getSession().removeAttribute("questions");
@@ -87,6 +89,8 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/login");
             return;
         }
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         int quizId;
         try {
             quizId = Integer.parseInt(httpServletRequest.getParameter("quizId"));
@@ -131,12 +135,13 @@ public class WriteQuizServlet extends HttpServlet {
             httpServletRequest.getSession().removeAttribute("startTime");
             httpServletRequest.getSession().removeAttribute("endTime");
             ResultsDAO resultsDAO = (ResultsDAO) httpServletRequest.getServletContext().getAttribute("resultsDB");
+            QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
             int userId = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getId();
             int oldScore = ((User) httpServletRequest.getSession().getAttribute("userInfo")).getScore();
             int newScore = RankingSystem.countNewScore(oldScore, 100 * score / questions.size());
             if (resultsDAO.getUserResultsOnQuiz(userId, quizId).size() != 0) {
                 newScore = oldScore;
-            }
+            } else quizzesDAO.completeQuiz(quizId);
 
             resultsDAO.addResult(userId, quizId, score, time);
             ((UsersDAO) httpServletRequest.getServletContext().getAttribute("usersDB")).updateScore(userId, newScore);

@@ -29,7 +29,7 @@ CREATE TABLE QUIZZES
     CREATION_TIME DATETIME(3)  default current_timestamp(3),
     CREATOR_ID    INT             not null,
     TIME_LIMIT    TIME      default 0,
-    CATEGORIES    char(255) default '',
+    CATEGORIES    char(255) default 'other',
     FOREIGN KEY (CREATOR_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
 CREATE TABLE RATINGS

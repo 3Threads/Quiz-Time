@@ -1,5 +1,4 @@
 <%@ page import="Types.*" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <%@include file="header.jsp" %>
@@ -68,9 +67,7 @@
                             </div>
                             <%-- max 20 wordsssssssssss--%>
                             <p class="card-announcement-middle " style="word-wrap: break-word">
-                                <%=
-                                announcement.getBody()
-                                %>
+                                <%=announcement.getBody()%>
                                 <br><br>
                             </p>
                         </div>

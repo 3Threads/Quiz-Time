@@ -21,6 +21,7 @@ public class ChatServlet extends HttpServlet {
             return;
         }
         SessionRemove.removeQuizAttributes(httpServletRequest);
+        httpServletRequest.setCharacterEncoding("UTF-8");
         int chatWith;
         if (httpServletRequest.getParameter("chatWith") != null) {
             try {

@@ -23,6 +23,8 @@ public class NotSeenMessagesServlet extends HttpServlet {
             httpServletResponse.getWriter().println("login");
             return;
         }
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         PrintWriter out = httpServletResponse.getWriter();
         MessagesDAO messagesDAO = (MessagesDAO) httpServletRequest.getServletContext().getAttribute("messagesDB");
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");

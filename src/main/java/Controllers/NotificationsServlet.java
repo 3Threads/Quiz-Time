@@ -24,6 +24,8 @@ public class NotificationsServlet extends HttpServlet {
             httpServletResponse.getWriter().println("login");
             return;
         }
+        httpServletRequest.setCharacterEncoding("UTF-8");
+        httpServletResponse.setCharacterEncoding("UTF-8");
         PrintWriter out = httpServletResponse.getWriter();
         User myUser = (User) httpServletRequest.getSession().getAttribute("userInfo");
         QuizzesDAO quizzesDAO = (QuizzesDAO) httpServletRequest.getServletContext().getAttribute("quizzesDB");
@@ -60,9 +62,9 @@ public class NotificationsServlet extends HttpServlet {
         for (int i = 0; i < requests.size(); i++) {
             User reqUserInfo = usersDAO.getUserById(requests.get(i));
             if (i != requests.size() - 1) {
-                out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "|" + RankingSystem.countRank(reqUserInfo.getScore()) + "/");
+                out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "|" + RankingSystem.countRank(reqUserInfo.getScore()) + "|"+ myUser.getId() + "/");
             } else
-                out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "|" + RankingSystem.countRank(reqUserInfo.getScore()));
+                out.println(reqUserInfo.getId() + "|" + reqUserInfo.getUsername() + "|" + RankingSystem.countRank(reqUserInfo.getScore())+ "|"+ myUser.getId());
         }
     }
 

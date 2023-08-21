@@ -21,6 +21,9 @@
     <title>Quiz Time</title>
     <link rel="icon" href="images/icon.png" type="image/x-icon"/>
 </head>
+<%
+    response.setCharacterEncoding("UTF-8");
+%>
 <body class="bg-dark text-light">
 <div class="container text-center" style="height: 100%">
     <div class="row align-items-center" style="height: 100%">
@@ -42,7 +45,9 @@
                         <div class="row mb-3">
                             <div class="col-sm">
                                 <input type="password" class="form-control bg-dark text-light whitePlaceholder"
-                                       name="password" placeholder="Password" minlength="5" required>
+                                       name="password" placeholder="Password" pattern="[A-Za-z0-9]+" minlength="5"
+                                       title="Your password must be a minimum 5 length and you can use [a-z],[A-Z],[0-9]
+                                                    and symbols"required>
                             </div>
                         </div>
                         <div class="row">

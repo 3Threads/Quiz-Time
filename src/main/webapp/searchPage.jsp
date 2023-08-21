@@ -6,17 +6,18 @@
 </head>
 <body class="bg-dark text-light" style="overflow-x: clip">
 <%
-    ArrayList<User> users = usersDAO.searchUsers(request.getParameter("search"));
-    ArrayList<Quiz> quizzes = quizzesDAO.searchQuizzes(request.getParameter("search"));
-    ArrayList<Announcement> announcements = announcementsDAO.searchAnnouncement(request.getParameter("search"));
+    request.setCharacterEncoding("UTF-8");
+    String searchedName = new String(request.getParameter("search").getBytes("ISO-8859-1"), "UTF-8");
+    ArrayList<User> users = usersDAO.searchUsers(searchedName);
+    ArrayList<Quiz> quizzes = quizzesDAO.searchQuizzes(searchedName);
+    ArrayList<Announcement> announcements = announcementsDAO.searchAnnouncement(searchedName);
 %>
 <div class="container-fluid main" style="padding-top:0; padding-bottom: 0">
-
     <div class="row">
         <div class="col-3 back-color"
              style="position:fixed; height: calc(100vh - 95px); padding-top: 15px; border-right: 1px solid #666666;">
             <h3 style="margin:0">
-                Search results for: <%=request.getParameter("search")%>
+                Search results for: <%=searchedName%>
             </h3>
             <hr style="margin-top: 10px">
 

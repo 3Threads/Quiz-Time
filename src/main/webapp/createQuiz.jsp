@@ -2,11 +2,14 @@
 <%@ page import="Types.*" %>
 <%@ page import="java.sql.Time" %>
 <%@ page import="java.util.*" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <%@include file="header.jsp" %>
 </head>
+<%
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+%>
 <script type="text/javascript">
     function beforeSubmit() {
         if ($('#questionType').val() === "multipleChoices" || $('#questionType').val() === "multipleChoicesWithMultipleAnswers") {
@@ -288,12 +291,10 @@
     function editOrDelete(action, index) {
         let url = "/createQuiz?action=" + action + "&index=" + index;
         if ($('#titleField').val() !== '') {
-            console.log($('#titleField').val());
             url += "&title=";
             url += $('#titleField').val();
         }
         if ($('#descriptionField').val() !== '') {
-            console.log($('#descriptionField').val());
             url += "&description=";
             url += $('#descriptionField').val();
         }
@@ -518,7 +519,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerFields'>
                             <%
@@ -529,7 +530,7 @@
                             <div class='uk-margin'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Answer' aria-label='Input' name='answer'
-                                       value="<%=answers[i]%>" required>
+                                       value="<%=new String(answers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                             </div>
                             <%
                             } else {
@@ -539,7 +540,7 @@
                                     <div class='col'>
                                         <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                                placeholder='Answer' aria-label='Input' name='answer'
-                                               value="<%=answers[i]%>" required>
+                                               value="<%=new String(answers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                     </div>
                                     <div class='col-auto'>
                                         <input type='button' class='btn btn-danger' value='Delete'
@@ -564,15 +565,15 @@
                             <div class='col' style='padding-right: 0'><input
                                     class='form-control bg-dark whitePlaceholder text-light' type='text'
                                     placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                    value="<%=request.getParameter("questionText1")%>" required></div>
+                                    value="<%=new String(request.getParameter("questionText1").getBytes("ISO-8859-1"), "UTF-8")%>" required></div>
                             <div class='col' style='padding-left: 4px; padding-right: 4px'><input
                                     class='form-control bg-dark whitePlaceholder text-light' type='text'
                                     placeholder='Answer' aria-label='Input' name='answer'
-                                    value="<%=answers[0]%>" required></div>
+                                    value="<%=new String(answers[0].getBytes("ISO-8859-1"), "UTF-8")%>" required></div>
                             <div class='col' style='padding-left: 0'><input
                                     class='form-control bg-dark whitePlaceholder text-light' type='text'
                                     placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                    value="<%=request.getParameter("questionText2")%>" required></div>
+                                    value="<%=new String(request.getParameter("questionText2").getBytes("ISO-8859-1"), "UTF-8")%>" required></div>
                         </div>
                         <div id='answerFields'>
                             <%
@@ -583,7 +584,7 @@
                                     <div class='col'>
                                         <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                                placeholder='Answer' aria-label='Input' name='answer'
-                                               value="<%=answers[i]%>" required>
+                                               value="<%=new String(answers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                     </div>
                                     <div class='col-auto'>
                                         <input type='button' class='btn btn-danger' value='Delete'
@@ -606,7 +607,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerRadios'>
                             <%
@@ -622,7 +623,7 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=correctAnswers[i]%>" required>
+                                           value="<%=new String(correctAnswers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                 </div>
                             </div>
                             <%
@@ -637,7 +638,7 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=incorrectAnswer%>" required>
+                                           value="<%=new String(incorrectAnswer.getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                 </div>
                             </div>
                             <%
@@ -655,7 +656,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerCheckboxes'>
                             <%
@@ -671,7 +672,7 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=correctAnswers[i]%>" required>
+                                           value="<%=new String(correctAnswers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                 </div>
                             </div>
                             <%
@@ -687,7 +688,7 @@
                                 <div class='col'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Answer' aria-label='Input' name='answerText'
-                                           value="<%=incorrectAnswers[i]%>" required>
+                                           value="<%=new String(incorrectAnswers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                 </div>
                             </div>
                             <%
@@ -704,13 +705,13 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Image URL' aria-label='Input' name='questionImage'
                                    pattern="https?://.+" title="Include http://"
-                                   value="<%=request.getParameter("imageUrl")%>" required>
+                                   value="<%=new String(request.getParameter("imageUrl").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerFields'>
                             <%
@@ -721,7 +722,7 @@
                             <div class='uk-margin'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Answer' aria-label='Input' name='answer'
-                                       value="<%=answers[i]%>" required>
+                                       value="<%=new String(answers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                             </div>
                             <%
                             } else { %>
@@ -730,7 +731,7 @@
                                     <div class='col'>
                                         <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                                placeholder='Answer' aria-label='Input' name='answer'
-                                               value="<%=answers[i]%>" required>
+                                               value="<%=new String(answers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                     </div>
                                     <div class='col-auto'>
                                         <input type='button' class='btn btn-danger' value='Delete'
@@ -755,33 +756,33 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div class='row uk-margin'>
                             <div class='col' style='padding-right: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                       value="<%=keys[0]%>" required>
+                                       value="<%=new String(keys[0].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                             </div>
                             <div class='col-2'></div>
                             <div class='col' style='padding-left: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                       value="<%=values[0]%>" required>
+                                       value="<%=new String(values[0].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                             </div>
                         </div>
                         <div class='uk-margin row' style='margin-top: 0!important;'>
                             <div class='col' style='padding-right: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                       value="<%=keys[1]%>" required>
+                                       value="<%=new String(keys[1].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                             </div>
                             <div class='col-2'>
                             </div>
                             <div class='col' style='padding-left: 0'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                       value="<%=values[1]%>" required>
+                                       value="<%=new String(values[1].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                             </div>
                         </div>
                         <div id='answerFields'>
@@ -792,14 +793,14 @@
                                 <div class='col' style='padding-right: 0'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Question part 1' aria-label='Input' name='questionText1'
-                                           value="<%=keys[i]%>" required>
+                                           value="<%=new String(keys[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                 </div>
                                 <div class='col-2'>
                                 </div>
                                 <div class='col' style='padding-left: 0'>
                                     <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                            placeholder='Question part 2' aria-label='Input' name='questionText2'
-                                           value="<%=values[i]%>" required>
+                                           value="<%=new String(values[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                 </div>
                                 <div class='col-auto'>
                                     <input type='button' class='btn btn-danger' value='Delete'
@@ -819,7 +820,7 @@
                         <div class='uk-margin' style='margin-top: 0!important;'>
                             <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                    placeholder='Question' aria-label='Input' name='questionText'
-                                   value="<%=request.getParameter("questionText")%>" required>
+                                   value="<%=new String(request.getParameter("questionText").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div id='answerFields'>
                                 <%
@@ -830,7 +831,7 @@
                             <div class='uk-margin'>
                                 <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                        placeholder='Answer' aria-label='Input' name='answer'
-                                       value="<%=answers[i]%>" required>
+                                       value="<%=new String(answers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                             </div>
                                 <%
                                             } else {
@@ -840,7 +841,7 @@
                                     <div class='col'>
                                         <input class='form-control bg-dark whitePlaceholder text-light' type='text'
                                                placeholder='Answer' aria-label='Input' name='answer'
-                                               value="<%=answers[i]%>" required>
+                                               value="<%=new String(answers[i].getBytes("ISO-8859-1"), "UTF-8")%>" required>
                                     </div>
                                     <div class='col-auto'>
                                         <input type='button' class='btn btn-danger' value='Delete'
@@ -850,8 +851,11 @@
                             </div>
                                 <%
                                     }
-                                }
-                            }%>
+                                } %>
+                        </div>
+                            <input type='button' class='btn btn-success' onclick='addAnswerField()'
+                                value='Add new answer'>
+                                        <%}%>
                             <div id="errors"></div>
                             <button type='submit' class='btn btn-primary mt-3'>Edit question</button>
                                 <%

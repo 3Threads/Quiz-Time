@@ -22,6 +22,7 @@
     <link rel="icon" href="images/icon.png" type="image/x-icon"/>
 </head>
 <%
+    response.setCharacterEncoding("UTF-8");
     if (session.getAttribute("userInfo") != null) {
         response.sendRedirect("/homePage");
     }
