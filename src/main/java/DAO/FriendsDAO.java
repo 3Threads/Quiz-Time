@@ -7,12 +7,33 @@ import Types.FriendInfo;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class FriendsDAO {
+
     private final BasicDataSource dataSource;
 
+
+    /**
+     * Constructor for FriendsDAO.
+     * Initializes the data source used for database connectivity.
+     *
+     * @param dataSource The BasicDataSource object used for database connections.
+     */
     public FriendsDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+
+    /**
+     * Retrieves a list of user IDs representing pending friend requests for the specified user.
+     * This method establishes a database connection using the provided data source,
+     * and queries the FRIENDS table to find user IDs (USER1_ID) where the provided user's ID (USER2_ID)
+     * matches and the request is not yet accepted (ACCEPTED = 0). The retrieved user IDs are added to an ArrayList.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param userID The ID of the user for whom friend requests are being retrieved.
+     * @return An ArrayList of user IDs representing pending friend requests, or null if an exception occurs.
+     */
     public ArrayList<Integer> getFriendsRequests(int userID) {
         Connection connect = null;
         try {
@@ -41,6 +62,22 @@ public class FriendsDAO {
         return null;
     }
 
+
+    /**
+     * Retrieves friend-related information between two users.
+     * This method establishes a database connection using the provided data source,
+     * and queries the FRIENDS table to retrieve information about the friendship status
+     * between two users. The query checks for records where either (USER1_ID = user1 AND USER2_ID = user2)
+     * or (USER1_ID = user2 AND USER2_ID = user1). The retrieved information is used to create a FriendInfo object.
+     * If no records are found, a default FriendInfo object with negative acceptance status is returned.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param user1 The ID of the first user.
+     * @param user2 The ID of the second user.
+     * @return A FriendInfo object containing friendship information, or null if an exception occurs.
+     */
     public FriendInfo getBetweenUsersInfo(int user1, int user2) {
         Connection connect = null;
         try {
@@ -69,6 +106,20 @@ public class FriendsDAO {
         return null;
     }
 
+
+    /**
+     * Retrieves a list of user IDs representing friends for the specified user.
+     * This method establishes a database connection using the provided data source,
+     * and queries the FRIENDS table to find user IDs (USER1_ID) where the provided user's ID (USER2_ID)
+     * matches and the friendship is accepted (ACCEPTED = 1). The retrieved user IDs are added to an ArrayList.
+     * The query is performed in two parts using UNION to account for both directions of friendship.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param userID The ID of the user for whom friends are being retrieved.
+     * @return An ArrayList of user IDs representing friends, or null if an exception occurs.
+     */
     public ArrayList<Integer> getFriendsList(int userID) {
         Connection connect = null;
         try {
@@ -99,6 +150,21 @@ public class FriendsDAO {
         return null;
     }
 
+
+    /**
+     * Sends a friend request from one user to another.
+     * This method establishes a database connection using the provided data source.
+     * It checks if there is already a pending friend request from the sender to the receiver,
+     * and if so, it automatically accepts the request by calling the acceptRequest method.
+     * If the sender and receiver are already friends, the method returns.
+     * Otherwise, it inserts a new record into the FRIENDS table representing the friend request.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param fromUserId The ID of the user sending the friend request.
+     * @param toUserId   The ID of the user receiving the friend request.
+     */
     public void sendFriendRequest(int fromUserId, int toUserId) {
         Connection connect = null;
         try {
@@ -126,6 +192,19 @@ public class FriendsDAO {
         }
     }
 
+
+    /**
+     * Accepts a pending friend request between two users.
+     * This method establishes a database connection using the provided data source.
+     * It updates the ACCEPTED field in the FRIENDS table to 1 for the specified users,
+     * marking their friendship as accepted. The update is based on the user IDs in both directions.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param curUserId   The ID of the user who initiated the friend request.
+     * @param newFriendId The ID of the user accepting the friend request.
+     */
     public void acceptRequest(int curUserId, int newFriendId) {
         Connection connect = null;
         try {
@@ -148,6 +227,19 @@ public class FriendsDAO {
         }
     }
 
+
+    /**
+     * Rejects or cancels a pending friend request between two users.
+     * This method establishes a database connection using the provided data source.
+     * It deletes the corresponding record from the FRIENDS table based on the specified user IDs,
+     * effectively rejecting or canceling the friend request. The deletion is performed in both directions.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param curUserId      The ID of the user who initiated the friend request or wants to cancel the request.
+     * @param notNewFriendId The ID of the user who was the target of the request or is being canceled.
+     */
     public void rejectRequest(int curUserId, int notNewFriendId) {
         Connection connect = null;
         try {
@@ -170,6 +262,19 @@ public class FriendsDAO {
         }
     }
 
+
+    /**
+     * Deletes the friendship between two users.
+     * This method establishes a database connection using the provided data source.
+     * It deletes the corresponding record from the FRIENDS table based on the specified user IDs,
+     * effectively ending the friendship. The deletion is performed in both directions.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param curUserId The ID of the user initiating the friendship deletion.
+     * @param notFriend The ID of the user who is being removed from the friend list.
+     */
     public void deleteFriend(int curUserId, int notFriend) {
         Connection connect = null;
         try {
@@ -193,4 +298,5 @@ public class FriendsDAO {
             }
         }
     }
+
 }
