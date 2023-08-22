@@ -80,7 +80,10 @@ public class QuestionsDAO {
                 if (type.equals("multipleChoicesWithMultipleAnswers")) {
                     String[] allAnsws = answers.split(String.valueOf((char) 0) + (char) 0);
                     ArrayList<String> correctAnswers = new ArrayList<>(List.of((allAnsws[0].split(String.valueOf((char) 0)))));
-                    ArrayList<String> allPossibleAnswers = new ArrayList<>(List.of(allAnsws[1].split(String.valueOf((char) 0))));
+                    ArrayList<String> allPossibleAnswers = new ArrayList<>();
+                    if(allAnsws.length>=2){
+                        allPossibleAnswers.addAll(List.of(allAnsws[1].split(String.valueOf((char) 0))));
+                    }
                     allPossibleAnswers.addAll(correctAnswers);
                     question = new QuestionMultipleChoicesWithMultipleAnswers(questionText, correctAnswers, allPossibleAnswers);
                 }
