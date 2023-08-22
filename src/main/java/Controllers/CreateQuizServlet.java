@@ -36,18 +36,26 @@ public class CreateQuizServlet extends HttpServlet {
         }
         if (httpServletRequest.getParameter("hour") != null && httpServletRequest.getParameter("minute") != null
                 && httpServletRequest.getParameter("second") != null) {
-            Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
-                    Integer.parseInt(httpServletRequest.getParameter("minute")),
-                    Integer.parseInt(httpServletRequest.getParameter("second")));
-            httpServletRequest.getSession().setAttribute("timeLimit", time);
+            try {
+                Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
+                        Integer.parseInt(httpServletRequest.getParameter("minute")),
+                        Integer.parseInt(httpServletRequest.getParameter("second")));
+                httpServletRequest.getSession().setAttribute("timeLimit", time);
+            } catch(NumberFormatException e) {
+                httpServletRequest.getSession().removeAttribute("timeLimit");
+            }
         }
         if (httpServletRequest.getParameter("timeFormatChecker") != null && !httpServletRequest.getParameter("timeFormatChecker").equals("")) {
             httpServletRequest.getSession().setAttribute("timeFormatChecker", httpServletRequest.getParameter("timeFormatChecker"));
         }
-        if (httpServletRequest.getParameter("categories") != null && !httpServletRequest.getParameter("categories").equals("")) {
-            String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
-            ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
-            httpServletRequest.getSession().setAttribute("categories", arr);
+        if (httpServletRequest.getParameter("categories") != null) {
+            if(httpServletRequest.getParameter("categories").equals("")) {
+                httpServletRequest.getSession().removeAttribute("categories");
+            } else {
+                String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
+                ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
+                httpServletRequest.getSession().setAttribute("categories", arr);
+            }
         }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
             ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
@@ -151,20 +159,28 @@ public class CreateQuizServlet extends HttpServlet {
         if (httpServletRequest.getParameter("description") != null) {
             httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
         }
-        if (!httpServletRequest.getParameter("hour").equals("") && !httpServletRequest.getParameter("minute").equals("")
-                && !httpServletRequest.getParameter("second").equals("")) {
-            Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
-                    Integer.parseInt(httpServletRequest.getParameter("minute")),
-                    Integer.parseInt(httpServletRequest.getParameter("second")));
-            httpServletRequest.getSession().setAttribute("timeLimit", time);
-        }
-        if (httpServletRequest.getParameter("categories") != null && !httpServletRequest.getParameter("categories").equals("")) {
-            String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
-            ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
-            httpServletRequest.getSession().setAttribute("categories", arr);
+        if (httpServletRequest.getParameter("hour") != null && httpServletRequest.getParameter("minute") != null
+                && httpServletRequest.getParameter("second") != null) {
+            try {
+                Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
+                        Integer.parseInt(httpServletRequest.getParameter("minute")),
+                        Integer.parseInt(httpServletRequest.getParameter("second")));
+                httpServletRequest.getSession().setAttribute("timeLimit", time);
+            } catch(NumberFormatException e) {
+                httpServletRequest.getSession().removeAttribute("timeLimit");
+            }
         }
         if (httpServletRequest.getParameter("timeFormatChecker") != null && !httpServletRequest.getParameter("timeFormatChecker").equals("")) {
             httpServletRequest.getSession().setAttribute("timeFormatChecker", httpServletRequest.getParameter("timeFormatChecker"));
+        }
+        if (httpServletRequest.getParameter("categories") != null) {
+            if(httpServletRequest.getParameter("categories").equals("")) {
+                httpServletRequest.getSession().removeAttribute("categories");
+            } else {
+                String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
+                ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
+                httpServletRequest.getSession().setAttribute("categories", arr);
+            }
         }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
             if (httpServletRequest.getParameter("questionType").equals("textResponse")) {

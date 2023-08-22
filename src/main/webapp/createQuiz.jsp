@@ -289,28 +289,9 @@
     }
 
     function editOrDelete(action, index) {
-        let url = "/createQuiz?action=" + action + "&index=" + index;
-        if ($('#titleField').val() !== '') {
-            url += "&title=";
-            url += $('#titleField').val();
-        }
-        if ($('#descriptionField').val() !== '') {
-            url += "&description=";
-            url += $('#descriptionField').val();
-        }
-        if ($('#Hour').val() !== '') {
-            url += "&hour=";
-            url += $('#Hour').val();
-        }
-        if ($('#Minute').val() !== '') {
-            url += "&minute=";
-            url += $('#Minute').val();
-        }
-        if ($('#Second').val() !== '') {
-            url += "&second=";
-            url += $('#Second').val();
-        }
-        url += "&timeFormatChecker=";
+        let url = "/createQuiz?action=" + action + "&index=" + index+"&title="+$('#titleField').val()+  "&description="
+        +$('#descriptionField').val()+"&hour="+$('#Hour').val()+"&minute="+$('#Minute').val()+"&second="+$('#Second').val()+
+            "&timeFormatChecker=";
         if ($('#timeFormatCheckBox').is(':checked')) {
             url += "on";
         } else url += "off";
