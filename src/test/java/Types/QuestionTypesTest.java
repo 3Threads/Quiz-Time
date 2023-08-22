@@ -127,7 +127,27 @@ public class QuestionTypesTest {
 
         assertEquals(QuestionTypes.multipleChoices, q1.getType());
     }
+    @Test
+    public void testMultipleChoiceWithMultipleAnswers() {
+        String q1Text = "Is Lasha meloti?";
+        ArrayList<String> allAnswers1 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately", "no"}));
+        ArrayList<String> correctAnswers1 = new ArrayList<>(List.of(new String[]{"yes", "unfortunately"}));
+        String generatedAnswers1 = "yes" + (char) 0 + "unfortunately" + (char) 0 + (char) 0 + "no" + (char) 0;
+        assertMultipleChoiceWithMultipleAnswers(q1Text, allAnswers1, correctAnswers1, generatedAnswers1);
+    }
 
+    private void assertMultipleChoiceWithMultipleAnswers(String q1Text, ArrayList<String> allAnswers1, ArrayList<String> correctAnswers1, String generatedAnswers1) {
+        Question q1 = new QuestionMultipleChoicesWithMultipleAnswers(q1Text, correctAnswers1, allAnswers1);
+        assertEquals(q1Text, q1.getQuestionText());
+        assertEquals(q1Text, q1.generateQuestionText());
+        assertEquals(generatedAnswers1, q1.generateAnswers());
+        assertEquals(allAnswers1, ((QuestionMultipleChoicesWithMultipleAnswers) q1).getAllAnswers());
+        assertEquals(((QuestionMultipleChoicesWithMultipleAnswers) q1).getIncorrectAnswers(), (List.of(new String[]{"no"})));
+        assertEquals(correctAnswers1, q1.getAnswers());
+        assertTrue(q1.checkAnswer(correctAnswers1));
+
+        assertEquals(QuestionTypes.multipleChoicesWithMultipleAnswers, q1.getType());
+    }
     @Test
     public void testMatching() {
         String qText = "Connect names with correct last names:";

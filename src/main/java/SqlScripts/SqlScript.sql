@@ -131,7 +131,7 @@ INSERT INTO COMPLETED_QUIZZES (USER_ID, QUIZ_ID, SCORE, SPENT_TIME, WRITE_TIME)
 VALUES (1, 3, 10, 17000, default),
        (2, 3, 10, 21000, default),
        (2, 5, 1, 10000, default),
-       (2, 6, 0, 1000, default),
+       (2, 6, 0, 10000, default),
        (4, 2, 20, 12000, default),
        (4, 2, 22, 59000, default);
 

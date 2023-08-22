@@ -8,12 +8,34 @@ import Types.Message;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class MessagesDAO {
+
     private final BasicDataSource dataSource;
 
+
+    /**
+     * Constructor for the MessagesDAO class.
+     * Initializes the data source for database connectivity.
+     *
+     * @param dataSource The BasicDataSource instance used for database connections.
+     */
     public MessagesDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+
+    /**
+     * Retrieves messages between two users.
+     * This method establishes a database connection using the provided data source.
+     * It retrieves messages between the specified current user and their friend from the MESSAGES table.
+     * The messages are retrieved in ascending order of the SEND_DATE field.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param curUserId The ID of the current user.
+     * @param friendId  The ID of the friend to retrieve messages with.
+     * @return An ArrayList of Message objects representing the exchanged messages.
+     */
     public ArrayList<Message> getMessagesWith(int curUserId, int friendId) {
         Connection connect = null;
         try {
@@ -48,6 +70,20 @@ public class MessagesDAO {
         return null;
     }
 
+
+    /**
+     * Sends a message from one user to another.
+     * This method establishes a database connection using the provided data source.
+     * It inserts a new record into the MESSAGES table, representing a message sent from the specified sender
+     * to the specified recipient. The message content is provided as a parameter.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param fromUserId The ID of the user sending the message.
+     * @param toUserId   The ID of the user receiving the message.
+     * @param message    The content of the message.
+     */
     public void sendMessage(int fromUserId, int toUserId, String message) {
         Connection connect = null;
         try {
@@ -71,6 +107,21 @@ public class MessagesDAO {
         }
     }
 
+
+    /**
+     * Retrieves not-seen messages for a given user.
+     * This method establishes a database connection using the provided data source.
+     * It retrieves messages from the MESSAGES table that are addressed to the specified user
+     * and have not been marked as seen (SEEN = 0). The retrieved messages are organized into a HashMap
+     * where the keys are the IDs of the senders, and the values are ArrayLists containing the messages
+     * sent by each sender. If a sender has sent multiple messages, they are grouped together under the same key.
+     * If any SQLException occurs during the database operations, the exception is caught,
+     * and the stack trace is printed. The database connection is properly closed in the finally block
+     * to ensure resource release, even if an exception occurs.
+     *
+     * @param userId The ID of the user for whom to retrieve not-seen messages.
+     * @return A HashMap where keys are sender IDs and values are ArrayLists of not-seen messages.
+     */
     public HashMap<Integer, ArrayList<String>> getNotSeenMessage(int userId) {
         Connection connect = null;
         try {
@@ -106,6 +157,19 @@ public class MessagesDAO {
         return null;
     }
 
+
+    /**
+     * Marks messages between two users as seen.
+     * This method establishes a database connection using the provided data source.
+     * It updates records in the MESSAGES table where messages were sent from the friendId to the curUserId
+     * and have not been marked as seen (SEEN = 0). The method sets the SEEN flag to 1 to indicate that the messages
+     * have been seen by the recipient. If any SQLException occurs during the database operations,
+     * the exception is caught, and the stack trace is printed. The database connection is properly closed
+     * in the finally block to ensure resource release, even if an exception occurs.
+     *
+     * @param curUserId The ID of the user for whom messages are marked as seen.
+     * @param friendId  The ID of the friend who sent the messages.
+     */
     public void setMessagesSeen(int curUserId, int friendId) {
         Connection connect = null;
         try {
@@ -128,6 +192,20 @@ public class MessagesDAO {
         }
     }
 
+
+    /**
+     * Retrieves a list of users who have interacted with the specified user through messages.
+     * This method establishes a database connection using the provided data source.
+     * It retrieves distinct user IDs from the MESSAGES table where the specified user (userID)
+     * has either sent or received messages. The retrieved user IDs represent users who have interacted
+     * with the specified user. The list of interactors is sorted based on the send date of the messages,
+     * with the most recent interactions appearing first. If any SQLException occurs during the database operations,
+     * the exception is caught, and the stack trace is printed. The database connection is properly closed
+     * in the finally block to ensure resource release, even if an exception occurs.
+     *
+     * @param userID The ID of the user for whom to retrieve the list of interactors.
+     * @return An ArrayList of user IDs representing users who have interacted with the specified user.
+     */
     public ArrayList<Integer> getInteractorsList(int userID) {
         Connection connect = null;
         try {

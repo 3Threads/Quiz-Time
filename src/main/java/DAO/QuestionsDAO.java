@@ -12,12 +12,31 @@ import java.util.HashMap;
 import java.util.List;
 
 public class QuestionsDAO {
+
     private final BasicDataSource dataSource;
 
+
+    /**
+     * Constructor for the QuestionsDAO class.
+     *
+     * @param dataSource The data source used for database connections and operations.
+     */
     public QuestionsDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+
+    /**
+     * Adds a question to the database for a specific quiz.
+     * This method establishes a database connection using the provided data source.
+     * It inserts a new question into the QUESTIONS table with the provided question details.
+     * The question's type, associated quiz ID, question text, and generated answers are inserted.
+     * If any SQLException occurs during the database operations, the exception is caught, and the stack trace is printed.
+     * The database connection is properly closed in the finally block to ensure resource release, even if an exception occurs.
+     *
+     * @param question The Question object containing the details of the question.
+     * @param quizID The ID of the quiz to which the question belongs.
+     */
     public void addQuestion(Question question, int quizID) {
         Connection connect = null;
         try {
@@ -42,6 +61,19 @@ public class QuestionsDAO {
         }
     }
 
+
+    /**
+     * Retrieves a list of questions associated with a specific quiz from the database.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUESTIONS table to retrieve questions with the given quiz ID.
+     * The retrieved data is then used to create Question objects of various types based on the category.
+     * The questions are added to an ArrayList and returned.
+     * If any SQLException occurs during the database operations, the exception is caught, and the stack trace is printed.
+     * The database connection is properly closed in the finally block to ensure resource release, even if an exception occurs.
+     *
+     * @param quizId The ID of the quiz for which to retrieve the questions.
+     * @return An ArrayList containing Question objects associated with the specified quiz.
+     */
     public ArrayList<Question> getQuestions(int quizId) {
         Connection connect = null;
         try {
@@ -80,7 +112,10 @@ public class QuestionsDAO {
                 if (type.equals("multipleChoicesWithMultipleAnswers")) {
                     String[] allAnsws = answers.split(String.valueOf((char) 0) + (char) 0);
                     ArrayList<String> correctAnswers = new ArrayList<>(List.of((allAnsws[0].split(String.valueOf((char) 0)))));
-                    ArrayList<String> allPossibleAnswers = new ArrayList<>(List.of(allAnsws[1].split(String.valueOf((char) 0))));
+                    ArrayList<String> allPossibleAnswers = new ArrayList<>();
+                    if(allAnsws.length>=2){
+                        allPossibleAnswers.addAll(List.of(allAnsws[1].split(String.valueOf((char) 0))));
+                    }
                     allPossibleAnswers.addAll(correctAnswers);
                     question = new QuestionMultipleChoicesWithMultipleAnswers(questionText, correctAnswers, allPossibleAnswers);
                 }
@@ -111,5 +146,6 @@ public class QuestionsDAO {
         }
         return null;
     }
+
 }
 

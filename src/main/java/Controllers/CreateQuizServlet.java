@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Time;
 import java.util.*;
 
@@ -29,25 +30,33 @@ public class CreateQuizServlet extends HttpServlet {
         httpServletRequest.getSession().removeAttribute("userAnswers");
         httpServletRequest.getSession().removeAttribute("startTime");
         if (httpServletRequest.getParameter("title") != null) {
-            httpServletRequest.getSession().setAttribute("title", new String(httpServletRequest.getParameter("title").getBytes("ISO-8859-1"), "UTF-8"));
+            httpServletRequest.getSession().setAttribute("title", new String(httpServletRequest.getParameter("title").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
         }
         if (httpServletRequest.getParameter("description") != null) {
-            httpServletRequest.getSession().setAttribute("description", new String(httpServletRequest.getParameter("description").getBytes("ISO-8859-1"), "UTF-8"));
+            httpServletRequest.getSession().setAttribute("description", new String(httpServletRequest.getParameter("description").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
         }
         if (httpServletRequest.getParameter("hour") != null && httpServletRequest.getParameter("minute") != null
                 && httpServletRequest.getParameter("second") != null) {
-            Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
-                    Integer.parseInt(httpServletRequest.getParameter("minute")),
-                    Integer.parseInt(httpServletRequest.getParameter("second")));
-            httpServletRequest.getSession().setAttribute("timeLimit", time);
+            try {
+                Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
+                        Integer.parseInt(httpServletRequest.getParameter("minute")),
+                        Integer.parseInt(httpServletRequest.getParameter("second")));
+                httpServletRequest.getSession().setAttribute("timeLimit", time);
+            } catch(NumberFormatException e) {
+                httpServletRequest.getSession().removeAttribute("timeLimit");
+            }
         }
         if (httpServletRequest.getParameter("timeFormatChecker") != null && !httpServletRequest.getParameter("timeFormatChecker").equals("")) {
             httpServletRequest.getSession().setAttribute("timeFormatChecker", httpServletRequest.getParameter("timeFormatChecker"));
         }
-        if (httpServletRequest.getParameter("categories") != null && !httpServletRequest.getParameter("categories").equals("")) {
-            String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
-            ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
-            httpServletRequest.getSession().setAttribute("categories", arr);
+        if (httpServletRequest.getParameter("categories") != null) {
+            if(httpServletRequest.getParameter("categories").equals("")) {
+                httpServletRequest.getSession().removeAttribute("categories");
+            } else {
+                String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
+                ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
+                httpServletRequest.getSession().setAttribute("categories", arr);
+            }
         }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("delete")) {
             ArrayList<Question> questions = getQuestionsFromSession(httpServletRequest);
@@ -78,35 +87,35 @@ public class CreateQuizServlet extends HttpServlet {
             }
             StringBuilder url = new StringBuilder("/createQuiz?index=" + index + "&editMode=true&type=" + q.getType());
             if (q.getType().equals(QuestionTypes.fillInTheBlank)) {
-                url.append("&questionText1=").append(URLEncoder.encode(q.getQuestionText(), "UTF-8")).append("&questionText2=").append(URLEncoder.encode(((QuestionFillInTheBlank) q).getQuestionText2(), "UTF-8"));
+                url.append("&questionText1=").append(URLEncoder.encode(q.getQuestionText(), StandardCharsets.UTF_8)).append("&questionText2=").append(URLEncoder.encode(((QuestionFillInTheBlank) q).getQuestionText2(), StandardCharsets.UTF_8));
             } else {
-                url.append("&questionText=").append(URLEncoder.encode(q.getQuestionText(), "UTF-8"));
+                url.append("&questionText=").append(URLEncoder.encode(q.getQuestionText(), StandardCharsets.UTF_8));
             }
 
 
             if (q.getType().equals(QuestionTypes.pictureResponse)) {
-                url.append("&imageUrl=").append(URLEncoder.encode(((QuestionPictureResponse) q).getPictureUrl(), "UTF-8"));
+                url.append("&imageUrl=").append(URLEncoder.encode(((QuestionPictureResponse) q).getPictureUrl(), StandardCharsets.UTF_8));
             }
             if (q.getType().equals(QuestionTypes.multipleChoices)) {
                 for (int i = 0; i < q.getAnswers().size(); i++) {
                     String ans = q.getAnswers().get(i);
-                    url.append("&correctAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
+                    url.append("&correctAnswerText=").append(URLEncoder.encode(ans, StandardCharsets.UTF_8));
                 }
                 assert q instanceof QuestionMultipleChoices;
                 for (int i = 0; i < ((QuestionMultipleChoices) q).getIncorrectAnswers().size(); i++) {
                     String ans = ((QuestionMultipleChoices) q).getIncorrectAnswers().get(i);
-                    url.append("&incorrectAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
+                    url.append("&incorrectAnswerText=").append(URLEncoder.encode(ans, StandardCharsets.UTF_8));
                 }
             } else {
                 if (q.getType().equals(QuestionTypes.multipleChoicesWithMultipleAnswers)) {
                     for (int i = 0; i < q.getAnswers().size(); i++) {
                         String ans = q.getAnswers().get(i);
-                        url.append("&correctAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
+                        url.append("&correctAnswerText=").append(URLEncoder.encode(ans, StandardCharsets.UTF_8));
                     }
                     assert q instanceof QuestionMultipleChoicesWithMultipleAnswers;
                     for (int i = 0; i < ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().size(); i++) {
                         String ans = ((QuestionMultipleChoicesWithMultipleAnswers) q).getIncorrectAnswers().get(i);
-                        url.append("&incorrectAnswerText=").append(URLEncoder.encode(ans, "UTF-8"));
+                        url.append("&incorrectAnswerText=").append(URLEncoder.encode(ans, StandardCharsets.UTF_8));
                     }
                 } else {
                     if (q.getType().equals(QuestionTypes.matching)) {
@@ -114,14 +123,14 @@ public class CreateQuizServlet extends HttpServlet {
                         Map<String, String> pairs = ((QuestionMatching) q).getMatches();
                         for (String pr : pairs.keySet()) {
                             String ans = pairs.get(pr);
-                            url.append("&key=").append(URLEncoder.encode(pr, "UTF-8"));
-                            url.append("&value=").append(URLEncoder.encode(ans, "UTF-8"));
+                            url.append("&key=").append(URLEncoder.encode(pr, StandardCharsets.UTF_8));
+                            url.append("&value=").append(URLEncoder.encode(ans, StandardCharsets.UTF_8));
                         }
 
                     } else {
                         for (int i = 0; i < q.getAnswers().size(); i++) {
                             String ans = q.getAnswers().get(i);
-                            url.append("&answerText=").append(URLEncoder.encode(ans, "UTF-8"));
+                            url.append("&answerText=").append(URLEncoder.encode(ans, StandardCharsets.UTF_8));
                         }
                     }
                 }
@@ -151,20 +160,28 @@ public class CreateQuizServlet extends HttpServlet {
         if (httpServletRequest.getParameter("description") != null) {
             httpServletRequest.getSession().setAttribute("description", httpServletRequest.getParameter("description"));
         }
-        if (!httpServletRequest.getParameter("hour").equals("") && !httpServletRequest.getParameter("minute").equals("")
-                && !httpServletRequest.getParameter("second").equals("")) {
-            Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
-                    Integer.parseInt(httpServletRequest.getParameter("minute")),
-                    Integer.parseInt(httpServletRequest.getParameter("second")));
-            httpServletRequest.getSession().setAttribute("timeLimit", time);
-        }
-        if (httpServletRequest.getParameter("categories") != null && !httpServletRequest.getParameter("categories").equals("")) {
-            String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
-            ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
-            httpServletRequest.getSession().setAttribute("categories", arr);
+        if (httpServletRequest.getParameter("hour") != null && httpServletRequest.getParameter("minute") != null
+                && httpServletRequest.getParameter("second") != null) {
+            try {
+                Time time = new Time(Integer.parseInt(httpServletRequest.getParameter("hour")),
+                        Integer.parseInt(httpServletRequest.getParameter("minute")),
+                        Integer.parseInt(httpServletRequest.getParameter("second")));
+                httpServletRequest.getSession().setAttribute("timeLimit", time);
+            } catch(NumberFormatException e) {
+                httpServletRequest.getSession().removeAttribute("timeLimit");
+            }
         }
         if (httpServletRequest.getParameter("timeFormatChecker") != null && !httpServletRequest.getParameter("timeFormatChecker").equals("")) {
             httpServletRequest.getSession().setAttribute("timeFormatChecker", httpServletRequest.getParameter("timeFormatChecker"));
+        }
+        if (httpServletRequest.getParameter("categories") != null) {
+            if(httpServletRequest.getParameter("categories").equals("")) {
+                httpServletRequest.getSession().removeAttribute("categories");
+            } else {
+                String cat = httpServletRequest.getParameter("categories").substring(0, httpServletRequest.getParameter("categories").length() - 1);
+                ArrayList<String> arr = new ArrayList<>(List.of(cat.split(",")));
+                httpServletRequest.getSession().setAttribute("categories", arr);
+            }
         }
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("addQuestion")) {
             if (httpServletRequest.getParameter("questionType").equals("textResponse")) {
@@ -257,7 +274,7 @@ public class CreateQuizServlet extends HttpServlet {
 
         if (httpServletRequest.getParameter("action") != null && httpServletRequest.getParameter("action").equals("createQuiz")) {
             String title = httpServletRequest.getParameter("title");
-            String categories = "";
+            String categories;
             if (httpServletRequest.getParameterValues("category") != null) {
                 categories = List.of(httpServletRequest.getParameterValues("category")).toString();
                 categories = categories.substring(1, categories.length() - 1);

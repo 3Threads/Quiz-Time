@@ -10,10 +10,31 @@ public class QuizzesDAO {
 
     private final BasicDataSource dataSource;
 
+
+    /**
+     * Constructs a QuizzesDAO instance with a provided data source.
+     * Initializes the data source for database connectivity.
+     *
+     * @param dataSource The data source to be used for database connections and operations.
+     */
     public QuizzesDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+
+    /**
+     * Adds a new quiz to the database with the provided information.
+     * This method establishes a connection to the database using the provided data source.
+     * It inserts a new row into the QUIZZES table with the specified quiz name, description, creator ID, time limit, and categories.
+     * If a SQLException occurs during the database operations, the exception is caught, and the stack trace is printed.
+     * The database connection is properly closed in the finally block to ensure resource release, even if an exception occurs.
+     *
+     * @param quizName   The name of the quiz to be added.
+     * @param description The description of the quiz.
+     * @param creatorID   The ID of the user who is creating the quiz.
+     * @param timeLimit   The time limit for completing the quiz.
+     * @param categories  The categories associated with the quiz.
+     */
     public void addQuiz(String quizName, String description, int creatorID, Time timeLimit, String categories) {
         Connection connect = null;
         try {
@@ -39,6 +60,17 @@ public class QuizzesDAO {
         }
     }
 
+
+    /**
+     * Retrieves a list of popular quizzes from the database.
+     * This method establishes a connection to the database using the provided data source.
+     * It queries the QUIZZES table to retrieve quizzes ordered by completion count in descending order.
+     * The retrieved quizzes are returned as an ArrayList.
+     * If a SQLException occurs during the database operations, the exception is caught, and the stack trace is printed.
+     * The database connection is properly closed in the finally block to ensure resource release, even if an exception occurs.
+     *
+     * @return An ArrayList containing popular Quiz objects based on completion count.
+     */
     public ArrayList<Quiz> getPopularQuizzes() {
         Connection connect = null;
         try {
@@ -60,6 +92,18 @@ public class QuizzesDAO {
         return null;
     }
 
+
+    /**
+     * Retrieves a list of Quiz objects based on the result of a PreparedStatement query.
+     * This method takes a PreparedStatement as input, which is expected to be a query for retrieving quiz data from the database.
+     * It executes the query and processes the ResultSet to create Quiz objects based on the retrieved data.
+     * The created Quiz objects are added to an ArrayList, which is then returned.
+     * If a SQLException occurs during the database operations, the exception is thrown to be caught by the calling method.
+     *
+     * @param statement The PreparedStatement containing the query for retrieving quiz data.
+     * @return An ArrayList containing Quiz objects based on the result of the database query.
+     * @throws SQLException If a database access error occurs.
+     */
     private ArrayList<Quiz> getQuizzes(PreparedStatement statement) throws SQLException {
         ArrayList<Quiz> quizzes = new ArrayList<>();
         ResultSet result = statement.executeQuery();
@@ -78,6 +122,18 @@ public class QuizzesDAO {
         return quizzes;
     }
 
+
+    /**
+     * Retrieves a list of Quiz objects created within the last 24 hours.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUIZZES table to retrieve quizzes created within the last day.
+     * The retrieved data is then used to create Quiz objects.
+     * The quizzes are added to an ArrayList and returned.
+     * If any SQLException occurs during the database operations, the exception is caught, and the stack trace is printed.
+     * The database connection is properly closed in the finally block to ensure resource release, even if an exception occurs.
+     *
+     * @return An ArrayList containing Quiz objects created within the last 24 hours.
+     */
     public ArrayList<Quiz> getLastDayQuizzes() {
         Connection connect = null;
         try {
@@ -100,6 +156,17 @@ public class QuizzesDAO {
         return null;
     }
 
+
+    /**
+     * Retrieves a list of Quiz objects created by a specific user.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUIZZES table to retrieve quizzes created by the user with the given ID.
+     * The retrieved data is then used to create Quiz objects.
+     * The quizzes are added to an ArrayList and returned.
+     *
+     * @param id The ID of the user whose created quizzes are to be retrieved.
+     * @return An ArrayList containing Quiz objects created by the specified user.
+     */
     public ArrayList<Quiz> getMyCreatedQuizzes(int id) {
         Connection connect = null;
         try {
@@ -122,6 +189,16 @@ public class QuizzesDAO {
         return null;
     }
 
+
+    /**
+     * Retrieves information about a specific quiz from the database.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUIZZES table to retrieve information about the quiz with the given ID.
+     * The retrieved data is used to create a Quiz object, which is then returned.
+     *
+     * @param quizID The ID of the quiz for which information is to be retrieved.
+     * @return A Quiz object containing information about the specified quiz, or null if no such quiz is found.
+     */
     public Quiz getQuizInfo(int quizID) {
         Connection connect = null;
         try {
@@ -146,6 +223,14 @@ public class QuizzesDAO {
         return null;
     }
 
+
+    /**
+     * Marks a specific quiz as completed in the database.
+     * This method establishes a database connection using the provided data source.
+     * It updates the COMPLETED field of the QUIZZES table by incrementing it for the quiz with the given ID.
+     *
+     * @param quizId The ID of the quiz to mark as completed.
+     */
     public void completeQuiz(int quizId) {
         Connection connect = null;
         try {
@@ -167,6 +252,14 @@ public class QuizzesDAO {
         }
     }
 
+
+    /**
+     * Deletes a specific quiz from the database.
+     * This method establishes a database connection using the provided data source.
+     * It deletes the entry associated with the given quiz ID from the QUIZZES table.
+     *
+     * @param quizId The ID of the quiz to be deleted.
+     */
     public void deleteQuiz(int quizId) {
         Connection connect = null;
         try {
@@ -188,6 +281,17 @@ public class QuizzesDAO {
         }
     }
 
+
+    /**
+     * Retrieves information about a specific quiz based on its name from the database.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUIZZES table to retrieve information about the quiz with the given name.
+     * The retrieved data is used to create a Quiz object, which is returned.
+     * If the quiz with the specified name is not found, null is returned.
+     *
+     * @param quizName The name of the quiz for which to retrieve information.
+     * @return A Quiz object containing information about the specified quiz, or null if not found.
+     */
     public Quiz getQuizByName(String quizName) {
         Connection connect = null;
         try {
@@ -212,6 +316,17 @@ public class QuizzesDAO {
         return null;
     }
 
+
+    /**
+     * Checks if a quiz name is already in use in the database.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUIZZES table to check if a quiz with the given name already exists.
+     * If a quiz with the specified name is found, it returns false, indicating that the name is in use.
+     * If no quiz with the specified name is found, it returns true, indicating that the name is available.
+     *
+     * @param quizName The name of the quiz to check.
+     * @return true if the quiz name is available, false if it is already in use.
+     */
     public boolean checkQuizName(String quizName) {
         Connection connect = null;
         try {
@@ -235,6 +350,17 @@ public class QuizzesDAO {
         return false;
     }
 
+
+    /**
+     * Searches for quizzes in the database that match the given search string.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUIZZES table and the USERS table to find quizzes whose names or creators' usernames match the search string.
+     * The search string is used for partial matching with both quiz names and creator usernames.
+     * The retrieved quizzes are returned as an ArrayList.
+     *
+     * @param searchString The search string to match against quiz names and creator usernames.
+     * @return An ArrayList of Quiz objects that match the search criteria.
+     */
     public ArrayList<Quiz> searchQuizzes(String searchString) {
         Connection connect = null;
         try {
@@ -258,6 +384,21 @@ public class QuizzesDAO {
         return null;
     }
 
+
+    /**
+     * Performs a deep search for quizzes in the database based on name, minimum rating, and category.
+     * This method establishes a database connection using the provided data source.
+     * It queries the QUIZZES and RATINGS tables to find quizzes that match the specified criteria.
+     * The search string 'name' is used for partial matching against quiz names.
+     * Quizzes are filtered based on their average rating being greater than or equal to 'minRate'.
+     * The 'category' string is used for partial matching with quiz categories.
+     * The retrieved quizzes that meet the search criteria are returned as an ArrayList.
+     *
+     * @param name     The search string to match against quiz names.
+     * @param minRate  The minimum average rating a quiz must have to be included in the results.
+     * @param category The search string to match against quiz categories.
+     * @return An ArrayList of Quiz objects that meet the specified search criteria.
+     */
     public ArrayList<Quiz> deepSearchQuizzes(String name, int minRate, String category) {
         Connection connect = null;
         try {
@@ -281,4 +422,5 @@ public class QuizzesDAO {
         }
         return null;
     }
+
 }

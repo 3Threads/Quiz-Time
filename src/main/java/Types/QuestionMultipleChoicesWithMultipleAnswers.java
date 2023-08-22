@@ -20,7 +20,7 @@ public class QuestionMultipleChoicesWithMultipleAnswers extends QuestionAbstract
         return allAnswers;
     }
 
-    public ArrayList<String> getIncorrectAnswers(ArrayList<String> allAnswers) {
+    private ArrayList<String> getIncorrectAnswers(ArrayList<String> allAnswers) {
         ArrayList<String> incorrectAnswers = new ArrayList<>(allAnswers);
         for (int i = 0; i < getAnswers().size(); i++) {
             incorrectAnswers.remove(getAnswers().get(i));
