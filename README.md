@@ -10,10 +10,9 @@
 
 1. Run the command in the terminal:
 
-```shell
-mysql -u 'Database username' -p
-```
-
+    ```shell
+    mysql -u 'Database username' -p
+    ```
 2. Enter your mySQL password.
 
 3. Copy the script from SqlScript.sql and run it in the terminal.
@@ -21,33 +20,33 @@ mysql -u 'Database username' -p
 4. Create `.env` file with `SQL_USERNAME` set your sql username and
    `SQL_PASSWORD` set you sql password. For example:
 
-```dotenv
-SQL_USERNAME="root"
-SQL_PASSWORD="password"
-```
+    ```dotenv
+    SQL_USERNAME="root"
+    SQL_PASSWORD="password"
+    ```
 
 5. If you are using Intellij IDEA for running the project you can skip following 2 steps and run it by choosing 'Quiz
    Website' for running configuration.
 
 6. All necessary libraries should be installed by calling this command from the root directory:
 
-```shell
-mvn install
-```
+    ```shell
+    mvn install
+    ```
 
 7. After this, you can start the server by calling this command from the root directory:
 
-```shell
-mvn tomcat7:run
-```
+    ```shell
+    mvn tomcat7:run
+    ```
 
 ## Testing
 
 1. Run the command in the terminal:
 
-```shell
-mysql -u 'Database username' -p
-```
+    ```shell
+    mysql -u 'Database username' -p
+    ```
 
 2. Enter your mySQL password.
 
@@ -55,20 +54,20 @@ mysql -u 'Database username' -p
 
 4. Create `.env` file with `SQL_USERNAME` set your sql username and
    `SQL_PASSWORD` set you sql password. For example:
-
-```dotenv
-SQL_USERNAME="root"
-SQL_PASSWORD="password"
-```
+    
+    ```dotenv
+    SQL_USERNAME="root"
+    SQL_PASSWORD="password"
+    ```
 
 5. If you are using Intellij IDEA for testing the project you can run it by choosing 'Test
    Website' for running configuration.
 
 6. You can start testing by calling this command from the root directory:
 
-```shell
-mvn test
-```
+    ```shell
+    mvn test
+    ```
 
 ## Functionality
 
@@ -176,11 +175,15 @@ others to take.
     - Users have the convenience of filtering quizzes based on categories and rating preferences.
     - Quizzes can be effortlessly located by conducting searches using their respective quiz names.
 
+## Extra Extensions
+- **URL sensitive**<br/>
+  Users can navigate throughout the website without using buttons if they enter in a malformed URL or manually modify a
+  URL.
+- **Front end design**<br/>
+  A gracefully designed interface that is responsive to window size and brimming with a variety of animations.
+- **GitHub actions**<br/>
+  The repository features a GitHub action that performs project testing after the pull request has been made.
 
-- **URL sensitive (Extension)**<br/>
-  Users can navigate throughout the website without using buttons if they enter in a malformed URL or manually modifie a URL.
-
-  
 ## Display
 
 ### Log in page
