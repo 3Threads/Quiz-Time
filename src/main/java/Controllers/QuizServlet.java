@@ -104,7 +104,7 @@ public class QuizServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         if (!SessionRemove.checkUser(httpServletRequest)) {
             httpServletResponse.getWriter().println("login");
             return;
