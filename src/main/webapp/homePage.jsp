@@ -228,7 +228,7 @@
                             </thead>
                             <tbody>
                             <%
-                                ArrayList<Quiz> recentQuizzes = quizzesDAO.getLastDayQuizzes();
+                                ArrayList<Quiz> recentQuizzes = quizzesDAO.getRecentQuizzes();
                                 toFollow = Math.min(recentQuizzes.size(), 10);
                                 for (int i = 0; i < toFollow; i++) {
                                     Quiz quiz = recentQuizzes.get(i);

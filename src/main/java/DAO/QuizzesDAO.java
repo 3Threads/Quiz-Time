@@ -134,12 +134,12 @@ public class QuizzesDAO {
      *
      * @return An ArrayList containing Quiz objects created within the last 24 hours.
      */
-    public ArrayList<Quiz> getLastDayQuizzes() {
+    public ArrayList<Quiz> getRecentQuizzes() {
         Connection connect = null;
         try {
             connect = dataSource.getConnection();
-            String getQuizzes = "SELECT * FROM QUIZZES WHERE CREATION_TIME > DATE_SUB(CURDATE(),INTERVAL 1 DAY)" +
-                    "ORDER BY CREATION_TIME;";
+            String getQuizzes = "SELECT * FROM QUIZZES " +
+                    "ORDER BY CREATION_TIME DESC;";
             PreparedStatement statement = connect.prepareStatement(getQuizzes);
             return getQuizzes(statement);
         } catch (SQLException e) {

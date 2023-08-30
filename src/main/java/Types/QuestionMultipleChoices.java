@@ -61,7 +61,7 @@ public class QuestionMultipleChoices extends QuestionAbstract {
                     "                        <input class='uk-radio' type='radio' name='answer' value='" + allAnswer + "'";
             if (answers[questionInd] != null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswer))
                 html += "checked";
-            html += ">";
+            html += "> ";
 
             html += allAnswer;
             html += "</label></div>";

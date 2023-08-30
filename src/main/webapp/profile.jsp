@@ -243,7 +243,7 @@
                             </thead>
                             <tbody>
                             <%
-                                ArrayList<Quiz> myCreated = quizzesDAO.getMyCreatedQuizzes(myUser.getId());
+                                ArrayList<Quiz> myCreated = quizzesDAO.getMyCreatedQuizzes(pageUser.getId());
                                 int toFollow = Math.min(myCreated.size(), 10);
                                 for (int i = 0; i < toFollow; i++) {
                                     Quiz quiz = myCreated.get(i);
@@ -301,7 +301,7 @@
                             </thead>
                             <tbody>
                             <%
-                                ArrayList<Result> myWritten = resultsDAO.getUserResults(myUser.getId());
+                                ArrayList<Result> myWritten = resultsDAO.getUserResults(pageUser.getId());
                                 toFollow = Math.min(myWritten.size(), 10);
                                 for (int i = 0; i < toFollow; i++) {
                                     Result result = myWritten.get(i);

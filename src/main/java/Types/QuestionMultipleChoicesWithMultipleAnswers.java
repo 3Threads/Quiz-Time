@@ -64,7 +64,7 @@ public class QuestionMultipleChoicesWithMultipleAnswers extends QuestionAbstract
                     "                        <input class='uk-checkbox' type='checkbox' name='answer' value='" + allAnswer + "'";
             if (answers[questionInd] != null && !answers[questionInd].isEmpty() && answers[questionInd].contains(allAnswer))
                 html += "checked";
-            html += ">";
+            html += "> ";
 
             html += allAnswer;
             html += "</label></div>";

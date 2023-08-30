@@ -129,7 +129,7 @@ public class QuizzesDAOTest {
 
     @Test
     public void testLastDayQuizzes() {
-        ArrayList<Quiz> quizzes1 = quizzes.getLastDayQuizzes();
+        ArrayList<Quiz> quizzes1 = quizzes.getRecentQuizzes();
         assertEquals(6, quizzes1.size());
     }
     @Test
